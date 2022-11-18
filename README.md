@@ -3,10 +3,12 @@
 - 🌱 I’m currently learning web developing ...
 - 💞️ I’m looking to collaborate on HTML, CSS, Javascript, Java, MySQL ...
 - 📫 How to reach me   
-                      https://www.linkedin.com/in/hussain-hamim/
-                      https://twitter.com/hussainhamim_
--                      
--                       Email: mohammadhussainafghan83@gmail.com
+-          https://www.linkedin.com/in/hussain-hamim/
+                      
+                 
+-        https://twitter.com/hussainhamim_
+-                       
+-        Email: mohammadhussainafghan83@gmail.com
 -                       
 
 <!---
