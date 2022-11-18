@@ -4,8 +4,8 @@
 - 💞️ I’m looking to collaborate on HTML, CSS, Javascript, Java, MySQL ...
 - 📫 How to reach me   
                       https://www.linkedin.com/in/hussain-hamim/
-                        linkedln: @hussain-hamim
--                       twitter: @hussainhamim_
+                      https://twitter.com/hussainhamim_
+-                      
 -                       Email: mohammadhussainafghan83@gmail.com
 -                       
 
