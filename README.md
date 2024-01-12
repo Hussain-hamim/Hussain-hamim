@@ -26,7 +26,7 @@
 
 [![GitHub Streak](https://github-readme-streak-stats.herokuapp.com/?user=Hussain-hamim)](https://github.com/Hussain-hamim)
 
-![GitHub Activity Graph](https://activity-graph.herokuapp.com/graph?username=Hussain-hamim&theme=github)
+![GitHubActivityGraph](https://activit -graph.herokuapp.com/graph username=Hussain-hamim&theme=github)
 
 ![](https://komarev.com/ghpvc/?username=Hussain-hamim)
 
