@@ -26,11 +26,11 @@
 
 [![GitHub Streak](https://github-readme-streak-stats.herokuapp.com/?user=Hussain-hamim)](https://github.com/Hussain-hamim)
 
-![GitHubActivityGraph](https://activit -graph.herokuapp.com/graph username=Hussain-hamim&theme=github)
+![GitHub Activity Graph](https://activity-graph.herokuapp.com/graph?username=Hussain-hamim&theme=github)
 
 ![](https://komarev.com/ghpvc/?username=Hussain-hamim)
 
-[![WakaTime](https://github-readme-stats.vercel.app/api/wakatime?username=Hussain-hamim)](https://wakatime.com/@Hussain-hamim)
+
 
 <!---
 Hussain-hamim/Hussain-hamim is a ✨ special ✨ repository because its `README.md` (this file) appears on your GitHub profile.
