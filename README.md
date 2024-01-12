@@ -8,7 +8,7 @@
 
 
 
-## Heyy there, I'm Hussain Hamim! 👋
+** Heyy there, I'm Hussain Hamim!👋 **
 
 I'm a passionate full-stack developer with a strong emphasis on front-end technologies. My journey involves crafting delightful user experiences through innovative and pixel-perfect design. Here's a glimpse of my skill set:
 
@@ -71,6 +71,8 @@ Let's create captivating digital experiences together!
 ## 📊GitHub Stats :
 
 [![Hussain-hamim's GitHub Stats](https://github-readme-stats.vercel.app/api?username=Hussain-hamim&show_icons=true&count_private=true&hide=contribs,prs&theme=radical)](https://github.com/Hussain-hamim)
+
+[![Profile Summary](https://profile-summary-for-github.com/user/Hussain-hamim)](https://profile-summary-for-github.com/user/Hussain-hamim)
 
 [![Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=Hussain-hamim&layout=compact)](https://github.com/Hussain-hamim)
 
