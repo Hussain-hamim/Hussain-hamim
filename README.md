@@ -72,7 +72,7 @@ Let's create captivating digital experiences together!
 
 [![Hussain-hamim's GitHub Stats](https://github-readme-stats.vercel.app/api?username=Hussain-hamim&show_icons=true&count_private=true&hide=contribs,prs&theme=radical)](https://github.com/Hussain-hamim)
 
-[![Profile Summary](https://profile-summary-for-github.com/user/Hussain-hamim)](https://profile-summary-for-github.com/user/Hussain-hamim)
+
 
 [![Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=Hussain-hamim&layout=compact)](https://github.com/Hussain-hamim)
 
@@ -81,6 +81,9 @@ Let's create captivating digital experiences together!
 
 ![](https://komarev.com/ghpvc/?username=Hussain-hamim)
 
+## Notable Repositories
+- [Hamimfy](https://github.com/Hussain-hamim/hamimfy)
+- [Todo list](https://github.com/Hussain-hamim/My-Todo-list)
 
 
 <!---
