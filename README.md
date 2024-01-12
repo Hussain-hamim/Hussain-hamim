@@ -6,6 +6,11 @@
   </h1>
 </div>
 
+<!-- Add a cool animated banner at the top of your README -->
+<div align="center">
+  <img src="https://raw.githubusercontent.com/hussain-hamim/your-repo-name/main/assets/animated-banner.gif" alt="Cool Animated Banner">
+</div>
+
 - 👋 Hi, I’m @Hussain-hamim
 - 👀 I’m interested in front-end developing  ...
 - 🌱 I’m currently learning full-stack developing...
@@ -61,7 +66,6 @@
 
 [![GitHub Streak](https://github-readme-streak-stats.herokuapp.com/?user=Hussain-hamim)](https://github.com/Hussain-hamim)
 
-![GitHub Activity Graph](https://activity-graph.herokuapp.com/graph?username=Hussain-hamim&theme=github)
 
 ![](https://komarev.com/ghpvc/?username=Hussain-hamim)
 
