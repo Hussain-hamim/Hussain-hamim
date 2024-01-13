@@ -6,6 +6,15 @@
   </h1>
 </div>
 
+_________
+
+<div style="background-color: #333; padding: 30px; margin-top: 50px; margin-bottom: 50px; border-radius: 15px; box-shadow: 4px 4px 6px #000; border: 2px solid #ff9900;">
+  <img src="https://media2.giphy.com/media/c6Jk0RMA5bVwM/giphy.gif" width="100%" height="auto" />
+
+  <h1 style="font-family: 'Arial', sans-serif; font-size: 24px; font-weight: bold; text-align: center; color: #ff9900; text-shadow: 2px 2px 4px #000; margin-top: 30px; margin-bottom: 30px;">
+    ðð«ððð­ð¢ð§ð ð¬, <span style="color: #ff9900;">&lt;ðð¨ððð«ð¬/&gt;</span>! <img src="https://media.giphy.com/media/l2R0eY21WM7nQ/giphy.gif" width="40">
+  </h1>
+</div>
 
 
 - **Heyy there, I'm Hussain Hamim!👋**
