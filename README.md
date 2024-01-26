@@ -78,6 +78,11 @@ Let's create captivating digital experiences together!
 since Jan 2024: 
 ![](https://komarev.com/ghpvc/?username=Hussain-hamim)
 
+<p align="center"> 
+  Visitor count<br>
+  <img src="https://profile-counter.glitch.me/Hussain-hamim/count.svg" />
+</p>
+
 ## Notable Repositories
 - [Hamimfy](https://github.com/Hussain-hamim/hamimfy)
 - [Todo list](https://github.com/Hussain-hamim/My-Todo-list)
