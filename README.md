@@ -79,7 +79,7 @@ since Jan 2024:
 ![](https://komarev.com/ghpvc/?username=Hussain-hamim)
 
 <p align="center"> 
-  Visitor count<br>
+  Visitors count(since Jan 27) <br>
   <img src="https://profile-counter.glitch.me/Hussain-hamim/count.svg" />
 </p>
 
