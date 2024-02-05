@@ -86,6 +86,7 @@ since Jan 2024:
 ## Notable Repositories
 - [Hamimfy](https://github.com/Hussain-hamim/hamimfy)
 - [Todo list](https://github.com/Hussain-hamim/My-Todo-list)
+- [Expense Tracker App](https://expense-tracker-hussain-hamim.vercel.app/)
 
 
 <!---
