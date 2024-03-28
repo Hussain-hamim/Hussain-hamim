@@ -2,7 +2,7 @@
   </h1>
 </div>
 
-- **Heyy there, I'm Hussain Hamim!👋**
+- **I'm Hussain Hamim!👋**
 
 I'm a passionate full-stack developer with a strong emphasis on front-end technologies. My journey involves crafting delightful user experiences through innovative and pixel-perfect design. Here's a glimpse of my skill set:
 
