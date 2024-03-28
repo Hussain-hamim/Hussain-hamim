@@ -1,10 +1,12 @@
+𝐇𝐞𝐥𝐥𝐨, <span style="color: #3d82ef;">&lt;𝚌𝚘𝚍𝚎𝚛𝚜/&gt;</span>! <img src="https://media.giphy.com/media/WUlplcMpOCEmTGBtBW/giphy.gif" width="30">
+  </h1>
+</div>
+
 <div style="background-color: #000; padding: 20px; margin-top: 50px; margin-bottom: 50px; border-radius: 10px; box-shadow: 2px 2px 4px #000000; border: 2px dotted #3d82ef;">
   <img  src="https://media3.giphy.com/media/f3iwJFOVOwuy7K6FFw/giphy.gif" width="100%" height="auto" />
 
   <h1 style="font-family: 'Courier New', Courier, monospace; font-size: 20px; font-weight: bold; text-align: center; color: white; text-shadow: 2px 2px 4px #000000; margin-top: 20px; margin-bottom: 20px;">
-        𝐇𝐞𝐥𝐥𝐨, <span style="color: #3d82ef;">&lt;𝚌𝚘𝚍𝚎𝚛𝚜/&gt;</span>! <img src="https://media.giphy.com/media/WUlplcMpOCEmTGBtBW/giphy.gif" width="30">
-  </h1>
-</div>
+        
 
 - **Heyy there, I'm Hussain Hamim!👋**
 
