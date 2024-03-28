@@ -10,14 +10,6 @@ I'm a passionate full-stack developer with a strong emphasis on front-end techno
   <img  src="https://media3.giphy.com/media/f3iwJFOVOwuy7K6FFw/giphy.gif" width="100%" height="auto" />
 
   <h1 style="font-family: 'Courier New', Courier, monospace; font-size: 20px; font-weight: bold; text-align: center; color: white; text-shadow: 2px 2px 4px #000000; margin-top: 20px; margin-bottom: 20px;">
-        
-
-- 🚀 Proficient in HTML, CSS, and JavaScript.
-- 🌈 Experienced in building responsive and dynamic web applications.
-- ⚛️ Specialized in front-end frameworks like React.js.
-- 🌐 Knowledgeable in web design principles and UI/UX best practices.
-
-Let's create captivating digital experiences together! 
 
 ## Connect with Me
 
