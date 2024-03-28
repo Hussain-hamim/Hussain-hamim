@@ -72,11 +72,6 @@ I'm a passionate full-stack developer with a strong emphasis on front-end techno
 since Jan 2024: 
 ![](https://komarev.com/ghpvc/?username=Hussain-hamim)
 
-<p align="center"> 
-  Visitors count(since Jan 27) <br>
-  <img src="https://profile-counter.glitch.me/Hussain-hamim/count.svg" />
-</p>
-
 ## Notable Repositories
  #### [Hamimfy](https://github.com/Hussain-hamim/hamimfy)
 #### [Todo list](https://github.com/Hussain-hamim/My-Todo-list)
