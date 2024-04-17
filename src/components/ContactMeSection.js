@@ -56,10 +56,11 @@ const LandingSection = () => {
     <FullScreenSection
       isDarkBackground
       backgroundColor="#3a373da8"
-      py={16}
+      py={10}
       spacing={8}
+      w="100%"
     >
-      <VStack w="100%" p={32} alignItems="flex-start">
+      <VStack p={4} w="100%" alignItems="flex-start">
         <Heading as="h1" id="contactme-section">
           Contact me
         </Heading>
@@ -119,7 +120,7 @@ const LandingSection = () => {
               </FormControl>
               <Button
                 type="submit"
-                colorScheme="purple"
+                backgroundColor="#826f75be"
                 width="full"
                 isLoading={isLoading}
               >
