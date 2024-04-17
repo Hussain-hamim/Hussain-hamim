@@ -20,7 +20,7 @@ const socials = [
   },
   {
     icon: faLinkedin,
-    url: "https://www.linkedin.com/in/hussain-hamim",
+    url: "https://www.linkedin.com/in/hussain-hamim/",
   },
   {
     icon: faTwitter,
