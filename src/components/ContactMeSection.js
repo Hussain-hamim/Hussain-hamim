@@ -28,6 +28,7 @@ const LandingSection = () => {
         formik.resetForm();
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [response, onOpen]);
 
   const formik = useFormik({
@@ -58,7 +59,7 @@ const LandingSection = () => {
       py={16}
       spacing={8}
     >
-      <VStack w="1024px" p={32} alignItems="flex-start">
+      <VStack w="100%" p={32} alignItems="flex-start">
         <Heading as="h1" id="contactme-section">
           Contact me
         </Heading>

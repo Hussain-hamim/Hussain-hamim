@@ -35,3 +35,8 @@ textarea {
   color: rgb(91, 91, 249);
   /* box-shadow: 2px 2px 2px yellow; */
 }
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
