@@ -16,19 +16,19 @@ const socials = [
   },
   {
     icon: faGithub,
-    url: "github.com/Hussain-hamim",
+    url: "https://github.com/Hussain-hamim",
   },
   {
     icon: faLinkedin,
-    url: "www.linkedin.com/hussain-hamim",
+    url: "https://www.linkedin.com/hussain-hamim",
   },
   {
     icon: faTwitter,
-    url: "www.twitter.com/hussainhamim_",
+    url: "https://www.twitter.com/hussainhamim_",
   },
   {
     icon: faInstagram,
-    url: "www.instagram.com/hussainhamim_",
+    url: "https://www.instagram.com/hussainhamim_",
   },
 ];
 
