@@ -20,11 +20,11 @@ const socials = [
   },
   {
     icon: faLinkedin,
-    url: "https://www.linkedin.com/hussain-hamim",
+    url: "https://www.linkedin.com/in/hussain-hamim",
   },
   {
     icon: faTwitter,
-    url: "https://www.twitter.com/hussainhamim_",
+    url: "https://twitter.com/hussainhamim_",
   },
   {
     icon: faInstagram,
