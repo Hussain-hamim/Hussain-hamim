@@ -21,16 +21,6 @@ const LandingSection = () => {
   const { isLoading, response, submit } = useSubmit();
   const { onOpen } = useAlertContext();
 
-  useEffect(() => {
-    if (response) {
-      onOpen(response.type, response.message);
-      if (response.type === "success") {
-        formik.resetForm();
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [response, onOpen]);
-
   const formik = useFormik({
     initialValues: {
       firstName: "",
@@ -51,6 +41,15 @@ const LandingSection = () => {
         .min(25, "Must be at least 25 characters"),
     }),
   });
+
+  // useEffect(() => {
+  //   if (response) {
+  //     onOpen(response.type, response.message);
+  //     if (response.type === "success") {
+  //       formik.resetForm();
+  //     }
+  //   }
+  // }, [formik, response, onOpen]);
 
   return (
     <FullScreenSection
@@ -123,6 +122,7 @@ const LandingSection = () => {
                 backgroundColor="#826f75be"
                 width="full"
                 isLoading={isLoading}
+                color="white"
               >
                 Submit
               </Button>
