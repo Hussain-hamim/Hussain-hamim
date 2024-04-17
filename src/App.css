@@ -1,4 +1,4 @@
-.App {
+/* .App {
   padding: 16px;
   width: 400px;
 }
@@ -29,4 +29,9 @@ label {
 
 textarea {
   height: 100px;
+} */
+
+.seeMore:hover {
+  color: rgb(91, 91, 249);
+  /* box-shadow: 2px 2px 2px yellow; */
 }

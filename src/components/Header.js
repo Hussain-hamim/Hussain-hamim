@@ -5,8 +5,6 @@ import {
   faGithub,
   faInstagram,
   faLinkedin,
-  faMedium,
-  faStackOverflow,
   faTwitter,
 } from "@fortawesome/free-brands-svg-icons";
 import { Box, HStack } from "@chakra-ui/react";
@@ -14,27 +12,51 @@ import { Box, HStack } from "@chakra-ui/react";
 const socials = [
   {
     icon: faEnvelope,
-    url: "mailto: hello@example.com",
+    url: "mailto: mohammadhussainafghan83@gmail.com",
   },
   {
     icon: faGithub,
-    url: "https://github.com",
+    url: "github.com/Hussain-hamim",
   },
   {
     icon: faLinkedin,
-    url: "https://www.linkedin.com",
+    url: "www.linkedin.com/hussain-hamim",
   },
   {
-    icon: faMedium,
-    url: "https://medium.com",
+    icon: faTwitter,
+    url: "www.twitter.com/hussainhamim_",
   },
   {
-    icon: faStackOverflow,
-    url: "https://stackoverflow.com",
+    icon: faInstagram,
+    url: "www.instagram.com/hussainhamim_",
   },
 ];
 
 const Header = () => {
+  const headerRef = useRef(null);
+
+  useEffect(() => {
+    let prevScrollPos = window.scrollY;
+
+    function handleScroll() {
+      const currScrollPos = window.scrollY;
+      const currHeaderElement = headerRef.current;
+
+      if (!currHeaderElement) {
+        return;
+      }
+      if (prevScrollPos > currScrollPos) {
+        currHeaderElement.style.transform = "translateY(0)";
+      } else {
+        currHeaderElement.style.transform = "translateY(-200)";
+        prevScrollPos = currScrollPos;
+      }
+    }
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   const handleClick = (anchor) => () => {
     const id = `${anchor}-section`;
     const element = document.getElementById(id);
@@ -66,32 +88,28 @@ const Header = () => {
           alignItems="center"
         >
           <nav>
-            {/* Add social media links based on the `socials` data */}
-            <HStack>
-              <a href="mohammadhussainafghan83@gmail.com">
-                <FontAwesomeIcon icon={faEnvelope} size="2x" />
-              </a>
-              <a href="github.com/Hussain-hamim">
-                <FontAwesomeIcon icon={faGithub} size="2x" />
-              </a>
-              <a href="www.linkedin.com/hussain-hamim">
-                <FontAwesomeIcon icon={faLinkedin} size="2x" />
-              </a>
-              <a href="www.twitter.com/hussainhamim_">
-                <FontAwesomeIcon icon={faTwitter} size="2x" />
-              </a>
-              <a href="www.instagram.com/hussainhamim_">
-                <FontAwesomeIcon icon={faInstagram} size="2x" />
-              </a>
+            <HStack spacing={6}>
+              {socials.map((social) => (
+                <a key={social.url} href={social.url}>
+                  <FontAwesomeIcon icon={social.icon} size="2x" />
+                </a>
+              ))}
             </HStack>
           </nav>
           <nav>
             <HStack spacing={8}>
-              {/* Add links to Projects and Contact me section */}
-              <a href="/#projects-section" onClick={handleClick}>
+              <a
+                href="/#projects-section"
+                onClick={() => handleClick("projects")}
+              >
                 My Projects
               </a>
-              <a href="/#contactme-section">Contact Me</a>
+              <a
+                href="/#contactme-section"
+                onClick={() => handleClick("contactme")}
+              >
+                Contact Me
+              </a>
             </HStack>
           </nav>
         </HStack>

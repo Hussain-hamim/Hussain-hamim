@@ -12,22 +12,25 @@ const projects = [
     link: "https://github.com/Hussain-hamim/hamimfy",
   },
   {
-    title: "React Infinite Scroll",
+    title: "Todo List",
     description:
-      "A scrollable bottom sheet with virtualisation support, native animations at 60 FPS and fully implemented in JS land 🔥️",
-    getImageSrc: () => require("../images/photo2.jpg"),
+      "This is a simple React-based web application for managing a to-do list. The application allows users to add, remove, and mark tasks as completed.🔥️",
+    getImageSrc: () => require("../images/photo22.jpg"),
+    link: "https://github.com/Hussain-hamim/My-Todo-list",
   },
   {
-    title: "Photo Gallery",
+    title: "Expense Tracker",
     description:
-      "A One-stop shop for photographers to share and monetize their photos, allowing them to have a second source of income",
-    getImageSrc: () => require("../images/photo3.jpg"),
+      "This is a simple expense tracker app built with React. It allows users to manage their expenses by adding, deleting, and filtering based on categories.",
+    getImageSrc: () => require("../images/photo33.jpg"),
+    link: "https://github.com/Hussain-hamim/Expense-Tracker",
   },
   {
-    title: "Event planner",
+    title: "Contact Display",
     description:
-      "A mobile application for leisure seekers to discover unique events and activities in their city with a few taps",
-    getImageSrc: () => require("../images/photo4.jpg"),
+      "This application allow you to add, display and delete contact with ease and smoothly",
+    getImageSrc: () => require("../images/photo44.jpg"),
+    link: "https://github.com/Hussain-hamim/Contact-Display",
   },
 ];
 

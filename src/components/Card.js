@@ -2,6 +2,7 @@ import { Heading, HStack, Image, Text, VStack, Box } from "@chakra-ui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import React from "react";
+import { faGithub } from "@fortawesome/free-brands-svg-icons";
 
 const Card = ({ title, description, imageSrc, link }) => {
   // Implement the UI for the Card component according to the instructions.
@@ -25,8 +26,11 @@ const Card = ({ title, description, imageSrc, link }) => {
               <Text>{description}</Text>
               <HStack spacing={2}>
                 <Text marginBottom={0} fontWeight="bold">
-                  <a href={link}>See More</a>
+                  <a className="seeMore" href={link}>
+                    See More On
+                  </a>
                 </Text>
+                <FontAwesomeIcon icon={faGithub} size="1x" />
                 <FontAwesomeIcon icon={faArrowRight} size="1x" />
               </HStack>
             </Box>
