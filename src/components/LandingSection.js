@@ -1,5 +1,5 @@
 import React from "react";
-import { Avatar, Heading, VStack } from "@chakra-ui/react";
+import { Avatar, Heading, VStack, chakra } from "@chakra-ui/react";
 import FullScreenSection from "./FullScreenSection";
 import hamim from "../asset/hhamim.jpg";
 
@@ -16,9 +16,12 @@ const LandingSection = () => (
     isDarkBackground
     backgroundColor="#2A4365"
   >
-    <Avatar name="Hussain" src={hamim} size="2xl" />
-    <Heading size="md">{greeting}</Heading>
-    <VStack>
+    <VStack paddingTop={32}>
+      <Avatar name="Hussain" src={hamim} size="2xl"></Avatar>
+      <Heading size="md">{greeting}</Heading>
+    </VStack>
+
+    <VStack paddingBottom={32}>
       <Heading size="2xl">{bio1}</Heading>
       <Heading size="2xl">{bio2}</Heading>
     </VStack>

@@ -35,6 +35,7 @@ const socials = [
 const Header = () => {
   const headerRef = useRef(null);
 
+  //show/hide the header
   useEffect(() => {
     let prevScrollPos = window.scrollY;
 
