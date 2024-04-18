@@ -7,7 +7,7 @@ const projects = [
   {
     title: "Hamimfy",
     description:
-      "Hamimfy is a responsive website design to showcase various features and techniques in modern web development. It specifically focuces on cloud hosting services.",
+      "Hamimfy is a responsive website design to showcase various features and techniques in modern web development. It specifically focuces on cloud hosting services.🚀",
     getImageSrc: () => require("../images/photo1.jpg"),
     link: "https://github.com/Hussain-hamim/hamimfy",
   },
@@ -21,7 +21,7 @@ const projects = [
   {
     title: "Expense Tracker",
     description:
-      "This is a simple expense tracker app built with React. It allows users to manage their expenses by adding, deleting, and filtering based on categories.",
+      "This is a simple expense tracker app built with React. It allows users to manage their expenses by adding, deleting, and filtering based on categories.📉",
     getImageSrc: () => require("../images/photo3.jpg"),
     link: "https://github.com/Hussain-hamim/Expense-Tracker",
   },
@@ -40,23 +40,21 @@ const ProjectsSection = () => {
       backgroundColor="#14532d"
       isDarkBackground
       p={8}
+      mb="35px"
+      mt="35px"
       alignItems="flex-start"
       spacing={8}
     >
       <Heading as="h1" id="projects-section">
         Featured Projects
       </Heading>
-      <Box
-        display="grid"
-        gridTemplateColumns="repeat(2,minmax(0,1fr))"
-        gridGap={8}
-      >
+      <Box className="gridBox">
         {projects.map((project) => (
           <Card
             key={project.title}
             title={project.title}
             description={project.description}
-            url="https://github.com/rgommezz/react-native-offline"
+            link={project.link}
             imageSrc={project.getImageSrc()}
           />
         ))}

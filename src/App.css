@@ -1,43 +1,19 @@
-/* .App {
-  padding: 16px;
-  width: 400px;
-}
-
-fieldset {
-  display: flex;
-  flex-direction: column;
-}
-
-label {
-  margin-right: 8px;
-}
-
-.Field {
-  padding-bottom: 16px;
-  display: flex;
-  flex-direction: column;
-}
-
-.Row {
-  display: flex;
-  flex-direction: row;
-}
-
-label {
-  margin-bottom: 16px;
-}
-
-textarea {
-  height: 100px;
-} */
-
 .seeMore:hover {
   color: rgb(91, 91, 249);
-  /* box-shadow: 2px 2px 2px yellow; */
 }
 
-* {
-  /* box-sizing: border-box; */
-  /* margin: 0; */
-  /* background-color: #529bace0; */
+.gridBox {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-gap: 20px;
+}
+
+/* If the browser window is 600px or smaller, the background color will be lightblue: */
+
+@media only screen and (max-width: 600px) {
+  .gridBox {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 20px;
+  }
 }

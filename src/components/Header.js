@@ -89,13 +89,13 @@ const Header = () => {
     >
       <Box color="white" maxWidth="1280px" margin="0 auto">
         <HStack
-          px={16}
-          py={4}
+          px={7}
+          py={8}
           justifyContent="space-between"
           alignItems="center"
         >
           <nav>
-            <HStack spacing={8}>
+            <HStack spacing={6}>
               {socials.map(({ icon, url }) => (
                 <a
                   key={url}
@@ -103,17 +103,30 @@ const Header = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <FontAwesomeIcon icon={icon} size="2x" key={url} />
+                  <FontAwesomeIcon
+                    className="seeMore"
+                    icon={icon}
+                    size="1x"
+                    key={url}
+                  />
                 </a>
               ))}
             </HStack>
           </nav>
           <nav>
-            <HStack spacing={8}>
-              <a href="#projects" onClick={handleClick("projects")}>
+            <HStack spacing={4}>
+              <a
+                className="seeMore"
+                href="#projects"
+                onClick={handleClick("projects")}
+              >
                 Projects
               </a>
-              <a href="#contactme" onClick={handleClick("contactme")}>
+              <a
+                className="seeMore"
+                href="#contactme"
+                onClick={handleClick("contactme")}
+              >
                 Contact Me
               </a>
             </HStack>
