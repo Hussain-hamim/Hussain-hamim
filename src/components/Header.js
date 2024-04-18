@@ -32,30 +32,36 @@ const socials = [
   },
 ];
 
+/**
+ * This component illustrates the use of both the useRef hook and useEffect hook.
+ * The useRef hook is used to create a reference to a DOM element, in order to tweak the header styles and run a transition animation.
+ * The useEffect hook is used to perform a subscription when the component is mounted and to unsubscribe when the component is unmounted.
+ * Additionally, it showcases a neat implementation to smoothly navigate to different sections of the page when clicking on the header elements.
+ */
 const Header = () => {
   const headerRef = useRef(null);
 
-  //show/hide the header
   useEffect(() => {
     let prevScrollPos = window.scrollY;
 
-    function handleScroll() {
-      const currScrollPos = window.scrollY;
-      const currHeaderElement = headerRef.current;
-
-      if (!currHeaderElement) {
+    const handleScroll = () => {
+      const currentScrollPos = window.scrollY;
+      const headerElement = headerRef.current;
+      if (!headerElement) {
         return;
       }
-      if (prevScrollPos > currScrollPos) {
-        currHeaderElement.style.transform = "translateY(0)";
+      if (prevScrollPos > currentScrollPos) {
+        headerElement.style.transform = "translateY(0)";
       } else {
-        currHeaderElement.style.transform = "translateY(-200)";
-        prevScrollPos = currScrollPos;
+        headerElement.style.transform = "translateY(-200px)";
       }
-    }
-
+      prevScrollPos = currentScrollPos;
+    };
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   const handleClick = (anchor) => () => {
@@ -68,7 +74,6 @@ const Header = () => {
       });
     }
   };
-
   return (
     <Box
       position="fixed"
@@ -80,38 +85,35 @@ const Header = () => {
       transitionDuration=".3s"
       transitionTimingFunction="ease-in-out"
       backgroundColor="#18181b"
+      ref={headerRef}
     >
       <Box color="white" maxWidth="1280px" margin="0 auto">
         <HStack
-          w="100%"
-          px={10}
+          px={16}
           py={4}
           justifyContent="space-between"
           alignItems="center"
         >
           <nav>
-            <HStack spacing={5}>
-              {socials.map((social) => (
-                <a key={social.url} href={social.url}>
-                  <FontAwesomeIcon icon={social.icon} size="2x" />
+            <HStack spacing={8}>
+              {socials.map(({ icon, url }) => (
+                <a
+                  key={url}
+                  href={url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <FontAwesomeIcon icon={icon} size="2x" key={url} />
                 </a>
               ))}
             </HStack>
           </nav>
           <nav>
-            <HStack spacing={5}>
-              <a
-                className="seeMore"
-                href="/#projects-section"
-                onClick={() => handleClick("projects")}
-              >
-                My Projects
+            <HStack spacing={8}>
+              <a href="#projects" onClick={handleClick("projects")}>
+                Projects
               </a>
-              <a
-                className="seeMore"
-                href="/#contactme-section"
-                onClick={() => handleClick("contactme")}
-              >
+              <a href="#contactme" onClick={handleClick("contactme")}>
                 Contact Me
               </a>
             </HStack>
@@ -121,4 +123,5 @@ const Header = () => {
     </Box>
   );
 };
+
 export default Header;
