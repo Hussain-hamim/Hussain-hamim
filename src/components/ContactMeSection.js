@@ -60,7 +60,7 @@ const ContactMeSection = () => {
       py={16}
       spacing={8}
     >
-      <VStack alignItems="flex-start">
+      <VStack style={{ width: "80vw" }} alignItems="flex-start">
         <Heading as="h1" id="contactme-section">
           Contact me
         </Heading>
