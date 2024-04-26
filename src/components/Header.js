@@ -86,6 +86,8 @@ const Header = ({ isDarkMode, darkMode }) => {
       transitionTimingFunction="ease-in-out"
       backgroundColor="#18181b"
       ref={headerRef}
+      color="white"
+      textColor="white"
     >
       <Box maxWidth="1280px" margin="0 auto">
         <HStack
