@@ -1,6 +1,11 @@
 import React, { useEffect, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
+import {
+  faEnvelope,
+  faLightbulb,
+  faMoon,
+  faSun,
+} from "@fortawesome/free-solid-svg-icons";
 import {
   faGithub,
   faInstagram,
@@ -117,7 +122,7 @@ const Header = ({ isDarkMode, darkMode }) => {
           </nav>
 
           <nav>
-            <HStack spacing={4}>
+            <HStack spacing={3} paddingRight={3}>
               <a
                 className="seeMore"
                 href="#projects"
@@ -132,7 +137,11 @@ const Header = ({ isDarkMode, darkMode }) => {
               >
                 Contact Me
               </a>
-              <Switch onChange={() => isDarkMode(!darkMode)} />
+              {/* <Switch onChange={() => isDarkMode(!darkMode)} /> */}
+              <FontAwesomeIcon
+                onClick={() => isDarkMode(!darkMode)}
+                icon={darkMode ? faSun : faMoon}
+              />
             </HStack>
           </nav>
         </HStack>
