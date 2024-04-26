@@ -34,11 +34,11 @@ const projects = [
   },
 ];
 
-const ProjectsSection = () => {
+const ProjectsSection = ({ darkMode }) => {
   return (
     <FullScreenSection
-      backgroundColor="#14532d"
-      isDarkBackground
+      backgroundColor={darkMode ? "#212529" : "#CBD5E0"}
+      isDarkBackground={darkMode}
       p={8}
       mb="35px"
       mt="35px"

@@ -7,7 +7,8 @@ import {
   faLinkedin,
   faTwitter,
 } from "@fortawesome/free-brands-svg-icons";
-import { Box, HStack } from "@chakra-ui/react";
+import { Box, HStack, Switch, Text } from "@chakra-ui/react";
+import { Button } from "bootstrap";
 
 const socials = [
   {
@@ -38,7 +39,7 @@ const socials = [
  * The useEffect hook is used to perform a subscription when the component is mounted and to unsubscribe when the component is unmounted.
  * Additionally, it showcases a neat implementation to smoothly navigate to different sections of the page when clicking on the header elements.
  */
-const Header = () => {
+const Header = ({ isDarkMode, darkMode }) => {
   const headerRef = useRef(null);
 
   useEffect(() => {
@@ -87,7 +88,7 @@ const Header = () => {
       backgroundColor="#18181b"
       ref={headerRef}
     >
-      <Box color="white" maxWidth="1280px" margin="0 auto">
+      <Box maxWidth="1280px" margin="0 auto">
         <HStack
           px="15px"
           py={8}
@@ -130,6 +131,7 @@ const Header = () => {
               >
                 Contact Me
               </a>
+              <Switch onChange={() => isDarkMode(!darkMode)} />
             </HStack>
           </nav>
         </HStack>

@@ -7,12 +7,12 @@ const greeting = "Hello, I am Hussain!";
 const bio1 = "A frontend developer";
 const bio2 = "specialised in React";
 
-const LandingSection = () => (
+const LandingSection = ({ darkMode }) => (
   <FullScreenSection
     justifyContent="center"
     alignItems="center"
-    isDarkBackground
-    backgroundColor="#2A4365"
+    backgroundColor={darkMode ? "#212529" : "#CBD5E0"}
+    isDarkBackground={darkMode}
   >
     <VStack pt={32} mb={32} spacing={16}>
       <VStack spacing={4} alignItems="center">

@@ -5,7 +5,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import "./index.css";
 import "./App.css";
 import App from "./App";
-import App2 from "./App2";
+// import App2 from "./App2";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

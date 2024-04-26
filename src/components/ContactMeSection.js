@@ -20,7 +20,7 @@ import { useAlertContext } from "../context/alertContext";
 /**
  * Covers a complete form implementation using formik and yup for validation
  */
-const ContactMeSection = () => {
+const ContactMeSection = ({ darkMode }) => {
   const { isLoading, response, submit } = useSubmit();
   const { onOpen } = useAlertContext();
 
@@ -55,8 +55,8 @@ const ContactMeSection = () => {
 
   return (
     <FullScreenSection
-      isDarkBackground
-      backgroundColor="#512DA8"
+      backgroundColor={darkMode ? "#212529" : "#CBD5f0"}
+      isDarkBackground={darkMode}
       py={16}
       spacing={8}
     >
@@ -94,12 +94,7 @@ const ContactMeSection = () => {
               </FormControl>
               <FormControl>
                 <FormLabel htmlFor="type">Type of enquiry</FormLabel>
-                <Select
-                  color="black"
-                  id="type"
-                  name="type"
-                  {...formik.getFieldProps("type")}
-                >
+                <Select id="type" name="type" {...formik.getFieldProps("type")}>
                   <option value="hireMe">Freelance project proposal</option>
                   <option value="openSource">
                     Open source consultancy session
