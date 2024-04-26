@@ -19,13 +19,13 @@ const Card = ({ title, description, imageSrc, link }) => {
             {title}
           </Heading>
         </HStack>
-        <Text color="#64748b" fontSize="lg">
+        <Text color="#212529" fontSize="lg">
           {description}
         </Text>
-        <HStack spacing={2} alignItems="center">
+        <HStack spacing={2} alignItems="center" fontSize="sm">
           <p className="mb-0 seeMore">
             <a href={link}>
-              <b>See more</b>
+              <b>See more on</b>
             </a>
           </p>
           <FontAwesomeIcon icon={faGithub} size="1x" />

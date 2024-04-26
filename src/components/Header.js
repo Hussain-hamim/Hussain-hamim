@@ -12,7 +12,7 @@ import {
   faLinkedin,
   faTwitter,
 } from "@fortawesome/free-brands-svg-icons";
-import { Box, HStack, Switch } from "@chakra-ui/react";
+import { Box, Button, HStack, Switch } from "@chakra-ui/react";
 
 const socials = [
   {
@@ -123,22 +123,27 @@ const Header = ({ isDarkMode, darkMode }) => {
 
           <nav>
             <HStack spacing={3} paddingRight={3}>
-              <a
-                className="seeMore"
-                href="#projects"
-                onClick={handleClick("projects")}
-              >
-                Projects
-              </a>
-              <a
-                className="seeMore"
-                href="#contactme"
-                onClick={handleClick("contactme")}
-              >
-                Contact Me
-              </a>
+              <Button as="button" variant="link">
+                <a
+                  // className="seeMore"
+                  href="#projects"
+                  onClick={handleClick("projects")}
+                >
+                  Projects
+                </a>
+              </Button>
+              <Button as="button" variant="link">
+                <a
+                  // className="seeMore"
+                  href="#contactme"
+                  onClick={handleClick("contactme")}
+                >
+                  Contact Me
+                </a>
+              </Button>
               {/* <Switch onChange={() => isDarkMode(!darkMode)} /> */}
               <FontAwesomeIcon
+                className="seeMore"
                 onClick={() => isDarkMode(!darkMode)}
                 icon={darkMode ? faSun : faMoon}
               />
