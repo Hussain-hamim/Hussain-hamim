@@ -7,8 +7,7 @@ import {
   faLinkedin,
   faTwitter,
 } from "@fortawesome/free-brands-svg-icons";
-import { Box, HStack, Switch, Text } from "@chakra-ui/react";
-import { Button } from "bootstrap";
+import { Box, HStack, Switch } from "@chakra-ui/react";
 
 const socials = [
   {
