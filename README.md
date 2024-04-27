@@ -71,7 +71,7 @@ since Jan 2024:
 ![](https://komarev.com/ghpvc/?username=Hussain-hamim)
 
 ## Notable Repositories
-### [Ocean Of Games](https://ocean-of-games.vercel.app/)
+### [Ocean Of Games](https://github.com/Hussain-hamim/ocean-of-games)
 ### [Portfolio](https://hussain-s-portfolio.vercel.app/)
 #### [Hamimfy](https://github.com/Hussain-hamim/hamimfy)
 #### [Todo list](https://github.com/Hussain-hamim/My-Todo-list)
