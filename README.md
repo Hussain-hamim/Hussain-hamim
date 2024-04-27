@@ -65,16 +65,15 @@ I'm a passionate full-stack developer with a strong emphasis on front-end techno
 
 
 
-[![Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=Hussain-hamim&layout=compact)](https://github.com/Hussain-hamim)
-
 [![GitHub Streak](https://github-readme-streak-stats.herokuapp.com/?user=Hussain-hamim)](https://github.com/Hussain-hamim)
 
 since Jan 2024: 
 ![](https://komarev.com/ghpvc/?username=Hussain-hamim)
 
 ## Notable Repositories
+### [Ocean Of Games](https://ocean-of-games.vercel.app/)
 ### [Portfolio](https://hussain-s-portfolio.vercel.app/)
- #### [Hamimfy](https://github.com/Hussain-hamim/hamimfy)
+#### [Hamimfy](https://github.com/Hussain-hamim/hamimfy)
 #### [Todo list](https://github.com/Hussain-hamim/My-Todo-list)
 #### [Expense Tracker App](https://github.com/Hussain-hamim/Expense-Tracker)
 
