@@ -63,7 +63,7 @@ I'm a passionate full-stack developer with a strong emphasis on front-end techno
 
 [![Hussain-hamim's GitHub Stats](https://github-readme-stats.vercel.app/api?username=Hussain-hamim&show_icons=true&count_private=true&hide=contribs,prs&theme=radical)](https://github.com/Hussain-hamim)
 
-
+![Top languages](https://github-readme-stats.vercel.app/api/top-langs/?username=Hussain-hamim&theme=vue-dark&hide_border=false&include_all_commits=true&count_private=true&layout=compact)
 
 [![GitHub Streak](https://github-readme-streak-stats.herokuapp.com/?user=Hussain-hamim)](https://github.com/Hussain-hamim)
 
