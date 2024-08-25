@@ -2,14 +2,14 @@ import React, { useEffect, useRef } from "react";
 
 import { Avatar, Heading, VStack } from "@chakra-ui/react";
 import FullScreenSection from "./FullScreenSection";
-import hamim from "../asset/hhamim.jpg";
+import hamim from "../asset/younghamim.jpg";
 import "./styles.css";
 import "../App.css";
 // import ParticleBackground from "./ParticleBackground";
 
 // const greeting = "Hello, I am <span class="hussain">Hussain!</span>";
-const bio1 = "A frontend developer";
-const bio2 = "specialised in React";
+const bio1 = "A Frontend Developer";
+const bio2 = "Specialized in React";
 
 const LandingSection = ({ darkMode }) => {
   // particles:
@@ -46,7 +46,7 @@ const LandingSection = ({ darkMode }) => {
               <div class="typewriter-container">
                 <h1 class="typewriter typewriter-container">
                   Hello, I am
-                  <span className="hussain">Hussain</span>!
+                  <span className="hussain">Hussain</span>
                 </h1>
               </div>
             </Heading>

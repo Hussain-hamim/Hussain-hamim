@@ -116,7 +116,8 @@ const ContactMeSection = ({ darkMode }) => {
               </FormControl>
               <Button
                 type="submit"
-                colorScheme="purple"
+                colorScheme="green"
+                // variant="link"
                 width="full"
                 isLoading={isLoading}
               >

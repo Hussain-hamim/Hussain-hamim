@@ -6,8 +6,10 @@
   --gradient: linear-gradient(135deg, #2c9bd2, #00ffff);
 }
 
-.seeMore:hover {
-  color: rgb(91, 91, 249);
+.seeMore {
+  /* color: #00ffff; */
+  /* color: gray; */
+  /* color: greenyellow; */
 }
 
 .gridBox {
@@ -111,7 +113,9 @@
     border-color: transparent;
   }
   50% {
-    border-color: #2c9bd2c0;
+    /* border-color: #2c9bd2c0; */
+    /* border-color: orchid; */
+    border-color: rgba(84, 83, 83, 0.904);
     /* border-radius: 20%; */
   }
 }

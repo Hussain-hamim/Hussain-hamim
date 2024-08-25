@@ -39,7 +39,8 @@ const ProjectsSection = ({ darkMode }) => {
     <FullScreenSection
       backgroundColor={darkMode ? "#CBD5E0" : "#212529"}
       isDarkBackground={darkMode}
-      p={8}
+      // p={{ lg: "50px", sm: "15px", md: "15px" }}
+      p="20px"
       mb="35px"
       mt="35px"
       alignItems="flex-start"
