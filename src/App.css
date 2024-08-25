@@ -1,3 +1,11 @@
+:root {
+  --bg-color: #0f0f0f;
+  --text-color: #ffffff;
+  --accent-color: rgb(160, 40, 132);
+  --card-bg: rgba(26, 26, 26, 0.8);
+  --gradient: linear-gradient(135deg, #2c9bd2, #00ffff);
+}
+
 .seeMore:hover {
   color: rgb(91, 91, 249);
 }
@@ -119,4 +127,21 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
+}
+
+#animated-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background: var(--bg-color);
+  overflow: hidden;
+}
+.particle {
+  position: absolute;
+  background: var(--accent-color);
+  border-radius: 50%;
+  opacity: 0.5;
 }

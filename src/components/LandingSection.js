@@ -1,28 +1,32 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
+
 import { Avatar, Heading, VStack } from "@chakra-ui/react";
 import FullScreenSection from "./FullScreenSection";
 import hamim from "../asset/hhamim.jpg";
 import "./styles.css";
+import "../App.css";
 
 // const greeting = "Hello, I am <span class="hussain">Hussain!</span>";
 const bio1 = "A frontend developer";
 const bio2 = "specialised in React";
 
 const LandingSection = ({ darkMode }) => {
-  function typeWriter(element, text, i = 0) {
-    if (i < text.length) {
-      element.innerHTML += text.charAt(i);
-      i++;
-      setTimeout(() => typeWriter(element, text, i), 20);
-    }
-  }
+  // particles:
 
-  const aboutSection = document.querySelector("div");
-  console.log(aboutSection);
-  const originalText = aboutSection.innerText;
-  aboutSection.innerText = "";
+  // // typewriter:
+  // function typeWriter(element, text, i = 0) {
+  //   if (i < text.length) {
+  //     element.innerHTML += text.charAt(i);
+  //     i++;
+  //     setTimeout(() => typeWriter(element, text, i), 20);
+  //   }
+  // }
 
-  setTimeout(() => typeWriter(aboutSection, originalText), 1500);
+  // const aboutSection = document.querySelector("div");
+  // console.log(aboutSection);
+  // const originalText = aboutSection.innerText;
+  // aboutSection.innerText = "";
+  // setTimeout(() => typeWriter(aboutSection, originalText), 1500);
 
   return (
     <FullScreenSection
