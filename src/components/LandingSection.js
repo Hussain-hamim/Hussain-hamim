@@ -32,7 +32,7 @@ const LandingSection = ({ darkMode }) => {
     <FullScreenSection
       justifyContent="center"
       alignItems="center"
-      backgroundColor={darkMode ? "#212529" : "#CBD5E0"}
+      backgroundColor={darkMode ? "#CBD5E0" : "#212529"}
       isDarkBackground={darkMode}
       className="newBg"
     >

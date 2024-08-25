@@ -16,6 +16,12 @@ const ParticleBackground = () => {
       id="tsparticles"
       init={particlesInit}
       loaded={particlesLoaded}
+      style={{
+        position: "absolute",
+        width: "100%",
+        height: "100%",
+        zIndex: "-1", // Ensure the particles are behind the content
+      }}
       options={{
         background: {
           color: {

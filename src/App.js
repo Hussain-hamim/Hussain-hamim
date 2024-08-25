@@ -15,8 +15,8 @@ function App() {
   return (
     <ChakraProvider>
       <AlertProvider>
+        {/* <ParticleBackground /> */}
         <main>
-          <ParticleBackground />
           <Header
             darkMode={darkMode}
             isDarkMode={(darkMode) => setDarkMode(darkMode)}
