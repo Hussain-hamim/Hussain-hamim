@@ -74,3 +74,49 @@
 .redValue {
   color: red;
 }
+
+.newBg {
+}
+
+.typewriter {
+  display: inline-block;
+  overflow: hidden;
+  border-right: 0.15em solid var(--accent-color);
+  white-space: nowrap;
+  margin: 0 auto;
+  letter-spacing: 0.2em;
+  animation: typing 2s steps(10, end), blink-caret 0.7s step-end infinite;
+}
+
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes blink-caret {
+  from,
+  to {
+    border-color: transparent;
+  }
+  50% {
+    border-color: #2c9bd2c0;
+    /* border-radius: 20%; */
+  }
+}
+.typewriter-container {
+  display: inline-block;
+  margin: 0 auto;
+}
+.greybg {
+  background-color: var(--bg-color);
+}
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}

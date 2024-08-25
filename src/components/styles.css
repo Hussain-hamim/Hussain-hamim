@@ -1,6 +1,6 @@
 .prof {
   animation: pulse-round 2s infinite;
-  /* color: gray; */
+  color: greenyellow;
 }
 
 @keyframes pulse-round {
