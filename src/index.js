@@ -5,6 +5,8 @@ import "bootstrap/dist/css/bootstrap.css";
 import "./index.css";
 import "./App.css";
 import App from "./App";
+// import App from "./meta-capstone/src/App";
+// import App3 from "./App3";
 // import App2 from "./App2";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));

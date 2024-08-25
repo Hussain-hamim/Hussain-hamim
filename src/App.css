@@ -17,3 +17,60 @@
     grid-gap: 20px;
   }
 }
+
+.container {
+  display: grid;
+  grid-template-areas:
+    "header header"
+    "nav main"
+    "footer footer";
+  grid-template-columns: 1fr 3fr;
+  grid-template-rows: auto 400px auto;
+  gap: 10px;
+  text-align: center;
+}
+.one {
+  border-radius: 10px;
+}
+.header {
+  grid-area: header;
+  background-color: rgb(125, 78, 45);
+}
+.nav {
+  grid-area: nav;
+  background-color: gray;
+}
+.main {
+  grid-area: main;
+  background-color: orchid;
+}
+.footer {
+  grid-area: footer;
+  background-color: burlywood;
+}
+
+@media (max-width: 700px) {
+  .container {
+    display: grid;
+    grid-template-areas:
+      "header header"
+      "main main"
+      "nav nav"
+      "footer footer";
+  }
+}
+
+.dark {
+  background-color: black;
+  color: white;
+  height: 100vh;
+}
+.light {
+  background-color: white;
+  color: black;
+  height: 100vh;
+}
+
+.redValue {
+  color: red;
+}

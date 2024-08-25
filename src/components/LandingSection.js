@@ -2,8 +2,9 @@ import React from "react";
 import { Avatar, Heading, VStack } from "@chakra-ui/react";
 import FullScreenSection from "./FullScreenSection";
 import hamim from "../asset/hhamim.jpg";
+import "./styles.css";
 
-const greeting = "Hello, I am Hussain!";
+// const greeting = "Hello, I am <span class="hussain">Hussain!</span>";
 const bio1 = "A frontend developer";
 const bio2 = "specialised in React";
 
@@ -16,9 +17,10 @@ const LandingSection = ({ darkMode }) => (
   >
     <VStack pt={32} mb={32} spacing={16}>
       <VStack spacing={4} alignItems="center">
-        <Avatar src={hamim} size="2xl" name="HHamim" />
+        <Avatar className="prof" src={hamim} size="2xl" name="HHamim" />
         <Heading as="h5" size="sm" noOfLines={1}>
-          {greeting}
+          {/* {greeting} */}
+          Hello, I am <span class="hussain">Hussain</span>!
         </Heading>
       </VStack>
       <VStack spacing={6}>
