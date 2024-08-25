@@ -8,7 +8,7 @@ const Card = ({ title, description, imageSrc, link }) => {
   return (
     <VStack
       color="black"
-      backgroundColor="white"
+      backgroundColor="#d1e7dd"
       cursor="pointer"
       borderRadius="xl"
     >
