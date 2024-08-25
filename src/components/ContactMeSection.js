@@ -60,7 +60,7 @@ const ContactMeSection = ({ darkMode }) => {
       py={16}
       spacing={8}
     >
-      <VStack style={{ width: "80vw" }} alignItems="flex-start">
+      <VStack style={{ width: "90vw" }} alignItems="flex-start">
         <Heading as="h1" id="contactme-section">
           Contact me
         </Heading>
