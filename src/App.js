@@ -7,6 +7,7 @@ import Footer from "./components/Footer";
 import { AlertProvider } from "./context/alertContext";
 import Alert from "./components/Alert";
 import { useState } from "react";
+import ParticleBackground from "./components/ParticleBackground";
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
@@ -15,6 +16,7 @@ function App() {
     <ChakraProvider>
       <AlertProvider>
         <main>
+          <ParticleBackground />
           <Header
             darkMode={darkMode}
             isDarkMode={(darkMode) => setDarkMode(darkMode)}
