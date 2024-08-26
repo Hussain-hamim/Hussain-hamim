@@ -44,7 +44,7 @@ const projects = [
 const ProjectsSection = ({ darkMode }) => {
   return (
     <FullScreenSection
-      backgroundColor={darkMode ? "#CBD5E0" : "#212529"}
+      // backgroundColor={darkMode ? "#CBD5E0" : "#212529"}
       isDarkBackground={darkMode}
       // p={{ lg: "50px", sm: "15px", md: "15px" }}
       p="20px"

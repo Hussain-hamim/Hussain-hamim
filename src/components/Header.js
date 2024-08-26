@@ -89,7 +89,7 @@ const Header = ({ isDarkMode, darkMode }) => {
       transitionProperty="transform"
       transitionDuration=".3s"
       transitionTimingFunction="ease-in-out"
-      backgroundColor="#18181b"
+      backgroundColor="rgba(26, 26, 26, 0.8)"
       ref={headerRef}
       color="white"
       textColor="white"
@@ -144,7 +144,7 @@ const Header = ({ isDarkMode, darkMode }) => {
               {/* <Switch onChange={() => isDarkMode(!darkMode)} /> */}
               <FontAwesomeIcon
                 className="seeMore"
-                onClick={() => isDarkMode(!darkMode)}
+                // onClick={() => isDarkMode(!darkMode)}
                 icon={darkMode ? faSun : faMoon}
               />
             </HStack>

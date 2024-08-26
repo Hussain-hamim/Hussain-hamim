@@ -1,0 +1,15 @@
+.particle {
+  position: absolute;
+  background: rgb(160, 40, 132);
+  /* background: white; */
+  border-radius: 50%;
+  opacity: 0.5;
+  /* z-index: 9; */
+}
+
+.greybg {
+  /* background: #0f0f0f; */
+  /* background: red; */
+  /* background: rgba(153, 205, 50, 0.455); */
+  /* color: rgba(46, 66, 78, 0.1); */
+}

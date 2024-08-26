@@ -12,33 +12,20 @@ const bio1 = "A Frontend Developer";
 const bio2 = "Specialized in React";
 
 const LandingSection = ({ darkMode }) => {
-  // particles:
-
-  // // typewriter:
-  // function typeWriter(element, text, i = 0) {
-  //   if (i < text.length) {
-  //     element.innerHTML += text.charAt(i);
-  //     i++;
-  //     setTimeout(() => typeWriter(element, text, i), 20);
-  //   }
-  // }
-
-  // const aboutSection = document.querySelector("div");
-  // console.log(aboutSection);
-  // const originalText = aboutSection.innerText;
-  // aboutSection.innerText = "";
-  // setTimeout(() => typeWriter(aboutSection, originalText), 1500);
+  // particle:
 
   return (
     <div>
       {/* <ParticleBackground></ParticleBackground> */}
+
       <FullScreenSection
         justifyContent="center"
         alignItems="center"
-        backgroundColor={darkMode ? "#CBD5E0" : "#212529"}
+        // backgroundColor={darkMode ? "#CBD5E0" : "#212529"}
         isDarkBackground={darkMode}
         className="newBg"
       >
+        {/* <AnimatedBackground></AnimatedBackground> */}
         <VStack pt={32} mb={32} spacing={16}>
           <VStack spacing={4} alignItems="center">
             <Avatar className="prof" src={hamim} size="2xl" name="HHamim" />
