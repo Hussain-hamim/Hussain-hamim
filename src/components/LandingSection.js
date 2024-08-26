@@ -9,7 +9,7 @@ import "../App.css";
 
 // const greeting = "Hello, I am <span class="hussain">Hussain!</span>";
 const bio1 = "A Frontend Developer";
-const bio2 = "Specialized in React";
+// const bio2 = "Specialized in React";
 
 const LandingSection = ({ darkMode }) => {
   // particle:
@@ -39,11 +39,12 @@ const LandingSection = ({ darkMode }) => {
             </Heading>
           </VStack>
           <VStack spacing={6}>
-            <Heading as="h3" size="2xl" noOfLines={1}>
+            <Heading as="h3" size="1xl" noOfLines={1}>
               {bio1}
             </Heading>
-            <Heading as="h3" size="2xl" noOfLines={1}>
-              {bio2}
+            <Heading as="h3" size="1xl" noOfLines={1}>
+              {/* {bio2} */}
+              Specialized in <span className="react">React</span>
             </Heading>
           </VStack>
         </VStack>
