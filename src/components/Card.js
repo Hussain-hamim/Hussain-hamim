@@ -16,7 +16,7 @@ const Card = ({ title, description, imageSrc, link }) => {
       <VStack spacing={4} p={4} alignItems="flex-start">
         <HStack justifyContent="space-between" alignItems="center">
           <Heading color="#00ffff" as="h3" size="md">
-            {title}
+            <a href={link}>{title}</a>
           </Heading>
         </HStack>
         <Text color="#ffffff" fontSize="lg">
