@@ -5,6 +5,13 @@ import Card from "./Card";
 
 const projects = [
   {
+    title: "Ocean Of Games",
+    description:
+      "A game platform which is a clone of popular RAWG website and also powered by rawg api. browse, select, and search from a tons of games.🚀",
+    getImageSrc: () => require("../images/header.jpg"),
+    link: "https://github.com/Hussain-hamim/ocean-of-games",
+  },
+  {
     title: "Hamimfy",
     description:
       "Hamimfy is a responsive website design to showcase various features and techniques in modern web development. It specifically focuces on cloud hosting services.🚀",
