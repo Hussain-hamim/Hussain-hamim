@@ -143,6 +143,7 @@ const Header = ({ isDarkMode, darkMode }) => {
               </Button>
               {/* <Switch onChange={() => isDarkMode(!darkMode)} /> */}
               <FontAwesomeIcon
+                // this below button is not working cuz of the new moving particles background update
                 className="seeMore"
                 // onClick={() => isDarkMode(!darkMode)}
                 icon={darkMode ? faSun : faMoon}
