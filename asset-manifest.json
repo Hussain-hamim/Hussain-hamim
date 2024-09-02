@@ -1,0 +1,21 @@
+{
+  "files": {
+    "main.css": "/Hussain-hamim/static/css/main.1af8bfdc.css",
+    "main.js": "/Hussain-hamim/static/js/main.74d41bab.js",
+    "static/js/453.d111879b.chunk.js": "/Hussain-hamim/static/js/453.d111879b.chunk.js",
+    "static/media/photo2.jpg": "/Hussain-hamim/static/media/photo2.22bd8f9e1208339345a4.jpg",
+    "static/media/header.jpg": "/Hussain-hamim/static/media/header.a2634496612cb6823238.jpg",
+    "static/media/photo4.jpg": "/Hussain-hamim/static/media/photo4.3358759cdaed730619ca.jpg",
+    "static/media/photo1.jpg": "/Hussain-hamim/static/media/photo1.21f7d61385656cfbf660.jpg",
+    "static/media/photo3.jpg": "/Hussain-hamim/static/media/photo3.69d0603092b186285020.jpg",
+    "static/media/younghamim.jpg": "/Hussain-hamim/static/media/younghamim.10fda754f337f0f38c5c.jpg",
+    "index.html": "/Hussain-hamim/index.html",
+    "main.1af8bfdc.css.map": "/Hussain-hamim/static/css/main.1af8bfdc.css.map",
+    "main.74d41bab.js.map": "/Hussain-hamim/static/js/main.74d41bab.js.map",
+    "453.d111879b.chunk.js.map": "/Hussain-hamim/static/js/453.d111879b.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.1af8bfdc.css",
+    "static/js/main.74d41bab.js"
+  ]
+}
