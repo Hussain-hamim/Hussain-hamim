@@ -1,3 +1,3 @@
 # portfolio 
 
-[live demo](hussain-s-portfolio.vercel.app)
+[live demo](https://hussain-hamim.vercel.app/)
