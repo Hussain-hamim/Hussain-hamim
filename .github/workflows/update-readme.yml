@@ -1,25 +1,19 @@
-name: WakaTime Readme
+name: WakaTime Weekly Stats
 
 on:
   schedule:
-    - cron: "0 */12 * * *" # Runs every 12 hours
+    - cron: '0 0 * * 0'  # Runs every Sunday at midnight
   workflow_dispatch:
 
 jobs:
   update-readme:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v2
 
-      - name: WakaTime Readme
-        uses: athul/waka-readme@v1.0.2
+      - name: Update README with WakaTime stats
+        uses: anmol098/waka-readme-stats@v2.1.1
         with:
           WAKATIME_API_KEY: ${{ secrets.WAKATIME_API_KEY }}
-
-      - name: Commit and push if changed
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add README.md
-          git commit -m "Updated WakaTime stats" || exit 0
-          git push
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
