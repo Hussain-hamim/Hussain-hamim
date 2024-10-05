@@ -12,6 +12,13 @@ const projects = [
     link: "https://github.com/Hussain-hamim/ocean-of-games",
   },
   {
+    title: "Book Ocean",
+    description:
+      "in this book platform after login you can discover, add up book to reading list, add book to fished list, give note, give stars to the book and you can search in a whole lots of books",
+    getImageSrc: () => require("../images/bookocean.png"),
+    link: "https://book-ocean.vercel.app/discover",
+  },
+  {
     title: "Hamimfy",
     description:
       "Hamimfy is a responsive website design to showcase various features and techniques in modern web development. It specifically focuces on cloud hosting services.🚀",

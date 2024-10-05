@@ -101,7 +101,7 @@ const ContactMeSection = ({ darkMode }) => {
                   // if there's any way to change the actual background color for the selection box when appear
                   //note: this project use Chakra UI ( this Select is a chakra ui component).
                   // uncomment the below line of code to see the change:
-                  // color="gray".
+                  // color="gray"
                   id="type"
                   name="type"
                   {...formik.getFieldProps("type")}
