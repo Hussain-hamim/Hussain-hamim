@@ -4,7 +4,7 @@
 
 **I'm Hussain Hamim!👋**
 
-I'm a passionate full-stack developer with a strong emphasis on front-end technologies. My journey involves crafting delightful user experiences through innovative and pixel-perfect design.
+I'm a full-stack developer with a strong emphasis on front-end technologies. My journey involves crafting delightful user experiences through innovative and pixel-perfect design.
 
 <div style="background-color: #000; padding: 20px; margin-top: 50px; margin-bottom: 50px; border-radius: 10px; box-shadow: 2px 2px 4px #000000; border: 2px dotted #3d82ef;">
   <img  src="https://media3.giphy.com/media/f3iwJFOVOwuy7K6FFw/giphy.gif" width="100%" height="auto" />
@@ -72,7 +72,7 @@ since Jan 2024:
 
 ## Notable Repositories
 ### [Ocean Of Games](https://github.com/Hussain-hamim/ocean-of-games)
-### [Portfolio](https://hussain-s-portfolio.vercel.app/)
+### [Portfolio](https://hussain-hamim.vercel.app/)
 #### [Hamimfy](https://github.com/Hussain-hamim/hamimfy)
 #### [Todo list](https://github.com/Hussain-hamim/My-Todo-list)
 #### [Expense Tracker App](https://github.com/Hussain-hamim/Expense-Tracker)
