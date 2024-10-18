@@ -72,6 +72,7 @@ since Jan 2024:
 
 ## Notable Repositories
 ### [Ocean Of Games](https://github.com/Hussain-hamim/ocean-of-games)
+### [Book Ocean](https://book-ocean.vercel.app/discover)
 ### [Portfolio](https://hussain-hamim.vercel.app/)
 #### [Hamimfy](https://github.com/Hussain-hamim/hamimfy)
 #### [Todo list](https://github.com/Hussain-hamim/My-Todo-list)
