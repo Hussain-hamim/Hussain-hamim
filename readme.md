@@ -56,6 +56,12 @@ I'm a full-stack and mobile developer. My journey involves crafting delightful u
 Since 2024/1/8: 
 ![](https://komarev.com/ghpvc/?username=Hussain-hamim)
 
+## 🏆GitHub Trophies
+![](https://github-profile-trophy.vercel.app/?username=Hussain-hamim&theme=radical&no-frame=false&no-bg=false&margin-w=4)
+
+### ✍️Random Dev Quote
+![](https://quotes-github-readme.vercel.app/api?type=horizontal&theme=radical)
+
 ## Notable Repositories
 ### [Ocean Of Games](https://github.com/Hussain-hamim/ocean-of-games)
 ### [Book Ocean](https://book-ocean.vercel.app/discover)
