@@ -74,7 +74,7 @@ const LandingSection = ({ darkMode }) => {
             style={{
               padding: "20px",
               textAlign: "center",
-              color: "tomato",
+              color: "#0dcaf0",
               backgroundColor: "rgba(26, 26, 26, 0.8)",
               // opacity: 0.8,
               margin: "20px",
@@ -92,11 +92,10 @@ const LandingSection = ({ darkMode }) => {
           </div>
 
           <div style={{ textAlign: "center" }}>
-            <Heading as="h4" size="1x" fontFamily="serif">
-              Skills
-            </Heading>
-
-            <div style={{ display: "flex", gap: 30, paddingBottom: 20 }}>
+            <div
+              style={{ display: "flex", gap: 26, paddingBottom: 20 }}
+              className="marquee marqueePC"
+            >
               <FontAwesomeIcon icon={faLaptopCode} size="2x" color="green" />
               <FontAwesomeIcon icon={faJs} size="2x" color="tomato" />
               <FontAwesomeIcon icon={faReact} size="2x" color="lightblue" />
@@ -105,7 +104,13 @@ const LandingSection = ({ darkMode }) => {
               <FontAwesomeIcon icon={faTools} size="2x" color="gray" />
               <FontAwesomeIcon icon={faGithub} size="2x" color="gray" />
             </div>
-            <div style={{ display: "flex", gap: 30 }}>
+            <Heading as="h4" size="1x" fontFamily="serif">
+              Skills
+            </Heading>
+            <div
+              style={{ display: "flex", gap: 29 }}
+              className="marquee marqueePC"
+            >
               <FontAwesomeIcon icon={faHtml5} size="2x" color="tomato" />
               <FontAwesomeIcon icon={faCss3} size="2x" color="tomato" />
               <FontAwesomeIcon icon={faDatabase} size="2x" color="lightblue" />

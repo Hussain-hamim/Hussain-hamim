@@ -39,6 +39,24 @@
 
 @keyframes scroll {
   from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(-100%);
+  }
+}
+
+@media only screen and (min-width: 600px) {
+  .marqueePC {
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    animation: scrollPC 10s linear infinite;
+  }
+}
+
+@keyframes scrollPC {
+  from {
     transform: translateX(100%);
   }
   to {
