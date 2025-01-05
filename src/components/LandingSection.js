@@ -90,11 +90,9 @@ const LandingSection = ({ darkMode }) => {
               style={{
                 display: "flex",
                 gap: "20px",
-                // flexDirection: "row",
-                // justifyContent: "space-around",
-                // alignItems: "space-around",
               }}
             >
+              <FontAwesomeIcon icon={faJs} size="2x" color="tomato" />
               <FontAwesomeIcon icon={faReact} size="2x" color="lightblue" />
               <FontAwesomeIcon icon={faNodeJs} size="2x" color="tomato" />
               <FontAwesomeIcon icon={faGithub} size="2x" color="gray" />
