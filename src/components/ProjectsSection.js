@@ -55,27 +55,27 @@ const mobileProjects = [
     description:
       "Sell what you do not need on this mobile app platform, working based on node api. 📱",
     getImageSrc: () => require("../images/donewithit.png"),
-    link: "https://github.com/Hussain-hamim/ocean-of-games",
+    link: "https://github.com/Hussain-hamim",
   },
   {
     title: "Plantly",
     description:
       "Kepp your plants healthy and hydrated with this mobile app. 📱🌿 ",
     getImageSrc: () => require("../images/plantly.png"),
-    link: "https://github.com/Hussain-hamim/ocean-of-games",
+    link: "https://github.com/Hussain-hamim",
   },
   {
     title: "Camera-app",
     description:
       "A gallery app that used to take photos, record short videos and save it as native",
     getImageSrc: () => require("../images/camera-app.png"),
-    link: "https://github.com/Hussain-hamim/ocean-of-games",
+    link: "https://github.com/Hussain-hamim",
   },
   {
     title: "ChatGPT clone app",
     description: "coming soon...",
     getImageSrc: () => require("../images/header.jpg"),
-    link: "https://github.com/Hussain-hamim/ocean-of-games",
+    link: "https://github.com/Hussain-hamim",
   },
 ];
 
