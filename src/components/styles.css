@@ -29,3 +29,19 @@
   /* text-decoration: underline; */
   /* font-weight: bold; */
 }
+
+.marquee {
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  animation: scroll 10s linear infinite;
+}
+
+@keyframes scorll {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}

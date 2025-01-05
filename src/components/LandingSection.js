@@ -17,6 +17,7 @@ import {
   faReact,
 } from "@fortawesome/free-brands-svg-icons";
 import { faDatabase } from "@fortawesome/free-solid-svg-icons";
+import { keyframes } from "framer-motion";
 // import ParticleBackground from "./ParticleBackground";
 
 // const greeting = "Hello, I am <span class="hussain">Hussain!</span>";
@@ -91,6 +92,7 @@ const LandingSection = ({ darkMode }) => {
                 display: "flex",
                 gap: "20px",
               }}
+              // className="marquee"
             >
               <FontAwesomeIcon icon={faJs} size="2x" color="tomato" />
               <FontAwesomeIcon icon={faReact} size="2x" color="lightblue" />
@@ -100,7 +102,6 @@ const LandingSection = ({ darkMode }) => {
               <FontAwesomeIcon icon={faCss3} size="2x" color="tomato" />
               <FontAwesomeIcon icon={faDatabase} size="2x" color="tomato" />
               <FontAwesomeIcon icon={faGit} size="2x" color="tomato" />
-              <FontAwesomeIcon icon={faFigma} size="2x" color="tomato" />
             </div>
           </div>
         </VStack>
