@@ -11,6 +11,7 @@ const projects = [
     getImageSrc: () => require("../images/header.jpg"),
     link: "https://github.com/Hussain-hamim/ocean-of-games",
   },
+
   {
     title: "Book Ocean",
     description:
@@ -48,33 +49,90 @@ const projects = [
   },
 ];
 
+const mobileProjects = [
+  {
+    title: "Done With It",
+    description:
+      "Sell what you do not need on this mobile app platform, working based on node api. 📱",
+    getImageSrc: () => require("../images/donewithit.png"),
+    link: "https://github.com/Hussain-hamim/ocean-of-games",
+  },
+  {
+    title: "Plantly",
+    description:
+      "Kepp your plants healthy and hydrated with this mobile app. 📱🌿 ",
+    getImageSrc: () => require("../images/plantly.png"),
+    link: "https://github.com/Hussain-hamim/ocean-of-games",
+  },
+  {
+    title: "Camera-app",
+    description:
+      "A gallery app that used to take photos, record short videos and save it as native",
+    getImageSrc: () => require("../images/camera-app.png"),
+    link: "https://github.com/Hussain-hamim/ocean-of-games",
+  },
+  {
+    title: "ChatGPT clone app",
+    description: "coming soon...",
+    getImageSrc: () => require("../images/header.jpg"),
+    link: "https://github.com/Hussain-hamim/ocean-of-games",
+  },
+];
+
 const ProjectsSection = ({ darkMode }) => {
   return (
-    <FullScreenSection
-      // backgroundColor={darkMode ? "#CBD5E0" : "#212529"}
-      isDarkBackground={darkMode}
-      // p={{ lg: "50px", sm: "15px", md: "15px" }}
-      p="20px"
-      mb="35px"
-      mt="35px"
-      alignItems="flex-start"
-      spacing={8}
-    >
-      <Heading as="h1" id="projects-section">
-        Featured Projects
-      </Heading>
-      <Box className="gridBox">
-        {projects.map((project) => (
-          <Card
-            key={project.title}
-            title={project.title}
-            description={project.description}
-            link={project.link}
-            imageSrc={project.getImageSrc()}
-          />
-        ))}
-      </Box>
-    </FullScreenSection>
+    <>
+      <FullScreenSection
+        // backgroundColor={darkMode ? "#CBD5E0" : "#212529"}
+        isDarkBackground={darkMode}
+        // p={{ lg: "50px", sm: "15px", md: "15px" }}
+        p="20px"
+        mb="35px"
+        mt="35px"
+        alignItems="flex-start"
+        spacing={8}
+      >
+        <Heading as="h1" id="projects-section">
+          Web Featured Projects
+        </Heading>
+        <Box className="gridBox">
+          {projects.map((project) => (
+            <Card
+              key={project.title}
+              title={project.title}
+              description={project.description}
+              link={project.link}
+              imageSrc={project.getImageSrc()}
+            />
+          ))}
+        </Box>
+      </FullScreenSection>
+      <FullScreenSection
+        // backgroundColor={darkMode ? "#CBD5E0" : "#212529"}
+        isDarkBackground={darkMode}
+        // p={{ lg: "50px", sm: "15px", md: "15px" }}
+        p="20px"
+        mb="35px"
+        mt="35px"
+        alignItems="flex-start"
+        spacing={8}
+      >
+        <Heading as="h1" id="projects-section">
+          Mobile Featured Projects
+        </Heading>
+        <Box className="gridBox">
+          {mobileProjects.map((project) => (
+            <Card
+              key={project.title}
+              title={project.title}
+              description={project.description}
+              link={project.link}
+              imageSrc={project.getImageSrc()}
+            />
+          ))}
+        </Box>
+      </FullScreenSection>
+    </>
   );
 };
 

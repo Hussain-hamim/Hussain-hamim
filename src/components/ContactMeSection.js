@@ -95,13 +95,7 @@ const ContactMeSection = ({ darkMode }) => {
               <FormControl>
                 <FormLabel htmlFor="type">Type of enquiry</FormLabel>
                 <Select
-                  // if you come this far Mastoora thank you so much 😊
-                  // and i made a simple solution but  i don't think
-                  // you would like it i just change the color to gray but it's not working as we wanted and also
-                  // if there's any way to change the actual background color for the selection box when appear
-                  //note: this project use Chakra UI ( this Select is a chakra ui component).
-                  // uncomment the below line of code to see the change:
-                  // color="gray"
+                  color="gray"
                   id="type"
                   name="type"
                   {...formik.getFieldProps("type")}
