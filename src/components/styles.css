@@ -37,7 +37,7 @@
   animation: scroll 10s linear infinite;
 }
 
-@keyframes scorll {
+@keyframes scroll {
   from {
     transform: translateX(100%);
   }
