@@ -83,12 +83,7 @@ const LandingSection = ({ darkMode }) => {
               fontFamily: "monospace",
             }}
           >
-            My name is <span className="react">Hussain Hamim</span>, I am
-            studying computer science at Sheikh zayed university. I have worked
-            on many projects and have solid understanding in Frontend, Backend
-            (Full-stack / MERN stack) and mobile development with react-native
-            skills. my journey involves crafting delightful user experience
-            through innovative and pixel perfect design.
+            My name is Hussain Hamim, a Computer Science student at Sheikh Zayed University. I have worked on numerous projects and have a strong grasp of frontend, backend (Full-Stack/MERN), and mobile development with React Native. My journey is driven by a passion for crafting seamless user experiences through innovative and pixel-perfect design.
           </div>
 
           <div style={{ textAlign: "center" }}>
