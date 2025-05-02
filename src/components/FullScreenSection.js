@@ -4,7 +4,7 @@ import { VStack } from "@chakra-ui/react";
 
 import "./animatedBackground.css"; // You should define styles for the 'particle' class here.
 
-const FullScreenSection = ({ children, isDarkBackground, ...boxProps }) => {
+const FullScreenSection = ({ children, ...boxProps }) => {
   const bgRef = useRef(null);
   const particleCount = 50;
 
@@ -59,10 +59,7 @@ const FullScreenSection = ({ children, isDarkBackground, ...boxProps }) => {
   }
 
   return (
-    <VStack
-      backgroundColor={"rgba(46, 66, 78, 0.1)"}
-      color={isDarkBackground ? "black" : "white"}
-    >
+    <VStack backgroundColor={"rgba(8, 25, 35, 0.1)"}>
       <div id="animated-bg" ref={bgRef}></div>
       <VStack maxWidth="1280px" minHeight="100vh" w="100vw" {...boxProps}>
         {children}

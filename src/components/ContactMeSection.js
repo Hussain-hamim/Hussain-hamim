@@ -21,7 +21,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub, faLinkedin } from "@fortawesome/free-brands-svg-icons";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 
-const ContactMeSection = ({ darkMode }) => {
+const ContactMeSection = () => {
   const { isLoading, response, submit } = useSubmit();
   const { onOpen } = useAlertContext();
 
@@ -54,7 +54,7 @@ const ContactMeSection = ({ darkMode }) => {
   }, [formik, onOpen, response]);
 
   return (
-    <FullScreenSection isDarkBackground={darkMode} py={16} spacing={8}>
+    <FullScreenSection py={16} spacing={8}>
       <VStack style={{ width: "90vw" }} alignItems="flex-start">
         <HStack spacing={3}>
           <Heading as="h1" id="contactme-section" marginRight={5}>

@@ -3,11 +3,10 @@ import FullScreenSection from "./FullScreenSection";
 import { Box, Heading } from "@chakra-ui/react";
 import Card from "./Card";
 
-const ProjectsSection = ({ darkMode }) => {
+const ProjectsSection = () => {
   return (
     <>
       <FullScreenSection
-        isDarkBackground={darkMode}
         p="20px"
         mb="35px"
         mt="35px"
@@ -31,7 +30,6 @@ const ProjectsSection = ({ darkMode }) => {
         </Box>
       </FullScreenSection>
       <FullScreenSection
-        isDarkBackground={darkMode}
         p="20px"
         mb="35px"
         mt="35px"

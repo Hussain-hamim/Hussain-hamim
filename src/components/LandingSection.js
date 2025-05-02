@@ -5,7 +5,7 @@ import hamim from "../asset/hhamim3.jpg";
 import FullScreenSection from "./FullScreenSection";
 import "./styles.css";
 
-const LandingSection = ({ darkMode }) => {
+const LandingSection = () => {
   return (
     <div>
       <FullScreenSection justifyContent="center" alignItems="center">

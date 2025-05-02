@@ -18,9 +18,8 @@ import {
   MenuItem,
   useBreakpointValue,
 } from "@chakra-ui/react";
-// import { HamburgerIcon } from "@chakra-ui/icons";
 
-const Header = ({ isDarkMode, darkMode }) => {
+const Header = () => {
   const headerRef = useRef(null);
   const isMobile = useBreakpointValue({ base: true, md: false });
 
