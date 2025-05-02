@@ -101,7 +101,7 @@ const Skills = () => {
           width="60"
           height="60"
           alt=""
-          class="rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition duration-300"
+          class="rounded  shadow hover:shadow-xl transform hover:scale-105 transition duration-300"
         />
 
         <img
@@ -109,7 +109,7 @@ const Skills = () => {
           width="62"
           height="62"
           alt=""
-          class="rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition duration-300"
+          class="rounded shadow hover:shadow-xl transform hover:scale-105 transition duration-300"
         />
 
         <img
@@ -117,56 +117,56 @@ const Skills = () => {
           width="60"
           height="60"
           alt=""
-          class="rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition duration-300"
+          class=" rounded	  hover:shadow-xl transform hover:scale-105 transition duration-300"
         />
         <img
           src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg"
           width="65"
           height="65"
           alt=""
-          class="rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition duration-300"
+          class="rounded shadow hover:shadow-xl transform hover:scale-105 transition duration-300"
         />
         <img
           src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg"
           width="60"
           height="60"
           alt=""
-          class="rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition duration-300"
+          class="rounded shadow hover:shadow-xl transform hover:scale-105 transition duration-300"
         />
         <img
           src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nextjs/nextjs-original.svg"
           width="65"
           height="65"
           alt=""
-          class="rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition duration-300"
+          class="rounded shadow hover:shadow-xl transform hover:scale-105 transition duration-300"
         />
         <img
           src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nodejs/nodejs-original-wordmark.svg"
           width="65"
           height="65"
           alt=""
-          class="rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition duration-300"
+          class="rounded shadow hover:shadow-xl transform hover:scale-105 transition duration-300"
         />
         <img
           src="https://images.credly.com/images/1c2c86e1-16ce-4e4d-a425-d1ac96bb026d/express.png"
           width="65"
           height="65"
           alt=""
-          class="rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition duration-300"
+          class="rounded shadow hover:shadow-xl transform hover:scale-105 transition duration-300"
         />
         <img
           src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mongodb/mongodb-original-wordmark.svg"
           width="65"
           height="65"
           alt=""
-          class="rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition duration-300"
+          class="rounded shadow hover:shadow-xl transform hover:scale-105 transition duration-300"
         />
         <img
           src="https://img.icons8.com/ios-filled/50/FFFFFF/github.png"
           width="65"
           height="65"
           alt=""
-          class="rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition duration-300"
+          class="rounded shadow hover:shadow-xl transform hover:scale-105 transition duration-300"
         />
       </HStack>
     </div>
