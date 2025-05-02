@@ -59,7 +59,10 @@ const FullScreenSection = ({ children, ...boxProps }) => {
   }
 
   return (
-    <VStack backgroundColor={'#081923'}>
+    <VStack
+      // backgroundColor={'#081923'}
+      backgroundColor={'rgba(46, 66, 78, 0.1)'}
+    >
       <div id='animated-bg' ref={bgRef}></div>
       <VStack maxWidth='1280px' minHeight='100vh' w='100vw' {...boxProps}>
         {children}
