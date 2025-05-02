@@ -17,8 +17,9 @@ import * as Yup from "yup";
 import { useAlertContext } from "../context/alertContext";
 import useSubmit from "../hooks/useSubmit";
 import FullScreenSection from "./FullScreenSection";
-import { socials } from "./Header";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGithub, faLinkedin } from "@fortawesome/free-brands-svg-icons";
+import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 
 const ContactMeSection = ({ darkMode }) => {
   const { isLoading, response, submit } = useSubmit();
@@ -144,3 +145,18 @@ const ContactMeSection = ({ darkMode }) => {
 };
 
 export default ContactMeSection;
+
+const socials = [
+  {
+    icon: faEnvelope,
+    url: "mailto: mohammadhussainafghan83@gmail.com",
+  },
+  {
+    icon: faGithub,
+    url: "https://github.com/Hussain-hamim",
+  },
+  {
+    icon: faLinkedin,
+    url: "https://www.linkedin.com/in/hussain-hamim/",
+  },
+];

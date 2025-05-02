@@ -108,7 +108,7 @@ const Header = ({ isDarkMode, darkMode }) => {
 };
 export default Header;
 
-export const socials = [
+const socials = [
   {
     icon: faEnvelope,
     url: "mailto: mohammadhussainafghan83@gmail.com",
