@@ -76,7 +76,7 @@ const Header = ({ isDarkMode, darkMode }) => {
       <Box maxWidth="1280px" margin="0 auto">
         <HStack
           px="15px"
-          py={8}
+          py={5}
           justifyContent="space-between"
           alignItems="center"
         >
