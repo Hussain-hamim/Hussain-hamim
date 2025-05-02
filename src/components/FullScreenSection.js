@@ -1,13 +1,9 @@
 import * as React from "react";
-import { useRef, useEffect, useState } from "react";
-
+import { useRef, useEffect } from "react";
 import { VStack } from "@chakra-ui/react";
 
 import "./animatedBackground.css"; // You should define styles for the 'particle' class here.
 
-/**
- * Illustrates the use of children prop and spread operator
- */
 const FullScreenSection = ({ children, isDarkBackground, ...boxProps }) => {
   const bgRef = useRef(null);
   const particleCount = 50;
@@ -64,8 +60,6 @@ const FullScreenSection = ({ children, isDarkBackground, ...boxProps }) => {
 
   return (
     <VStack
-      // backgroundColor={boxProps.backgroundColor}
-      // backgroundColor={"rgb(127, 207, 255, 0.1)"}
       backgroundColor={"rgba(46, 66, 78, 0.1)"}
       color={isDarkBackground ? "black" : "white"}
     >

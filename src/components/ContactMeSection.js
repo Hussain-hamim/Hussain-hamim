@@ -1,5 +1,3 @@
-import React, { useEffect } from "react";
-import { useFormik } from "formik";
 import {
   Box,
   Button,
@@ -7,19 +5,21 @@ import {
   FormErrorMessage,
   FormLabel,
   Heading,
+  HStack,
   Input,
   Select,
   Textarea,
   VStack,
 } from "@chakra-ui/react";
+import { useFormik } from "formik";
+import React, { useEffect } from "react";
 import * as Yup from "yup";
-import FullScreenSection from "./FullScreenSection";
-import useSubmit from "../hooks/useSubmit";
 import { useAlertContext } from "../context/alertContext";
+import useSubmit from "../hooks/useSubmit";
+import FullScreenSection from "./FullScreenSection";
+import { socials } from "./Header";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-/**
- * Covers a complete form implementation using formik and yup for validation
- */
 const ContactMeSection = ({ darkMode }) => {
   const { isLoading, response, submit } = useSubmit();
   const { onOpen } = useAlertContext();
@@ -38,7 +38,7 @@ const ContactMeSection = ({ darkMode }) => {
       firstName: Yup.string().required("Required"),
       email: Yup.string().email("Invalid email address").required("Required"),
       comment: Yup.string()
-        .min(25, "Must be at least 25 characters")
+        .min(5, "Must be at least 5 characters")
         .required("Required"),
     }),
   });
@@ -50,20 +50,27 @@ const ContactMeSection = ({ darkMode }) => {
         formik.resetForm();
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [response]);
+  }, [formik, onOpen, response]);
 
   return (
-    <FullScreenSection
-      // backgroundColor={darkMode ? "#CBD5f0" : "#212529"}
-      isDarkBackground={darkMode}
-      py={16}
-      spacing={8}
-    >
+    <FullScreenSection isDarkBackground={darkMode} py={16} spacing={8}>
       <VStack style={{ width: "90vw" }} alignItems="flex-start">
-        <Heading as="h1" id="contactme-section">
-          Contact me
-        </Heading>
+        <HStack spacing={3}>
+          <Heading as="h1" id="contactme-section" marginRight={5}>
+            Contact me
+          </Heading>
+          {socials.map(({ icon, url }) => (
+            <a key={url} href={url} target="_blank" rel="noopener noreferrer">
+              <FontAwesomeIcon
+                size={"2x"}
+                color="lightgray"
+                icon={icon}
+                key={url}
+              />
+            </a>
+          ))}
+        </HStack>
+
         <Box p={6} rounded="md" w="100%">
           <form onSubmit={formik.handleSubmit}>
             <VStack spacing={4}>
@@ -114,14 +121,14 @@ const ContactMeSection = ({ darkMode }) => {
                 <Textarea
                   id="comment"
                   name="comment"
-                  height={250}
+                  height={150}
                   {...formik.getFieldProps("comment")}
                 />
                 <FormErrorMessage>{formik.errors.comment}</FormErrorMessage>
               </FormControl>
               <Button
                 type="submit"
-                colorScheme="green"
+                style={{ backgroundColor: "#2c9bd2" }}
                 // variant="link"
                 width="full"
                 isLoading={isLoading}
