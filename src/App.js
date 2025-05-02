@@ -1,5 +1,4 @@
 import { ChakraProvider } from '@chakra-ui/react';
-import { useState } from 'react';
 import Alert from './components/Alert';
 import ContactMeSection from './components/ContactMeSection';
 import Footer from './components/Footer';
