@@ -82,8 +82,6 @@ const Header = ({ isDarkMode, darkMode }) => {
         >
           <nav>
             <HStack spacing={3}>
-              <Header className="react">H2</Header>
-
               {socials.map(({ icon, url }) => (
                 <a
                   key={url}
