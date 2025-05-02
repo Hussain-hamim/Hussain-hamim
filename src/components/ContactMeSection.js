@@ -88,6 +88,7 @@ const ContactMeSection = ({ darkMode }) => {
                 <Input
                   id="firstName"
                   name="firstName"
+                  required
                   {...formik.getFieldProps("firstName")}
                 />
                 <FormErrorMessage>{formik.errors.firstName}</FormErrorMessage>
@@ -100,6 +101,7 @@ const ContactMeSection = ({ darkMode }) => {
                   id="email"
                   name="email"
                   type="email"
+                  required
                   {...formik.getFieldProps("email")}
                 />
                 <FormErrorMessage>{formik.errors.email}</FormErrorMessage>
@@ -126,6 +128,7 @@ const ContactMeSection = ({ darkMode }) => {
                 <Textarea
                   id="comment"
                   name="comment"
+                  required
                   height={150}
                   {...formik.getFieldProps("comment")}
                 />
