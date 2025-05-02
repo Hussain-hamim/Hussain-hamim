@@ -1,16 +1,28 @@
 import React, { useEffect, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
+import { faEnvelope, faNavicon } from "@fortawesome/free-solid-svg-icons";
 import {
   faGithub,
   faInstagram,
   faLinkedin,
   faTwitter,
 } from "@fortawesome/free-brands-svg-icons";
-import { Box, Button, HStack } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  HStack,
+  IconButton,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  useBreakpointValue,
+} from "@chakra-ui/react";
+// import { HamburgerIcon } from "@chakra-ui/icons";
 
 const Header = ({ isDarkMode, darkMode }) => {
   const headerRef = useRef(null);
+  const isMobile = useBreakpointValue({ base: true, md: false });
 
   useEffect(() => {
     let prevScrollPos = window.scrollY;
@@ -59,6 +71,7 @@ const Header = ({ isDarkMode, darkMode }) => {
       ref={headerRef}
       color="white"
       textColor="white"
+      zIndex={1000}
     >
       <Box maxWidth="1280px" margin="0 auto">
         <HStack
@@ -69,6 +82,8 @@ const Header = ({ isDarkMode, darkMode }) => {
         >
           <nav>
             <HStack spacing={3}>
+              <Header className="react">H2</Header>
+
               {socials.map(({ icon, url }) => (
                 <a
                   key={url}
@@ -77,7 +92,7 @@ const Header = ({ isDarkMode, darkMode }) => {
                   rel="noopener noreferrer"
                 >
                   <FontAwesomeIcon
-                    size={window.innerWidth < 768 ? "1x" : "2x"}
+                    size={"2x"}
                     color="lightgray"
                     icon={icon}
                     key={url}
@@ -87,20 +102,88 @@ const Header = ({ isDarkMode, darkMode }) => {
             </HStack>
           </nav>
 
-          <nav>
-            <HStack spacing={3} paddingRight={3}>
-              <Button as="button" variant="link">
-                <a href="#projects" onClick={handleClick("projects")}>
+          {isMobile ? (
+            <Menu>
+              <MenuButton
+                as={IconButton}
+                icon={<FontAwesomeIcon size={"2x"} icon={faNavicon} />}
+                variant="outline"
+                color="gray.200"
+                bg="rgba(17, 17, 17, 0.95)"
+                border="1px solid rgba(255, 255, 255, 0.1)"
+                _hover={{ bg: "rgba(255, 255, 255, 0.08)" }}
+                _active={{ bg: "rgba(255, 255, 255, 0.08)" }}
+              />
+              <MenuList
+                bg="rgba(17, 17, 17, 0.95)"
+                border="1px solid rgba(255, 255, 255, 0.1)"
+                backdropFilter="blur(10px)"
+                boxShadow="0 4px 6px rgba(0, 0, 0, 0.1)"
+              >
+                <MenuItem
+                  color={"ButtonFace"}
+                  onClick={handleClick("projects")}
+                  backgroundColor={"rgba(17, 17, 17, 0.95)"}
+                  _hover={{ bg: "rgba(255, 255, 255, 0.08)" }}
+                  _focus={{ bg: "rgba(255, 255, 255, 0.08)" }}
+                >
                   Projects
-                </a>
-              </Button>
-              <Button as="button" variant="link">
-                <a href="#contactme" onClick={handleClick("mobile")}>
+                </MenuItem>
+                <MenuItem
+                  color={"ButtonFace"}
+                  onClick={handleClick("mobile")}
+                  backgroundColor={"rgba(17, 17, 17, 0.95)"}
+                  _hover={{ bg: "rgba(255, 255, 255, 0.08)" }}
+                  _focus={{ bg: "rgba(255, 255, 255, 0.08)" }}
+                >
                   Mobile Projects
-                </a>
-              </Button>
-            </HStack>
-          </nav>
+                </MenuItem>
+                <MenuItem
+                  onClick={handleClick("skills")}
+                  backgroundColor={"rgba(17, 17, 17, 0.95)"}
+                  color={"ButtonFace"}
+                  _hover={{ bg: "rgba(255, 255, 255, 0.08)" }}
+                  _focus={{ bg: "rgba(255, 255, 255, 0.08)" }}
+                >
+                  Skills
+                </MenuItem>
+                <MenuItem
+                  onClick={handleClick("contactme")}
+                  backgroundColor={"rgba(17, 17, 17, 0.95)"}
+                  color={"ButtonFace"}
+                  _hover={{ bg: "rgba(255, 255, 255, 0.08)" }}
+                  _focus={{ bg: "rgba(255, 255, 255, 0.08)" }}
+                >
+                  Contact Me
+                </MenuItem>
+              </MenuList>
+            </Menu>
+          ) : (
+            <nav>
+              <HStack spacing={3} paddingRight={3}>
+                <Button as="button" variant="link">
+                  <a href="#projects" onClick={handleClick("projects")}>
+                    Projects
+                  </a>
+                </Button>
+                <Button as="button" variant="link">
+                  <a href="#mobile" onClick={handleClick("mobile")}>
+                    Mobile Projects
+                  </a>
+                </Button>
+                <Button as="button" variant="link">
+                  <a href="#skills" onClick={handleClick("skills")}>
+                    Skills
+                  </a>
+                </Button>
+                <Button as="button" variant="link">
+                  <a href="#contactme" onClick={handleClick("contactme")}>
+                    Contact Me
+                  </a>
+                </Button>
+              </HStack>
+            </nav>
+          )}
         </HStack>
       </Box>
     </Box>

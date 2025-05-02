@@ -59,7 +59,7 @@ export default LandingSection;
 
 const Skills = () => {
   return (
-    <div style={{ textAlign: "center" }}>
+    <div style={{ textAlign: "center" }} id="skills-section">
       <Heading as="h4" size="1x" fontFamily="serif">
         Skills
       </Heading>
