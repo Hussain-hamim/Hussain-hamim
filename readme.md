@@ -70,11 +70,11 @@ Since 2024/1/8:
 
 ## Notable Repositories
 ### [Ocean Of Games](https://github.com/Hussain-hamim/ocean-of-games)
-### [Book Ocean](https://book-ocean.vercel.app/discover)
+### [Nature Quest](https://github.com/Hussain-hamim/NatureQuest)
+### [Book Ocean](https://github.com/Hussain-hamim/book-ocean)
 ### [Portfolio](https://hussain-hamim.vercel.app/)
-#### [Hamimfy](https://github.com/Hussain-hamim/hamimfy)
-#### [Todo list](https://github.com/Hussain-hamim/My-Todo-list)
-#### [Expense Tracker App](https://github.com/Hussain-hamim/Expense-Tracker)
+### [Issue Tracker](https://github.com/Hussain-hamim/issue-tracker)
+### [Threads](https://github.com/Hussain-hamim/threads)
 
 
 <!---
