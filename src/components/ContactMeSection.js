@@ -73,7 +73,11 @@ const ContactMeSection = ({ darkMode }) => {
         </HStack>
 
         <Box p={6} rounded="md" w="100%">
-          <form onSubmit={formik.handleSubmit}>
+          <form
+            // onSubmit={formik.handleSubmit}
+            action="https://formsubmit.co/mohammadhussainafghan83@gmail.com"
+            method="POST"
+          >
             <VStack spacing={4}>
               <FormControl
                 isInvalid={
@@ -127,6 +131,10 @@ const ContactMeSection = ({ darkMode }) => {
                 />
                 <FormErrorMessage>{formik.errors.comment}</FormErrorMessage>
               </FormControl>
+
+              {/* Optional: disable CAPTCHA */}
+              <input type="hidden" name="_captcha" value="false" />
+
               <Button
                 type="submit"
                 style={{ backgroundColor: "#2c9bd2" }}

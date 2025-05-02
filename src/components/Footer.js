@@ -15,7 +15,8 @@ const Footer = () => {
           height={16}
         >
           <p>
-            Made with 💖 by <span className="react">Hussain </span> • 2025
+            Made with 🤍 by <span className="react">Hussain </span> •{" "}
+            {new Date().getFullYear()}
           </p>
         </Flex>
       </footer>
