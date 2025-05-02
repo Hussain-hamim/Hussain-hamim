@@ -15,7 +15,7 @@ const LandingSection = ({ darkMode }) => {
             <Heading as="h5" size="sm" noOfLines={1}>
               <div class="typewriter-container">
                 <h1 class="typewriter typewriter-container">
-                  Hey!👋 I am
+                  Hey!, I am
                   <span className="hussain">Hussain</span>
                 </h1>
               </div>
@@ -98,24 +98,24 @@ const Skills = () => {
       >
         <img
           src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg"
-          width="65"
-          height="65"
+          width="60"
+          height="60"
           alt=""
           class="rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition duration-300"
         />
 
         <img
           src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg"
-          width="65"
-          height="65"
+          width="62"
+          height="62"
           alt=""
           class="rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition duration-300"
         />
 
         <img
           src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg"
-          width="65"
-          height="65"
+          width="60"
+          height="60"
           alt=""
           class="rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition duration-300"
         />
@@ -128,8 +128,8 @@ const Skills = () => {
         />
         <img
           src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg"
-          width="65"
-          height="65"
+          width="60"
+          height="60"
           alt=""
           class="rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition duration-300"
         />

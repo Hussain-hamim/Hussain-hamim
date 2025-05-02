@@ -63,9 +63,9 @@ const projects = [
     title: "Ocean Of Games",
     description:
       "A game platform which is a clone of popular RAWG website and also powered by rawg api. browse, select, and search from a tons of games",
-    getImageSrc: () => require("../images/header.jpg"),
+    getImageSrc: () => require("../images/oceanofgames.png"),
     link: "https://github.com/Hussain-hamim/ocean-of-games",
-    live: "#",
+    live: "https://ocean-of-games.vercel.app/",
   },
 
   {
@@ -73,37 +73,41 @@ const projects = [
     description:
       "in this book platform after login you can discover, add up book to reading list, add book to fished list, give note, give stars to the book and you can search in a whole lots of books",
     getImageSrc: () => require("../images/bookocean.png"),
-    link: "https://book-ocean.vercel.app/discover",
+    link: "https://github.com/Hussain-hamim/book-ocean",
     live: "https://book-ocean.vercel.app/discover",
+  },
+  {
+    title: "Nature Quest",
+    description:
+      " A dynamic tour booking platform that allows users to explore amazing travel destinations. This app is powered by a custom-built backend with real-time tour data, authentication, and an interactive UI",
+    getImageSrc: () => require("../images/naturequest.png"),
+    link: "https://github.com/Hussain-hamim/NatureQuest",
+    live: "https://nature-quest-gamma.vercel.app/",
+  },
+  {
+    title: "Issue Tracker",
+    description:
+      "Issue Tracker is a full-stack project built with Next.js, inspired by the Next.js Acme project. It allows users to create, assign, and manage issues efficiently. The app features modern UI/UX, authentication, role-based access, and database integration—showcasing scalable architecture and production-ready best practices.",
+
+    getImageSrc: () => require("../images/issuetracker.png"),
+    link: "https://github.com/Hussain-hamim/issue-tracker",
+    live: "https://issue-tracker-tan-eta.vercel.app/",
+  },
+  {
+    title: "TaskList",
+    description:
+      "This is a web application for managing your tanks. The application allows users to add, remove, and mark tasks as completed and add different sections",
+    getImageSrc: () => require("../images/tasklist.png"),
+    link: "https://github.com/Hussain-hamim/my-tasklist",
+    live: "https://my-tasklist-gamma.vercel.app/",
   },
   {
     title: "Hamimfy",
     description:
       "Hamimfy is a responsive website design to showcase various features and techniques in modern web development. It specifically focuces on cloud hosting services",
-    getImageSrc: () => require("../images/photo1.jpg"),
+    getImageSrc: () => require("../images/hamimfy.png"),
     link: "https://github.com/Hussain-hamim/hamimfy",
-    live: "#",
-  },
-  {
-    title: "Todo List",
-    description:
-      "This is a simple React-based web application for managing a to-do list. The application allows users to add, remove, and mark tasks as completed",
-    getImageSrc: () => require("../images/photo2.jpg"),
-    link: "https://github.com/Hussain-hamim/My-Todo-list",
-  },
-  {
-    title: "Expense Tracker",
-    description:
-      "This is a simple expense tracker app built with React. It allows users to manage their expenses by adding, deleting, and filtering based on categories",
-    getImageSrc: () => require("../images/photo3.jpg"),
-    link: "https://github.com/Hussain-hamim/Expense-Tracker",
-  },
-  {
-    title: "Contact Display",
-    description:
-      "This application allow you to add, display and delete contact with ease and smoothly",
-    getImageSrc: () => require("../images/photo4.jpg"),
-    link: "https://github.com/Hussain-hamim/Contact-Display",
+    live: "https://hamimfy.vercel.app/",
   },
 ];
 
@@ -113,25 +117,25 @@ const mobileProjects = [
     description:
       "Sell what you do not need on this mobile app platform, working based on node api",
     getImageSrc: () => require("../images/donewithit.png"),
+    link: "https://github.com/Hussain-hamim/donewithit",
+  },
+  {
+    title: "Shan-AI",
+    description: "Ask ShanAI anything, a cross platform mobile app",
+    getImageSrc: () => require("../images/shanai.png"),
     link: "https://github.com/Hussain-hamim",
+  },
+  {
+    title: "Threads",
+    description:
+      "Threads clone, a mobile app that exactly mimic Threads app, A full-stack cross-platform app with convex as db, and clerk for auth",
+    getImageSrc: () => require("../images/threads.png"),
+    link: "https://github.com/Hussain-hamim/threads",
   },
   {
     title: "Plantly",
     description: "Kepp your plants healthy and hydrated with this mobile app ",
     getImageSrc: () => require("../images/plantly.png"),
-    link: "https://github.com/Hussain-hamim",
-  },
-  {
-    title: "Camera-app",
-    description:
-      "A gallery app that used to take photos, record short videos and save it as native",
-    getImageSrc: () => require("../images/camera-app.png"),
-    link: "https://github.com/Hussain-hamim",
-  },
-  {
-    title: "ChatGPT clone app",
-    description: "coming soon...",
-    getImageSrc: () => require("../images/header.jpg"),
-    link: "https://github.com/Hussain-hamim",
+    link: "https://github.com/Hussain-hamim/plantly",
   },
 ];
