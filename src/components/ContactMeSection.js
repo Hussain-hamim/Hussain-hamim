@@ -96,7 +96,7 @@ const ContactMeSection = ({ darkMode }) => {
               <FormControl
                 isInvalid={!!formik.errors.email && formik.touched.email}
               >
-                <FormLabel htmlFor="email">Email Address</FormLabel>
+                <FormLabel htmlFor="email">Your Email</FormLabel>
                 <Input
                   id="email"
                   name="email"
