@@ -1,8 +1,8 @@
-import * as React from "react";
-import { useRef, useEffect } from "react";
-import { VStack } from "@chakra-ui/react";
+import * as React from 'react';
+import { useRef, useEffect } from 'react';
+import { VStack } from '@chakra-ui/react';
 
-import "./animatedBackground.css"; // You should define styles for the 'particle' class here.
+import './animatedBackground.css'; // You should define styles for the 'particle' class here.
 
 const FullScreenSection = ({ children, ...boxProps }) => {
   const bgRef = useRef(null);
@@ -17,8 +17,8 @@ const FullScreenSection = ({ children, ...boxProps }) => {
   }, []);
 
   function createParticle() {
-    const particle = document.createElement("div");
-    particle.classList.add("particle");
+    const particle = document.createElement('div');
+    particle.classList.add('particle');
 
     const size = Math.random() * 5 + 1;
     particle.style.width = `${size}px`;
@@ -42,7 +42,7 @@ const FullScreenSection = ({ children, ...boxProps }) => {
 
     particle.animate(
       [
-        { transform: "translate(0, 0)" },
+        { transform: 'translate(0, 0)' },
         {
           transform: `translate(${Math.cos(angle) * distance}px, ${
             Math.sin(angle) * distance
@@ -52,16 +52,16 @@ const FullScreenSection = ({ children, ...boxProps }) => {
       {
         duration: duration * 1000,
         iterations: Infinity,
-        direction: "alternate",
-        easing: "ease-in-out",
+        direction: 'alternate',
+        easing: 'ease-in-out',
       }
     );
   }
 
   return (
-    <VStack backgroundColor={"rgba(46, 66, 78, 0.1)"}>
-      <div id="animated-bg" ref={bgRef}></div>
-      <VStack maxWidth="1280px" minHeight="100vh" w="100vw" {...boxProps}>
+    <VStack backgroundColor={'rgba(46, 66, 78, 0.1)'} color={'white'}>
+      <div id='animated-bg' ref={bgRef}></div>
+      <VStack maxWidth='1280px' minHeight='100vh' w='100vw' {...boxProps}>
         {children}
       </VStack>
     </VStack>
