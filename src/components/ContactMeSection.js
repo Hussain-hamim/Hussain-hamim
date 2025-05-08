@@ -107,16 +107,31 @@ const ContactMeSection = () => {
                 <FormErrorMessage>{formik.errors.email}</FormErrorMessage>
               </FormControl>
               <FormControl>
-                <FormLabel htmlFor='type'>Type of enquiry</FormLabel>
+                <FormLabel htmlFor='type'>
+                  Select the type of request (Optional)
+                </FormLabel>
                 <Select
                   color='gray'
                   id='type'
                   name='type'
                   {...formik.getFieldProps('type')}
                 >
+                  <option value='collaboration'>
+                    Collaboration on a project
+                  </option>
                   <option value='hireMe'>Freelance project proposal</option>
                   <option value='openSource'>
                     Open source consultancy session
+                  </option>
+                  <option value='jobOffer'>
+                    Job opportunity or interview request
+                  </option>
+                  <option value='featureRequest'>
+                    Feature request for an app
+                  </option>
+                  <option value='bugFix'>Help fixing an issue</option>
+                  <option value='mentorship'>
+                    Mentorship or tech guidance
                   </option>
                   <option value='other'>Other</option>
                 </Select>
