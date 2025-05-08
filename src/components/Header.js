@@ -119,6 +119,15 @@ const Header = () => {
                 boxShadow='0 4px 6px rgba(0, 0, 0, 0.1)'
               >
                 <MenuItem
+                  onClick={handleClick('skills')}
+                  backgroundColor={'rgba(17, 17, 17, 0.95)'}
+                  color={'ButtonFace'}
+                  _hover={{ bg: 'rgba(255, 255, 255, 0.08)' }}
+                  _focus={{ bg: 'rgba(255, 255, 255, 0.08)' }}
+                >
+                  Skills
+                </MenuItem>
+                <MenuItem
                   color={'ButtonFace'}
                   onClick={handleClick('projects')}
                   backgroundColor={'rgba(17, 17, 17, 0.95)'}
@@ -136,15 +145,7 @@ const Header = () => {
                 >
                   Mobile Projects
                 </MenuItem>
-                <MenuItem
-                  onClick={handleClick('skills')}
-                  backgroundColor={'rgba(17, 17, 17, 0.95)'}
-                  color={'ButtonFace'}
-                  _hover={{ bg: 'rgba(255, 255, 255, 0.08)' }}
-                  _focus={{ bg: 'rgba(255, 255, 255, 0.08)' }}
-                >
-                  Skills
-                </MenuItem>
+
                 <MenuItem
                   onClick={handleClick('certificates')}
                   backgroundColor={'rgba(17, 17, 17, 0.95)'}
@@ -170,6 +171,14 @@ const Header = () => {
                   color={'ButtonFace'}
                   _hover={{ bg: 'rgba(255, 255, 255, 0.08)' }}
                   _focus={{ bg: 'rgba(255, 255, 255, 0.08)' }}
+                  style={{
+                    padding: '4px 8px',
+                    margin: '0px 10px',
+                    borderRadius: 4,
+                    maxWidth: '200px',
+                    background: 'rgba(155, 60, 133, 0.84)',
+                    color: 'lightblue',
+                  }}
                 >
                   <a href='https://github.com/Hussain-hamim/Hussain-hamim/releases/download/v1.0.0/Hussain-resume.pdf'>
                     Download CV
@@ -181,6 +190,11 @@ const Header = () => {
             <nav>
               <HStack spacing={3} paddingRight={3}>
                 <Button as='button' variant='link'>
+                  <a href='#skills' onClick={handleClick('skills')}>
+                    Skills
+                  </a>
+                </Button>
+                <Button as='button' variant='link'>
                   <a href='#projects' onClick={handleClick('projects')}>
                     Projects
                   </a>
@@ -188,11 +202,6 @@ const Header = () => {
                 <Button as='button' variant='link'>
                   <a href='#mobile' onClick={handleClick('mobile')}>
                     Mobile Projects
-                  </a>
-                </Button>
-                <Button as='button' variant='link'>
-                  <a href='#skills' onClick={handleClick('skills')}>
-                    Skills
                   </a>
                 </Button>
                 <Button as='button' variant='link'>
@@ -205,7 +214,15 @@ const Header = () => {
                     Contact Me
                   </a>
                 </Button>
-                <Button as='button' variant='link'>
+                <Button
+                  as='button'
+                  variant='link'
+                  style={{
+                    padding: '5px 14px',
+                    background: 'rgba(155, 60, 133, 0.84)',
+                    color: 'lightblue',
+                  }}
+                >
                   <a
                     href='https://github.com/Hussain-hamim/Hussain-hamim/releases/download/v1.0.0/Hussain-resume.pdf'
                     // onClick={handleClick('#')}
