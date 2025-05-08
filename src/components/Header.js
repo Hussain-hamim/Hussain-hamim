@@ -163,6 +163,18 @@ const Header = () => {
                 >
                   Contact Me
                 </MenuItem>
+
+                <MenuItem
+                  // onClick={handleClick('contactme')}
+                  backgroundColor={'rgba(17, 17, 17, 0.95)'}
+                  color={'ButtonFace'}
+                  _hover={{ bg: 'rgba(255, 255, 255, 0.08)' }}
+                  _focus={{ bg: 'rgba(255, 255, 255, 0.08)' }}
+                >
+                  <a href='https://github.com/Hussain-hamim/Hussain-hamim/releases/download/v1.0.0/Hussain-resume.pdf'>
+                    Download CV
+                  </a>
+                </MenuItem>
               </MenuList>
             </Menu>
           ) : (
