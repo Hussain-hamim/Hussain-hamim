@@ -51,6 +51,30 @@ const ProjectsSection = () => {
           ))}
         </Box>
       </FullScreenSection>
+
+      <FullScreenSection
+        p='20px'
+        mb='35px'
+        mt='35px'
+        h='200px'
+        alignItems='flex-start'
+        spacing={8}
+      >
+        <Heading as='h1' id='certificates-section'>
+          Certificates & Awards
+        </Heading>
+        <Box className='gridBox'>
+          {certificates.map((project) => (
+            <Card
+              key={project.title}
+              title={project.title}
+              description={project.description}
+              link={project.link}
+              imageSrc={project.getImageSrc()}
+            />
+          ))}
+        </Box>
+      </FullScreenSection>
     </>
   );
 };
@@ -142,5 +166,16 @@ const mobileProjects = [
     description: 'Kepp your plants healthy and hydrated with this mobile app ',
     getImageSrc: () => require('../images/plantly.png'),
     link: 'https://github.com/Hussain-hamim/plantly',
+  },
+];
+
+const certificates = [
+  {
+    title: 'Meta Front-End Developer Specialization',
+    description:
+      'Meta Front-End Developer Specialization include 9 courses, took approximately 7 months to get this certificate',
+    getImageSrc: () => require('../images/meta-cert.jpeg'),
+    link: 'https://www.coursera.org/account/accomplishments/specialization/CMEZCDWLG4AG?utm_source%3Dandroid%26utm_medium%3Dcertificate%26utm_content%3Dcert_image%26utm_campaign%3Dsharing_cta%26utm_product%3Ds12n',
+    live: 'https://www.coursera.org/account/accomplishments/specialization/CMEZCDWLG4AG?utm_source%3Dandroid%26utm_medium%3Dcertificate%26utm_content%3Dcert_image%26utm_campaign%3Dsharing_cta%26utm_product%3Ds12n',
   },
 ];

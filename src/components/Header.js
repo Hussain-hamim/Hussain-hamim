@@ -175,6 +175,11 @@ const Header = () => {
                   </a>
                 </Button>
                 <Button as='button' variant='link'>
+                  <a href='#certificates' onClick={handleClick('certificates')}>
+                    Certificates
+                  </a>
+                </Button>
+                <Button as='button' variant='link'>
                   <a href='#contactme' onClick={handleClick('contactme')}>
                     Contact Me
                   </a>
