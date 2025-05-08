@@ -193,6 +193,14 @@ const Header = () => {
                     Contact Me
                   </a>
                 </Button>
+                <Button as='button' variant='link'>
+                  <a
+                    href='https://github.com/Hussain-hamim/Hussain-hamim/releases/download/v1.0.0/Hussain-resume.pdf'
+                    // onClick={handleClick('#')}
+                  >
+                    Download CV
+                  </a>
+                </Button>
               </HStack>
             </nav>
           )}
