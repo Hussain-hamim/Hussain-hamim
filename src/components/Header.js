@@ -146,6 +146,15 @@ const Header = () => {
                   Skills
                 </MenuItem>
                 <MenuItem
+                  onClick={handleClick('certificates')}
+                  backgroundColor={'rgba(17, 17, 17, 0.95)'}
+                  color={'ButtonFace'}
+                  _hover={{ bg: 'rgba(255, 255, 255, 0.08)' }}
+                  _focus={{ bg: 'rgba(255, 255, 255, 0.08)' }}
+                >
+                  Certificates
+                </MenuItem>
+                <MenuItem
                   onClick={handleClick('contactme')}
                   backgroundColor={'rgba(17, 17, 17, 0.95)'}
                   color={'ButtonFace'}

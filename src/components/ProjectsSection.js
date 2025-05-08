@@ -56,7 +56,6 @@ const ProjectsSection = () => {
         p='20px'
         mb='35px'
         mt='35px'
-        h='200px'
         alignItems='flex-start'
         spacing={8}
       >
