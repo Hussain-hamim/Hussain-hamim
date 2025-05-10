@@ -1,4 +1,5 @@
 𝐇𝐞𝐥𝐥𝐨, <span style="color: #3d82ef;">&lt;C𝚘𝚍𝚎𝚛𝚜/&gt;</span>! <img src="https://media.giphy.com/media/WUlplcMpOCEmTGBtBW/giphy.gif" width="30">
+
   </h1>
 </div>
 
@@ -7,12 +8,13 @@
 I'm a full-stack and mobile developer. My journey involves crafting delightful user experiences through innovative and pixel-perfect design.
 
 ## 🏆
+
 <div align="left" style="display: flex; align-items: center; gap: 15px;">
   <a href="https://user-badge.committers.top/afghanistan/Hussain-hamim">
     <img src="https://user-badge.committers.top/afghanistan/Hussain-hamim.svg" alt="committers.top badge">
   </a>
 </div>
- — 2 of 100DaysCode
+ — 4 of 100DaysCode
 
 ## Connect with Me
 
@@ -30,9 +32,9 @@ I'm a full-stack and mobile developer. My journey involves crafting delightful u
 
 ## Techs I Use
 
-  ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=html5&logoColor=white)
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat&logo=css3&logoColor=white)
-![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black) 
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black)
 ![React](https://img.shields.io/badge/React-61DAFB?style=flat&logo=react&logoColor=white)
 
 ![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat&logo=node.js&logoColor=white)
@@ -53,30 +55,37 @@ I'm a full-stack and mobile developer. My journey involves crafting delightful u
 
 ![Webpack](https://img.shields.io/badge/Webpack-8DD6F9?style=flat&logo=webpack&logoColor=black)
 ![Babel](https://img.shields.io/badge/Babel-F9DC3E?style=flat&logo=babel&logoColor=black)
-                    
+
 ## Stats
 
 [![Hussain-hamim's GitHub Stats](https://github-readme-stats.vercel.app/api?username=Hussain-hamim&show_icons=true&count_private=true&hide=contribs,prs&theme=radical)](https://github.com/Hussain-hamim)
 
 [![GitHub Streak](https://github-readme-streak-stats.herokuapp.com/?user=Hussain-hamim)](https://github.com/Hussain-hamim)
 
-Since 2024/1/8: 
+Since 2024/1/8:
 ![](https://komarev.com/ghpvc/?username=Hussain-hamim)
 
 ## 🏆GitHub Trophies
+
 ![](https://github-profile-trophy.vercel.app/?username=Hussain-hamim&theme=radical&no-frame=false&no-bg=false&margin-w=4)
 
 ### ✍️Random Dev Quote
+
 ![](https://quotes-github-readme.vercel.app/api?type=horizontal&theme=radical)
 
 ## Notable Repositories
-### [Ocean Of Games](https://github.com/Hussain-hamim/ocean-of-games)
-### [Nature Quest](https://github.com/Hussain-hamim/NatureQuest)
-### [Book Ocean](https://github.com/Hussain-hamim/book-ocean)
-### [Portfolio](https://hussain-hamim.vercel.app/)
-### [Issue Tracker](https://github.com/Hussain-hamim/issue-tracker)
-### [Threads](https://github.com/Hussain-hamim/threads)
 
+### [Ocean Of Games](https://github.com/Hussain-hamim/ocean-of-games)
+
+### [Nature Quest](https://github.com/Hussain-hamim/NatureQuest)
+
+### [Book Ocean](https://github.com/Hussain-hamim/book-ocean)
+
+### [Portfolio](https://hussain-hamim.vercel.app/)
+
+### [Issue Tracker](https://github.com/Hussain-hamim/issue-tracker)
+
+### [Threads](https://github.com/Hussain-hamim/threads)
 
 <!---
 Hussain-hamim/Hussain-hamim is a ✨ special ✨ repository because its `README.md` (this file) appears on your GitHub profile.
