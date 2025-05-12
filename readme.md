@@ -12,7 +12,7 @@ I'm a full-stack and mobile developer. My journey involves crafting delightful u
     <img src="https://user-badge.committers.top/afghanistan/Hussain-hamim.svg" alt="committers.top badge">
   </a>
 </div>
- — 6 of 100DaysCode
+ — 7 of 100DaysCode
 
 ## Connect with Me
 
