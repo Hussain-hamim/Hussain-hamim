@@ -139,6 +139,7 @@ const Header = () => {
               />
               <MenuList
                 bg={menuBgColor}
+color="gray"
                 borderColor={borderColor}
                 minWidth='150px'
               >
