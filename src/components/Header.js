@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faBars } from '@fortawesome/free-solid-svg-icons';
 import {
@@ -19,12 +19,20 @@ import {
   useBreakpointValue,
   useColorModeValue,
 } from '@chakra-ui/react';
+import { keyframes } from '@emotion/react';
+
+// Snake-like animation
+const snakeFadeIn = keyframes`
+  0% { opacity: 0; transform: translateY(-20px) }
+  100% { opacity: 1; transform: translateY(0) }
+`;
 
 const Header = () => {
   const headerRef = useRef(null);
+  const [isLoaded, setIsLoaded] = useState(false);
   const isMobile = useBreakpointValue({ base: true, md: false });
 
-  // Color values that match your dark theme
+  // Color values
   const bgColor = useColorModeValue(
     'rgba(26, 26, 26, 0.9)',
     'rgba(17, 17, 17, 0.95)'
@@ -41,8 +49,9 @@ const Header = () => {
   const textColor = useColorModeValue('white', 'gray.100');
 
   useEffect(() => {
-    let prevScrollPos = window.scrollY;
+    setIsLoaded(true);
 
+    let prevScrollPos = window.scrollY;
     const handleScroll = () => {
       const currentScrollPos = window.scrollY;
       const headerElement = headerRef.current;
@@ -67,6 +76,13 @@ const Header = () => {
     }
   };
 
+  // Animation styles
+  const getSnakeAnimation = (index) => ({
+    animation: `${snakeFadeIn} 0.5s ease-out forwards`,
+    animationDelay: `${index * 0.1}s`,
+    opacity: 0,
+  });
+
   return (
     <Box
       position='fixed'
@@ -77,15 +93,14 @@ const Header = () => {
       ref={headerRef}
       transition='transform 0.3s ease-in-out'
       bg={bgColor}
-      backdropFilter='blur(1px)'
-      // borderBottom={`1px solid ${borderColor}`}
+      backdropFilter='blur(10px)'
     >
       <Box maxWidth='1280px' margin='0 auto' px={{ base: 4, md: 8 }} py={3}>
         <HStack justifyContent='space-between' alignItems='center'>
           <HStack spacing={{ base: 3, md: 6 }}>
-            {/* Social Links with pulse effect on hover */}
+            {/* Social Links with snake animation */}
             <HStack spacing={3}>
-              {socials.map(({ icon, url }) => (
+              {socials.map(({ icon, url }, index) => (
                 <a
                   key={url}
                   href={url}
@@ -100,15 +115,9 @@ const Header = () => {
                     transition='all 0.3s ease'
                     _hover={{
                       color: highlightColor,
-                      animation: 'pulse 0.5s ease',
+                      transform: 'scale(1.2)',
                     }}
-                    sx={{
-                      '@keyframes pulse': {
-                        '0%': { transform: 'scale(1)' },
-                        '50%': { transform: 'scale(1.2)' },
-                        '100%': { transform: 'scale(1)' },
-                      },
-                    }}
+                    css={isLoaded ? getSnakeAnimation(index) : {}}
                   />
                 </a>
               ))}
@@ -126,6 +135,7 @@ const Header = () => {
                 _hover={{ bg: 'rgba(255, 255, 255, 0.05)' }}
                 _expanded={{ bg: 'rgba(255, 255, 255, 0.05)' }}
                 aria-label='Navigation Menu'
+                css={isLoaded ? getSnakeAnimation(socials.length) : {}}
               />
               <MenuList
                 bg={menuBgColor}
@@ -138,9 +148,8 @@ const Header = () => {
                   'mobile',
                   'certificates',
                   'contactme',
-                ].map((item) => (
+                ].map((item, index) => (
                   <MenuItem
-                    bg={menuBgColor}
                     key={item}
                     onClick={handleClick(item)}
                     color={textColor}
@@ -149,17 +158,19 @@ const Header = () => {
                       color: highlightColor,
                     }}
                     _focus={{ bg: 'rgba(255, 255, 255, 0.05)' }}
+                    transition='all 0.2s ease'
+                    css={isLoaded ? getSnakeAnimation(index) : {}}
                   >
                     {item.charAt(0).toUpperCase() +
                       item.slice(1).replace(/([A-Z])/g, ' $1')}
                   </MenuItem>
                 ))}
                 <MenuItem
-                  bg={menuBgColor}
                   as='a'
                   href='https://github.com/Hussain-hamim/Hussain-hamim/releases/download/v1.0.0/Hussain-resume.pdf'
                   color={highlightColor}
                   _hover={{ bg: 'rgba(79, 209, 197, 0.1)' }}
+                  css={isLoaded ? getSnakeAnimation(5) : {}}
                 >
                   Download CV
                 </MenuItem>
@@ -173,7 +184,7 @@ const Header = () => {
                 'mobile',
                 'certificates',
                 'contactme',
-              ].map((item) => (
+              ].map((item, index) => (
                 <Button
                   key={item}
                   variant='ghost'
@@ -184,6 +195,7 @@ const Header = () => {
                     transform: 'translateY(-2px)',
                   }}
                   transition='all 0.2s ease'
+                  css={isLoaded ? getSnakeAnimation(index) : {}}
                 >
                   {item.charAt(0).toUpperCase() +
                     item.slice(1).replace(/([A-Z])/g, ' $1')}
@@ -196,6 +208,7 @@ const Header = () => {
                 variant='outline'
                 _hover={{ transform: 'translateY(-2px)' }}
                 transition='all 0.2s ease'
+                css={isLoaded ? getSnakeAnimation(5) : {}}
               >
                 Download CV
               </Button>
