@@ -152,7 +152,7 @@ color="gray"
                 ].map((item, index) => (
                   <MenuItem
                     key={item}
-                    onClick={handleClick(item)}
+                                  bg={menuBgColor} onClick={handleClick(item)}
                     color={textColor}
                     _hover={{
                       bg: 'rgba(255, 255, 255, 0.05)',
