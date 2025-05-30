@@ -62,74 +62,67 @@ const Card = ({ title, description, imageSrc, link, live }) => {
       cursor='pointer'
     >
       <Box flex='1' display='flex' flexDirection='column'>
-        <a
-          href={live}
-          style={{ display: 'flex', flexDirection: 'column', flex: 1 }}
-        >
-          <Image
-            src={imageSrc}
-            alt={title}
-            w='100%'
-            borderRadius='xl'
-            objectFit='cover'
-          />
-          <VStack spacing={4} p={6} alignItems='flex-start' flex='1'>
-            <HStack justifyContent='space-between' width='100%'>
-              <Heading
-                as='h3'
-                size='md'
-                fontWeight='semibold'
-                letterSpacing='tight'
-              >
-                {title}
-              </Heading>
-              <Button
-                size='sm'
-                variant='ghost'
-                borderRadius='full'
-                px={3}
-                bg={tagInfo.bg}
-                color={tagInfo.text}
-                fontSize='xs'
-                fontWeight='bold'
-              >
-                {tagText}
-              </Button>
-            </HStack>
+        <Image
+          src={imageSrc}
+          alt={title}
+          w='100%'
+          borderRadius='xl'
+          objectFit='cover'
+        />
+        <VStack spacing={4} p={6} alignItems='flex-start' flex='1'>
+          <HStack justifyContent='space-between' width='100%'>
+            <Heading
+              as='h3'
+              size='md'
+              fontWeight='semibold'
+              letterSpacing='tight'
+            >
+              {title}
+            </Heading>
+            <Button
+              size='sm'
+              variant='ghost'
+              borderRadius='full'
+              px={3}
+              bg={tagInfo.bg}
+              color={tagInfo.text}
+              fontSize='xs'
+              fontWeight='bold'
+            >
+              {tagText}
+            </Button>
+          </HStack>
 
-            <Text color='gray.300' fontSize='md' lineHeight='tall'>
-              {description}
-            </Text>
+          <Text color='gray.300' fontSize='md' lineHeight='tall'>
+            {description}
+          </Text>
 
-            <HStack mt='auto' pt={2} spacing={4}>
+          <HStack mt='auto' pt={2} spacing={4}>
+            <Button
+              as='a'
+              href={link}
+              variant='outline'
+              size='sm'
+              rightIcon={<FontAwesomeIcon icon={faGithub} />}
+              colorScheme='blue'
+              onClick={(e) => e.stopPropagation()}
+            >
+              Code
+            </Button>
+            {live && (
               <Button
                 as='a'
-                href={link}
+                href={live}
                 variant='outline'
                 size='sm'
-                rightIcon={<FontAwesomeIcon icon={faGithub} />}
+                rightIcon={<FontAwesomeIcon icon={faArrowUpRightFromSquare} />}
                 colorScheme='blue'
-                onClick={(e) => e.stopPropagation()}
               >
-                Code
+                Live Demo
               </Button>
-              {live && (
-                <Button
-                  as='a'
-                  href={live}
-                  variant='outline'
-                  size='sm'
-                  rightIcon={
-                    <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
-                  }
-                  colorScheme='blue'
-                >
-                  Live Demo
-                </Button>
-              )}
-            </HStack>
-          </VStack>
-        </a>
+            )}
+          </HStack>
+        </VStack>
       </Box>
     </Box>
   );
