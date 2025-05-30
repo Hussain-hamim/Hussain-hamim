@@ -93,7 +93,7 @@ const Header = () => {
       ref={headerRef}
       transition='transform 0.3s ease-in-out'
       bg={bgColor}
-      backdropFilter='blur(10px)'
+      backdropFilter='blur(1px)'
     >
       <Box maxWidth='1280px' margin='0 auto' px={{ base: 4, md: 8 }} py={3}>
         <HStack justifyContent='space-between' alignItems='center'>
