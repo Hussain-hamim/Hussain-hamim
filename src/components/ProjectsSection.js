@@ -81,6 +81,14 @@ export default ProjectsSection;
 
 const projects = [
   {
+    title: 'DevSync- Developers Collab Platform',
+    description:
+      'DevSync is a collaborative platform designed for developers to connect, share knowledge, and collaborate on projects. It features user profiles, project listings, and a real-time chat system, all built with Next.js and Tailwind CSS. and supabase for database and auth, its a full-stack application that showcases modern web development practices.',
+    getImageSrc: () => require('../images/devsync.png'),
+    link: 'https://github.com/Hussain-hamim/DevSync',
+    live: '...',
+  },
+  {
     title: 'Ocean Of Games',
     description:
       'A game platform which is a clone of popular RAWG website and also powered by rawg api. browse, select, and search from a tons of games',
@@ -88,7 +96,6 @@ const projects = [
     link: 'https://github.com/Hussain-hamim/ocean-of-games',
     live: 'https://ocean-of-games.vercel.app/',
   },
-
   {
     title: 'Book Ocean',
     description:
@@ -165,6 +172,13 @@ const mobileProjects = [
     description: 'Kepp your plants healthy and hydrated with this mobile app ',
     getImageSrc: () => require('../images/plantly.png'),
     link: 'https://github.com/Hussain-hamim/plantly',
+  },
+  {
+    title: 'Brick Blitz Game',
+    description:
+      'A cross-platform mobile game built with React Native, featuring a classic brick-breaker gameplay with modern twists and engaging graphics.',
+    getImageSrc: () => require('../images/blitz.png'),
+    link: 'https://github.com/Hussain-hamim/brick-blitz-game',
   },
 ];
 
