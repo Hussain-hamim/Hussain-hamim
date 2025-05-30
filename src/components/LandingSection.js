@@ -1,7 +1,7 @@
 import React from 'react';
 import { Avatar, Heading, HStack, VStack } from '@chakra-ui/react';
 import '../App.css';
-import hamim from '../asset/hussain.jpg';
+import hamim from '../asset/eren.jpg';
 import FullScreenSection from './FullScreenSection';
 import './styles.css';
 
