@@ -194,21 +194,41 @@ const LandingSection = () => {
             maxW='2xl'
             px={6}
             py={5}
+            mx={4}
             textAlign='center'
             color='gray.300'
             bg='rgba(26, 26, 26, 0.7)'
             borderRadius='lg'
-            border='1px solid'
             borderColor='rgba(255, 255, 255, 0.1)'
-            backdropFilter='blur(8px)'
+            backdropFilter='blur(3px)'
             css={fadeInAnimation}
             style={{ animationDelay: '0.9s', opacity: 0 }}
           >
             <Text fontSize={{ base: 'sm', md: 'md' }}>
-              I craft modern, performant digital experiences with clean code and
-              thoughtful design. Specializing in JavaScript/TypeScript
-              ecosystems including React, Next.js, Node.js, and React Native for
-              mobile.
+              I build fast, modern digital experiences with a focus on clean
+              code and intuitive design. My expertise lies in the
+              JavaScript/TypeScript ecosystem, working with tools like React,
+              Next.js, Node.js, MongoDB, Postgres, and{' '}
+              <Box
+                as='span'
+                // color='teal.300'
+                // fontWeight='semibold'
+                position='relative'
+                _after={{
+                  content: '""',
+                  position: 'absolute',
+                  left: 0,
+                  bottom: '-1px',
+                  width: '100%',
+                  height: '1px',
+                  bg: 'teal.500',
+                  borderRadius: 'full',
+                  animation: 'pulseUnderline 2s infinite',
+                }}
+              >
+                React Native to build mobile applications
+              </Box>
+              .
             </Text>
           </Box>
 
