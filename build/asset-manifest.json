@@ -1,0 +1,30 @@
+{
+  "files": {
+    "main.css": "/static/css/main.096b5969.css",
+    "main.js": "/static/js/main.3b21be29.js",
+    "static/js/453.22cc18b2.chunk.js": "/static/js/453.22cc18b2.chunk.js",
+    "static/media/naturequest.png": "/static/media/naturequest.2ce1d4747f96b1e6cc0e.png",
+    "static/media/oceanofgames.png": "/static/media/oceanofgames.329b87e1d66fd1813047.png",
+    "static/media/blitz.png": "/static/media/blitz.dae20135621125a17579.png",
+    "static/media/donewithit.png": "/static/media/donewithit.1b120e25d26241e143a3.png",
+    "static/media/shanai.png": "/static/media/shanai.942bcd4d8fe8aecdb7cd.png",
+    "static/media/threads.png": "/static/media/threads.cf3531ef09ed28270ce8.png",
+    "static/media/plantly.png": "/static/media/plantly.bfde819cce2bbc2a3af9.png",
+    "static/media/hamimfy.png": "/static/media/hamimfy.09e6c0bbc9fc5a174193.png",
+    "static/media/snapdish.png": "/static/media/snapdish.e4f8faaed2bf1b3fd69c.png",
+    "static/media/meta-cert.jpeg": "/static/media/meta-cert.29379707fc280daebd20.jpeg",
+    "static/media/devsync.png": "/static/media/devsync.9a7729e50d2f6d8d7e3c.png",
+    "static/media/bookocean.png": "/static/media/bookocean.4848f2dd0d66557c3935.png",
+    "static/media/issuetracker.png": "/static/media/issuetracker.e335fd59233ed08825e6.png",
+    "static/media/tasklist.png": "/static/media/tasklist.09b76f19aca1f665f599.png",
+    "static/media/eren.jpg": "/static/media/eren.39dd71ebb76cfe815faf.jpg",
+    "index.html": "/index.html",
+    "main.096b5969.css.map": "/static/css/main.096b5969.css.map",
+    "main.3b21be29.js.map": "/static/js/main.3b21be29.js.map",
+    "453.22cc18b2.chunk.js.map": "/static/js/453.22cc18b2.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.096b5969.css",
+    "static/js/main.3b21be29.js"
+  ]
+}
