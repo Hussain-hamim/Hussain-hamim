@@ -213,7 +213,7 @@ const Header = () => {
                 transition='all 0.2s ease'
                 css={isLoaded ? getSnakeAnimation(5) : {}}
               >
-                Download CV
+                Download CV.
               </Button>
             </HStack>
           )}
