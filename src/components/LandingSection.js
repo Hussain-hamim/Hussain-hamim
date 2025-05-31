@@ -1,174 +1,324 @@
 import React from 'react';
-import { Avatar, Heading, HStack, VStack } from '@chakra-ui/react';
-import '../App.css';
-import hamim from '../asset/eren.jpg';
+import {
+  Avatar,
+  Heading,
+  HStack,
+  VStack,
+  Text,
+  Box,
+  Button,
+} from '@chakra-ui/react';
+import { motion } from 'framer-motion';
+import { css } from '@emotion/react';
 import FullScreenSection from './FullScreenSection';
-import './styles.css';
+import hamim from '../asset/eren.jpg';
+import { keyframes } from '@emotion/react';
+
+// Animation using emotion css
+const floatAnimation = css`
+  animation: float 6s ease-in-out infinite;
+  @keyframes float {
+    0% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-15px);
+    }
+    100% {
+      transform: translateY(0px);
+    }
+  }
+`;
+
+const fadeInAnimation = css`
+  animation: fadeIn 1s ease-out forwards;
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+`;
+
+const MotionVStack = motion(VStack);
+const MotionHeading = motion(Heading);
+const MotionAvatar = motion(Avatar);
+
+// Live status animation
+const pulse = keyframes`
+  0% { transform: scale(0.95); opacity: 1; }
+  70% { transform: scale(1.3); opacity: 0.7; }
+  100% { transform: scale(0.95); opacity: 1; }
+`;
+
+const liveStatus = css`
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #48bb78;
+  border: 2px solid var(--chakra-colors-gray-800);
+  animation: ${pulse} 2s infinite;
+`;
+
+// Your exact pulse animation
+const pulseAnimation = css`
+  animation: pulse-round 2s infinite;
+  @keyframes pulse-round {
+    0% {
+      box-shadow: 0 0 0 0 rgba(91, 243, 49, 0.943);
+    }
+    70% {
+      box-shadow: 0 0 0 10px rgba(0, 255, 0, 0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgba(0, 255, 0, 0);
+    }
+  }
+`;
+
+const PulsingAvatar = ({ src, name }) => {
+  return (
+    <Box position='relative' display='inline-block'>
+      <Avatar
+        src={src}
+        name={name}
+        size='2xl'
+        // border='3px solid'
+        borderColor='greenyellow'
+        css={pulseAnimation}
+        _hover={{
+          transform: 'scale(1.05)',
+          transition: 'transform 0.3s ease',
+        }}
+      />
+    </Box>
+  );
+};
 
 const LandingSection = () => {
   return (
-    <div>
+    <Box as='section' position='relative' overflow='hidden'>
       <FullScreenSection justifyContent='center' alignItems='center'>
-        <VStack pt={32} mb={32} spacing={16}>
-          <VStack spacing={4} alignItems='center'>
-            <Avatar className='prof' src={hamim} size='2xl' name='HHamim' />
-            <Heading as='h5' size='sm' noOfLines={1}>
-              <div class='typewriter-container'>
-                <h1 class='typewriter typewriter-container'>
-                  Hey!, I am
-                  <span className='hussain'>Hussain</span>
-                </h1>
-              </div>
-            </Heading>
+        <MotionVStack
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8 }}
+          pt={{ base: 24, md: 32 }}
+          mb={{ base: 20, md: 32 }}
+          spacing={12}
+        >
+          <VStack spacing={6} alignItems='center'>
+            <PulsingAvatar src={hamim} name='Hussain Hamim' />
+
+            <VStack spacing={1}>
+              <MotionHeading
+                as='h1'
+                size={{ base: 'xl', md: '2xl' }}
+                fontWeight='bold'
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.3 }}
+                textAlign='center'
+              >
+                Hey, I'm{' '}
+                <Box as='span' color='teal.300'>
+                  Hussain Hamim
+                </Box>
+              </MotionHeading>
+
+              {/* Terminal-style aka text */}
+              <Text
+                fontFamily='monospace'
+                color='gray.400'
+                fontSize='sm'
+                css={fadeInAnimation}
+                style={{ animationDelay: '0.5s', opacity: 0 }}
+              >
+                <Box as='span' color='teal.300'>
+                  -
+                </Box>{' '}
+                aka Eren on
+                <Button
+                  as='a'
+                  variant='ghost'
+                  href='https://x.com/erencodes'
+                  colorScheme='teal'
+                  _hover={{ transform: 'translateY(-2px)' }}
+                  transition='all 0.2s ease'
+                >
+                  X
+                </Button>
+              </Text>
+            </VStack>
           </VStack>
-          <VStack spacing={6}>
-            <Heading as='h3' size='1xl' noOfLines={1}>
-              A <span className='react'>Full-Stack</span> Web &
+
+          <MotionVStack
+            spacing={4}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.6 }}
+          >
+            <Heading
+              as='h2'
+              size={{ base: 'lg', md: 'xl' }}
+              textAlign='center'
+              fontWeight='semibold'
+            >
+              <Box as='span' color='teal.300'>
+                Full-Stack
+              </Box>{' '}
+              Web
             </Heading>
-            <Heading as='h3' size='1xl' noOfLines={1}>
-              <span className='react'>Mobile </span>
+            <Heading
+              as='h3'
+              size={{ base: 'md', md: 'lg' }}
+              textAlign='center'
+              fontWeight='medium'
+            >
+              &{' '}
+              <Box as='span' color='teal.300'>
+                Mobile
+              </Box>{' '}
               App Developer
             </Heading>
-          </VStack>
+          </MotionVStack>
 
-          <div
-            style={{
-              padding: '20px',
-              textAlign: 'center',
-              color: '#0dcaf0',
-              backgroundColor: 'rgba(26, 26, 26, 0.8)',
-              margin: '20px',
-              borderRadius: '5px',
-              fontFamily: 'monospace',
-            }}
+          <Box
+            maxW='2xl'
+            px={6}
+            py={5}
+            textAlign='center'
+            color='gray.300'
+            bg='rgba(26, 26, 26, 0.7)'
+            borderRadius='lg'
+            border='1px solid'
+            borderColor='rgba(255, 255, 255, 0.1)'
+            backdropFilter='blur(8px)'
+            css={fadeInAnimation}
+            style={{ animationDelay: '0.9s', opacity: 0 }}
           >
-            I focus on building modern, user-friendly digital experiences with
-            clean code and pixel-perfect design. With expertise in JavaScript,
-            TypeScript, React, Next.js, MongoDB, Node.js, and react-native for
-            mobile app.
-          </div>
+            <Text fontSize={{ base: 'sm', md: 'md' }}>
+              I craft modern, performant digital experiences with clean code and
+              thoughtful design. Specializing in JavaScript/TypeScript
+              ecosystems including React, Next.js, Node.js, and React Native for
+              mobile.
+            </Text>
+          </Box>
 
           <Skills />
-        </VStack>
+        </MotionVStack>
       </FullScreenSection>
-    </div>
+    </Box>
+  );
+};
+
+const Skills = () => {
+  const skills = [
+    {
+      name: 'HTML5',
+      icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg',
+    },
+    {
+      name: 'React',
+      icon: 'https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg',
+    },
+    {
+      name: 'JavaScript',
+      icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg',
+    },
+    {
+      name: 'Tailwind',
+      icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg',
+    },
+    {
+      name: 'TypeScript',
+      icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg',
+    },
+    {
+      name: 'Next.js',
+      icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nextjs/nextjs-original.svg',
+    },
+    {
+      name: 'Node.js',
+      icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nodejs/nodejs-original-wordmark.svg',
+    },
+    {
+      name: 'Express',
+      icon: 'https://images.credly.com/images/1c2c86e1-16ce-4e4d-a425-d1ac96bb026d/express.png',
+    },
+    {
+      name: 'MongoDB',
+      icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mongodb/mongodb-original-wordmark.svg',
+    },
+    {
+      name: 'GitHub',
+      icon: 'https://img.icons8.com/ios-filled/50/FFFFFF/github.png',
+    },
+  ];
+
+  return (
+    <Box id='skills-section' textAlign='center' mt={8}>
+      <Heading
+        as='h4'
+        size='md'
+        mb={8}
+        position='relative'
+        _after={{
+          content: '""',
+          display: 'block',
+          width: '60px',
+          height: '2px',
+          bg: 'teal.400',
+          margin: '0.5rem auto 0',
+        }}
+      >
+        My Tech Stack
+      </Heading>
+
+      <HStack
+        flexWrap='wrap'
+        justifyContent='center'
+        gap={{ base: 4, md: 6 }}
+        px={{ base: 4, md: 0 }}
+      >
+        {skills.map((skill, index) => (
+          <motion.div
+            key={skill.name}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{
+              delay: 0.1 * index,
+              type: 'spring',
+              stiffness: 100,
+            }}
+            whileHover={{ scale: 1.1 }}
+          >
+            <Box
+              as='img'
+              src={skill.icon}
+              alt={skill.name}
+              width={{ base: '50px', md: '60px' }}
+              height={{ base: '50px', md: '60px' }}
+              title={skill.name}
+              cursor='pointer'
+              transition='all 0.3s ease'
+              _hover={{
+                transform: 'scale(1.1) translateY(-5px)',
+                filter: 'drop-shadow(0 5px 10px rgba(79, 209, 197, 0.3))',
+              }}
+            />
+          </motion.div>
+        ))}
+      </HStack>
+    </Box>
   );
 };
 
 export default LandingSection;
-
-const Skills = () => {
-  return (
-    <div style={{ textAlign: 'center' }} id='skills-section'>
-      <Heading as='h4' size='1x' fontFamily='serif'>
-        Skills
-      </Heading>
-
-      <HStack
-        style={{
-          display: 'flex',
-          gap: 20,
-          flexWrap: 'wrap',
-          justifyContent: 'center',
-          marginRight: 10,
-          marginLeft: 10,
-          transition: 'all 0.4s ease-in-out',
-        }}
-        _hover={{
-          transform: 'translateY(-8px)',
-          boxShadow: 'lg',
-        }}
-        _active={{
-          transform: 'scale(0.98)',
-        }}
-        animation='float 3s ease-in-out infinite'
-        sx={{
-          '@keyframes float': {
-            '0%': {
-              transform: 'translateY(0px)',
-            },
-            '50%': {
-              transform: 'translateY(-10px)',
-            },
-            '100%': {
-              transform: 'translateY(0px)',
-            },
-          },
-        }}
-      >
-        <img
-          src='https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg'
-          width='60'
-          height='60'
-          alt=''
-          class='rounded  shadow hover:shadow-xl transform hover:scale-105 transition duration-300'
-        />
-
-        <img
-          src='https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg'
-          width='62'
-          height='62'
-          alt=''
-          class='rounded shadow hover:shadow-xl transform hover:scale-105 transition duration-300'
-        />
-
-        <img
-          src='https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg'
-          width='60'
-          height='60'
-          alt=''
-          class=' rounded	  hover:shadow-xl transform hover:scale-105 transition duration-300'
-        />
-        <img
-          src='https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg'
-          width='65'
-          height='65'
-          alt=''
-          class='rounded shadow hover:shadow-xl transform hover:scale-105 transition duration-300'
-        />
-        <img
-          src='https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg'
-          width='60'
-          height='60'
-          alt=''
-          class='rounded shadow hover:shadow-xl transform hover:scale-105 transition duration-300'
-        />
-        <img
-          src='https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nextjs/nextjs-original.svg'
-          width='65'
-          height='65'
-          alt=''
-          class='rounded shadow hover:shadow-xl transform hover:scale-105 transition duration-300'
-        />
-        <img
-          src='https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nodejs/nodejs-original-wordmark.svg'
-          width='65'
-          height='65'
-          alt=''
-          class='rounded shadow hover:shadow-xl transform hover:scale-105 transition duration-300'
-        />
-        <img
-          src='https://images.credly.com/images/1c2c86e1-16ce-4e4d-a425-d1ac96bb026d/express.png'
-          width='65'
-          height='65'
-          alt=''
-          class='rounded shadow hover:shadow-xl transform hover:scale-105 transition duration-300'
-        />
-        <img
-          src='https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mongodb/mongodb-original-wordmark.svg'
-          width='65'
-          height='65'
-          alt=''
-          class='rounded shadow hover:shadow-xl transform hover:scale-105 transition duration-300'
-        />
-        <img
-          src='https://img.icons8.com/ios-filled/50/FFFFFF/github.png'
-          width='65'
-          height='65'
-          alt=''
-          class='rounded shadow hover:shadow-xl transform hover:scale-105 transition duration-300'
-        />
-      </HStack>
-    </div>
-  );
-};

@@ -139,7 +139,7 @@ const Header = () => {
               />
               <MenuList
                 bg={menuBgColor}
-color="gray"
+                color='gray'
                 borderColor={borderColor}
                 minWidth='150px'
               >
@@ -152,7 +152,8 @@ color="gray"
                 ].map((item, index) => (
                   <MenuItem
                     key={item}
-                                  bg={menuBgColor} onClick={handleClick(item)}
+                    bg={menuBgColor}
+                    onClick={handleClick(item)}
                     color={textColor}
                     _hover={{
                       bg: 'rgba(255, 255, 255, 0.05)',
@@ -167,6 +168,7 @@ color="gray"
                   </MenuItem>
                 ))}
                 <MenuItem
+                  bg={menuBgColor}
                   as='a'
                   href='https://github.com/Hussain-hamim/Hussain-hamim/releases/download/v1.0.0/Hussain-resume.pdf'
                   color={highlightColor}
