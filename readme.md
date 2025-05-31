@@ -15,7 +15,7 @@ I'm a full-stack and mobile developer. My journey involves crafting delightful u
     Click to view
   </a>
 </div>
- — 17 of 100DaysCode
+ — 20 of 100DaysCode
 
 ## Connect with Me
 
