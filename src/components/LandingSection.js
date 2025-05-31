@@ -14,22 +14,6 @@ import FullScreenSection from './FullScreenSection';
 import hamim from '../asset/eren.jpg';
 import { keyframes } from '@emotion/react';
 
-// Animation using emotion css
-const floatAnimation = css`
-  animation: float 6s ease-in-out infinite;
-  @keyframes float {
-    0% {
-      transform: translateY(0px);
-    }
-    50% {
-      transform: translateY(-15px);
-    }
-    100% {
-      transform: translateY(0px);
-    }
-  }
-`;
-
 const fadeInAnimation = css`
   animation: fadeIn 1s ease-out forwards;
   @keyframes fadeIn {
@@ -47,25 +31,6 @@ const fadeInAnimation = css`
 const MotionVStack = motion(VStack);
 const MotionHeading = motion(Heading);
 const MotionAvatar = motion(Avatar);
-
-// Live status animation
-const pulse = keyframes`
-  0% { transform: scale(0.95); opacity: 1; }
-  70% { transform: scale(1.3); opacity: 0.7; }
-  100% { transform: scale(0.95); opacity: 1; }
-`;
-
-const liveStatus = css`
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background: #48bb78;
-  border: 2px solid var(--chakra-colors-gray-800);
-  animation: ${pulse} 2s infinite;
-`;
 
 // Your exact pulse animation
 const pulseAnimation = css`
