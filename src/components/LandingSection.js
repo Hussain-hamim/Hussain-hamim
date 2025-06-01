@@ -80,7 +80,7 @@ const LandingSection = () => {
           spacing={12}
         >
           <VStack spacing={6} alignItems='center'>
-            <PulsingAvatar src={hamim} name='Hussain Hamim' />
+            <PulsingAvatar src={hamim} name='Hussain 2' />
 
             <VStack spacing={1}>
               <MotionHeading
