@@ -166,14 +166,14 @@ const mobileProjects = [
     description:
       'A cross-platform mobile game built with React Native, featuring a classic brick-breaker gameplay with modern twists and engaging graphics.',
     getImageSrc: () => require('../images/blitz.png'),
-    link: 'https://github.com/Hussain-hamim/brick-blitz-game',
+    link: 'https://github.com/Hussain-hamim',
   },
   {
     title: 'SnapDish',
     description:
       'A Food ordering mobile app, that handle both admin and user side, user give orders and admin update user about the order, with push notification and Stripe payment integration',
     getImageSrc: () => require('../images/snapdish2.png'),
-    link: 'https://github.com/Hussain-hamim/plantly',
+    link: 'https://github.com/Hussain-hamim/SnapDish',
   },
   {
     title: 'Done With It',
