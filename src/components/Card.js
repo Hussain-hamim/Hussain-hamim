@@ -68,6 +68,7 @@ const Card = ({ title, description, imageSrc, link, live }) => {
           w='100%'
           borderRadius='xl'
           objectFit='cover'
+          opacity={0.8}
         />
         <VStack spacing={4} p={6} alignItems='flex-start' flex='1'>
           <HStack justifyContent='space-between' width='100%'>
