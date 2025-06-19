@@ -159,7 +159,7 @@ const mobileProjects = [
     description:
       'A Barber booking mobile app, having both admin and client side panel, full stack with supabase',
     getImageSrc: () => require('../images/himal-beauty.png'),
-    link: 'https://github.com/Hussain-hamim/plantly',
+    link: 'https://github.com/Hussain-hamim/barber-app',
   },
   {
     title: 'Brick Blitz Game',
