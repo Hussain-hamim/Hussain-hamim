@@ -146,7 +146,7 @@ const Header = () => {
                 {[
                   'skills',
                   'projects',
-                  'mobile',
+                  'mobile-projects',
                   'certificates',
                   'contactme',
                 ].map((item, index) => (
@@ -184,7 +184,7 @@ const Header = () => {
               {[
                 'skills',
                 'projects',
-                'mobile',
+                'mobile-projects',
                 'certificates',
                 'contactme',
               ].map((item, index) => (

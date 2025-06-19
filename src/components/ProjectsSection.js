@@ -36,7 +36,7 @@ const ProjectsSection = () => {
         alignItems='flex-start'
         spacing={8}
       >
-        <Heading as='h1' id='mobile-section'>
+        <Heading as='h1' id='mobile-projects-section'>
           Mobile Featured Projects
         </Heading>
         <Box className='gridBox'>
@@ -86,7 +86,7 @@ const projects = [
       'DevSync is a collaborative platform designed for developers to connect, share knowledge, and collaborate on projects. It features user profiles, project listings, and a real-time chat system, all built with Next.js and Tailwind CSS. and supabase for database and auth, its a full-stack application that showcases modern web development practices.',
     getImageSrc: () => require('../images/devsync.png'),
     link: 'https://github.com/Hussain-hamim/DevSync',
-    live: '...',
+    live: 'https://dev-sync-amber.vercel.app',
   },
   {
     title: 'Ocean Of Games',
@@ -141,36 +141,24 @@ const projects = [
 
 const mobileProjects = [
   {
-    title: 'Done With It',
-    description:
-      'Sell what you do not need on this mobile app platform, working based on node api',
-    getImageSrc: () => require('../images/donewithit.png'),
-    link: 'https://github.com/Hussain-hamim/donewithit',
-  },
-  {
     title: 'Shan-AI',
     description: 'Ask ShanAI anything, a cross platform mobile app',
-    getImageSrc: () => require('../images/shanai.png'),
+    getImageSrc: () => require('../images/shanai2.png'),
     link: 'https://github.com/Hussain-hamim',
   },
   {
     title: 'Threads',
     description:
       'Threads clone, a mobile app that exactly mimic Threads app, A full-stack cross-platform app with convex as db, and clerk for auth',
-    getImageSrc: () => require('../images/threads.png'),
+    getImageSrc: () => require('../images/threads2.png'),
     link: 'https://github.com/Hussain-hamim/threads',
   },
+
   {
-    title: 'SnapDish',
+    title: 'Himal Beauty',
     description:
-      'A Food ordering mobile app, that handle both admin and user side, user give orders and admin update user about the order, with push notification and Stripe payment integration',
-    getImageSrc: () => require('../images/snapdish.png'),
-    link: 'https://github.com/Hussain-hamim/plantly',
-  },
-  {
-    title: 'Plantly',
-    description: 'Kepp your plants healthy and hydrated with this mobile app ',
-    getImageSrc: () => require('../images/plantly.png'),
+      'A Barber booking mobile app, having both admin and client side panel, full stack with supabase',
+    getImageSrc: () => require('../images/himal-beauty.png'),
     link: 'https://github.com/Hussain-hamim/plantly',
   },
   {
@@ -179,6 +167,26 @@ const mobileProjects = [
       'A cross-platform mobile game built with React Native, featuring a classic brick-breaker gameplay with modern twists and engaging graphics.',
     getImageSrc: () => require('../images/blitz.png'),
     link: 'https://github.com/Hussain-hamim/brick-blitz-game',
+  },
+  {
+    title: 'SnapDish',
+    description:
+      'A Food ordering mobile app, that handle both admin and user side, user give orders and admin update user about the order, with push notification and Stripe payment integration',
+    getImageSrc: () => require('../images/snapdish2.png'),
+    link: 'https://github.com/Hussain-hamim/plantly',
+  },
+  {
+    title: 'Done With It',
+    description:
+      'Sell what you do not need on this mobile app platform, working based on node api',
+    getImageSrc: () => require('../images/donewithit2.png'),
+    link: 'https://github.com/Hussain-hamim/donewithit',
+  },
+  {
+    title: 'Plantly',
+    description: 'Kepp your plants healthy and hydrated with this mobile app ',
+    getImageSrc: () => require('../images/plantly.png'),
+    link: 'https://github.com/Hussain-hamim/plantly',
   },
 ];
 
