@@ -12,10 +12,9 @@ I'm a full-stack and mobile developer. My journey involves crafting delightful u
 <div align="left" style="display: flex; align-items: center; gap: 15px;">
   <a href="https://user-badge.committers.top/afghanistan/Hussain-hamim">
     <img src="https://user-badge.committers.top/afghanistan/Hussain-hamim.svg" alt="committers.top badge">
-    Click to view
+     view ranking
   </a>
 </div>
- — 22 of 100DaysCode
 
 ## Connect with Me
 
