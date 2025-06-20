@@ -86,8 +86,8 @@ const projects = [
       'DevSync is a collaborative platform designed for developers to connect, share knowledge, and collaborate on projects. It features user profiles, project listings, and a real-time chat system, all built with Next.js and Tailwind CSS. and supabase for database and auth, its a full-stack application that showcases modern web development practices.',
     getImageSrc: () => require('../images/devsync.png'),
     link: 'https://github.com/Hussain-hamim/DevSync',
-    // live: 'https://devsyncdotdev.vercel.app/',
-    live: 'https://github.com/Hussain-hamim/DevSync',
+    live: 'https://devsyncdotdev.vercel.app/',
+    // live: 'https://github.com/Hussain-hamim/DevSync',
   },
   {
     title: 'Ocean Of Games',
