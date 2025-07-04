@@ -1,18 +1,23 @@
-import {
-  Button,
-  Heading,
-  HStack,
-  Image,
-  Text,
-  VStack,
-  Box,
-} from '@chakra-ui/react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
-import { faGithub } from '@fortawesome/free-brands-svg-icons';
-import { faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons';
+import {
+  Box,
+  Heading,
+  useColorModeValue,
+  Text,
+  HStack,
+  Icon,
+  Image,
+  VStack,
+  Button,
+} from '@chakra-ui/react';
+import { css } from '@emotion/react';
 
-const Card = ({ title, description, imageSrc, link, live }) => {
+// Enhanced Card component
+const Card = ({ title, description, imageSrc, link, live, _hover }) => {
+  const orchidColor = useColorModeValue('gray', 'orchid.300');
+  const textColor = useColorModeValue('white', 'white');
+  const cardBg = useColorModeValue('white', 'gray.800');
+
   const getTagColor = () => {
     if (title.toLowerCase().includes('mobile')) {
       return { bg: 'rgba(147, 51, 234, 0.3)', text: 'purple.200' };
@@ -48,27 +53,31 @@ const Card = ({ title, description, imageSrc, link, live }) => {
       as='article'
       borderRadius='xl'
       overflow='hidden'
-      bg='rgba(26, 26, 26, 0.8)'
-      color='white'
+      // bg={cardBg}
+      color={textColor}
       transition='all 0.3s ease'
-      _hover={{
-        transform: 'translateY(-5px)',
-        boxShadow: '0 8px 8px rgba(108, 116, 52, 0.3)',
-      }}
       boxShadow='md'
       height='100%'
       display='flex'
       flexDirection='column'
       cursor='pointer'
+      position='relative'
+      zIndex={1}
+      // {..._hover}
+      css={css`
+        &:hover {
+          box-shadow: 0 10px 25px -5px rgba(218, 112, 214, 0.4);
+        }
+      `}
     >
       <Box flex='1' display='flex' flexDirection='column'>
         <Image
           src={imageSrc}
           alt={title}
           w='100%'
-          borderRadius='xl'
+          h='200px'
           objectFit='cover'
-          // opacity={0.8}
+          borderTopRadius='xl'
         />
         <VStack spacing={4} p={6} alignItems='flex-start' flex='1'>
           <HStack justifyContent='space-between' width='100%'>
@@ -77,6 +86,7 @@ const Card = ({ title, description, imageSrc, link, live }) => {
               size='md'
               fontWeight='semibold'
               letterSpacing='tight'
+              color={textColor}
             >
               {title}
             </Heading>
@@ -89,12 +99,17 @@ const Card = ({ title, description, imageSrc, link, live }) => {
               color={tagInfo.text}
               fontSize='xs'
               fontWeight='bold'
+              _hover={{ color: tagInfo.text, bg: tagInfo.bg }}
             >
               {tagText}
             </Button>
           </HStack>
 
-          <Text color='gray.300' fontSize='md' lineHeight='tall'>
+          <Text
+            color={useColorModeValue('white', 'gray.300')}
+            fontSize='md'
+            lineHeight='tall'
+          >
             {description}
           </Text>
 
@@ -102,22 +117,23 @@ const Card = ({ title, description, imageSrc, link, live }) => {
             <Button
               as='a'
               href={link}
+              target='_blank'
               variant='outline'
               size='sm'
-              rightIcon={<FontAwesomeIcon icon={faGithub} />}
-              colorScheme='blue'
+              colorScheme='purple'
               onClick={(e) => e.stopPropagation()}
             >
-              Code
+              View Code
             </Button>
             {live && (
               <Button
                 as='a'
                 href={live}
+                target='_blank'
                 variant='outline'
                 size='sm'
-                rightIcon={<FontAwesomeIcon icon={faArrowUpRightFromSquare} />}
                 colorScheme='blue'
+                onClick={(e) => e.stopPropagation()}
               >
                 Live Demo
               </Button>

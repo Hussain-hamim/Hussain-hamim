@@ -7,12 +7,67 @@ import {
   Text,
   Box,
   Button,
+  useColorModeValue,
 } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
-import { css } from '@emotion/react';
+import { keyframes, css } from '@emotion/react';
 import FullScreenSection from './FullScreenSection';
 import hamim from '../asset/eren.jpg';
-import { keyframes } from '@emotion/react';
+
+// Water ripple animation
+const ripple = keyframes`
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.4;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+`;
+
+// Glitch text animation
+const glitch = keyframes`
+  0% {
+    text-shadow: 0.05em 0 0 rgba(255,0,0,0.75),
+                -0.05em -0.025em 0 rgba(0,255,0,0.75),
+                -0.025em 0.05em 0 rgba(0,0,255,0.75);
+  }
+  14% {
+    text-shadow: 0.05em 0 0 rgba(255,0,0,0.75),
+                -0.05em -0.025em 0 rgba(0,255,0,0.75),
+                -0.025em 0.05em 0 rgba(0,0,255,0.75);
+  }
+  15% {
+    text-shadow: -0.05em -0.025em 0 rgba(255,0,0,0.75),
+                 0.025em 0.025em 0 rgba(0,255,0,0.75),
+                 -0.05em -0.05em 0 rgba(0,0,255,0.75);
+  }
+  49% {
+    text-shadow: -0.05em -0.025em 0 rgba(255,0,0,0.75),
+                 0.025em 0.025em 0 rgba(0,255,0,0.75),
+                 -0.05em -0.05em 0 rgba(0,0,255,0.75);
+  }
+  50% {
+    text-shadow: 0.025em 0.05em 0 rgba(255,0,0,0.75),
+                 0.05em 0 0 rgba(0,255,0,0.75),
+                 0 -0.05em 0 rgba(0,0,255,0.75);
+  }
+  99% {
+    text-shadow: 0.025em 0.05em 0 rgba(255,0,0,0.75),
+                 0.05em 0 0 rgba(0,255,0,0.75),
+                 0 -0.05em 0 rgba(0,0,255,0.75);
+  }
+  100% {
+    text-shadow: -0.025em 0 0 rgba(255,0,0,0.75),
+                 -0.025em -0.025em 0 rgba(0,255,0,0.75),
+                 -0.025em -0.05em 0 rgba(0,0,255,0.75);
+  }
+`;
 
 const fadeInAnimation = css`
   animation: fadeIn 1s ease-out forwards;
@@ -30,12 +85,10 @@ const fadeInAnimation = css`
 
 const MotionVStack = motion(VStack);
 const MotionHeading = motion(Heading);
-const MotionAvatar = motion(Avatar);
 
-// Your exact pulse animation
-const pulseAnimation = css`
-  animation: pulse-round 2s infinite;
-  @keyframes pulse-round {
+const PulsingAvatar = ({ src, name }) => {
+  const orchidColor = useColorModeValue('orchid', 'orchid.300');
+  const pulse = keyframes`
     0% {
       box-shadow: 0 0 0 0 rgba(91, 243, 49, 0.943);
     }
@@ -45,31 +98,152 @@ const pulseAnimation = css`
     100% {
       box-shadow: 0 0 0 0 rgba(0, 255, 0, 0);
     }
-  }
-`;
+  `;
 
-const PulsingAvatar = ({ src, name }) => {
   return (
     <Box position='relative' display='inline-block'>
       <Avatar
         src={src}
         name={name}
         size='2xl'
-        // border='3px solid'
+        /* border='3px solid' */
         borderColor='greenyellow'
-        css={pulseAnimation}
+        css={css`
+          animation: ${pulse} 2s infinite;
+        `}
         _hover={{
           transform: 'scale(1.05)',
           transition: 'transform 0.3s ease',
         }}
       />
+      {/* Floating orb animation */}
+      <Box
+        position='absolute'
+        top='-10px'
+        right='-10px'
+        w='20px'
+        h='20px'
+        borderRadius='full'
+        bg={`radial-gradient(circle, ${orchidColor}, transparent 70%)`}
+        filter='blur(2px)'
+        css={css`
+          animation: float 6s ease-in-out infinite;
+          @keyframes float {
+            0%,
+            100% {
+              transform: translateY(0) translateX(0);
+            }
+            50% {
+              transform: translateY(-20px) translateX(10px);
+            }
+          }
+        `}
+      />
+    </Box>
+  );
+};
+
+const GlitchText = ({ children }) => {
+  return (
+    <Box
+      as='span'
+      position='relative'
+      display='inline-block'
+      _before={{
+        content: `"${children}"`,
+        position: 'absolute',
+        left: 0,
+        color: 'white',
+        textShadow: '2px 0 cyan',
+        clipPath: 'polygon(0 0, 100% 0, 100% 45%, 0 45%)',
+        animation: `${glitch} 3s infinite alternate`,
+      }}
+      _after={{
+        content: `"${children}"`,
+        position: 'absolute',
+        left: 0,
+        color: 'white',
+        textShadow: '-2px 0 magenta',
+        clipPath: 'polygon(0 60%, 100% 60%, 100% 100%, 0 100%)',
+        animation: `${glitch} 2s infinite alternate-reverse`,
+      }}
+    >
+      {children}
     </Box>
   );
 };
 
 const LandingSection = () => {
+  const orchidColor = useColorModeValue('orchid', 'orchid.300');
+  const textColor = useColorModeValue('white', 'gray.200');
+  const secondaryTextColor = useColorModeValue('gray.300', 'gray.400');
+  const cardBg = useColorModeValue(
+    'rgba(26, 26, 26, 0.7)',
+    'rgba(15, 15, 15, 0.7)'
+  );
+  const cardBorder = useColorModeValue(
+    'rgba(255, 255, 255, 0.1)',
+    'rgba(255, 255, 255, 0.05)'
+  );
+
   return (
-    <Box as='section' position='relative' overflow='hidden'>
+    <Box as='section' position='relative' overflow='hidden' minH='100vh'>
+      {/* Animated gradient background elements */}
+      <Box
+        position='absolute'
+        top='-100px'
+        right='-100px'
+        w='300px'
+        h='300px'
+        borderRadius='full'
+        bg={`radial-gradient(circle, ${orchidColor}, transparent 70%)`}
+        filter='blur(60px)'
+        opacity={0.6}
+        zIndex={0}
+        css={css`
+          animation: ${ripple} 8s ease-in-out infinite,
+            float 15s ease-in-out infinite;
+        `}
+      />
+      <Box
+        position='absolute'
+        bottom='-150px'
+        left='-150px'
+        w='400px'
+        h='400px'
+        borderRadius='full'
+        bg={`radial-gradient(circle, ${orchidColor}, transparent 70%)`}
+        filter='blur(80px)'
+        opacity={0.4}
+        zIndex={0}
+        css={css`
+          animation: ${ripple} 10s ease-in-out infinite reverse,
+            float 20s ease-in-out infinite reverse;
+        `}
+      />
+      {/* Additional floating orbs */}
+      {[...Array(5)].map((_, i) => (
+        <Box
+          key={i}
+          position='absolute'
+          w={`${Math.random() * 50 + 30}px`}
+          h={`${Math.random() * 50 + 30}px`}
+          borderRadius='full'
+          bg={`radial-gradient(circle, ${orchidColor}${
+            Math.floor(Math.random() * 30) + 10
+          }%, transparent 70%)`}
+          filter='blur(10px)'
+          opacity={0.3}
+          zIndex={0}
+          top={`${Math.random() * 100}%`}
+          left={`${Math.random() * 100}%`}
+          css={css`
+            animation: float ${Math.random() * 10 + 10}s ease-in-out infinite
+              ${Math.random() * 5}s;
+          `}
+        />
+      ))}
+
       <FullScreenSection justifyContent='center' alignItems='center'>
         <MotionVStack
           initial={{ opacity: 0 }}
@@ -78,6 +252,8 @@ const LandingSection = () => {
           pt={{ base: 24, md: 32 }}
           mb={{ base: 20, md: 32 }}
           spacing={12}
+          position='relative'
+          zIndex={1}
         >
           <VStack spacing={6} alignItems='center'>
             <PulsingAvatar src={hamim} name='Hussain 2' />
@@ -91,32 +267,34 @@ const LandingSection = () => {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.3 }}
                 textAlign='center'
+                color={textColor}
               >
-                Hey, I'm{' '}
-                <Box as='span' color='teal.300'>
-                  Hussain Hamim
-                </Box>
+                Hey, I'm <GlitchText>Hussain Hamim</GlitchText>
               </MotionHeading>
 
-              {/* Terminal-style aka text */}
               <Text
                 fontFamily='monospace'
-                color='gray.400'
+                color={secondaryTextColor}
                 fontSize='sm'
                 css={fadeInAnimation}
                 style={{ animationDelay: '0.5s', opacity: 0 }}
               >
-                <Box as='span' color='teal.300'>
+                <Box as='span' color={orchidColor}>
                   -
                 </Box>{' '}
                 aka Eren on
                 <Button
+                  target='_blank'
                   as='a'
                   variant='ghost'
                   href='https://x.com/erencodes'
-                  colorScheme='teal'
-                  _hover={{ transform: 'translateY(-2px)' }}
+                  colorScheme='purple'
+                  _hover={{
+                    transform: 'translateY(-2px)',
+                    bg: 'rgba(218, 112, 214, 0.1)',
+                  }}
                   transition='all 0.2s ease'
+                  ml={2}
                 >
                   X
                 </Button>
@@ -135,8 +313,36 @@ const LandingSection = () => {
               size={{ base: 'lg', md: 'xl' }}
               textAlign='center'
               fontWeight='semibold'
+              color={textColor}
             >
-              <Box as='span' color='teal.300'>
+              <Box
+                as='span'
+                color={orchidColor}
+                css={css`
+                  position: relative;
+                  &:after {
+                    content: '';
+                    position: absolute;
+                    width: 100%;
+                    height: 3px;
+                    bottom: -5px;
+                    left: 0;
+                    background: linear-gradient(
+                      90deg,
+                      transparent,
+                      ${orchidColor},
+                      transparent
+                    );
+                    transform: scaleX(0);
+                    transform-origin: right;
+                    transition: transform 0.5s ease;
+                  }
+                  &:hover:after {
+                    transform: scaleX(1);
+                    transform-origin: left;
+                  }
+                `}
+              >
                 Full-Stack
               </Box>{' '}
               Web
@@ -146,9 +352,37 @@ const LandingSection = () => {
               size={{ base: 'md', md: 'lg' }}
               textAlign='center'
               fontWeight='medium'
+              color={textColor}
             >
               &{' '}
-              <Box as='span' color='teal.300'>
+              <Box
+                as='span'
+                color={orchidColor}
+                css={css`
+                  position: relative;
+                  &:after {
+                    content: '';
+                    position: absolute;
+                    width: 100%;
+                    height: 3px;
+                    bottom: -5px;
+                    left: 0;
+                    background: linear-gradient(
+                      90deg,
+                      transparent,
+                      ${orchidColor},
+                      transparent
+                    );
+                    transform: scaleX(0);
+                    transform-origin: right;
+                    transition: transform 0.5s ease;
+                  }
+                  &:hover:after {
+                    transform: scaleX(1);
+                    transform-origin: left;
+                  }
+                `}
+              >
                 Mobile
               </Box>{' '}
               App Developer
@@ -161,13 +395,19 @@ const LandingSection = () => {
             py={5}
             mx={4}
             textAlign='center'
-            color='gray.300'
-            bg='rgba(26, 26, 26, 0.7)'
+            color={textColor}
+            bg={cardBg}
             borderRadius='lg'
-            borderColor='rgba(255, 255, 255, 0.1)'
-            backdropFilter='blur(3px)'
+            border='1px solid'
+            borderColor={cardBorder}
+            backdropFilter='blur(5px)'
             css={fadeInAnimation}
             style={{ animationDelay: '0.9s', opacity: 0 }}
+            _hover={{
+              boxShadow: `0 0 20px ${orchidColor}40`,
+              transform: 'translateY(-3px)',
+            }}
+            transition='all 0.3s ease'
           >
             <Text fontSize={{ base: 'sm', md: 'md' }}>
               I build fast, modern digital experiences with a focus on clean
@@ -176,8 +416,6 @@ const LandingSection = () => {
               Next.js, Node.js, MongoDB, Postgres, and{' '}
               <Box
                 as='span'
-                // color='teal.300'
-                // fontWeight='semibold'
                 position='relative'
                 _after={{
                   content: '""',
@@ -186,7 +424,7 @@ const LandingSection = () => {
                   bottom: '-1px',
                   width: '100%',
                   height: '1px',
-                  bg: 'teal.500',
+                  bg: orchidColor,
                   borderRadius: 'full',
                   animation: 'pulseUnderline 2s infinite',
                 }}
@@ -205,6 +443,9 @@ const LandingSection = () => {
 };
 
 const Skills = () => {
+  const orchidColor = useColorModeValue('orchid', 'orchid.300');
+  const textColor = useColorModeValue('white', 'gray.200');
+
   const skills = [
     {
       name: 'HTML5',
@@ -255,13 +496,15 @@ const Skills = () => {
         size='md'
         mb={8}
         position='relative'
+        color={textColor}
         _after={{
           content: '""',
           display: 'block',
           width: '60px',
           height: '2px',
-          bg: 'teal.400',
+          bg: orchidColor,
           margin: '0.5rem auto 0',
+          animation: 'pulseUnderline 2s infinite',
         }}
       >
         My Tech Stack
@@ -283,7 +526,11 @@ const Skills = () => {
               type: 'spring',
               stiffness: 100,
             }}
-            whileHover={{ scale: 1.1 }}
+            whileHover={{
+              scale: 1.15,
+              rotate: [0, 5, -5, 0],
+              transition: { duration: 0.5 },
+            }}
           >
             <Box
               as='img'
@@ -295,8 +542,7 @@ const Skills = () => {
               cursor='pointer'
               transition='all 0.3s ease'
               _hover={{
-                transform: 'scale(1.1) translateY(-5px)',
-                filter: 'drop-shadow(0 5px 10px rgba(79, 209, 197, 0.3))',
+                filter: `drop-shadow(0 0 10px ${orchidColor}80)`,
               }}
             />
           </motion.div>

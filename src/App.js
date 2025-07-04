@@ -6,6 +6,7 @@ import Header from './components/Header';
 import LandingSection from './components/LandingSection';
 import ProjectsSection from './components/ProjectsSection';
 import { AlertProvider } from './context/alertContext';
+import ExperienceSection from './components/ExperienceSection';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <main>
           <Header />
           <LandingSection />
+          <ExperienceSection />
           <ProjectsSection />
           <ContactMeSection />
           <Footer />

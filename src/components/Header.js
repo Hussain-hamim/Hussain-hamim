@@ -183,6 +183,7 @@ const Header = () => {
             <HStack spacing={4}>
               {[
                 'skills',
+                'experience',
                 'projects',
                 'mobile-projects',
                 'certificates',
