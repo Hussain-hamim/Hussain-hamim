@@ -75,7 +75,7 @@ const Card = ({ title, description, imageSrc, link, live, _hover }) => {
           src={imageSrc}
           alt={title}
           w='100%'
-          h='200px'
+          h='240px'
           objectFit='cover'
           borderTopRadius='xl'
         />
