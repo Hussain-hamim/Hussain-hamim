@@ -145,6 +145,7 @@ const Header = () => {
               >
                 {[
                   'skills',
+                  'experience',
                   'projects',
                   'mobile-projects',
                   'certificates',
