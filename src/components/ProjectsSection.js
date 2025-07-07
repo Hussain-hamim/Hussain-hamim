@@ -62,8 +62,8 @@ const ProjectsSection = () => {
         position='absolute'
         top='-100px'
         right='-100px'
-        w='300px'
-        h='300px'
+        w='450px'
+        h='450px'
         borderRadius='full'
         bg={`radial-gradient(circle, ${orchidColor}, transparent 70%)`}
         filter='blur(60px)'
@@ -196,6 +196,23 @@ const ProjectsSection = () => {
         position='relative'
         zIndex={1}
       >
+        <Box
+          position='absolute'
+          top='-130px'
+          right='-100px'
+          w='450px'
+          h='450px'
+          borderRadius='full'
+          bg={`radial-gradient(circle, ${orchidColor}, transparent 70%)`}
+          filter='blur(60px)'
+          opacity={0.6}
+          zIndex={0}
+          css={css`
+            animation: ${ripple} 8s ease-in-out infinite,
+              ${float} 15s ease-in-out infinite;
+          `}
+        />
+
         <MotionHeading
           as='h1'
           id='mobile-projects-section'
@@ -268,6 +285,22 @@ const ProjectsSection = () => {
         position='relative'
         zIndex={1}
       >
+        <Box
+          position='absolute'
+          top='-100px'
+          right='-120px'
+          w='300px'
+          h='300px'
+          borderRadius='full'
+          bg={`radial-gradient(circle, ${orchidColor}, transparent 70%)`}
+          filter='blur(60px)'
+          opacity={0.6}
+          zIndex={0}
+          css={css`
+            animation: ${ripple} 8s ease-in-out infinite,
+              ${float} 15s ease-in-out infinite;
+          `}
+        />
         <MotionHeading
           as='h1'
           id='certificates-section'

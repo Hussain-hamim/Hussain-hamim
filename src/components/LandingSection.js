@@ -193,8 +193,8 @@ const LandingSection = () => {
         position='absolute'
         top='-100px'
         right='-100px'
-        w='300px'
-        h='300px'
+        w='500px'
+        h='500px'
         borderRadius='full'
         bg={`radial-gradient(circle, ${orchidColor}, transparent 70%)`}
         filter='blur(60px)'
@@ -209,8 +209,8 @@ const LandingSection = () => {
         position='absolute'
         bottom='-150px'
         left='-150px'
-        w='400px'
-        h='400px'
+        w='420px'
+        h='420px'
         borderRadius='full'
         bg={`radial-gradient(circle, ${orchidColor}, transparent 70%)`}
         filter='blur(80px)'
