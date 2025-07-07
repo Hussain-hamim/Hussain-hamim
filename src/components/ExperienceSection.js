@@ -126,7 +126,7 @@ const ExperienceSection = () => {
 
   return (
     <Box
-      id='experience'
+      id='experience-section'
       py={20}
       px={{ base: 5, md: 10, lg: 20 }}
       position='relative'
