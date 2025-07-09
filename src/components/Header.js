@@ -176,7 +176,7 @@ const Header = () => {
                   _hover={{ bg: 'rgba(79, 209, 197, 0.1)' }}
                   css={isLoaded ? getSnakeAnimation(5) : {}}
                 >
-                  Download CV
+                  Download Resume
                 </MenuItem>
               </MenuList>
             </Menu>
@@ -211,11 +211,15 @@ const Header = () => {
                 href='https://github.com/Hussain-hamim/Hussain-hamim/releases/download/v1.0.0/Hussain-resume.pdf'
                 colorScheme='teal'
                 variant='outline'
-                _hover={{ transform: 'translateY(-2px)' }}
+                _hover={{
+                  transform: 'translateY(-2px)',
+                  backgroundColor: 'teal',
+                  color: 'black',
+                }}
                 transition='all 0.2s ease'
                 css={isLoaded ? getSnakeAnimation(5) : {}}
               >
-                Download CV.
+                Download Resume
               </Button>
             </HStack>
           )}
