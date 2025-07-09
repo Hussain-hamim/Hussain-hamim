@@ -67,14 +67,13 @@ const ExperienceSection = () => {
       id: 1,
       role: 'Mobile Developer',
       company: 'Himalbyte',
-      duration: '2025 Jun - present',
+      duration: '2025 May - present',
       description:
         'Developed cross-platform mobile applications using React Native with a focus on performance optimization and superior user experience.',
       icon: FaCode,
       highlights: [
         'Implemented client and admin panels with real-time updates',
         'Integrated Supabase for backend services and authentication',
-        'Optimized app performance and reduced load times by 40%',
         'Implemented push notifications and offline capabilities',
       ],
       tech: ['React Native', 'Supabase', 'TypeScript', 'Expo'],
@@ -88,10 +87,9 @@ const ExperienceSection = () => {
         'Led development of a full-stack community platform with payment integration and premium features.',
       icon: FaServer,
       highlights: [
-        'Built with Next.js, TailwindCSS and Supabase',
+        'Built with Next.js, TailwindCSS, Framer and Supabase',
         'Implemented Stripe payment integration',
         'Developed admin dashboard with analytics',
-        'Achieved 95% Lighthouse performance score',
       ],
       tech: ['Next.js', 'TailwindCSS', 'Supabase', 'Stripe'],
     },
@@ -205,10 +203,9 @@ const ExperienceSection = () => {
           >
             Work Experience
           </Heading>
-          <Text color={secondaryTextColor} maxW='600px' mx='auto' fontSize='lg'>
-            My professional journey through innovative companies and exciting
-            projects
-          </Text>
+          {/* <Text color={secondaryTextColor} maxW='600px' mx='auto' fontSize='lg'>
+            My professional journey through exciting projects
+          </Text> */}
         </MotionBox>
 
         <MotionVStack
