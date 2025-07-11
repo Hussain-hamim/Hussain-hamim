@@ -65,9 +65,9 @@ const ExperienceSection = () => {
   const experiences = [
     {
       id: 1,
-      role: 'Mobile Developer',
+      role: 'Mobile App Developer',
       company: 'Himalbyte',
-      duration: '2025 May - present',
+      duration: '2025 May - 2025 Jul',
       description:
         'Developed cross-platform mobile applications using React Native with a focus on performance optimization and superior user experience.',
       icon: FaCode,
