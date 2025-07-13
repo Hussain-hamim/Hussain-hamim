@@ -430,7 +430,8 @@ const projects = [
 const mobileProjects = [
   {
     title: 'Shan-AI',
-    description: 'Ask ShanAI anything, a cross platform mobile app',
+    description:
+      'Ask ShanAI anything, a cross platform AI-powered mobile assistant that combines conversational AI, image generation and analysis using OpenAI, Gemini, and Stability APIs. Built with React Native, Expo, Clerk, and SQLite, the app offers fast, secure, and offline-capable interactions.',
     getImageSrc: () => require('../images/shanai2.png'),
     link: 'https://github.com/Hussain-hamim',
     live: 'https://github.com/Hussain-hamim/ShanAI/releases/download/my-tag/ShanAI_1.0.0.apk',
@@ -456,6 +457,13 @@ const mobileProjects = [
       'A cross-platform mobile game built with React Native, featuring a classic brick-breaker gameplay with modern twists and engaging graphics.',
     getImageSrc: () => require('../images/blitz.png'),
     link: 'https://github.com/Hussain-hamim',
+  },
+  {
+    title: 'Airbnb Clone',
+    description:
+      'A cross-platform mobile app that mimics the Airbnb experience, allowing users to browse, book, and manage accommodations seamlessly.',
+    getImageSrc: () => require('../images/airbnb-clone .jpg'),
+    link: 'https://github.com/Hussain-hamim/airbnb-clone',
   },
   {
     title: 'SnapDish',
