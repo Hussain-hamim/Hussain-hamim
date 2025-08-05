@@ -100,61 +100,6 @@ const ContactMeSection = () => {
   return (
     <Box as='section' position='relative' overflow='hidden' py={16}>
       {/* Animated gradient background elements */}
-      <Box
-        position='absolute'
-        top='-100px'
-        left='-100px'
-        w='300px'
-        h='300px'
-        borderRadius='full'
-        bg={`radial-gradient(circle, ${orchidColor}, transparent 70%)`}
-        filter='blur(60px)'
-        opacity={0.6}
-        zIndex={0}
-        css={css`
-          animation: ${ripple} 8s ease-in-out infinite,
-            ${float} 15s ease-in-out infinite;
-        `}
-      />
-      <Box
-        position='absolute'
-        bottom='-150px'
-        right='-150px'
-        w='400px'
-        h='400px'
-        borderRadius='full'
-        bg={`radial-gradient(circle, ${orchidColor}, transparent 70%)`}
-        filter='blur(80px)'
-        opacity={0.4}
-        zIndex={0}
-        css={css`
-          animation: ${ripple} 10s ease-in-out infinite reverse,
-            ${float} 20s ease-in-out infinite reverse;
-        `}
-      />
-
-      {/* Additional floating orbs */}
-      {[...Array(3)].map((_, i) => (
-        <Box
-          key={i}
-          position='absolute'
-          w={`${Math.random() * 50 + 30}px`}
-          h={`${Math.random() * 50 + 30}px`}
-          borderRadius='full'
-          bg={`radial-gradient(circle, ${orchidColor}${
-            Math.floor(Math.random() * 30) + 10
-          }%, transparent 70%)`}
-          filter='blur(10px)'
-          opacity={0.3}
-          zIndex={0}
-          top={`${Math.random() * 100}%`}
-          left={`${Math.random() * 100}%`}
-          css={css`
-            animation: ${float} ${Math.random() * 10 + 10}s ease-in-out infinite
-              ${Math.random() * 5}s;
-          `}
-        />
-      ))}
 
       <FullScreenSection spacing={8} position='relative' zIndex={1}>
         <MotionVStack

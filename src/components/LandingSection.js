@@ -205,44 +205,6 @@ const LandingSection = () => {
             float 15s ease-in-out infinite;
         `}
       />
-      <Box
-        position='absolute'
-        bottom='-150px'
-        left='-150px'
-        w='420px'
-        h='420px'
-        borderRadius='full'
-        bg={`radial-gradient(circle, ${orchidColor}, transparent 70%)`}
-        filter='blur(80px)'
-        opacity={0.4}
-        zIndex={0}
-        css={css`
-          animation: ${ripple} 10s ease-in-out infinite reverse,
-            float 20s ease-in-out infinite reverse;
-        `}
-      />
-      {/* Additional floating orbs */}
-      {[...Array(5)].map((_, i) => (
-        <Box
-          key={i}
-          position='absolute'
-          w={`${Math.random() * 50 + 30}px`}
-          h={`${Math.random() * 50 + 30}px`}
-          borderRadius='full'
-          bg={`radial-gradient(circle, ${orchidColor}${
-            Math.floor(Math.random() * 30) + 10
-          }%, transparent 70%)`}
-          filter='blur(10px)'
-          opacity={0.3}
-          zIndex={0}
-          top={`${Math.random() * 100}%`}
-          left={`${Math.random() * 100}%`}
-          css={css`
-            animation: float ${Math.random() * 10 + 10}s ease-in-out infinite
-              ${Math.random() * 5}s;
-          `}
-        />
-      ))}
 
       <FullScreenSection justifyContent='center' alignItems='center'>
         <MotionVStack
@@ -256,7 +218,7 @@ const LandingSection = () => {
           zIndex={1}
         >
           <VStack spacing={6} alignItems='center'>
-            <PulsingAvatar src={hamim} name='Hussain 2' />
+            {/* <PulsingAvatar src={hamim} name='Hussain 2' /> */}
 
             <VStack spacing={1}>
               <MotionHeading
@@ -269,7 +231,7 @@ const LandingSection = () => {
                 textAlign='center'
                 color={textColor}
               >
-                Hey, I'm <GlitchText>Hussain Hamim</GlitchText>
+                Hey, I'm Hussain Hamim
               </MotionHeading>
 
               <Text
@@ -507,7 +469,7 @@ const Skills = () => {
           animation: 'pulseUnderline 2s infinite',
         }}
       >
-        My Tech Stack
+        Tech Stack
       </Heading>
 
       <HStack

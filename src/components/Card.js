@@ -79,7 +79,7 @@ const Card = ({ title, description, imageSrc, link, live, _hover }) => {
           objectFit='cover'
           borderTopRadius='xl'
         />
-        <VStack spacing={4} p={6} alignItems='flex-start' flex='1'>
+        <VStack spacing={2} p={4} alignItems='flex-start' flex='1'>
           <HStack justifyContent='space-between' width='100%'>
             <Heading
               as='h3'
@@ -91,7 +91,7 @@ const Card = ({ title, description, imageSrc, link, live, _hover }) => {
               {title}
             </Heading>
             <Button
-              size='sm'
+              size='xs'
               variant='ghost'
               borderRadius='full'
               px={3}
@@ -107,13 +107,13 @@ const Card = ({ title, description, imageSrc, link, live, _hover }) => {
 
           <Text
             color={useColorModeValue('white', 'gray.300')}
-            fontSize='md'
-            lineHeight='tall'
+            fontSize='sm'
+            lineHeight='normal'
           >
             {description}
           </Text>
 
-          <HStack mt='auto' pt={2} spacing={4}>
+          <HStack spacing={4}>
             <Button
               as='a'
               href={link}

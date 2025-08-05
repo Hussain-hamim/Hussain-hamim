@@ -74,45 +74,6 @@ const ProjectsSection = () => {
             ${float} 15s ease-in-out infinite;
         `}
       />
-      <Box
-        position='absolute'
-        bottom='-150px'
-        left='-150px'
-        w='400px'
-        h='400px'
-        borderRadius='full'
-        bg={`radial-gradient(circle, ${orchidColor}, transparent 70%)`}
-        filter='blur(80px)'
-        opacity={0.4}
-        zIndex={0}
-        css={css`
-          animation: ${ripple} 10s ease-in-out infinite reverse,
-            ${float} 20s ease-in-out infinite reverse;
-        `}
-      />
-
-      {/* Floating orbs */}
-      {[...Array(5)].map((_, i) => (
-        <Box
-          key={i}
-          position='absolute'
-          w={`${Math.random() * 50 + 30}px`}
-          h={`${Math.random() * 50 + 30}px`}
-          borderRadius='full'
-          bg={`radial-gradient(circle, ${orchidColor}${
-            Math.floor(Math.random() * 30) + 10
-          }%, transparent 70%)`}
-          filter='blur(10px)'
-          opacity={0.3}
-          zIndex={0}
-          top={`${Math.random() * 100}%`}
-          left={`${Math.random() * 100}%`}
-          css={css`
-            animation: ${float} ${Math.random() * 10 + 10}s ease-in-out infinite
-              ${Math.random() * 5}s;
-          `}
-        />
-      ))}
 
       {/* Web Projects */}
       <FullScreenSection
@@ -160,15 +121,6 @@ const ProjectsSection = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1, duration: 0.5 }}
-              whileHover={{
-                y: -5,
-                transition: { duration: 0.3 },
-              }}
-              css={css`
-                &:hover {
-                  animation: ${cardHover} 2s ease-in-out infinite;
-                }
-              `}
             >
               <Card
                 title={project.title}
@@ -249,15 +201,6 @@ const ProjectsSection = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 + index * 0.1, duration: 0.5 }}
-              whileHover={{
-                y: -5,
-                transition: { duration: 0.3 },
-              }}
-              css={css`
-                &:hover {
-                  animation: ${cardHover} 2s ease-in-out infinite;
-                }
-              `}
             >
               <Card
                 title={project.title}
@@ -285,22 +228,6 @@ const ProjectsSection = () => {
         position='relative'
         zIndex={1}
       >
-        <Box
-          position='absolute'
-          top='-100px'
-          right='-120px'
-          w='300px'
-          h='300px'
-          borderRadius='full'
-          bg={`radial-gradient(circle, ${orchidColor}, transparent 70%)`}
-          filter='blur(60px)'
-          opacity={0.6}
-          zIndex={0}
-          css={css`
-            animation: ${ripple} 8s ease-in-out infinite,
-              ${float} 15s ease-in-out infinite;
-          `}
-        />
         <MotionHeading
           as='h1'
           id='certificates-section'
@@ -337,15 +264,6 @@ const ProjectsSection = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5 + index * 0.1, duration: 0.5 }}
-              whileHover={{
-                y: -5,
-                transition: { duration: 0.3 },
-              }}
-              css={css`
-                &:hover {
-                  animation: ${cardHover} 2s ease-in-out infinite;
-                }
-              `}
             >
               <Card
                 title={project.title}
@@ -371,7 +289,7 @@ const projects = [
   {
     title: 'DevSync- Developers Collab Platform',
     description:
-      'DevSync is a collaborative platform designed for developers to connect and collaborate on projects. It features user profiles, project listings, and a real-time chat system, all built with Next.js and Tailwind CSS, Supabase DB.',
+      'DevSync is a collaborative platform designed for developers to connect and collaborate on projects. It features user profiles, project listings, and a real-time chat system, Full-stack all built with Next.js and Tailwind CSS, Supabase DB.',
     getImageSrc: () => require('../images/devsync.png'),
     link: 'https://github.com/Hussain-hamim/DevSync',
     live: 'https://devsyncdotdev.vercel.app/',

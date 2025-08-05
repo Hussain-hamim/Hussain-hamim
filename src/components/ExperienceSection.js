@@ -66,7 +66,18 @@ const ExperienceSection = () => {
     {
       id: 1,
       role: 'Mobile App Developer',
-      company: 'Himalbyte',
+      company: '@ EvolvFit',
+      duration: '2025 Aug - present',
+      description:
+        'Maintain and improve full-stack mobile applications using React Native with a focus on performance optimization and superior user experience.',
+      icon: FaCode,
+      highlights: ['...', '...', '...'],
+      tech: ['React Native', 'Node.js', 'MongoDB', 'Expo'],
+    },
+    {
+      id: 2,
+      role: 'Mobile App Developer',
+      company: '@ Himalbyte',
       duration: '2025 May - 2025 Jul',
       description:
         'Developed cross-platform mobile applications using React Native with a focus on performance optimization and superior user experience.',
@@ -79,10 +90,10 @@ const ExperienceSection = () => {
       tech: ['React Native', 'Supabase', 'TypeScript', 'Expo'],
     },
     {
-      id: 2,
+      id: 3,
       role: 'Full Stack Developer',
-      company: 'Muslim Commune',
-      duration: '2025 Jun - present',
+      company: '@ Muslim Commune',
+      duration: '2025 Jun - 2025 Jul',
       description:
         'Led development of a full-stack community platform with payment integration and premium features.',
       icon: FaServer,
@@ -194,18 +205,9 @@ const ExperienceSection = () => {
           }}
           textAlign='center'
         >
-          <Heading
-            as='h2'
-            size='2xl'
-            mb={4}
-            bgGradient={`linear(to-r, ${orchidColor}, #FF0080)`}
-            bgClip='text'
-          >
+          <Heading as='h3' size='2xl' mb={4} bgClip='text' color={'white'}>
             Work Experience
           </Heading>
-          {/* <Text color={secondaryTextColor} maxW='600px' mx='auto' fontSize='lg'>
-            My professional journey through exciting projects
-          </Text> */}
         </MotionBox>
 
         <MotionVStack
@@ -329,7 +331,6 @@ const ExperienceSection = () => {
                             <Box
                               key={i}
                               px={3}
-                              py={1}
                               borderRadius='full'
                               bg='rgba(218, 112, 214, 0.1)'
                               border='1px solid'
