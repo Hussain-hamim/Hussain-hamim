@@ -349,15 +349,23 @@ const mobileProjects = [
   {
     title: 'Shan-AI',
     description:
-      'Ask ShanAI anything, a cross platform AI-powered mobile assistant that combines conversational AI, image generation and analysis using OpenAI, Gemini, and Stability APIs. Built with React Native, Expo, Clerk, and SQLite, the app offers fast, secure, and offline-capable interactions.',
+      'Ask ShanAI anything: A cross platform AI-powered mobile assistant that combines conversational AI, image generation and analysis using OpenAI, Gemini, and Stability APIs. Built with React Native, Expo, Clerk, and SQLite, the app offers fast, secure, and offline-capable interactions.',
     getImageSrc: () => require('../images/shanai2.png'),
     link: 'https://github.com/Hussain-hamim',
     live: 'https://github.com/Hussain-hamim/ShanAI/releases/download/my-tag/ShanAI_1.0.0.apk',
   },
   {
+    title: 'EaseShop',
+    description:
+      'EaseShop: A feature-rich mobile e-commerce app built with React Native + Expo, powered by AI voice agents (Vapi) for hands-free shopping. Integrated Clerk auth with passkeys, Stripe & in-app purchases, and 3D product viewing via Filament. Backend built with Express + Postgres, styled with NativeWind, and managed state with Zustand & TanStack.',
+    getImageSrc: () => require('../images/easeshop.png'),
+    link: 'https://github.com/Hussain-hamim/easeshop-mobile',
+    // live: '',
+  },
+  {
     title: 'Threads',
     description:
-      'Threads clone, a mobile app that exactly mimic Threads app, A full-stack cross-platform app with convex as db, and clerk for auth',
+      'Threads Clone: A cross-platform mobile app that recreates the Threads experience from scratch. It’s built with Convex for the database, giving real-time updates, and Clerk handles user authentication. Designed to match the look, feel, and flow of the original app.',
     getImageSrc: () => require('../images/threads2.png'),
     link: 'https://github.com/Hussain-hamim/threads',
   },
@@ -365,28 +373,28 @@ const mobileProjects = [
   {
     title: 'Himal Beauty',
     description:
-      'A Barber booking mobile app, having both admin and client side panel, full stack with supabase',
+      'Barber Booking App: A full-stack mobile app with separate admin and client panels for managing and booking barber services. Built with Supabase (including Supabase Auth) for backend and data, Expo for the frontend, and integrated FCM push notifications for real-time updates.',
     getImageSrc: () => require('../images/himal-beauty.png'),
     link: 'https://github.com/Hussain-hamim/barber-app',
   },
   {
     title: 'Brick Blitz Game',
     description:
-      'A cross-platform mobile game built with React Native, featuring a classic brick-breaker gameplay with modern twists and engaging graphics.',
+      'Brick Breaker Game: is a cross-platform mobile game built with React Native and React Native Reanimated for smooth animations and responsive gameplay. Built the classic brick-breaker style with modern twists, polished controls, and vibrant graphics, delivering an engaging and immersive experience on both iOS and Android devices.',
     getImageSrc: () => require('../images/blitz.png'),
     link: 'https://github.com/Hussain-hamim',
   },
   {
     title: 'Airbnb Clone',
     description:
-      'A cross-platform mobile app that mimics the Airbnb experience, allowing users to browse, book, and manage accommodations seamlessly.',
+      'Airbnb UI Clone: A cross-platform mobile app primarily focused on replicating Airbnb’s sleek user interface. It features smooth navigation, user authentication, and integrated maps for browsing locations, delivering a polished and intuitive experience across platforms.',
     getImageSrc: () => require('../images/airbnb-clone .jpg'),
     link: 'https://github.com/Hussain-hamim/airbnb-clone',
   },
   {
     title: 'SnapDish',
     description:
-      'A Food ordering mobile app, that handle both admin and user side, user give orders and admin update user about the order, with push notification and Stripe payment integration',
+      'Food Ordering App: A mobile app with separate admin and user panels where users can place orders and admins manage updates. Features include push notifications to keep users informed and Stripe integration for secure payments, providing a smooth end-to-end ordering experience.',
     getImageSrc: () => require('../images/snapdish2.png'),
     link: 'https://github.com/Hussain-hamim/SnapDish',
   },
