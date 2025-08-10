@@ -71,7 +71,7 @@ const Header = () => {
           <div className='md:hidden'>
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className='text-white p-2 rounded-md border border-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500'
+              className='text-white p-2 px-3 rounded-md border-[1px] border-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500'
               style={isLoaded ? getSnakeAnimation(socials.length) : {}}
             >
               <FontAwesomeIcon icon={faBars} />

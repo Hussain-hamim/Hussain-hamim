@@ -130,12 +130,7 @@ const ContactMeSection = () => {
                 whileHover={{ scale: 1.2, rotate: 10 }}
               >
                 <a href={url} target='_blank' rel='noopener noreferrer'>
-                  <FontAwesomeIcon
-                    size={'2x'}
-                    color={orchidColor}
-                    icon={icon}
-                    key={url}
-                  />
+                  <FontAwesomeIcon size={'2x'} icon={icon} key={url} />
                 </a>
               </motion.div>
             ))}
