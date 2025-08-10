@@ -50,10 +50,17 @@ const Header = () => {
   });
 
   return (
+    // <header
+    //   ref={headerRef}
+    //   className='fixed top-0 left-0 right-0 z-50 transition-transform duration-300 ease-in-out
+    //          bg-gray-900/70 backdrop-blur-xl border-b border-gray-700/40
+    //          dark:bg-gray-900/70 dark:border-gray-600/50'
+    // >
     <header
       ref={headerRef}
-      className='fixed top-0 left-0 right-0 z-50 transition-transform duration-300 ease-in-out bg-gray-800 bg-opacity-90 backdrop-blur dark:bg-gray-900 dark:bg-opacity-95'
-      style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.1)' }}
+      className='fixed top-0 left-0 right-0 z-50 transition-transform duration-300 ease-in-out
+             bg-white/30 backdrop-blur-xl 
+             dark:bg-white/10 dark:border-white/20'
     >
       <div className='max-w-7xl mx-auto px-4 sm:px-8 py-3'>
         <div className='flex justify-between items-center'>
