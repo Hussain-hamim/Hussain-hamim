@@ -1,3 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap');
+@font-face {
+  font-family: Daisyogre;
+  src: url(/public/Fonts/Daisyogre.ttf);
+}
+
 :root {
   --bg-color: #0f0f0f;
   --text-color: #ffffff;

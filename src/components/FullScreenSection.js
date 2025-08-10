@@ -6,7 +6,7 @@ import './animatedBackground.css'; // You should define styles for the 'particle
 
 const FullScreenSection = ({ children, ...boxProps }) => {
   const bgRef = useRef(null);
-  const particleCount = 50;
+  const particleCount = 30;
 
   useEffect(() => {
     const bg = bgRef.current;

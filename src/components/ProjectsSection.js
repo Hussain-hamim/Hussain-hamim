@@ -58,7 +58,7 @@ const ProjectsSection = () => {
   return (
     <Box as='section' position='relative' overflow='hidden'>
       {/* Gradient background elements */}
-      <Box
+      {/* <Box
         position='absolute'
         top='-100px'
         right='-100px'
@@ -73,7 +73,7 @@ const ProjectsSection = () => {
           animation: ${ripple} 8s ease-in-out infinite,
             ${float} 15s ease-in-out infinite;
         `}
-      />
+      /> */}
 
       {/* Web Projects */}
       <FullScreenSection
