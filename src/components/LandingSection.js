@@ -51,7 +51,7 @@ export default function LandingSection() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8 }}
-          className='bg-black border border-[#ddd] rounded-xl shadow-[15px_-15px_1px_rgba(221,221,221,1)] 
+          className='bg-black border mb-6 border-[#ddd] rounded-xl shadow-[15px_-15px_1px_rgba(221,221,221,1)] 
           flex flex-col md:flex-row items-center md:items-stretch gap-8 p-6 md:p-10 w-full max-w-5xl'
         >
           {/* Left - Text */}
