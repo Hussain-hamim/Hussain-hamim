@@ -60,7 +60,7 @@ const ExperienceSection = () => {
   return (
     <section
       id='experience'
-      className='relative  overflow-hidden py-20 px-5 md:px-10 lg:px-20'
+      className='relative  overflow-hidden py-20 px-2 md:px-10 lg:px-20'
       css={css`
         background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
       `}
@@ -91,7 +91,7 @@ const ExperienceSection = () => {
           Work Experience
         </motion.h2>
 
-        <div className='space-y-8'>
+        <div className='space-y-6'>
           {experiences.map((exp, index) => (
             <motion.div
               key={exp.id}
