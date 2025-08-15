@@ -376,6 +376,7 @@ const mobileProjects = [
       'Barber Booking App: A full-stack mobile app with separate admin and client panels for managing and booking barber services. Built with Supabase (including Supabase Auth) for backend and data, Expo for the frontend, and integrated FCM push notifications for real-time updates.',
     getImageSrc: () => require('../images/himal-beauty.png'),
     link: 'https://github.com/Hussain-hamim/barber-app',
+    live: 'https://drive.google.com/file/d/1uk3aGfYUKCDck4uJFPJ0PtQJTrXe6YKS/view?usp=drive_link',
   },
   {
     title: 'Brick Blitz Game',

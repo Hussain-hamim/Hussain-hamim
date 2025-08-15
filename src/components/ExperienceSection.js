@@ -16,7 +16,7 @@ const ExperienceSection = () => {
   const experiences = [
     {
       id: 1,
-      role: 'Mobile App Developer',
+      role: 'Software Engineer Intern',
       company: '@ EvolvFit',
       duration: '2025 Aug - present',
       description:
@@ -27,7 +27,7 @@ const ExperienceSection = () => {
     },
     {
       id: 2,
-      role: 'Founding Developer',
+      role: 'Founding Engineer',
       company: '@ Himalbyte',
       duration: '2025 May - 2025 Jul',
       description:
@@ -43,7 +43,7 @@ const ExperienceSection = () => {
     {
       id: 3,
       role: 'Full Stack Developer',
-      company: '@ Muslim Commune',
+      company: '@ Madrasa App',
       duration: '2025 Jun - 2025 Jul',
       description:
         'Led development of a full-stack community platform with payment integration and premium features.',
