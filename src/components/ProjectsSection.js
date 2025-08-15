@@ -368,7 +368,7 @@ const mobileProjects = [
       'EaseShop: A feature-rich mobile e-commerce app built with React Native + Expo, powered by AI voice agents (Vapi) for hands-free shopping. Integrated Clerk auth with passkeys, Stripe & in-app purchases, and 3D product viewing via Filament. Backend built with Express + Postgres, styled with NativeWind, and managed state with Zustand & TanStack.',
     getImageSrc: () => require('../images/easeshop.png'),
     link: 'https://github.com/Hussain-hamim/easeshop-mobile',
-    // live: '',
+    live: 'https://drive.google.com/file/d/1xZ0jOSVEwuIGFCz0AHVnBIzJmRLtmusc/view?usp=drive_link',
   },
   {
     title: 'Threads',
