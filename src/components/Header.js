@@ -121,7 +121,6 @@ const Header = () => {
           {/* Desktop Navigation */}
           <div className='hidden md:flex items-center space-x-4'>
             {[
-              'skills',
               'experience',
               'projects',
               'mobile-projects',
