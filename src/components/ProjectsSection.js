@@ -295,6 +295,14 @@ const projects = [
     live: 'https://devsyncdotdev.vercel.app/',
   },
   {
+    title: 'Premium Shop',
+    description:
+      'Premium Shop is a full-stack (MERN stack) e-commerce platform built with React.js, react-bootstrap, MongoDB, Node.js and Stripe. It features user authentication, product listings, and a shopping cart system, providing a seamless shopping experience.',
+    getImageSrc: () => require('../images/premium-shop.png'),
+    link: 'https://github.com/Hussain-hamim/PremiumShop',
+    live: 'https://premium-shop-teal.vercel.app',
+  },
+  {
     title: 'Ocean Of Games',
     description:
       'A game platform which is a clone of popular RAWG website and also powered by rawg api. browse, select, and search from a tons of games',
