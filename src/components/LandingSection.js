@@ -95,13 +95,13 @@ export default function LandingSection() {
                 style={{
                   boxShadow:
                     '10px -10px 0px #FF2E88, -10px 10px 0px #D7FF00, 10px 10px 0px #7B61FF',
-                  filter: 'blur(1.5px)',
+                  filter: 'blur(1px)',
                 }}
                 tabIndex={0}
                 onFocus={e => (e.target.style.filter = 'none')}
-                onBlur={e => (e.target.style.filter = 'blur(1.5px)')}
+                onBlur={e => (e.target.style.filter = 'blur(1px)')}
                 onMouseEnter={e => (e.target.style.filter = 'none')}
-                onMouseLeave={e => (e.target.style.filter = 'blur(1.5px)')}
+                onMouseLeave={e => (e.target.style.filter = 'blur(1px)')}
               />
             </div>
             {/* Social icons */}
