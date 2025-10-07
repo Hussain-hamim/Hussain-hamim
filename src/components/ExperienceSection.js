@@ -18,12 +18,16 @@ const ExperienceSection = () => {
       id: 1,
       role: 'Software Engineer Intern',
       company: '@ EvolvFit',
-      duration: '2025 Aug - present',
+      duration: '2025 Aug - 2025 Oct',
       description:
-        'Maintain and improve full-stack mobile applications using React Native with a focus on performance optimization and superior user experience.',
+        'Primarily focused on developing and maintaining mobile applications using React Native, while also working on the backend with Express/Node.js and building web interfaces with React.',
       icon: FaCode,
-      highlights: ['...', '...', '...'],
-      tech: ['React Native', 'Node.js', 'MongoDB', 'Expo'],
+      highlights: [
+        'Built and enhanced mobile features and UI with React Native',
+        'Developed RESTful APIs and backend logic using Express and Node.js',
+        'Implemented and maintained web components with React',
+      ],
+      tech: ['React Native', 'Express', 'Node.js', 'React', 'MongoDB', 'Expo'],
     },
     {
       id: 2,
@@ -99,7 +103,7 @@ const ExperienceSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
               viewport={{ once: true, margin: '-100px' }}
-              className={` border-[1px] rounded-xl overflow-hidden transition-all duration-300 ${
+              className={` border-[1px] rounded-xl overflow-hidden  ${
                 expandedCard === exp.id
                   ? 'border-[#174023e1] border-[1px]'
                   : 'border-[#333] border-[1px]'

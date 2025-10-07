@@ -1,9 +1,9 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { keyframes, css } from '@emotion/react';
-import { FaGithub, FaLinkedin, FaInstagram } from 'react-icons/fa';
+import { FaGithub, FaLinkedin, FaInstagram, FaEnvelope, FaWhatsapp } from 'react-icons/fa';
 import { FaXTwitter } from 'react-icons/fa6';
-import hamim from '../asset/hsn.jpg';
+import hamim from '../asset/hsn3.jpg';
 import FullScreenSection from './FullScreenSection';
 
 // Water ripple animation for bg
@@ -57,11 +57,16 @@ export default function LandingSection() {
           {/* Left - Text */}
           <div className='flex-1 flex flex-col justify-center text-center md:text-left space-y-3'>
             <div className='text-white font-mono text-sm'>hey, i'm</div>
-            <div className='text-[#D7FF00] text-4xl md:text-6xl font-bold tracking-tight font-sans1'>
-              HUSSAIN HAMIM
+            <div className='mb-1'>
+              <div className='text-[#D7FF00] text-4xl md:text-6xl font-bold tracking-tight font-sans1'>
+                HUSSAIN HAMIM
+              </div>
+              <div className='text-white tracking-tight font-sans2 opacity-40'>
+                aka <a href='https://x.com/erencodes' target='_blank' rel='noopener noreferrer' className='text-[#D7FF00] hover:underline'>Eren</a> on X
+              </div>
             </div>
             <div className='text-[#FF2E88] text-xl md:text-2xl font-bold'>
-              FULL-STACK & MOBILE DEV
+              FULL-STACK & MOBILE APP DEVELOPER
             </div>
             <p
               className='text-[#A38BFF] text-xs md:text-sm leading-relaxed font-mono'
@@ -86,11 +91,17 @@ export default function LandingSection() {
               <img
                 src={hamim}
                 alt='profile'
-                className='rounded-lg w-48 h-48 object-cover border-4 border-black'
+                className='rounded-lg w-48 h-48 object-cover border-4 border-black transition-all duration-300 focus:blur-0'
                 style={{
                   boxShadow:
                     '10px -10px 0px #FF2E88, -10px 10px 0px #D7FF00, 10px 10px 0px #7B61FF',
+                  filter: 'blur(1.5px)',
                 }}
+                tabIndex={0}
+                onFocus={e => (e.target.style.filter = 'none')}
+                onBlur={e => (e.target.style.filter = 'blur(1.5px)')}
+                onMouseEnter={e => (e.target.style.filter = 'none')}
+                onMouseLeave={e => (e.target.style.filter = 'blur(1.5px)')}
               />
             </div>
             {/* Social icons */}
@@ -117,11 +128,25 @@ export default function LandingSection() {
                 <FaInstagram size={20} />
               </a>
               <a
-                href='https://twitter.com/erencodes'
+                href='https://x.com/erencodes'
                 target='_blank'
                 rel='noopener noreferrer'
               >
                 <FaXTwitter size={20} />
+              </a>
+              <a
+                href='mailto:mohammadhussainafghan83@gmail.com'
+                target='_blank'
+                rel='noopener noreferrer'
+              >
+                <FaEnvelope size={20} />
+              </a>
+              <a
+                href='https://wa.me/93780338261'
+                target='_blank'
+                rel='noopener noreferrer'
+              >
+                <FaWhatsapp size={20} />
               </a>
             </div>
           </div>

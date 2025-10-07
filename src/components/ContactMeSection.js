@@ -293,20 +293,20 @@ const ContactMeSection = () => {
                 <input type='hidden' name='_captcha' value='false' />
 
                 <Button
-                  type='submit'
+                  type='button'
                   width='full'
                   isLoading={isLoading}
-                  bgGradient={`linear(to-r, ${orchidColor}, rgb(110, 61, 133))`}
-                  color='white'
+                  bg='white'
+                  color='black'
+                  px={6}
+                  py={4}
+                  borderRadius='md'
+                  variant='solid'
                   _hover={{
-                    bgGradient: `linear(to-r,rgb(110, 61, 133), ${orchidColor})`,
-                    transform: 'translateY(-2px)',
-                    boxShadow: `0 4px 15px ${orchidColor}80`,
+                    textDecoration: 'underline',
+                    bg: 'white',
                   }}
-                  _active={{
-                    transform: 'translateY(0)',
-                  }}
-                  transition='all 0.3s ease'
+          
                   size='lg'
                 >
                   Submit
