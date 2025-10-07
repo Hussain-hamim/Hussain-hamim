@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { keyframes, css } from '@emotion/react';
 import { FaGithub, FaLinkedin, FaInstagram } from 'react-icons/fa';
 import { FaXTwitter } from 'react-icons/fa6';
-import hamim from '../asset/hussain-gray.jpg';
+import hamim from '../asset/hsn.jpg';
 import FullScreenSection from './FullScreenSection';
 
 // Water ripple animation for bg
