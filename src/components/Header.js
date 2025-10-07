@@ -108,7 +108,8 @@ const Header = () => {
                   </button>
                 ))}
                 <a
-                  href='https://github.com/Hussain-hamim/Hussain-hamim/releases/download/v1.0.0/Hussain-resume.pdf'
+                  href='/src/asset/Hussain-resume3.pdf'
+                  download='Hussain-resume3.pdf'
                   className='block px-4 py-2 text-teal-300 hover:bg-teal-900 hover:bg-opacity-20 transition-all duration-200 dark:text-teal-200'
                   style={isLoaded ? getSnakeAnimation(5) : {}}
                 >
@@ -140,7 +141,8 @@ const Header = () => {
               </button>
             ))}
             <a
-              href='https://github.com/Hussain-hamim/Hussain-hamim/releases/download/v1.0.0/Hussain-resume.pdf'
+              href='/src/asset/Hussain-resume3.pdf'
+              download='Hussain-resume3.pdf'
               className='text-teal-300 border border-teal-300 px-4 py-2 rounded hover:bg-teal-300 hover:text-black hover:-translate-y-0.5 transition-all duration-200 dark:text-teal-200 dark:border-teal-200 dark:hover:bg-teal-200 dark:hover:text-gray-900'
               style={isLoaded ? getSnakeAnimation(5) : {}}
             >
