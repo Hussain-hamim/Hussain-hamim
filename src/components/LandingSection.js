@@ -1,10 +1,16 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { keyframes, css } from '@emotion/react';
-import { FaGithub, FaLinkedin, FaInstagram, FaEnvelope, FaWhatsapp } from 'react-icons/fa';
-import { FaXTwitter } from 'react-icons/fa6';
-import hamim from '../asset/hsn3.jpg';
-import FullScreenSection from './FullScreenSection';
+import React from "react";
+import { motion } from "framer-motion";
+import { keyframes, css } from "@emotion/react";
+import {
+  FaGithub,
+  FaLinkedin,
+  FaInstagram,
+  FaEnvelope,
+  FaWhatsapp,
+} from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
+import hamim from "../asset/hsn3.jpg";
+import FullScreenSection from "./FullScreenSection";
 
 // Water ripple animation for bg
 const ripple = keyframes`
@@ -19,13 +25,13 @@ const fadeIn = keyframes`
   to { opacity: 1; transform: translateY(0); }
 `;
 
-const orchidColor = '#DA70D6';
+const orchidColor = "#DA70D6";
 
 export default function LandingSection() {
   return (
-    <section className='relative overflow-hidden min-h-screen  pt-20'>
+    <section className="relative overflow-hidden min-h-screen  pt-20">
       <div
-        className='absolute inset-0 bg-cover bg-center opacity-70 z-0'
+        className="absolute inset-0 bg-cover bg-center opacity-70 z-0"
         style={{
           backgroundImage: `url('/bg.jpg')`,
         }}
@@ -33,7 +39,7 @@ export default function LandingSection() {
 
       {/* Ripple glowing background */}
       <div
-        className='absolute top-[-150px] right-[-200px] w-[500px] h-[500px] rounded-full opacity-60 filter blur-[60px] z-0'
+        className="absolute top-[-150px] right-[-200px] w-[500px] h-[500px] rounded-full opacity-60 filter blur-[60px] z-0"
         style={{
           background: `radial-gradient(circle, ${orchidColor}, transparent 70%)`,
           animation: `${ripple} 8s ease-in-out infinite`,
@@ -41,35 +47,44 @@ export default function LandingSection() {
       />
 
       <FullScreenSection
-        justifyContent='center'
-        alignItems='center'
+        justifyContent="center"
+        alignItems="center"
         // paddingX='20px'
-        className='relative px-[20px] z-10 flex flex-col items-center'
+        className="relative px-[20px] z-10 flex flex-col items-center"
       >
         {/* Main retro card */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8 }}
-          className='bg-black border mb-6 border-[#ddd] rounded-xl shadow-[15px_-15px_1px_rgba(221,221,221,1)] 
-          flex flex-col md:flex-row items-center md:items-stretch gap-8 p-6 md:p-10 w-full max-w-5xl'
+          className="bg-black border mb-6 border-[#ddd] rounded-xl shadow-[15px_-15px_1px_rgba(221,221,221,1)] 
+          flex flex-col md:flex-row items-center md:items-stretch gap-8 p-6 md:p-10 w-full max-w-5xl"
         >
           {/* Left - Text */}
-          <div className='flex-1 flex flex-col justify-center text-center md:text-left space-y-3'>
-            <div className='text-white font-mono text-sm'>hey, i'm</div>
-            <div className='mb-1'>
-              <div className='text-[#D7FF00] text-4xl md:text-6xl font-bold tracking-tight font-sans1'>
+          <div className="flex-1 flex flex-col justify-center text-center md:text-left space-y-3">
+            <div className="text-white font-mono text-sm">hey, i'm</div>
+            <div className="mb-1">
+              <div className="text-[#D7FF00] text-4xl md:text-6xl font-bold tracking-tight font-sans1">
                 HUSSAIN HAMIM
               </div>
-              <div className='text-white tracking-tight font-sans2 opacity-40'>
-                aka <a href='https://x.com/erencodes' target='_blank' rel='noopener noreferrer' className='text-[#D7FF00] hover:underline'>Eren</a> on X
+              <div className="text-white tracking-tight font-sans2 opacity-40">
+                aka{" "}
+                <a
+                  href="https://x.com/erencodes"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#D7FF00] underline"
+                >
+                  Eren
+                </a>{" "}
+                on X
               </div>
             </div>
-            <div className='text-[#FF2E88] text-xl md:text-2xl font-bold'>
+            <div className="text-[#FF2E88] text-xl md:text-2xl font-bold">
               FULL-STACK & MOBILE APP DEVELOPER
             </div>
             <p
-              className='text-[#A38BFF] text-xs md:text-sm leading-relaxed font-mono'
+              className="text-[#A38BFF] text-xs md:text-sm leading-relaxed font-mono"
               css={css`
                 animation: ${fadeIn} 1s ease forwards;
                 animation-delay: 0.5s;
@@ -86,65 +101,65 @@ export default function LandingSection() {
           </div>
 
           {/* Right - Image + Social Icons */}
-          <div className='flex-[0.5] flex flex-col items-center'>
-            <div className='relative'>
+          <div className="flex-[0.5] flex flex-col items-center">
+            <div className="relative">
               <img
                 src={hamim}
-                alt='profile'
-                className='rounded-lg w-48 h-48 object-cover border-4 border-black transition-all duration-300 focus:blur-0'
+                alt="profile"
+                className="rounded-lg w-48 h-48 object-cover border-4 border-black transition-all duration-300 focus:blur-0"
                 style={{
                   boxShadow:
-                    '10px -10px 0px #FF2E88, -10px 10px 0px #D7FF00, 10px 10px 0px #7B61FF',
-                  filter: 'blur(1px)',
+                    "10px -10px 0px #FF2E88, -10px 10px 0px #D7FF00, 10px 10px 0px #7B61FF",
+                  filter: "blur(1px)",
                 }}
                 tabIndex={0}
-                onFocus={e => (e.target.style.filter = 'none')}
-                onBlur={e => (e.target.style.filter = 'blur(1px)')}
-                onMouseEnter={e => (e.target.style.filter = 'none')}
-                onMouseLeave={e => (e.target.style.filter = 'blur(1px)')}
+                onFocus={(e) => (e.target.style.filter = "none")}
+                onBlur={(e) => (e.target.style.filter = "blur(1px)")}
+                onMouseEnter={(e) => (e.target.style.filter = "none")}
+                onMouseLeave={(e) => (e.target.style.filter = "blur(1px)")}
               />
             </div>
             {/* Social icons */}
-            <div className='flex gap-6 mt-4 text-white'>
+            <div className="flex gap-6 mt-4 text-white">
               <a
-                href='https://github.com/Hussain-hamim'
-                target='_blank'
-                rel='noopener noreferrer'
+                href="https://github.com/Hussain-hamim"
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 <FaGithub size={20} />
               </a>
               <a
-                href='https://www.linkedin.com/in/hussain-hamim/'
-                target='_blank'
-                rel='noopener noreferrer'
+                href="https://www.linkedin.com/in/hussain-hamim/"
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 <FaLinkedin size={20} />
               </a>
               <a
-                href='https://www.instagram.com/hussainhamim_'
-                target='_blank'
-                rel='noopener noreferrer'
+                href="https://www.instagram.com/hussainhamim_"
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 <FaInstagram size={20} />
               </a>
               <a
-                href='https://x.com/erencodes'
-                target='_blank'
-                rel='noopener noreferrer'
+                href="https://x.com/erencodes"
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 <FaXTwitter size={20} />
               </a>
               <a
-                href='mailto:mohammadhussainafghan83@gmail.com'
-                target='_blank'
-                rel='noopener noreferrer'
+                href="mailto:mohammadhussainafghan83@gmail.com"
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 <FaEnvelope size={20} />
               </a>
               <a
-                href='https://wa.me/93780338261'
-                target='_blank'
-                rel='noopener noreferrer'
+                href="https://wa.me/93780338261"
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 <FaWhatsapp size={20} />
               </a>

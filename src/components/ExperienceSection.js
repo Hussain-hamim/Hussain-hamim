@@ -1,14 +1,5 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { FaCode, FaServer } from 'react-icons/fa';
-import { keyframes, css } from '@emotion/react';
-import { Box, Flex, Text } from '@chakra-ui/react';
-
-const flicker = keyframes`
-  0% { opacity: 0.8; }
-  50% { opacity: 1; }
-  100% { opacity: 0.8; }
-`;
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const ExperienceSection = () => {
   const [expandedCard, setExpandedCard] = useState(null);
@@ -16,202 +7,170 @@ const ExperienceSection = () => {
   const experiences = [
     {
       id: 1,
-      role: 'Software Engineer Intern',
-      company: '@ EvolvFit',
-      duration: '2025 Aug - 2025 Oct',
+      role: "Software Engineer",
+      company: "EvolvFit",
+      duration: "Aug 2025 - Oct 2025",
       description:
-        'Primarily focused on developing and maintaining mobile applications using React Native, while also working on the backend with Express/Node.js and building web interfaces with React.',
-      icon: FaCode,
+        "Primarily focused on developing and maintaining mobile applications using React Native, while also working on the backend with Express/Node.js and building web interfaces with React.",
       highlights: [
-        'Built and enhanced mobile features and UI with React Native',
-        'Developed RESTful APIs and backend logic using Express and Node.js',
-        'Implemented and maintained web components with React',
+        "Built and enhanced mobile features and UI with React Native",
+        "Developed RESTful APIs and backend logic using Express and Node.js",
+        "Implemented and maintained web components with React",
       ],
-      tech: ['React Native', 'Express', 'Node.js', 'React', 'MongoDB', 'Expo'],
+      tech: ["React Native", "Express", "Node.js", "React", "MongoDB", "Expo"],
     },
     {
       id: 2,
-      role: 'Founding Engineer',
-      company: '@ Himalbyte',
-      duration: '2025 May - 2025 Jul',
+      role: "Mobile App Developer",
+      company: "Himalbyte",
+      duration: "May 2025 - Jul 2025",
       description:
-        'Developed cross-platform mobile applications using React Native with a focus on performance optimization and superior user experience.',
-      icon: FaCode,
+        "Developed cross-platform mobile applications using React Native with a focus on performance optimization and superior user experience.",
       highlights: [
-        'Implemented client and admin panels with real-time updates',
-        'Integrated Supabase for backend services and authentication',
-        'Implemented push notifications and offline capabilities',
+        "Implemented client and admin panels with real-time updates",
+        "Integrated Supabase for backend services and authentication",
+        "Implemented push notifications and offline capabilities",
       ],
-      tech: ['React Native', 'Supabase', 'TypeScript', 'Expo'],
+      tech: ["React Native", "Supabase", "TypeScript", "Expo"],
     },
     {
       id: 3,
-      role: 'Full Stack Developer',
-      company: '@ Madrasa App',
-      duration: '2025 Jun - 2025 Jul',
+      role: "Software Engineer",
+      company: "zappstudios",
+      duration: "Sept 2025 - Present",
       description:
-        'Led development of a full-stack community platform with payment integration and premium features.',
-      icon: FaServer,
+        "Working on projects to develop web applications for clients using Next.js, TailwindCSS, Supabase, Stripe, Angular, and Python.",
       highlights: [
-        'Built with Next.js, TailwindCSS, Framer and Supabase',
-        'Implemented Stripe payment integration',
-        'Developed admin dashboard with analytics',
+        "Developed full-stack web apps using Next.js and Supabase for various client needs",
+        "Integrated payments and authentication features with Stripe and secure flows",
+        "Worked with Angular and Python to deliver robust admin tools and dashboards",
       ],
-      tech: ['Next.js', 'TailwindCSS', 'Supabase', 'Stripe'],
+      tech: [
+        "Next.js",
+        "TailwindCSS",
+        "Supabase",
+        "Stripe",
+        "Angular",
+        "Python",
+      ],
     },
   ];
 
   return (
     <section
-      id='experience'
-      className='relative  overflow-hidden py-20 px-2 md:px-10 lg:px-20'
-      css={css`
-        background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
-      `}
+      id="experience"
+      className="py-20 px-4 md:px-10 lg:px-20 bg-[#0a0a0a]"
     >
-      <div
-        className='absolute bottom-[-100px] right-[-100px] w-[400px] h-[400px] rounded-full opacity-40 filter blur-[60px] z-0'
-        css={css`
-          background: radial-gradient(circle, #d7ff00, transparent 70%);
-          animation: ${flicker} 7s ease-in-out infinite 1s;
-        `}
-      />
-
-      <div className='relative z-10 max-w-6xl mx-auto'>
-        <motion.h2
+      <div className="max-w-4xl mx-auto">
+        {/* Header */}
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className='text-center text-white text-4xl md:text-5xl font-bold mb-16 text-transparent bg-clip-text'
-          css={css`
-            background: linear-gradient(
-              90deg,
-              #d7ff00 0%,
-              #ff2e88 50%,
-              #7b61ff 100%
-            );
-          `}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+          className="mb-16"
         >
-          Work Experience
-        </motion.h2>
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+            Experience
+          </h2>
+          <div className="w-20 h-1 bg-white"></div>
+        </motion.div>
 
-        <div className='space-y-6'>
+        {/* Experience List */}
+        <div className="space-y-12">
           {experiences.map((exp, index) => (
             <motion.div
               key={exp.id}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
-              viewport={{ once: true, margin: '-100px' }}
-              className={` border-[1px] rounded-xl overflow-hidden  ${
-                expandedCard === exp.id
-                  ? 'border-[#174023e1] border-[1px]'
-                  : 'border-[#333] border-[1px]'
-              }`}
-              css={css`
-                box-shadow: ${expandedCard === exp.id
-                  ? '0 0 15px rgba(215, 255, 0, 0.3)'
-                  : '0 5px 15px rgba(0, 0, 0, 0.3)'};
-                background: rgba(30, 30, 30, 0.7);
-                backdrop-filter: blur(10px);
-              `}
+              viewport={{ once: true }}
+              className="border-l-2 border-gray-700 pl-8 relative"
             >
-              <div
-                className='p-6 cursor-pointer flex justify-between items-start'
-                onClick={() =>
-                  setExpandedCard(expandedCard === exp.id ? null : exp.id)
-                }
-              >
-                <div className='flex items-start space-x-4'>
-                  <div className='p-[10px] rounded-lg bg-black  '>
-                    <exp.icon
-                      className={`text-xl ${
-                        expandedCard === exp.id
-                          ? 'text-[#D7FF00]'
-                          : 'text-[#DA70D6]'
-                      }`}
-                    />
-                  </div>
-                  <div>
-                    <h3 className='text-xl md:text-2xl font-bold text-white'>
+              {/* Timeline Dot */}
+              <div className="absolute left-[-9px] top-0 w-4 h-4 bg-white rounded-full"></div>
+
+              {/* Content */}
+              <div>
+                {/* Header - Clickable */}
+                <div
+                  className="mb-2 cursor-pointer flex items-start justify-between group"
+                  onClick={() =>
+                    setExpandedCard(expandedCard === exp.id ? null : exp.id)
+                  }
+                >
+                  <div className="flex-1">
+                    <h3 className="text-xl md:text-2xl font-semibold text-white mb-1 group-hover:text-gray-200 transition-colors">
                       {exp.role}
                     </h3>
-                    <p className='text-[#DA70D6] text-sm md:text-base'>
-                      {exp.company} • {exp.duration}
-                    </p>
-                  </div>
-                </div>
-                <div
-                  className={`transition-transform ${
-                    expandedCard === exp.id ? 'rotate-180' : ''
-                  }`}
-                >
-                  <svg
-                    width='20'
-                    height='20'
-                    viewBox='0 0 24 24'
-                    fill='none'
-                    xmlns='http://www.w3.org/2000/svg'
-                  >
-                    <path
-                      d='M6 9L12 15L18 9'
-                      stroke={expandedCard === exp.id ? '#D7FF00' : '#DA70D6'}
-                      strokeWidth='2'
-                      strokeLinecap='round'
-                      strokeLinejoin='round'
-                    />
-                  </svg>
-                </div>
-              </div>
-
-              {expandedCard === exp.id && (
-                <motion.div
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: 'auto' }}
-                  transition={{ duration: 0.3 }}
-                  className='px-6 pb-6'
-                >
-                  <p className='text-[#A38BFF] mt-2 text-sm md:text-base'>
-                    {exp.description}
-                  </p>
-                  <div className='mt-4'>
-                    <h4 className='text-[#FF2E88] font-bold mb-3'>
-                      Key Contributions:
-                    </h4>
-                    <ul className='space-y-2 pl-5'>
-                      {exp.highlights.map((highlight, i) => (
-                        <li
-                          key={i}
-                          className='text-[#A38BFF] relative before:absolute before:left-[-15px] before:top-[8px] before:w-[6px] before:h-[6px] before:rounded-full before:bg-[#FF2E88]'
-                        >
-                          {highlight}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <div className='mt-6'>
-                    <h4 className='text-[#FF2E88] font-bold mb-3'>
-                      Technologies Used:
-                    </h4>
-                    <div className='flex flex-wrap gap-2'>
-                      {exp.tech.map((tech, i) => (
-                        <span
-                          key={i}
-                          className='px-3 py-1 rounded-full text-sm text-gray-400'
-                          css={css`
-                            background: rgba(163, 139, 255, 0.1);
-                            border: 1px solid rgba(163, 139, 255, 0.3);
-                            color: #a38bff;
-                          `}
-                        >
-                          {tech}
-                        </span>
-                      ))}
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 text-gray-400">
+                      <span className="font-medium">{exp.company}</span>
+                      <span className="hidden sm:inline">•</span>
+                      <span className="text-sm">{exp.duration}</span>
                     </div>
                   </div>
-                </motion.div>
-              )}
+                  {/* Chevron Icon */}
+                  <motion.div
+                    animate={{ rotate: expandedCard === exp.id ? 180 : 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="ml-4 mt-1"
+                  >
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      className="text-gray-400"
+                    >
+                      <path d="M6 9L12 15L18 9" />
+                    </svg>
+                  </motion.div>
+                </div>
+
+                <p className="text-gray-300 mb-4 leading-relaxed line-clamp-1">
+                  {exp.description}
+                </p>
+
+                {/* Expandable Content */}
+                <AnimatePresence>
+                  {expandedCard === exp.id && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      exit={{ opacity: 0, height: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="overflow-hidden"
+                    >
+                      {/* Highlights */}
+                      <ul className="space-y-2 mb-4">
+                        {exp.highlights.map((highlight, i) => (
+                          <li
+                            key={i}
+                            className="text-gray-400 text-sm flex items-start"
+                          >
+                            <span className="mr-2 text-white">•</span>
+                            <span>{highlight}</span>
+                          </li>
+                        ))}
+                      </ul>
+
+                      {/* Tech Stack */}
+                      <div className="flex flex-wrap gap-2">
+                        {exp.tech.map((tech, i) => (
+                          <span
+                            key={i}
+                            className="px-3 py-1 text-xs bg-gray-800 text-gray-300 rounded"
+                          >
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
             </motion.div>
           ))}
         </div>

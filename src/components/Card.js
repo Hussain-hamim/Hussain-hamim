@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Box,
   Heading,
@@ -9,59 +9,59 @@ import {
   Image,
   VStack,
   Button,
-} from '@chakra-ui/react';
-import { css } from '@emotion/react';
+} from "@chakra-ui/react";
+import { css } from "@emotion/react";
 
 // Enhanced Card component
 const Card = ({ title, description, imageSrc, link, live, _hover }) => {
-  const orchidColor = useColorModeValue('gray', 'orchid.300');
-  const textColor = useColorModeValue('white', 'white');
-  const cardBg = useColorModeValue('white', 'gray.800');
+  const orchidColor = useColorModeValue("gray", "orchid.300");
+  const textColor = useColorModeValue("white", "white");
+  const cardBg = useColorModeValue("white", "gray.800");
 
   const getTagColor = () => {
-    if (title.toLowerCase().includes('mobile')) {
-      return { bg: 'rgba(147, 51, 234, 0.3)', text: 'purple.200' };
+    if (title.toLowerCase().includes("mobile")) {
+      return { bg: "rgba(147, 51, 234, 0.3)", text: "purple.200" };
     }
-    if (description.toLowerCase().includes('certificate')) {
-      return { bg: 'rgba(234, 179, 8, 0.3)', text: 'yellow.200' };
+    if (description.toLowerCase().includes("certificate")) {
+      return { bg: "rgba(234, 179, 8, 0.3)", text: "yellow.200" };
     }
     if (
-      description.toLowerCase().includes('backend') ||
-      description.toLowerCase().includes('full-stack') ||
-      description.toLowerCase().includes('login') ||
-      description.toLowerCase().includes('api')
+      description.toLowerCase().includes("backend") ||
+      description.toLowerCase().includes("full-stack") ||
+      description.toLowerCase().includes("login") ||
+      description.toLowerCase().includes("api")
     ) {
-      return { bg: 'rgba(59, 130, 246, 0.3)', text: 'blue.200' };
+      return { bg: "rgba(59, 130, 246, 0.3)", text: "blue.200" };
     }
-    return { bg: 'rgba(34, 197, 94, 0.3)', text: 'green.200' };
+    return { bg: "rgba(34, 197, 94, 0.3)", text: "green.200" };
   };
 
   const tagInfo = getTagColor();
-  const tagText = description.toLowerCase().includes('mobile')
-    ? 'Mobile'
-    : description.toLowerCase().includes('certificate')
-    ? 'Certificate'
-    : description.toLowerCase().includes('backend') ||
-      description.toLowerCase().includes('full-stack') ||
-      description.toLowerCase().includes('login') ||
-      description.toLowerCase().includes('api')
-    ? 'Full Stack'
-    : 'Frontend';
+  const tagText = description.toLowerCase().includes("mobile")
+    ? "Mobile"
+    : description.toLowerCase().includes("certificate")
+    ? "Certificate"
+    : description.toLowerCase().includes("backend") ||
+      description.toLowerCase().includes("full-stack") ||
+      description.toLowerCase().includes("login") ||
+      description.toLowerCase().includes("api")
+    ? "Full Stack"
+    : "Frontend";
 
   return (
     <Box
-      as='article'
-      borderRadius='xl'
-      overflow='hidden'
+      as="article"
+      borderRadius="xl"
+      overflow="hidden"
       // bg={cardBg}
       color={textColor}
-      transition='all 0.3s ease'
-      boxShadow='md'
-      height='100%'
-      display='flex'
-      flexDirection='column'
-      cursor='pointer'
-      position='relative'
+      transition="all 0.3s ease"
+      boxShadow="md"
+      height="100%"
+      display="flex"
+      flexDirection="column"
+      cursor="pointer"
+      position="relative"
       zIndex={1}
       // {..._hover}
       css={css`
@@ -70,35 +70,35 @@ const Card = ({ title, description, imageSrc, link, live, _hover }) => {
         }
       `}
     >
-      <Box flex='1' display='flex' flexDirection='column'>
+      <Box flex="1" display="flex" flexDirection="column">
         <Image
           src={imageSrc}
           alt={title}
-          w='100%'
-          h='240px'
-          objectFit='cover'
-          borderTopRadius='xl'
+          w="100%"
+          h="240px"
+          objectFit="contain"
+          borderTopRadius="xl"
         />
-        <VStack spacing={2} p={4} alignItems='flex-start' flex='1'>
-          <HStack justifyContent='space-between' width='100%'>
+        <VStack spacing={2} p={4} alignItems="flex-start" flex="1">
+          <HStack justifyContent="space-between" width="100%">
             <Heading
-              as='h3'
-              size='md'
-              fontWeight='semibold'
-              letterSpacing='tight'
+              as="h3"
+              size="md"
+              fontWeight="semibold"
+              letterSpacing="tight"
               color={textColor}
             >
               {title}
             </Heading>
             <Button
-              size='xs'
-              variant='ghost'
-              borderRadius='full'
+              size="xs"
+              variant="ghost"
+              borderRadius="full"
               px={3}
               bg={tagInfo.bg}
               color={tagInfo.text}
-              fontSize='xs'
-              fontWeight='bold'
+              fontSize="xs"
+              fontWeight="bold"
               _hover={{ color: tagInfo.text, bg: tagInfo.bg }}
             >
               {tagText}
@@ -106,33 +106,33 @@ const Card = ({ title, description, imageSrc, link, live, _hover }) => {
           </HStack>
 
           <Text
-            color={useColorModeValue('white', 'gray.300')}
-            fontSize='sm'
-            lineHeight='normal'
+            color={useColorModeValue("white", "gray.300")}
+            fontSize="sm"
+            lineHeight="normal"
           >
             {description}
           </Text>
 
           <HStack spacing={4}>
             <Button
-              as='a'
+              as="a"
               href={link}
-              target='_blank'
-              variant='outline'
-              size='sm'
-              colorScheme='purple'
+              target="_blank"
+              variant="outline"
+              size="sm"
+              colorScheme="purple"
               onClick={(e) => e.stopPropagation()}
             >
               View Code
             </Button>
             {live && (
               <Button
-                as='a'
+                as="a"
                 href={live}
-                target='_blank'
-                variant='outline'
-                size='sm'
-                colorScheme='blue'
+                target="_blank"
+                variant="outline"
+                size="sm"
+                colorScheme="blue"
                 onClick={(e) => e.stopPropagation()}
               >
                 Live Demo
