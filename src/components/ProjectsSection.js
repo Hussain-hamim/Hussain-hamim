@@ -302,7 +302,7 @@ const projects = [
       "DevSync is a collaborative platform designed for developers to connect and collaborate on projects. It features user profiles, project listings, and a real-time chat system, Full-stack all built with Next.js and Tailwind CSS, Supabase DB.",
     getImageSrc: () => require("../images/devsync.png"),
     link: "https://github.com/Hussain-hamim/DevSync",
-    live: "https://devsyncdotdev.vercel.app/",
+    live: "https://devsync.codes/",
   },
   {
     title: "Premium Shop",
