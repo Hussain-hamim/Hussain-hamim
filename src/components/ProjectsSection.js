@@ -289,7 +289,7 @@ const projects = [
   {
     title: "Aegnis AI",
     description:
-      "Aegnis is your AI Chief of Staff, an AI-powered productivity platform that doesn't just show you your life, it manages it for you. From a to-do list to a done list. Aegnis connects to your Gmail, Calendar, and other tools.(Full-stack)",
+      "Aegnis is your AI Chief of Staff, an AI-powered productivity platform that doesn't just show you your life, it manages it for you. From a to-do list to a done list.(Full-stack)",
     getImageSrc: () => require("../images/aegnisai.png"),
     link: "https://github.com/Hussain-hamim",
     live: "https://x.com/AegnisAI",
