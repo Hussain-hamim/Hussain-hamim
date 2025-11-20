@@ -7,7 +7,7 @@ import useSubmit from "../hooks/useSubmit";
 import { FaGithub, FaLinkedin, FaEnvelope, FaPaperPlane } from "react-icons/fa";
 
 const ContactMeSection = () => {
-  const { isLoading, response, submit } = useSubmit();
+  const { isLoading, response, submit, clearResponse } = useSubmit();
   const { onOpen } = useAlertContext();
 
   const formik = useFormik({
@@ -18,7 +18,7 @@ const ContactMeSection = () => {
       comment: "",
     },
     onSubmit: (values) => {
-      submit("https://hussain.com/contactme", values);
+      submit(null, values);
     },
     validationSchema: Yup.object({
       firstName: Yup.string().required("Required"),
@@ -35,8 +35,10 @@ const ContactMeSection = () => {
       if (response.type === "success") {
         formik.resetForm();
       }
+      // Clear the response after showing the alert to prevent reopening
+      clearResponse();
     }
-  }, [response, onOpen, formik]);
+  }, [response, onOpen, formik, clearResponse]);
 
   return (
     <section

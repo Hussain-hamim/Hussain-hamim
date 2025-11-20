@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useCallback } from "react";
 
 const AlertContext = createContext(undefined);
 
@@ -9,12 +9,24 @@ export const AlertProvider = ({ children }) => {
     message: "",
   });
 
+  const onOpen = useCallback((type, message) => {
+    setState({ isOpen: true, type, message });
+  }, []);
+
+  const onClose = useCallback(() => {
+    setState({
+      isOpen: false,
+      type: "",
+      message: "",
+    });
+  }, []);
+
   return (
     <AlertContext.Provider
       value={{
         ...state,
-        onOpen: (type, message) => setState({ isOpen: true, type, message }),
-        onClose: () => setState({ isOpen: false, type: "", message: "" }),
+        onOpen,
+        onClose,
       }}
     >
       {children}
