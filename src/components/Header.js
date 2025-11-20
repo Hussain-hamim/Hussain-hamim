@@ -1,17 +1,26 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEnvelope, faBars } from '@fortawesome/free-solid-svg-icons';
+import React, { useEffect, useRef, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEnvelope, faBars, faXmark } from "@fortawesome/free-solid-svg-icons";
 import {
   faGithub,
   faLinkedin,
   faTwitter,
   faInstagram,
-} from '@fortawesome/free-brands-svg-icons';
+} from "@fortawesome/free-brands-svg-icons";
+
+const socials = [
+  { icon: faGithub, url: "https://github.com/Hussain-hamim" },
+  { icon: faLinkedin, url: "https://www.linkedin.com/in/hussain-hamim/" },
+  { icon: faTwitter, url: "https://twitter.com/hussainhamim_" },
+  { icon: faInstagram, url: "https://www.instagram.com/hussainhamim_" },
+  { icon: faEnvelope, url: "mailto: mohammadhussainafghan83@gmail.com" },
+];
 
 const Header = () => {
   const headerRef = useRef(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     setIsLoaded(true);
@@ -22,159 +31,144 @@ const Header = () => {
       const headerElement = headerRef.current;
       if (!headerElement) return;
 
+      setScrolled(currentScrollPos > 50);
+
       if (prevScrollPos > currentScrollPos) {
-        headerElement.style.transform = 'translateY(0)';
+        headerElement.style.transform = "translateY(0)";
       } else {
-        headerElement.style.transform = 'translateY(-200px)';
+        if (currentScrollPos > 100) {
+          headerElement.style.transform = "translateY(-100%)";
+        }
       }
       prevScrollPos = currentScrollPos;
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const handleClick = (anchor) => () => {
     const element = document.getElementById(`${anchor}-section`);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      element.scrollIntoView({ behavior: "smooth", block: "start" });
     }
     setIsMenuOpen(false);
   };
 
-  // Animation styles
-  const getSnakeAnimation = (index) => ({
-    animation: `snakeFadeIn 0.5s ease-out forwards`,
-    animationDelay: `${index * 0.1}s`,
-    opacity: 0,
-  });
+  const navItems = [
+    "experience",
+    "projects",
+    "mobileapps",
+    "skills",
+    "contactme",
+  ];
 
   return (
-    // <header
-    //   ref={headerRef}
-    //   className='fixed top-0 left-0 right-0 z-50 transition-transform duration-300 ease-in-out
-    //          bg-gray-900/70 backdrop-blur-xl border-b border-gray-700/40
-    //          dark:bg-gray-900/70 dark:border-gray-600/50'
-    // >
     <header
       ref={headerRef}
-      className='fixed top-0 left-0 right-0 z-50 transition-transform duration-300 ease-in-out
-             bg-white/30 backdrop-blur-xl 
-             dark:bg-white/10 dark:border-white/20'
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-in-out
+        ${
+          scrolled
+            ? "bg-black/80 backdrop-blur-xl border-b border-white/5 shadow-2xl"
+            : "bg-transparent"
+        }`}
     >
-      <div className='max-w-7xl mx-auto px-4 sm:px-8 py-3'>
-        <div className='flex justify-between items-center'>
-          <div className='flex items-center space-x-3 md:space-x-6'>
-            {/* Social Links with snake animation */}
-            <a
-              href='/'
-              className='flex items-center space-x-3  hover:underline cursor-pointer font-sans1 text-[#D7FF00]'
-            >
-              HSN
-            </a>
-          </div>
-
-          {/* Mobile Menu Button */}
-          <div className='md:hidden'>
-            <button
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className='text-white p-2 px-3 rounded-md border-[1px] border-gray-400 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500'
-              style={isLoaded ? getSnakeAnimation(socials.length) : {}}
-            >
-              <FontAwesomeIcon icon={faBars} />
-            </button>
-          </div>
-
-          {/* Mobile Menu Dropdown */}
-          {isMenuOpen && (
-            <div className='md:hidden absolute top-16 right-4 w-56 rounded-md shadow-lg bg-gray-800 bg-opacity-95 dark:bg-gray-900 dark:bg-opacity-98 border border-gray-700 z-50'>
-              <div className='py-1'>
-                {[
-                  'skills',
-                  'experience',
-                  'projects',
-                  'mobile-projects',
-                  'certificates',
-                  'contactme',
-                ].map((item, index) => (
-                  <button
-                    key={item}
-                    onClick={handleClick(item)}
-                    className='block w-full text-left px-4 py-2 text-white hover:bg-gray-700 hover:text-teal-300 dark:hover:text-teal-200 transition-all duration-200'
-                    style={isLoaded ? getSnakeAnimation(index) : {}}
-                  >
-                    {item.charAt(0).toUpperCase() +
-                      item.slice(1).replace(/([A-Z])/g, ' $1')}
-                  </button>
-                ))}
-                <a
-                  href='/Hussain-resume3.pdf'
-                  download='Hussain-resume3.pdf'
-                  className='block px-4 py-2 text-teal-300 hover:bg-teal-900 hover:bg-opacity-20 transition-all duration-200 dark:text-teal-200'
-                  style={isLoaded ? getSnakeAnimation(5) : {}}
-                >
-                  Download Resume
-                </a>
-              </div>
-            </div>
-          )}
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 py-3">
+        <div className="flex justify-between items-center">
+          {/* Logo */}
+          <a
+            href="/"
+            className="text-xl font-bold font-sans1 tracking-tight text-[#D7FF00] hover:text-white transition-all duration-300 relative group"
+          >
+            <span className="relative z-10">HSN.</span>
+            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#D7FF00] group-hover:w-full transition-all duration-300"></span>
+          </a>
 
           {/* Desktop Navigation */}
-          <div className='hidden md:flex items-center space-x-4'>
-            {[
-              'experience',
-              'projects',
-              'mobile-projects',
-              'certificates',
-              'contactme',
-            ].map((item, index) => (
+          <nav className="hidden md:flex items-center space-x-1">
+            {navItems.map((item, index) => (
               <button
                 key={item}
                 onClick={handleClick(item)}
-                className='text-white px-3 py-2 rounded hover:text-teal-400 dark:hover:text-teal-200 hover:-translate-y-0.5 transition-all duration-200'
-                style={isLoaded ? getSnakeAnimation(index) : {}}
+                className="relative px-3 py-1.5 text-sm font-medium text-gray-400 hover:text-white transition-all duration-300 uppercase tracking-wider group"
               >
-                <span className=' hover:underline'>
-                  {item.charAt(0).toUpperCase() +
-                    item.slice(1).replace(/([A-Z])/g, ' $1')}
-                </span>
+                <span className="relative z-10">{item}</span>
+                <span className="absolute inset-0 bg-white/5 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                <span className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-0 h-[2px] bg-[#D7FF00] group-hover:w-3/4 transition-all duration-300"></span>
               </button>
             ))}
+
             <a
-              href='/Hussain-resume3.pdf'
-              download='Hussain-resume3.pdf'
-              className='text-teal-300 border border-teal-300 px-4 py-2 rounded hover:bg-teal-300 hover:text-black hover:-translate-y-0.5 transition-all duration-200 dark:text-teal-200 dark:border-teal-200 dark:hover:bg-teal-200 dark:hover:text-gray-900'
-              style={isLoaded ? getSnakeAnimation(5) : {}}
+              href="/Hussain-resume3.pdf"
+              download="Hussain-resume3.pdf"
+              className="ml-4 px-4 py-1.5 text-xs font-semibold text-[#D7FF00] border border-[#D7FF00]/50 rounded-full 
+                         hover:bg-[#D7FF00] hover:text-black transition-all duration-300
+                         hover:border-[#D7FF00] hover:shadow-[0_0_20px_rgba(215,255,0,0.4)]"
             >
-              Download Resume
+              Resume
             </a>
-          </div>
+          </nav>
+
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="md:hidden text-gray-400 hover:text-white p-2 transition-colors relative z-50"
+            aria-label="Toggle menu"
+          >
+            <FontAwesomeIcon icon={isMenuOpen ? faXmark : faBars} size="lg" />
+          </button>
         </div>
       </div>
 
-      {/* Add the keyframes to the document */}
-      <style jsx global>{`
-        @keyframes snakeFadeIn {
-          0% {
-            opacity: 0;
-            transform: translateY(-20px);
-          }
-          100% {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-      `}</style>
+      {/* Mobile Menu */}
+      <div
+        className={`md:hidden absolute top-full left-0 right-0 bg-black/95 backdrop-blur-2xl border-b border-white/10 
+          transition-all duration-500 ease-in-out overflow-hidden ${
+            isMenuOpen ? "max-h-[600px] opacity-100" : "max-h-0 opacity-0"
+          }`}
+      >
+        <div className="px-6 py-8 space-y-6">
+          {navItems.map((item) => (
+            <button
+              key={item}
+              onClick={handleClick(item)}
+              className="block w-full text-left text-lg font-medium text-gray-300 hover:text-[#D7FF00] 
+                         transition-all duration-300 py-2 border-b border-white/5 hover:border-[#D7FF00]/30"
+            >
+              {item.charAt(0).toUpperCase() +
+                item.slice(1).replace(/([A-Z])/g, " $1")}
+            </button>
+          ))}
+
+          <div className="pt-4 border-t border-white/10">
+            <a
+              href="/Hussain-resume3.pdf"
+              download="Hussain-resume3.pdf"
+              className="block w-full text-center px-6 py-3 text-sm font-semibold text-[#D7FF00] 
+                         border border-[#D7FF00]/50 rounded-full hover:bg-[#D7FF00] hover:text-black 
+                         transition-all duration-300 mb-4"
+            >
+              Download Resume
+            </a>
+
+            <div className="flex items-center justify-center space-x-6 pt-4">
+              {socials.map((social, index) => (
+                <a
+                  key={index}
+                  href={social.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-400 hover:text-[#D7FF00] transition-colors duration-300"
+                >
+                  <FontAwesomeIcon icon={social.icon} size="lg" />
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
     </header>
   );
 };
-
-const socials = [
-  { icon: faEnvelope, url: 'mailto: mohammadhussainafghan83@gmail.com' },
-  { icon: faGithub, url: 'https://github.com/Hussain-hamim' },
-  { icon: faLinkedin, url: 'https://www.linkedin.com/in/hussain-hamim/' },
-  { icon: faTwitter, url: 'https://twitter.com/hussainhamim_' },
-  { icon: faInstagram, url: 'https://www.instagram.com/hussainhamim_' },
-];
 
 export default Header;

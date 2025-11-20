@@ -1,338 +1,272 @@
-import {
-  Box,
-  Button,
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
-  Heading,
-  HStack,
-  Input,
-  Select,
-  Textarea,
-  VStack,
-  useColorModeValue,
-} from '@chakra-ui/react';
-import { useFormik } from 'formik';
-import React, { useEffect } from 'react';
-import * as Yup from 'yup';
-import { useAlertContext } from '../context/alertContext';
-import useSubmit from '../hooks/useSubmit';
-import FullScreenSection from './FullScreenSection';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
-import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
-import { motion } from 'framer-motion';
-import { keyframes, css } from '@emotion/react';
-
-// Floating animation
-const float = keyframes`
-  0%, 100% {
-    transform: translateY(0) translateX(0);
-  }
-  50% {
-    transform: translateY(-20px) translateX(10px);
-  }
-`;
-
-// Ripple animation
-const ripple = keyframes`
-  0% {
-    transform: scale(1);
-    opacity: 0.6;
-  }
-  50% {
-    transform: scale(1.05);
-    opacity: 0.4;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 0.6;
-  }
-`;
-
-const MotionVStack = motion(VStack);
-const MotionHeading = motion(Heading);
+import React, { useEffect } from "react";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { motion } from "framer-motion";
+import { useAlertContext } from "../context/alertContext";
+import useSubmit from "../hooks/useSubmit";
+import { FaGithub, FaLinkedin, FaEnvelope, FaPaperPlane } from "react-icons/fa";
 
 const ContactMeSection = () => {
   const { isLoading, response, submit } = useSubmit();
   const { onOpen } = useAlertContext();
 
-  const orchidColor = useColorModeValue('orchid', 'orchid.300');
-  const textColor = useColorModeValue('white', 'gray.200');
-  const secondaryTextColor = useColorModeValue('gray.300', 'gray.400');
-  const cardBg = useColorModeValue(
-    'rgba(26, 26, 26, 0.7)',
-    'rgba(15, 15, 15, 0.7)'
-  );
-  const cardBorder = useColorModeValue(
-    'rgba(255, 255, 255, 0.1)',
-    'rgba(255, 255, 255, 0.05)'
-  );
-
   const formik = useFormik({
     initialValues: {
-      firstName: '',
-      email: '',
-      type: 'hireMe',
-      comment: '',
+      firstName: "",
+      email: "",
+      type: "hireMe",
+      comment: "",
     },
     onSubmit: (values) => {
-      submit('https://hussain.com/contactme', values);
+      submit("https://hussain.com/contactme", values);
     },
     validationSchema: Yup.object({
-      firstName: Yup.string().required('Required'),
-      email: Yup.string().email('Invalid email address').required('Required'),
+      firstName: Yup.string().required("Required"),
+      email: Yup.string().email("Invalid email address").required("Required"),
       comment: Yup.string()
-        .min(5, 'Must be at least 5 characters')
-        .required('Required'),
+        .min(5, "Must be at least 5 characters")
+        .required("Required"),
     }),
   });
 
   useEffect(() => {
     if (response) {
       onOpen(response.type, response.message);
-      if (response.type === 'success') {
+      if (response.type === "success") {
         formik.resetForm();
       }
     }
-  }, [formik, onOpen, response]);
+  }, [response, onOpen, formik]);
 
   return (
-    <Box as='section' position='relative' overflow='hidden' py={16}>
-      {/* Animated gradient background elements */}
+    <section
+      id="contactme-section"
+      className="relative py-32 bg-[#0f0f0f] overflow-hidden"
+    >
+      {/* Background Decor */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+        <div className="absolute top-1/2 left-0 w-[500px] h-[500px] bg-[#D7FF00]/5 rounded-full blur-[120px] transform -translate-y-1/2"></div>
+        <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-teal-400/5 rounded-full blur-[120px]"></div>
+      </div>
 
-      <FullScreenSection spacing={8} position='relative' zIndex={1}>
-        <MotionVStack
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8 }}
-          width='90vw'
-          alignItems='flex-start'
-        >
-          <HStack spacing={3}>
-            <MotionHeading
-              as='h1'
-              id='contactme-section'
-              marginRight={5}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              color={textColor}
-            >
-              Contact me
-            </MotionHeading>
-            {socials.map(({ icon, url }, index) => (
-              <motion.div
-                key={url}
-                initial={{ opacity: 0, scale: 0.5 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.3 + index * 0.1 }}
-                whileHover={{ scale: 1.2, rotate: 10 }}
-              >
-                <a href={url} target='_blank' rel='noopener noreferrer'>
-                  <FontAwesomeIcon size={'2x'} icon={icon} key={url} />
-                </a>
-              </motion.div>
-            ))}
-          </HStack>
-
-          <Box
-            p={8}
-            rounded='xl'
-            w='100%'
-            bg={cardBg}
-            border='1px solid'
-            borderColor={cardBorder}
-            backdropFilter='blur(5px)'
-            boxShadow={`0 4px 30px ${orchidColor}20`}
-            _hover={{
-              boxShadow: `0 8px 40px ${orchidColor}40`,
-            }}
-            transition='all 0.3s ease'
+      <div className="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
+        <div className="grid md:grid-cols-2 gap-16 items-start">
+          {/* Left Column - Text & Info */}
+          <motion.div
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
           >
-            <form
-              action='https://formsubmit.co/mohammadhussainafghan83@gmail.com'
-              method='POST'
-            >
-              <VStack spacing={6}>
-                <FormControl
-                  isInvalid={
-                    !!formik.errors.firstName && formik.touched.firstName
-                  }
+            <h2 className="text-5xl md:text-7xl font-bold font-sans1 text-white mb-8 tracking-tight">
+              LET'S <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#D7FF00] to-teal-400">
+                CONNECT
+              </span>
+            </h2>
+            <p className="text-gray-400 text-lg leading-relaxed mb-12 font-sans3 max-w-md">
+              Have a project in mind or just want to chat? Feel free to reach
+              out. I'm always open to discussing new projects, creative ideas or
+              opportunities to be part of your visions.
+            </p>
+
+            <div className="space-y-6">
+              {socials.map((social, index) => (
+                <a
+                  key={index}
+                  href={social.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-4 text-gray-300 hover:text-[#D7FF00] transition-all duration-300 group"
                 >
-                  <FormLabel htmlFor='firstName' color={textColor}>
-                    Name
-                  </FormLabel>
-                  <Input
-                    id='firstName'
-                    name='firstName'
-                    required
-                    bg='rgba(255, 255, 255, 0.1)'
-                    borderColor='rgba(255, 255, 255, 0.2)'
-                    color={textColor}
-                    _hover={{
-                      borderColor: orchidColor,
-                    }}
-                    _focus={{
-                      borderColor: orchidColor,
-                      boxShadow: `0 0 0 1px ${orchidColor}`,
-                    }}
-                    {...formik.getFieldProps('firstName')}
-                  />
-                  <FormErrorMessage>{formik.errors.firstName}</FormErrorMessage>
-                </FormControl>
-                <FormControl
-                  isInvalid={!!formik.errors.email && formik.touched.email}
-                >
-                  <FormLabel htmlFor='email' color={textColor}>
-                    Your Email
-                  </FormLabel>
-                  <Input
-                    id='email'
-                    name='email'
-                    type='email'
-                    required
-                    bg='rgba(255, 255, 255, 0.1)'
-                    borderColor='rgba(255, 255, 255, 0.2)'
-                    color={textColor}
-                    _hover={{
-                      borderColor: orchidColor,
-                    }}
-                    _focus={{
-                      borderColor: orchidColor,
-                      boxShadow: `0 0 0 1px ${orchidColor}`,
-                    }}
-                    {...formik.getFieldProps('email')}
-                  />
-                  <FormErrorMessage>{formik.errors.email}</FormErrorMessage>
-                </FormControl>
-                <FormControl>
-                  <FormLabel htmlFor='type' color={textColor}>
-                    Select the type of request (Optional)
-                  </FormLabel>
-                  <Select
-                    id='type'
-                    name='type'
-                    bg='rgba(255, 255, 255, 0.1)'
-                    borderColor='rgba(255, 255, 255, 0.2)'
-                    color={textColor}
-                    _hover={{
-                      borderColor: orchidColor,
-                    }}
-                    _focus={{
-                      borderColor: orchidColor,
-                      boxShadow: `0 0 0 1px ${orchidColor}`,
-                    }}
-                    {...formik.getFieldProps('type')}
+                  <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-[#D7FF00]/10 transition-colors border border-white/10 group-hover:border-[#D7FF00]/30">
+                    <social.icon className="text-xl" />
+                  </div>
+                  <span className="font-mono text-sm tracking-wider">
+                    {social.label}
+                  </span>
+                </a>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Right Column - Form */}
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            viewport={{ once: true }}
+            className="bg-[#111] border border-white/10 p-8 md:p-12 rounded-3xl relative overflow-hidden"
+          >
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#D7FF00] to-teal-400"></div>
+
+            <form onSubmit={formik.handleSubmit} className="space-y-6">
+              <div className="space-y-4">
+                <div>
+                  <label
+                    htmlFor="firstName"
+                    className="block text-sm font-mono text-gray-400 mb-2 uppercase tracking-wider"
                   >
-                    <option
-                      value='collaboration'
-                      style={{ background: '#1a1a1a' }}
-                    >
-                      Collaboration on a project
-                    </option>
-                    <option value='hireMe' style={{ background: '#1a1a1a' }}>
-                      Freelance project proposal
-                    </option>
-                    <option
-                      value='openSource'
-                      style={{ background: '#1a1a1a' }}
-                    >
-                      Open source consultancy session
-                    </option>
-                    <option value='jobOffer' style={{ background: '#1a1a1a' }}>
-                      Job opportunity or interview request
-                    </option>
-                    <option
-                      value='featureRequest'
-                      style={{ background: '#1a1a1a' }}
-                    >
-                      Feature request for an app
-                    </option>
-                    <option value='bugFix' style={{ background: '#1a1a1a' }}>
-                      Help fixing an issue
-                    </option>
-                    <option
-                      value='mentorship'
-                      style={{ background: '#1a1a1a' }}
-                    >
-                      Mentorship or tech guidance
-                    </option>
-                    <option value='other' style={{ background: '#1a1a1a' }}>
-                      Other
-                    </option>
-                  </Select>
-                </FormControl>
-                <FormControl
-                  isInvalid={!!formik.errors.comment && formik.touched.comment}
-                >
-                  <FormLabel htmlFor='comment' color={textColor}>
-                    Your message
-                  </FormLabel>
-                  <Textarea
-                    id='comment'
-                    name='comment'
-                    required
-                    height={150}
-                    bg='rgba(255, 255, 255, 0.1)'
-                    borderColor='rgba(255, 255, 255, 0.2)'
-                    color={textColor}
-                    _hover={{
-                      borderColor: orchidColor,
-                    }}
-                    _focus={{
-                      borderColor: orchidColor,
-                      boxShadow: `0 0 0 1px ${orchidColor}`,
-                    }}
-                    {...formik.getFieldProps('comment')}
+                    Name
+                  </label>
+                  <input
+                    id="firstName"
+                    name="firstName"
+                    type="text"
+                    placeholder="Ahmad"
+                    {...formik.getFieldProps("firstName")}
+                    className={`w-full bg-white/5 border ${
+                      formik.touched.firstName && formik.errors.firstName
+                        ? "border-red-500"
+                        : "border-white/10"
+                    } rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#D7FF00] transition-colors placeholder-gray-600`}
                   />
-                  <FormErrorMessage>{formik.errors.comment}</FormErrorMessage>
-                </FormControl>
+                  {formik.touched.firstName && formik.errors.firstName && (
+                    <p className="text-red-500 text-xs mt-1 font-mono">
+                      {formik.errors.firstName}
+                    </p>
+                  )}
+                </div>
 
-                {/* Optional: disable CAPTCHA */}
-                <input type='hidden' name='_captcha' value='false' />
+                <div>
+                  <label
+                    htmlFor="email"
+                    className="block text-sm font-mono text-gray-400 mb-2 uppercase tracking-wider"
+                  >
+                    Email
+                  </label>
+                  <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    placeholder="ahmad@example.com"
+                    {...formik.getFieldProps("email")}
+                    className={`w-full bg-white/5 border ${
+                      formik.touched.email && formik.errors.email
+                        ? "border-red-500"
+                        : "border-white/10"
+                    } rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#D7FF00] transition-colors placeholder-gray-600`}
+                  />
+                  {formik.touched.email && formik.errors.email && (
+                    <p className="text-red-500 text-xs mt-1 font-mono">
+                      {formik.errors.email}
+                    </p>
+                  )}
+                </div>
 
-                <Button
-                  type='button'
-                  width='full'
-                  isLoading={isLoading}
-                  bg='white'
-                  color='black'
-                  px={6}
-                  py={4}
-                  borderRadius='md'
-                  variant='solid'
-                  _hover={{
-                    textDecoration: 'underline',
-                    bg: 'white',
-                  }}
-          
-                  size='lg'
-                >
-                  Submit
-                </Button>
-              </VStack>
+                <div>
+                  <label
+                    htmlFor="type"
+                    className="block text-sm font-mono text-gray-400 mb-2 uppercase tracking-wider"
+                  >
+                    Type of Inquiry
+                  </label>
+                  <div className="relative">
+                    <select
+                      id="type"
+                      name="type"
+                      {...formik.getFieldProps("type")}
+                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#D7FF00] transition-colors appearance-none cursor-pointer"
+                    >
+                      <option value="hireMe" className="bg-[#1a1a1a]">
+                        Freelance project proposal
+                      </option>
+                      <option value="collaboration" className="bg-[#1a1a1a]">
+                        Collaboration on a project
+                      </option>
+                      <option value="openSource" className="bg-[#1a1a1a]">
+                        Open source consultancy
+                      </option>
+                      <option value="jobOffer" className="bg-[#1a1a1a]">
+                        Job opportunity
+                      </option>
+                      <option value="other" className="bg-[#1a1a1a]">
+                        Other
+                      </option>
+                    </select>
+                    <div className="absolute right-4 top-1/2 transform -translate-y-1/2 pointer-events-none">
+                      <svg
+                        className="w-4 h-4 text-gray-400"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M19 9l-7 7-7-7"
+                        />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="comment"
+                    className="block text-sm font-mono text-gray-400 mb-2 uppercase tracking-wider"
+                  >
+                    Message
+                  </label>
+                  <textarea
+                    id="comment"
+                    name="comment"
+                    rows={4}
+                    placeholder="Tell me about your project..."
+                    {...formik.getFieldProps("comment")}
+                    className={`w-full bg-white/5 border ${
+                      formik.touched.comment && formik.errors.comment
+                        ? "border-red-500"
+                        : "border-white/10"
+                    } rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#D7FF00] transition-colors placeholder-gray-600 resize-none`}
+                  />
+                  {formik.touched.comment && formik.errors.comment && (
+                    <p className="text-red-500 text-xs mt-1 font-mono">
+                      {formik.errors.comment}
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                disabled={isLoading}
+                className="w-full bg-[#D7FF00] text-black font-bold py-4 rounded-xl hover:bg-[#b8da00] transition-colors flex items-center justify-center gap-2 group disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isLoading ? (
+                  <span className="animate-pulse">Sending...</span>
+                ) : (
+                  <>
+                    <span>Send Message</span>
+                    <FaPaperPlane className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                  </>
+                )}
+              </button>
             </form>
-          </Box>
-        </MotionVStack>
-      </FullScreenSection>
-    </Box>
+          </motion.div>
+        </div>
+      </div>
+    </section>
   );
 };
 
-export default ContactMeSection;
-
 const socials = [
   {
-    icon: faEnvelope,
-    url: 'mailto: mohammadhussainafghan83@gmail.com',
+    icon: FaEnvelope,
+    url: "mailto:mohammadhussainafghan83@gmail.com",
+    label: "mohammadhussainafghan83@gmail.com",
   },
   {
-    icon: faGithub,
-    url: 'https://github.com/Hussain-hamim',
+    icon: FaGithub,
+    url: "https://github.com/Hussain-hamim",
+    label: "github.com/Hussain-hamim",
   },
   {
-    icon: faLinkedin,
-    url: 'https://www.linkedin.com/in/hussain-hamim/',
+    icon: FaLinkedin,
+    url: "https://www.linkedin.com/in/hussain-hamim/",
+    label: "linkedin.com/in/hussain-hamim",
   },
 ];
+
+export default ContactMeSection;

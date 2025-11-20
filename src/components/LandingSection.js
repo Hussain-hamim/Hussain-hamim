@@ -1,6 +1,5 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { keyframes, css } from "@emotion/react";
 import {
   FaGithub,
   FaLinkedin,
@@ -9,164 +8,124 @@ import {
   FaWhatsapp,
 } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
-import hamim from "../asset/hsn3.jpg";
-import FullScreenSection from "./FullScreenSection";
+import SpaceGame from "./SpaceGame";
 
-// Water ripple animation for bg
-const ripple = keyframes`
-  0% { transform: scale(1); opacity: 0.6; }
-  50% { transform: scale(1.05); opacity: 0.4; }
-  100% { transform: scale(1); opacity: 0.6; }
-`;
+const LandingSection = () => {
+  const socialLinks = [
+    {
+      icon: FaGithub,
+      url: "https://github.com/Hussain-hamim",
+      color: "hover:text-white",
+    },
+    {
+      icon: FaLinkedin,
+      url: "https://www.linkedin.com/in/hussain-hamim/",
+      color: "hover:text-blue-400",
+    },
+    {
+      icon: FaInstagram,
+      url: "https://www.instagram.com/hussainhamim_",
+      color: "hover:text-pink-500",
+    },
+    {
+      icon: FaXTwitter,
+      url: "https://x.com/erencodes",
+      color: "hover:text-gray-400",
+    },
+    {
+      icon: FaEnvelope,
+      url: "mailto:mohammadhussainafghan83@gmail.com",
+      color: "hover:text-red-400",
+    },
+    {
+      icon: FaWhatsapp,
+      url: "https://wa.me/93780338261",
+      color: "hover:text-green-400",
+    },
+  ];
 
-// FadeIn keyframes
-const fadeIn = keyframes`
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-`;
-
-const orchidColor = "#DA70D6";
-
-export default function LandingSection() {
   return (
-    <section className="relative overflow-hidden min-h-screen  pt-20">
-      <div
-        className="absolute inset-0 bg-cover bg-center opacity-70 z-0"
-        style={{
-          backgroundImage: `url('/bg.jpg')`,
-        }}
-      />
+    <section className="relative w-full min-h-screen overflow-hidden bg-[#0f0f0f]">
+      {/* 3D Game Background */}
+      <SpaceGame />
 
-      {/* Ripple glowing background */}
+      {/* Overlay Content */}
       <div
-        className="absolute top-[-150px] right-[-200px] w-[500px] h-[500px] rounded-full opacity-60 filter blur-[60px] z-0"
-        style={{
-          background: `radial-gradient(circle, ${orchidColor}, transparent 70%)`,
-          animation: `${ripple} 8s ease-in-out infinite`,
-        }}
-      />
-
-      <FullScreenSection
-        justifyContent="center"
-        alignItems="center"
-        // paddingX='20px'
-        className="relative px-[20px] z-10 flex flex-col items-center"
+        className="absolute inset-0 z-10 flex flex-col justify-center px-6 md:px-12 max-w-7xl mx-auto pointer-events-none pt-28"
+        style={{ paddingTop: "100px", paddingBottom: "80px" }}
       >
-        {/* Main retro card */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8 }}
-          className="bg-black border mb-6 border-[#ddd] rounded-xl shadow-[15px_-15px_1px_rgba(221,221,221,1)] 
-          flex flex-col md:flex-row items-center md:items-stretch gap-8 p-6 md:p-10 w-full max-w-5xl"
-        >
-          {/* Left - Text */}
-          <div className="flex-1 flex flex-col justify-center text-center md:text-left space-y-3">
-            <div className="text-white font-mono text-sm">hey, i'm</div>
-            <div className="mb-1">
-              <div className="text-[#D7FF00] text-4xl md:text-6xl font-bold tracking-tight font-sans1">
-                HUSSAIN HAMIM
-              </div>
-              <div className="text-white tracking-tight font-sans2 opacity-40">
-                aka{" "}
-                <a
-                  href="https://x.com/erencodes"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-[#D7FF00] underline"
-                >
-                  Eren
-                </a>{" "}
-                on X
-              </div>
-            </div>
-            <div className="text-[#FF2E88] text-xl md:text-2xl font-bold">
-              FULL-STACK & MOBILE APP DEVELOPER
-            </div>
-            <p
-              className="text-[#A38BFF] text-xs md:text-sm leading-relaxed font-mono"
-              css={css`
-                animation: ${fadeIn} 1s ease forwards;
-                animation-delay: 0.5s;
-                opacity: 0;
-              `}
-            >
-              I am a passionate developer with a knack for solving complex
-              challenges and crafting creative solutions. Skilled in
-              JavaScript/TypeScript, React, Next.js, Node.js, MongoDB, Postgres,
-              and React Native. I blend clean code, intuitive design, and
-              creative problem-solving to turn ideas into impactful products
-              that tell a story.
-            </p>
-          </div>
+        <div className="pointer-events-auto max-w-4xl">
+          {/* Greeting */}
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1, duration: 0.8 }}
+            className="text-teal-400 font-mono text-xs md:text-sm mb-1 pt-20"
+          >
+            hey i'm
+          </motion.p>
 
-          {/* Right - Image + Social Icons */}
-          <div className="flex-[0.5] flex flex-col items-center">
-            <div className="relative">
-              <img
-                src={hamim}
-                alt="profile"
-                className="rounded-lg w-48 h-48 object-cover border-4 border-black transition-all duration-300 focus:blur-0"
-                style={{
-                  boxShadow:
-                    "10px -10px 0px #FF2E88, -10px 10px 0px #D7FF00, 10px 10px 0px #7B61FF",
-                  filter: "blur(1px)",
-                }}
-                tabIndex={0}
-                onFocus={(e) => (e.target.style.filter = "none")}
-                onBlur={(e) => (e.target.style.filter = "blur(1px)")}
-                onMouseEnter={(e) => (e.target.style.filter = "none")}
-                onMouseLeave={(e) => (e.target.style.filter = "blur(1px)")}
-              />
-            </div>
-            {/* Social icons */}
-            <div className="flex gap-6 mt-4 text-white">
+          {/* Name Title */}
+          <motion.h1
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2, duration: 0.8 }}
+            className="text-6xl md:text-8xl lg:text-9xl font-bold font-sans1 text-white leading-tight tracking-tighter"
+          >
+            HUSSAIN <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#D7FF00] to-teal-400">
+              HAMIM
+            </span>
+          </motion.h1>
+
+          {/* Role & Description */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.4, duration: 0.8 }}
+            className="mt-8 md:mt-12 inline-flex flex-col border-l-2 border-white/10 pl-6"
+          >
+            <p className="text-gray-400 font-sans3 text-lg leading-relaxed max-w-lg">
+              Forging digital experiences with{" "}
+              <span className="text-white">Code</span> &{" "}
+              <span className="text-white">Creativity</span>. Specializing in
+              Full-Stack & Mobile Development.
+            </p>
+          </motion.div>
+
+          {/* Social Links */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6, duration: 0.8 }}
+            className="mt-12 flex items-center gap-8 mb-12"
+          >
+            {socialLinks.map((social, index) => (
               <a
-                href="https://github.com/Hussain-hamim"
+                key={index}
+                href={social.url}
                 target="_blank"
                 rel="noopener noreferrer"
+                className={`text-gray-500 transition-all duration-300 hover:-translate-y-1 ${social.color}`}
               >
-                <FaGithub size={20} />
+                <social.icon size={24} />
               </a>
-              <a
-                href="https://www.linkedin.com/in/hussain-hamim/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <FaLinkedin size={20} />
-              </a>
-              <a
-                href="https://www.instagram.com/hussainhamim_"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <FaInstagram size={20} />
-              </a>
-              <a
-                href="https://x.com/erencodes"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <FaXTwitter size={20} />
-              </a>
-              <a
-                href="mailto:mohammadhussainafghan83@gmail.com"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <FaEnvelope size={20} />
-              </a>
-              <a
-                href="https://wa.me/93780338261"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <FaWhatsapp size={20} />
-              </a>
-            </div>
-          </div>
-        </motion.div>
-      </FullScreenSection>
+            ))}
+          </motion.div>
+        </div>
+      </div>
+
+      {/* Scroll Indicator */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1, duration: 1 }}
+        className="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2 z-20 pointer-events-none"
+      >
+        <div className="w-[1px] h-12 bg-gradient-to-b from-teal-400 to-transparent"></div>
+      </motion.div>
     </section>
   );
-}
+};
+
+export default LandingSection;
