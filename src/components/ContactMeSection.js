@@ -255,7 +255,7 @@ const socials = [
   {
     icon: FaEnvelope,
     url: "mailto:mohammadhussainafghan83@gmail.com",
-    label: "mohammadhussainafghan83@gmail.com",
+    label: "Email Me",
   },
   {
     icon: FaGithub,

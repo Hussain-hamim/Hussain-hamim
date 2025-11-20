@@ -1,6 +1,7 @@
 import React from "react";
 import { FaHeart } from "react-icons/fa";
 import { motion } from "framer-motion";
+import { Heart } from "lucide-react";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -20,32 +21,32 @@ const Footer = () => {
         </div>
 
         {/* Made with Love */}
-        <motion.div 
+        <motion.div
           className="flex items-center gap-2 text-sm text-gray-400"
           whileHover={{ scale: 1.05 }}
         >
           <span>Made with</span>
           <motion.div
-            animate={{ 
+            animate={{
               scale: [1, 1.2, 1],
             }}
             transition={{
               duration: 1.5,
               repeat: Infinity,
-              ease: "easeInOut"
+              ease: "easeInOut",
             }}
           >
-            <FaHeart className="text-red-500 text-xs" />
+            <Heart className="text-red-500 text-xs" size={18} />
           </motion.div>
           <span>by Hussain Hamim</span>
         </motion.div>
 
         {/* Tech Stack Tags - Optional decoration */}
         <div className="hidden md:flex items-center gap-3">
-          {["React", "Tailwind", "Framer"].map((tech, index) => (
-            <span 
+          {["React", "Tailwind", "Framer", "Three.js"].map((tech, index) => (
+            <span
               key={index}
-              className="text-[10px] font-mono uppercase tracking-wider text-gray-600 border border-white/5 px-2 py-1 rounded-full"
+              className="text-[10px] font-mono uppercase tracking-wider text-gray-600  px-2 py-1 rounded-full"
             >
               {tech}
             </span>
