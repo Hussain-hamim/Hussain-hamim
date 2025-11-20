@@ -161,11 +161,11 @@ const mobileProjects = [
     tags: ["Marketplace", "Node.js", "Mobile"],
   },
   {
-    title: "Plantly",
-    description: "Keep your plants healthy and hydrated with this mobile app.",
-    getImageSrc: () => require("../images/plantly.png"),
-    link: "https://github.com/Hussain-hamim/plantly",
-    tags: ["Utility", "Tracking", "Mobile"],
+    title: "Coursia",
+    description: "A mobile app for learning courses and getting certificates.",
+    getImageSrc: () => require("../images/coursia2.png"),
+    link: "https://github.com/Hussain-hamim/Coursia",
+    tags: ["E-learning", "Mobile"],
   },
 ];
 
