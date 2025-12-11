@@ -1,17 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import erenImg from "../asset/eren.jpg";
-import hsnImg from "../asset/hsn.jpg";
-import hsn2Img from "../asset/hsn2.jpg";
-import hsn3Img from "../asset/hsn3.jpg";
-import hussainImg from "../asset/hussain.jpg";
-import hussainGrayImg from "../asset/hussain-gray.jpg";
 import photo1 from "../images/photo1.jpg";
 import photo2 from "../images/photo2.jpg";
 import photo3 from "../images/photo3.jpg";
 import photo4 from "../images/photo4.jpg";
+import Text3DScene from "./Text3DScene";
 
 const V2 = () => {
-  const sliderPhotos = [hsnImg, hsn2Img, hsn3Img, hussainImg, hussainGrayImg];
+  const [showInfoTooltip, setShowInfoTooltip] = useState(false);
   const thumbPhotos = [photo1, photo2, photo3, photo4];
   const projectTitles = [
     "Project One",
@@ -19,15 +15,6 @@ const V2 = () => {
     "Project Three",
     "Project Four",
   ];
-  const [current, setCurrent] = useState(0);
-
-  useEffect(() => {
-    const intervalId = setInterval(
-      () => setCurrent((p) => (p + 1) % sliderPhotos.length),
-      5000
-    );
-    return () => clearInterval(intervalId);
-  }, []);
 
   return (
     <div
@@ -43,14 +30,6 @@ const V2 = () => {
       }}
     >
       <style>{`
-        .slider-peel {
-          transition:
-            transform 450ms cubic-bezier(0.25, 0.8, 0.4, 1),
-            filter 450ms cubic-bezier(0.25, 0.8, 0.4, 1),
-            opacity 450ms ease;
-          transform-origin: center;
-          will-change: transform, filter, opacity;
-        }
         .slider-card {
           transition:
             transform 450ms cubic-bezier(0.25, 0.8, 0.4, 1),
@@ -60,11 +39,6 @@ const V2 = () => {
         .slider-card:hover {
           transform: perspective(1100px) translateY(-6px) scale(1.04) rotateZ(-0.8deg) rotateY(-1.4deg);
           box-shadow: 0 14px 24px rgba(0,0,0,0.14);
-        }
-        .group:hover .slider-peel {
-          transform: scale(1.01);
-          filter: none;
-          opacity: 1;
         }
         .card-hover {
           transition:
@@ -84,7 +58,7 @@ const V2 = () => {
         }
         .avatar-hover:hover {
           transform: perspective(1100px) translateY(-6px) scale(1.04) rotateZ(0.8deg) rotateY(1.4deg);
-          box-shadow: 0 14px 24px rgba(0,0,0,0.14);
+          box-shadow: none;
         }
       `}</style>
       <div className="max-w-[950px] mx-auto px-4 sm:px-6 lg:px-8">
@@ -97,7 +71,7 @@ const V2 = () => {
               color: "#0ea5e9",
             }}
           >
-            HUSSAIN HAMIM
+            HSN.{" "}
           </div>
           <nav className="hidden sm:flex items-center gap-6 text-sm">
             <a href="/" className="text-slate-700 hover:text-slate-900">
@@ -230,16 +204,68 @@ const V2 = () => {
               </div>
             </div>
 
-            {/* Slider */}
-            <div className="flex items-start justify-center md:items-center md:justify-end">
-              <div className="group relative w-full max-w-sm md:max-w-sm mt-6 md:mt-10 slider-card rounded-2xl shadow-2xl bg-slate-100">
-                <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
-                  <img
-                    key={current}
-                    src={sliderPhotos[current]}
-                    alt={`Photo ${current + 1}`}
-                    className="slider-peel w-full h-full object-cover"
-                  />
+            {/* 3D Text Scene */}
+            <div className="flex items-start justify-center md:items-center md:justify-end relative">
+              {/* Info Icon - Outside the card */}
+              <div
+                className="absolute top-2 right-2 z-10"
+                onMouseEnter={() => setShowInfoTooltip(true)}
+                onMouseLeave={() => setShowInfoTooltip(false)}
+              >
+                <button
+                  className="w-6 h-6 rounded-full bg-slate-200/80 hover:bg-slate-300/90 flex items-center justify-center transition-colors"
+                  aria-label="3D Text Features"
+                >
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    className="text-slate-600"
+                  >
+                    <circle cx="12" cy="12" r="10" />
+                    <path d="M12 16v-4M12 8h.01" />
+                  </svg>
+                </button>
+
+                {/* Tooltip */}
+                <div
+                  className={`absolute top-8 right-0 w-48 bg-white rounded-lg shadow-lg border border-slate-200 p-3 transition-all duration-200 pointer-events-none ${
+                    showInfoTooltip
+                      ? "opacity-100 visible"
+                      : "opacity-0 invisible"
+                  }`}
+                >
+                  <div className="text-xs text-slate-700 space-y-1.5">
+                    <div className="font-semibold text-slate-900 mb-2">
+                      3D Text Features:
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <span>🖱️</span>
+                      <span>Drag to spin the text</span>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <span>⌨️</span>
+                      <span>Type to write anything</span>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <span>🔄</span>
+                      <span>Text cycles every 30s</span>
+                    </div>
+                  </div>
+                  {/* Arrow */}
+                  <div className="absolute -top-1 right-4 w-2 h-2 bg-white border-l border-t border-slate-200 transform rotate-45"></div>
+                </div>
+              </div>
+
+              <div className="relative w-full max-w-lg md:max-w-xl mt-6 md:mt-10 overflow-hidden avatar-hover">
+                <div
+                  className="relative w-full"
+                  style={{ aspectRatio: "4/3", minHeight: "400px" }}
+                >
+                  <Text3DScene texts={["Hussain", "Hamim", "Engineer"]} />
                 </div>
               </div>
             </div>
@@ -452,6 +478,25 @@ const V2 = () => {
               Ready for real fitness API integration.
             </p>
           </div>
+        </section>
+
+        {/* 3D Text Scene */}
+        <section className="py-6">
+          <div className="flex items-center gap-2 mb-4">
+            <span className="text-sm">✨</span>
+            <span className="text-[10px] sm:text-xs uppercase tracking-wider text-slate-400 font-medium">
+              3D Text Scene
+            </span>
+          </div>
+          <div
+            className="relative w-full"
+            style={{ aspectRatio: "16/9", minHeight: "500px" }}
+          >
+            <Text3DScene initialText="HUSSAIN" />
+          </div>
+          <p className="text-xs text-slate-500 mt-3 text-center">
+            Type to enter new text, drag to spin the text
+          </p>
         </section>
 
         {/* Footer */}
