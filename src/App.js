@@ -1,4 +1,5 @@
 import { ChakraProvider } from '@chakra-ui/react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Alert from './components/Alert';
 import ContactMeSection from './components/ContactMeSection';
 import Footer from './components/Footer';
@@ -7,21 +8,35 @@ import LandingSection from './components/LandingSection';
 import ProjectsSection from './components/ProjectsSection';
 import { AlertProvider } from './context/alertContext';
 import ExperienceSection from './components/ExperienceSection';
+import V2 from './components/V2';
 
 function App() {
   return (
     <ChakraProvider>
-      <AlertProvider>
-        <main>
-          <Header />
-          <LandingSection />
-          <ExperienceSection />
-          <ProjectsSection />
-          <ContactMeSection />
-          <Footer />
-          <Alert />
-        </main>
-      </AlertProvider>
+      <Router>
+        <AlertProvider>
+          <Routes>
+            <Route 
+              path="/v2" 
+              element={<V2 />} 
+            />
+            <Route 
+              path="/*" 
+              element={
+                <main>
+                  <Header />
+                  <LandingSection />
+                  <ExperienceSection />
+                  <ProjectsSection />
+                  <ContactMeSection />
+                  <Footer />
+                  <Alert />
+                </main>
+              } 
+            />
+          </Routes>
+        </AlertProvider>
+      </Router>
     </ChakraProvider>
   );
 }
