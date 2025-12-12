@@ -8,7 +8,7 @@ import {
   FaAward,
 } from "react-icons/fa";
 
-const projects = [
+export const projects = [
   {
     title: "Aegnis AI",
     description:
@@ -92,7 +92,7 @@ const projects = [
   },
 ];
 
-const mobileProjects = [
+export const mobileProjects = [
   {
     title: "Shan-AI",
     description:

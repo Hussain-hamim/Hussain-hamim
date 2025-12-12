@@ -9,6 +9,7 @@ import ProjectsSection from './components/ProjectsSection';
 import { AlertProvider } from './context/alertContext';
 import ExperienceSection from './components/ExperienceSection';
 import V2 from './components/V2';
+import ProjectDetails from './components/ProjectDetails';
 
 function App() {
   return (
@@ -19,6 +20,10 @@ function App() {
             <Route 
               path="/v2" 
               element={<V2 />} 
+            />
+            <Route
+              path="/projects/:slug"
+              element={<ProjectDetails />}
             />
             <Route 
               path="/*" 

@@ -5,6 +5,7 @@ import photo2 from "../images/photo2.jpg";
 import photo3 from "../images/photo3.jpg";
 import photo4 from "../images/photo4.jpg";
 import Text3DScene from "./Text3DScene";
+import { projects, mobileProjects } from "./ProjectsSection";
 
 const V2 = () => {
   const [showInfoTooltip, setShowInfoTooltip] = useState(false);
@@ -15,6 +16,18 @@ const V2 = () => {
     "Project Three",
     "Project Four",
   ];
+
+  const slugify = (text) =>
+    text
+      .toString()
+      .toLowerCase()
+      .trim()
+      .replace(/[^a-z0-9\s-]/g, "")
+      .replace(/\s+/g, "-")
+      .replace(/-+/g, "-");
+
+  const topWebProjects = projects.slice(0, 2);
+  const topMobileProjects = mobileProjects.slice(0, 2);
 
   return (
     <div
@@ -75,7 +88,7 @@ const V2 = () => {
           </div>
           <nav className="hidden sm:flex items-center gap-6 text-sm">
             <a href="/" className="text-slate-700 hover:text-slate-900">
-              Home
+              Projects
             </a>
             <a href="/#blog" className="text-slate-700 hover:text-slate-900">
               Blog
@@ -147,13 +160,6 @@ const V2 = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
             {/* About card */}
             <div className="space-y-5">
-              <div className="flex items-center gap-2">
-                <span className="text-sm">👤</span>
-                <span className="text-[10px] sm:text-xs uppercase tracking-wider text-slate-400 font-medium">
-                  About me
-                </span>
-              </div>
-
               <div className="avatar-hover relative w-44 h-44 sm:w-48 sm:h-48">
                 <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-purple-500 via-pink-400 to-blue-500 blur-2xl opacity-80" />
                 <div className="relative w-full h-full rounded-xl overflow-hidden shadow-xl ring-1 ring-white/40">
@@ -167,22 +173,15 @@ const V2 = () => {
 
               <div className="space-y-2">
                 <p className="text-slate-800 text-base sm:text-lg leading-snug">
-                  Hello! I'm{" "}
-                  <span className="text-purple-600 font-semibold">Hussain</span>
+                  Hey,
                 </p>
-                <p className="text-slate-700 text-sm leading-relaxed">
-                  A developer and engineer. Currently working on exciting
-                  projects.
+                <p className="text-gray-400 font-sans3 text-md leading-relaxed max-w-lg">
+                  Forging digital experiences with Code & Creativity
+                  Specializing in Full-Stack & Mobile Development.
                 </p>
               </div>
 
               <div className="space-y-3 pt-2">
-                <div className="flex items-center gap-2">
-                  <span className="text-sm">🌈</span>
-                  <span className="text-[10px] sm:text-xs uppercase tracking-wider text-slate-400 font-medium">
-                    Fun facts:
-                  </span>
-                </div>
                 <ul className="space-y-1.5 text-slate-700 text-sm list-none pl-0">
                   <li className="flex items-start gap-2">
                     <span className="text-slate-500">•</span>
@@ -272,7 +271,7 @@ const V2 = () => {
           </div>
         </main>
 
-        {/* Projects grid */}
+        {/* Projects grid (real projects) */}
         <section id="photos" className="pt-6 pb-4">
           <div className="flex items-center gap-2 mb-4">
             <span className="text-sm">🧩</span>
@@ -280,24 +279,67 @@ const V2 = () => {
               Projects
             </span>
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-            {thumbPhotos.map((p, i) => (
-              <div
-                key={i}
-                className="group space-y-2 card-hover rounded-xl bg-slate-100 p-2"
-              >
-                <div className="rounded-xl overflow-hidden aspect-square">
-                  <img
-                    src={p}
-                    alt={projectTitles[i] || `Project ${i + 1}`}
-                    className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
-                  />
-                </div>
-                <p className="text-sm text-slate-700 font-medium text-center">
-                  {projectTitles[i] || `Project ${i + 1}`}
-                </p>
-              </div>
-            ))}
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {[...topWebProjects, ...topMobileProjects].map((project, i) => {
+              const slug = slugify(project.title);
+              const href = `/projects/${slug}`;
+              const imageSrc =
+                typeof project.getImageSrc === "function"
+                  ? project.getImageSrc()
+                  : project.image || "";
+
+              return (
+                <a
+                  key={`${project.title}-${i}`}
+                  href={href}
+                  className="group block space-y-3 card-hover rounded-xl bg-slate-100 p-3 transition transform hover:-translate-y-1 relative"
+                >
+                  <div className="rounded-xl overflow-hidden aspect-[4/3] bg-slate-200">
+                    {imageSrc ? (
+                      <img
+                        src={imageSrc}
+                        alt={project.title}
+                        className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-sm text-slate-500">
+                        No image
+                      </div>
+                    )}
+                  </div>
+                  {/* Link icon on hover */}
+                  <div className="pointer-events-none absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition duration-200">
+                    <div className="flex items-center justify-center w-7 h-7 rounded-full bg-white/90 shadow-sm border border-slate-200 text-slate-700">
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path d="M10 13a5 5 0 0 0 7.54.54l1.83-1.83a5 5 0 0 0-7.07-7.07l-1.06 1.06" />
+                        <path d="M14 11a5 5 0 0 0-7.54-.54l-1.83 1.83a5 5 0 0 0 7.07 7.07l1.06-1.06" />
+                      </svg>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between gap-2">
+                    <p className="text-sm text-slate-800 font-semibold">
+                      {project.title}
+                    </p>
+                    <span className="text-[10px] uppercase tracking-wider text-slate-500">
+                      {i < 2 ? "Web" : "Mobile"}
+                    </span>
+                  </div>
+                  <p className="text-xs text-slate-600 line-clamp-2">
+                    {project.description}
+                  </p>
+                </a>
+              );
+            })}
           </div>
         </section>
 
