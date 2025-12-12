@@ -365,6 +365,45 @@ const V2 = () => {
           </div>
         </section>
 
+        {/* Map Card */}
+        <section className="pt-6 pb-4">
+          <div
+            className="rounded-2xl border border-slate-100 shadow-sm bg-gradient-to-br from-sky-50 via-white to-indigo-50 card-hover overflow-hidden relative"
+            style={{ minHeight: "280px" }}
+          >
+            <div className="absolute top-0 left-0 right-0 z-10 p-5 pb-0">
+              <div className="flex items-center gap-2">
+                <span className="text-sm">🗺️</span>
+                <span className="text-[10px] sm:text-xs uppercase tracking-wider text-slate-400 font-medium">
+                  Map
+                </span>
+              </div>
+            </div>
+            <div className="absolute inset-0 w-full h-full">
+              <LocationMap />
+            </div>
+            <div className="absolute bottom-0 left-0 right-0 z-10 p-5 pt-0">
+              <div className="bg-white/90 backdrop-blur-sm rounded-lg px-3 py-2 inline-flex items-center gap-2 border border-white/60 shadow-sm">
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  className="text-blue-500"
+                >
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                  <circle cx="12" cy="10" r="3"></circle>
+                </svg>
+                <p className="text-xs text-slate-700 font-medium">
+                  Khost, Afghanistan
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Currently Listening + Blog */}
         <section className="grid grid-cols-1 md:grid-cols-2 gap-6 py-6">
           <div className="rounded-2xl border border-slate-100 shadow-sm p-5 bg-white card-hover">
@@ -458,44 +497,8 @@ const V2 = () => {
           </div>
         </section>
 
-        {/* Map / Weather / GitHub / Fitness */}
+        {/* Weather / GitHub / Fitness */}
         <section className="grid grid-cols-1 sm:grid-cols-2 gap-6 pb-8">
-          <div
-            className="rounded-2xl border border-slate-100 shadow-sm bg-gradient-to-br from-sky-50 via-white to-indigo-50 card-hover overflow-hidden relative"
-            style={{ minHeight: "280px" }}
-          >
-            <div className="absolute top-0 left-0 right-0 z-10 p-5 pb-0">
-              <div className="flex items-center gap-2">
-                <span className="text-sm">🗺️</span>
-                <span className="text-[10px] sm:text-xs uppercase tracking-wider text-slate-400 font-medium">
-                  Map
-                </span>
-              </div>
-            </div>
-            <div className="absolute inset-0 w-full h-full">
-              <LocationMap />
-            </div>
-            <div className="absolute bottom-0 left-0 right-0 z-10 p-5 pt-0">
-              <div className="bg-white/90 backdrop-blur-sm rounded-lg px-3 py-2 inline-flex items-center gap-2 border border-white/60 shadow-sm">
-                <svg
-                  width="14"
-                  height="14"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  className="text-blue-500"
-                >
-                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                  <circle cx="12" cy="10" r="3"></circle>
-                </svg>
-                <p className="text-xs text-slate-700 font-medium">
-                  Khost, Afghanistan
-                </p>
-              </div>
-            </div>
-          </div>
-
           <div className="rounded-2xl border border-slate-100 shadow-sm p-5 bg-gradient-to-br from-amber-50 via-white to-orange-50 card-hover">
             <div className="flex items-center gap-2 mb-3">
               <span className="text-sm">🌦️</span>
