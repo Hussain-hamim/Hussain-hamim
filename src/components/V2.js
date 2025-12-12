@@ -9,6 +9,7 @@ import Text3DScene from "./Text3DScene";
 import { projects, mobileProjects } from "./ProjectsSection";
 import { Puzzle } from "lucide-react";
 import LocationMap from "./LocationMap";
+import GitHubContributions from "./GitHubContributions";
 
 const V2 = () => {
   const [showInfoTooltip, setShowInfoTooltip] = useState(false);
@@ -210,7 +211,7 @@ const V2 = () => {
             <div className="flex items-start justify-center md:items-center md:justify-end relative">
               {/* Info Icon - Outside the card */}
               <div
-                className="absolute top-2 right-2 z-10"
+                className="absolute top-2 right-2 z-10 hidden md:block"
                 onMouseEnter={() => setShowInfoTooltip(true)}
                 onMouseLeave={() => setShowInfoTooltip(false)}
               >
@@ -275,7 +276,7 @@ const V2 = () => {
         </main>
 
         {/* Projects grid (real projects) */}
-        <section id="photos" className="pt-6 pb-4">
+        <section id="photos" className="pt-4 pb-4">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
               <Puzzle className="w-4 h-4 text-slate-400" />
@@ -365,47 +366,264 @@ const V2 = () => {
           </div>
         </section>
 
-        {/* Map Card */}
-        <section className="pt-6 pb-4">
-          <div
-            className="rounded-2xl border border-slate-100 shadow-sm bg-gradient-to-br from-sky-50 via-white to-indigo-50 card-hover overflow-hidden relative"
-            style={{ minHeight: "280px" }}
-          >
-            <div className="absolute top-0 left-0 right-0 z-10 p-5 pb-0">
-              <div className="flex items-center gap-2">
-                <span className="text-sm">🗺️</span>
-                <span className="text-[10px] sm:text-xs uppercase tracking-wider text-slate-400 font-medium">
-                  Map
-                </span>
+        {/* Map Card with Weather */}
+        <section className="pt-4 pb-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+            {/* Map Card - Full width on mobile, 2/3 on desktop */}
+            <div className="col-span-1 md:col-span-2">
+              <div
+                className="rounded-2xl border border-slate-100 shadow-sm bg-gradient-to-br from-sky-50 via-white to-indigo-50 overflow-hidden relative card-hover"
+                style={{ minHeight: "240px" }}
+              >
+                <div className="absolute top-0 left-0 right-0 z-10 p-4 md:p-5 pb-0">
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm">🗺️</span>
+                    <span className="text-[10px] sm:text-xs uppercase tracking-wider text-slate-400 font-medium">
+                      Map
+                    </span>
+                  </div>
+                </div>
+                <div className="absolute inset-0 w-full h-full">
+                  <LocationMap />
+                </div>
+                <div className="absolute bottom-0 left-0 right-0 z-10 p-4 md:p-5 pt-0">
+                  <div className="bg-white/90 backdrop-blur-sm rounded-lg px-3 py-2 inline-flex items-center gap-2 border border-white/60 shadow-sm">
+                    <svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      className="text-blue-500"
+                    >
+                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                      <circle cx="12" cy="10" r="3"></circle>
+                    </svg>
+                    <p className="text-xs text-slate-700 font-medium">
+                      Khost, Afghanistan
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
-            <div className="absolute inset-0 w-full h-full">
-              <LocationMap />
-            </div>
-            <div className="absolute bottom-0 left-0 right-0 z-10 p-5 pt-0">
-              <div className="bg-white/90 backdrop-blur-sm rounded-lg px-3 py-2 inline-flex items-center gap-2 border border-white/60 shadow-sm">
-                <svg
-                  width="14"
-                  height="14"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  className="text-blue-500"
-                >
-                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                  <circle cx="12" cy="10" r="3"></circle>
-                </svg>
-                <p className="text-xs text-slate-700 font-medium">
-                  Khost, Afghanistan
-                </p>
+
+            {/* Weather Card - Full width on mobile, 1/3 on desktop */}
+            <div className="col-span-1 flex flex-col gap-4 md:gap-6">
+              <div
+                className="rounded-2xl border border-slate-100 shadow-sm p-4 md:p-5 card-hover overflow-hidden relative"
+                style={{
+                  height: "160px",
+                  background:
+                    "linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%)",
+                }}
+              >
+                {/* Cloud-like background effect */}
+                <div className="absolute inset-0 opacity-30">
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-white rounded-full blur-3xl"></div>
+                  <div className="absolute bottom-0 left-0 w-24 h-24 bg-slate-200 rounded-full blur-2xl"></div>
+                  <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-20 h-20 bg-white rounded-full blur-xl"></div>
+                </div>
+                <div className="relative z-10">
+                  <div className="flex items-center gap-2 mb-3 md:mb-4">
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      className="text-slate-400"
+                    >
+                      <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z" />
+                    </svg>
+                    <span className="text-[10px] sm:text-xs uppercase tracking-wider text-slate-400 font-medium">
+                      Weather
+                    </span>
+                  </div>
+                  <div className="space-y-1">
+                    <p className="text-2xl md:text-3xl font-bold text-slate-900">
+                      13.4°C
+                    </p>
+                    <p className="text-xs md:text-sm text-slate-500">
+                      Partly cloudy
+                    </p>
+                  </div>
+                </div>
               </div>
+              {/* Placeholder for future small card */}
             </div>
           </div>
         </section>
 
+        {/* What I Use + GitHub */}
+        <section className="grid grid-cols-5 gap-6 py-4">
+          {/* What I Use Card - 60% (3 columns) */}
+          <div className="col-span-5 md:col-span-3 rounded-2xl border border-slate-100 shadow-sm p-4 bg-white card-hover">
+            <div className="flex items-center gap-2 mb-3">
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                className="text-slate-700"
+              >
+                <rect x="2" y="3" width="20" height="14" rx="2" />
+                <line x1="8" y1="21" x2="16" y2="21" />
+                <line x1="12" y1="17" x2="12" y2="21" />
+              </svg>
+              <span className="text-[10px] uppercase tracking-wider text-slate-700 font-semibold">
+                What I Use
+              </span>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              {/* Hardware Section */}
+              <div>
+                <h3 className="text-[10px] uppercase tracking-wider text-slate-500 font-semibold mb-2">
+                  Hardware
+                </h3>
+                <div className="space-y-1.5">
+                  <div className="flex items-center gap-2">
+                    <svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      className="text-slate-600"
+                    >
+                      <rect x="2" y="4" width="20" height="16" rx="2" />
+                      <path d="M6 8h12" />
+                    </svg>
+                    <span className="text-xs text-slate-700">
+                      MacBook Pro M3 Max
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      className="text-slate-600"
+                    >
+                      <rect x="5" y="2" width="14" height="20" rx="2" />
+                      <path d="M12 18h.01" />
+                    </svg>
+                    <span className="text-xs text-slate-700">
+                      iPhone 15 Pro Max
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      className="text-slate-600"
+                    >
+                      <rect x="2" y="6" width="20" height="12" rx="2" />
+                      <path d="M6 10h12" />
+                      <path d="M8 14h8" />
+                    </svg>
+                    <span className="text-xs text-slate-700">Zoom65 V2</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Software Section */}
+              <div>
+                <h3 className="text-[10px] uppercase tracking-wider text-slate-500 font-semibold mb-2">
+                  Software
+                </h3>
+                <div className="space-y-1.5">
+                  <div className="flex items-center gap-2">
+                    <svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      className="text-slate-600"
+                    >
+                      <rect x="3" y="3" width="18" height="18" rx="2" />
+                      <path d="M9 9h6v6H9z" />
+                    </svg>
+                    <span className="text-xs text-slate-700">Cursor</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      className="text-slate-600"
+                    >
+                      <path d="M9 9h6v6H9z" />
+                      <path d="M9 3v6h6V3" />
+                      <path d="M9 15v6h6v-6" />
+                    </svg>
+                    <span className="text-xs text-slate-700">Figma</span>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      className="text-slate-600"
+                    >
+                      <circle cx="12" cy="12" r="10" />
+                      <path d="M12 6v6l4 2" />
+                    </svg>
+                    <span className="text-xs text-slate-700">Xcode</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* GitHub Card - 40% (2 columns) */}
+          <div className="col-span-5 md:col-span-2 rounded-2xl border border-slate-100 shadow-sm p-4 bg-white card-hover">
+            <div className="flex items-center gap-2 mb-3">
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                className="text-slate-700"
+              >
+                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+              </svg>
+              <span className="text-[10px] uppercase tracking-wider text-slate-700 font-semibold">
+                GitHub
+              </span>
+            </div>
+
+            {/* Contribution calendar grid */}
+            <div className="mb-2">
+              <GitHubContributions username="Hussain-hamim" />
+            </div>
+            <p className="text-[10px] text-slate-400">Contribution activity</p>
+          </div>
+        </section>
+
         {/* Currently Listening + Blog */}
-        <section className="grid grid-cols-1 md:grid-cols-2 gap-6 py-6">
+        <section className="grid grid-cols-1 md:grid-cols-2 gap-6 py-4">
           <div className="rounded-2xl border border-slate-100 shadow-sm p-5 bg-white card-hover">
             <div className="flex items-center gap-2 mb-3">
               <span className="text-sm">🎧</span>
@@ -439,7 +657,7 @@ const V2 = () => {
         </section>
 
         {/* Chat + Tools */}
-        <section className="grid grid-cols-1 md:grid-cols-2 gap-6 pb-6">
+        <section className="grid grid-cols-1 md:grid-cols-2 gap-6 pb-4">
           <div className="rounded-2xl border border-slate-100 shadow-sm p-5 bg-white card-hover">
             <div className="flex items-center gap-2 mb-3">
               <span className="text-sm">💬</span>
@@ -469,57 +687,10 @@ const V2 = () => {
               </button>
             </form>
           </div>
-
-          <div className="rounded-2xl border border-slate-100 shadow-sm p-5 bg-white card-hover">
-            <div className="flex items-center gap-2 mb-4">
-              <span className="text-sm">🛠️</span>
-              <span className="text-[10px] sm:text-xs uppercase tracking-wider text-slate-400 font-medium">
-                Tools I use
-              </span>
-            </div>
-            <div className="flex flex-wrap gap-3">
-              {[
-                "Figma",
-                "VSCode",
-                "Adobe Suite",
-                "React",
-                "Chakra UI",
-                "Tailwind",
-              ].map((tool) => (
-                <span
-                  key={tool}
-                  className="px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-xs border border-slate-200"
-                >
-                  {tool}
-                </span>
-              ))}
-            </div>
-          </div>
         </section>
 
-        {/* Weather / GitHub / Fitness */}
+        {/* GitHub / Fitness */}
         <section className="grid grid-cols-1 sm:grid-cols-2 gap-6 pb-8">
-          <div className="rounded-2xl border border-slate-100 shadow-sm p-5 bg-gradient-to-br from-amber-50 via-white to-orange-50 card-hover">
-            <div className="flex items-center gap-2 mb-3">
-              <span className="text-sm">🌦️</span>
-              <span className="text-[10px] sm:text-xs uppercase tracking-wider text-slate-400 font-medium">
-                Weather
-              </span>
-            </div>
-            <div className="rounded-xl bg-white/80 border border-amber-100 p-4 shadow-inner space-y-2">
-              <div className="flex items-center justify-between text-sm text-slate-700">
-                <span>London</span>
-                <span className="font-semibold">18°C</span>
-              </div>
-              <div className="text-xs text-slate-500">
-                Partly cloudy · Light breeze
-              </div>
-            </div>
-            <p className="text-xs text-slate-600 mt-3">
-              Hook up to a weather API later.
-            </p>
-          </div>
-
           <div className="rounded-2xl border border-slate-100 shadow-sm p-5 bg-gradient-to-br from-slate-50 via-white to-slate-100 card-hover">
             <div className="flex items-center gap-2 mb-3">
               <span className="text-sm">🐙</span>
@@ -566,7 +737,7 @@ const V2 = () => {
         </section>
 
         {/* 3D Text Scene */}
-        <section className="py-6">
+        <section className="py-4">
           <div
             className="relative w-full"
             style={{ aspectRatio: "16/9", minHeight: "300px", height: "300px" }}
