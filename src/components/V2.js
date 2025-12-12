@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import erenImg from "../asset/eren.jpg";
 import photo1 from "../images/photo1.jpg";
 import photo2 from "../images/photo2.jpg";
@@ -6,6 +7,8 @@ import photo3 from "../images/photo3.jpg";
 import photo4 from "../images/photo4.jpg";
 import Text3DScene from "./Text3DScene";
 import { projects, mobileProjects } from "./ProjectsSection";
+import { Puzzle } from "lucide-react";
+import LocationMap from "./LocationMap";
 
 const V2 = () => {
   const [showInfoTooltip, setShowInfoTooltip] = useState(false);
@@ -173,7 +176,7 @@ const V2 = () => {
 
               <div className="space-y-2">
                 <p className="text-slate-800 text-base sm:text-lg leading-snug">
-                  Hey,
+                  Hey, i'm
                 </p>
                 <p className="text-gray-400 font-sans3 text-md leading-relaxed max-w-lg">
                   Forging digital experiences with Code & Creativity
@@ -273,11 +276,30 @@ const V2 = () => {
 
         {/* Projects grid (real projects) */}
         <section id="photos" className="pt-6 pb-4">
-          <div className="flex items-center gap-2 mb-4">
-            <span className="text-sm">🧩</span>
-            <span className="text-[10px] sm:text-xs uppercase tracking-wider text-slate-400 font-medium">
-              Projects
-            </span>
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-2">
+              <Puzzle className="w-4 h-4 text-slate-400" />
+              <span className="text-[10px] sm:text-xs uppercase tracking-wider text-slate-400 font-medium">
+                Projects
+              </span>
+            </div>
+            <Link
+              to="/projects"
+              className="group inline-flex items-center gap-2 px-4 py-2 text-xs sm:text-sm text-slate-700 transition-all hover:shadow-sm font-medium"
+            >
+              <span className="text-slate-400">View all projects</span>
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                className="transform group-hover:translate-x-0.5 transition-transform"
+              >
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </Link>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -438,22 +460,40 @@ const V2 = () => {
 
         {/* Map / Weather / GitHub / Fitness */}
         <section className="grid grid-cols-1 sm:grid-cols-2 gap-6 pb-8">
-          <div className="rounded-2xl border border-slate-100 shadow-sm p-5 bg-gradient-to-br from-sky-50 via-white to-indigo-50 card-hover">
-            <div className="flex items-center gap-2 mb-3">
-              <span className="text-sm">🗺️</span>
-              <span className="text-[10px] sm:text-xs uppercase tracking-wider text-slate-400 font-medium">
-                Map
-              </span>
-            </div>
-            <div className="h-40 rounded-xl bg-slate-200/70 relative overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 via-purple-500/20 to-pink-500/20 mix-blend-multiply" />
-              <div className="absolute inset-4 rounded-lg border border-white/60 bg-white/70 shadow-inner flex items-center justify-center text-xs text-slate-600">
-                Map placeholder (embed ready)
+          <div
+            className="rounded-2xl border border-slate-100 shadow-sm bg-gradient-to-br from-sky-50 via-white to-indigo-50 card-hover overflow-hidden relative"
+            style={{ minHeight: "280px" }}
+          >
+            <div className="absolute top-0 left-0 right-0 z-10 p-5 pb-0">
+              <div className="flex items-center gap-2">
+                <span className="text-sm">🗺️</span>
+                <span className="text-[10px] sm:text-xs uppercase tracking-wider text-slate-400 font-medium">
+                  Map
+                </span>
               </div>
             </div>
-            <p className="text-xs text-slate-600 mt-3">
-              Drop in an embed or static map when ready.
-            </p>
+            <div className="absolute inset-0 w-full h-full">
+              <LocationMap />
+            </div>
+            <div className="absolute bottom-0 left-0 right-0 z-10 p-5 pt-0">
+              <div className="bg-white/90 backdrop-blur-sm rounded-lg px-3 py-2 inline-flex items-center gap-2 border border-white/60 shadow-sm">
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  className="text-blue-500"
+                >
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                  <circle cx="12" cy="10" r="3"></circle>
+                </svg>
+                <p className="text-xs text-slate-700 font-medium">
+                  Khost, Afghanistan
+                </p>
+              </div>
+            </div>
           </div>
 
           <div className="rounded-2xl border border-slate-100 shadow-sm p-5 bg-gradient-to-br from-amber-50 via-white to-orange-50 card-hover">
@@ -524,27 +564,21 @@ const V2 = () => {
 
         {/* 3D Text Scene */}
         <section className="py-6">
-          <div className="flex items-center gap-2 mb-4">
-            <span className="text-sm">✨</span>
-            <span className="text-[10px] sm:text-xs uppercase tracking-wider text-slate-400 font-medium">
-              3D Text Scene
-            </span>
-          </div>
           <div
             className="relative w-full"
-            style={{ aspectRatio: "16/9", minHeight: "500px" }}
+            style={{ aspectRatio: "16/9", minHeight: "300px", height: "300px" }}
           >
-            <Text3DScene initialText="HUSSAIN" />
+            <Text3DScene initialText="" />
           </div>
           <p className="text-xs text-slate-500 mt-3 text-center">
-            Type to enter new text, drag to spin the text
+            Just try typing something, then drag to spin the text
           </p>
         </section>
 
         {/* Footer */}
         <footer className="py-6 border-t border-slate-100">
           <p className="text-center text-slate-500 text-xs sm:text-sm">
-            © 2024 Hussain Hamim. All rights reserved.
+            © 2001 Hussain Hamim. All rights reserved.
           </p>
         </footer>
       </div>

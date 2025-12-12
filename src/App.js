@@ -10,6 +10,7 @@ import { AlertProvider } from './context/alertContext';
 import ExperienceSection from './components/ExperienceSection';
 import V2 from './components/V2';
 import ProjectDetails from './components/ProjectDetails';
+import ProjectsList from './components/ProjectsList';
 
 function App() {
   return (
@@ -20,6 +21,10 @@ function App() {
             <Route 
               path="/v2" 
               element={<V2 />} 
+            />
+            <Route
+              path="/projects"
+              element={<ProjectsList />}
             />
             <Route
               path="/projects/:slug"
