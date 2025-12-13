@@ -10,9 +10,19 @@ import { projects, mobileProjects } from "./ProjectsSection";
 import { Puzzle } from "lucide-react";
 import LocationMap from "./LocationMap";
 import GitHubContributions from "./GitHubContributions";
+import { FaBook, FaPuzzlePiece } from "react-icons/fa";
 
 const V2 = () => {
   const [showInfoTooltip, setShowInfoTooltip] = useState(false);
+  const [messages, setMessages] = useState([
+    {
+      role: "ai",
+      content:
+        "Hello! I'm HSN AI, your personal assistant. I can answer questions about Hussain Hamim, his skills, projects, experience, and more. How can I help you today?",
+    },
+  ]);
+  const [inputMessage, setInputMessage] = useState("");
+  const [isTyping, setIsTyping] = useState(false);
   const thumbPhotos = [photo1, photo2, photo3, photo4];
   const projectTitles = [
     "Project One",
@@ -32,6 +42,188 @@ const V2 = () => {
 
   const topWebProjects = projects.slice(0, 2);
   const topMobileProjects = mobileProjects.slice(0, 2);
+
+  // HSN AI Knowledge Base
+  const aiKnowledgeBase = {
+    name: "Hussain Hamim",
+    location: "Khost, Afghanistan",
+    role: "Full-stack and Mobile Developer",
+    github: "Hussain-hamim",
+    email: "mohammadhussainafghan83@gmail.com",
+    skills: [
+      "React",
+      "Node.js",
+      "React Native",
+      "Next.js",
+      "MongoDB",
+      "Supabase",
+      "TypeScript",
+      "JavaScript",
+      "Express.js",
+      "MySQL",
+      "Tailwind CSS",
+    ],
+    projects: [
+      {
+        name: "Aegnis AI",
+        description:
+          "AI-powered productivity platform that manages your life from to-do to done list",
+        tags: ["AI", "Productivity", "Full-stack"],
+      },
+      {
+        name: "DevSync",
+        description:
+          "Collaborative platform for developers to connect and collaborate on projects with real-time chat",
+        tags: ["Next.js", "Tailwind", "Supabase"],
+      },
+      {
+        name: "Premium Shop",
+        description:
+          "Full-stack e-commerce platform built with MERN stack and Stripe integration",
+        tags: ["MERN", "E-commerce", "Stripe"],
+      },
+    ],
+    experience: [
+      {
+        role: "Software Engineer",
+        company: "zappstudios",
+        duration: "Sept 2025 - Present",
+        description: "Full-stack web applications using Next.js & Supabase",
+      },
+      {
+        role: "Software Engineer",
+        company: "EvolvFit",
+        duration: "Aug 2025 - Oct 2025",
+        description:
+          "Developing mobile apps with React Native & Node.js backend",
+      },
+      {
+        role: "Mobile App Developer",
+        company: "Himalbyte",
+        duration: "May 2025 - Jul 2025",
+        description: "Cross-platform mobile development focused on performance",
+      },
+    ],
+    interests: [
+      "Passionate about coding",
+      "Love building web applications",
+      "Always learning new technologies",
+      "Enjoy solving complex problems",
+    ],
+  };
+
+  // HSN AI Response Generator
+  const generateAIResponse = (userMessage) => {
+    const message = userMessage.toLowerCase().trim();
+
+    // Greetings
+    if (
+      message.match(
+        /^(hi|hello|hey|greetings|good morning|good afternoon|good evening)/
+      )
+    ) {
+      return "Hello! 👋 I'm HSN AI, here to help you learn about Hussain Hamim. What would you like to know?";
+    }
+
+    // About Hussain
+    if (
+      message.match(
+        /^(who are you|who is hussain|tell me about hussain|about you)/
+      )
+    ) {
+      return `Hussain Hamim is a ${aiKnowledgeBase.role} from ${aiKnowledgeBase.location}. He specializes in building digital experiences with code and creativity, focusing on Full-Stack & Mobile Development. He's passionate about coding, building web applications, and always learning new technologies.`;
+    }
+
+    // Skills
+    if (
+      message.match(
+        /^(skills|technologies|tech stack|what can he do|what does he know)/
+      )
+    ) {
+      return `Hussain works with a variety of technologies including: ${aiKnowledgeBase.skills.join(
+        ", "
+      )}. He's experienced in both frontend and backend development, as well as mobile app development with React Native.`;
+    }
+
+    // Projects
+    if (
+      message.match(/^(projects|what has he built|portfolio|show me projects)/)
+    ) {
+      const projectsList = aiKnowledgeBase.projects
+        .map((p) => `• ${p.name}: ${p.description} (${p.tags.join(", ")})`)
+        .join("\n");
+      return `Here are some of Hussain's notable projects:\n\n${projectsList}\n\nYou can view more projects on his portfolio page!`;
+    }
+
+    // Experience
+    if (
+      message.match(/^(experience|work|jobs|where does he work|employment)/)
+    ) {
+      const expList = aiKnowledgeBase.experience
+        .map(
+          (e) => `• ${e.role} at ${e.company} (${e.duration}): ${e.description}`
+        )
+        .join("\n");
+      return `Hussain's work experience:\n\n${expList}`;
+    }
+
+    // Location
+    if (message.match(/^(where|location|where is he|where does he live)/)) {
+      return `Hussain is located in ${aiKnowledgeBase.location}. You can see his location on the map above!`;
+    }
+
+    // GitHub
+    if (message.match(/^(github|code|repositories|repos)/)) {
+      return `Hussain's GitHub username is ${aiKnowledgeBase.github}. You can check out his code and contributions on GitHub! The contribution graph above shows his recent activity.`;
+    }
+
+    // Contact
+    if (message.match(/^(contact|email|how to reach|get in touch)/)) {
+      return `You can reach Hussain at ${aiKnowledgeBase.email}. You can also connect with him on LinkedIn, Twitter, or check out his resume!`;
+    }
+
+    // Interests/Passions
+    if (message.match(/^(interests|passions|what does he like|hobbies)/)) {
+      return `Hussain is passionate about:\n${aiKnowledgeBase.interests
+        .map((i) => `• ${i}`)
+        .join("\n")}`;
+    }
+
+    // Specific project questions
+    if (message.includes("aegnis")) {
+      return `Aegnis AI is Hussain's AI-powered productivity platform. It's an AI Chief of Staff that doesn't just show you your life, it manages it for you - from a to-do list to a done list. It's built with modern full-stack technologies.`;
+    }
+
+    if (message.includes("devsync")) {
+      return `DevSync is a collaborative platform for developers to connect and collaborate on projects. It features user profiles, project listings, and a real-time chat system. Built with Next.js, Tailwind, and Supabase.`;
+    }
+
+    if (message.includes("premium shop")) {
+      return `Premium Shop is a full-stack e-commerce platform built with the MERN stack (MongoDB, Express, React, Node.js) and includes Stripe integration for payments. It features user authentication, product listings, and shopping cart functionality.`;
+    }
+
+    // Default response
+    return "I'm not sure I understand that question. I can help you learn about Hussain's skills, projects, experience, location, GitHub, or contact information. What would you like to know?";
+  };
+
+  const handleSendMessage = (e) => {
+    e.preventDefault();
+    if (!inputMessage.trim() || isTyping) return;
+
+    const userMessage = inputMessage.trim();
+    setInputMessage("");
+
+    // Add user message
+    setMessages((prev) => [...prev, { role: "user", content: userMessage }]);
+
+    // Simulate AI typing
+    setIsTyping(true);
+    setTimeout(() => {
+      const aiResponse = generateAIResponse(userMessage);
+      setMessages((prev) => [...prev, { role: "ai", content: aiResponse }]);
+      setIsTyping(false);
+    }, 800);
+  };
 
   return (
     <div
@@ -279,9 +471,9 @@ const V2 = () => {
         <section id="photos" className="pt-4 pb-4">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
-              <Puzzle className="w-4 h-4 text-slate-400" />
+              <FaPuzzlePiece className="w-4 h-4 text-slate-400" />
               <span className="text-[10px] sm:text-xs uppercase tracking-wider text-slate-400 font-medium">
-                Projects
+                I'm Building
               </span>
             </div>
             <Link
@@ -500,7 +692,7 @@ const V2 = () => {
                       <path d="M6 8h12" />
                     </svg>
                     <span className="text-xs text-slate-700">
-                      MacBook Pro M3 Max
+                      MacBook Pro M3
                     </span>
                   </div>
                   <div className="flex items-center gap-2">
@@ -517,7 +709,7 @@ const V2 = () => {
                       <path d="M12 18h.01" />
                     </svg>
                     <span className="text-xs text-slate-700">
-                      iPhone 15 Pro Max
+                      iPhone 14 Pro Max
                     </span>
                   </div>
                   <div className="flex items-center gap-2">
@@ -534,7 +726,9 @@ const V2 = () => {
                       <path d="M6 10h12" />
                       <path d="M8 14h8" />
                     </svg>
-                    <span className="text-xs text-slate-700">Zoom65 V2</span>
+                    <span className="text-xs text-slate-700">
+                      Dell Precision 5540
+                    </span>
                   </div>
                 </div>
               </div>
@@ -622,26 +816,119 @@ const V2 = () => {
           </div>
         </section>
 
+        {/* HSN AI - Full Width */}
+        <section className="py-4">
+          <div
+            className="rounded-2xl border border-slate-100 shadow-sm bg-white overflow-hidden"
+            style={{
+              minHeight: "500px",
+              maxHeight: "600px",
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            {/* Header */}
+            <div className="flex items-center gap-2 p-3 border-b border-slate-100 bg-gradient-to-r from-slate-50 via-white to-slate-100">
+              <div className="w-7 h-7 rounded-full bg-gradient-to-br from-slate-400 to-slate-600 flex items-center justify-center">
+                <span className="text-white text-xs font-bold">HSN</span>
+              </div>
+              <div>
+                <h3 className="text-xs font-semibold text-slate-900">HSN AI</h3>
+                <p className="text-[9px] text-slate-500">
+                  My personal AI agent
+                </p>
+              </div>
+            </div>
+
+            {/* Messages Container */}
+            <div
+              className="flex-1 overflow-y-auto p-4 space-y-4 bg-slate-50/50"
+              style={{ maxHeight: "calc(600px - 140px)" }}
+            >
+              {messages.map((msg, idx) => (
+                <div
+                  key={idx}
+                  className={`flex ${
+                    msg.role === "user" ? "justify-end" : "justify-start"
+                  }`}
+                >
+                  <div
+                    className={`max-w-[80%] rounded-2xl px-4 py-3 ${
+                      msg.role === "user"
+                        ? "bg-slate-200 text-slate-700"
+                        : "bg-slate-50/80 text-slate-400"
+                    }`}
+                  >
+                    <p className="text-sm whitespace-pre-line leading-relaxed">
+                      {msg.content}
+                    </p>
+                  </div>
+                </div>
+              ))}
+              {isTyping && (
+                <div className="flex justify-start">
+                  <div className="bg-white border border-slate-200 rounded-2xl px-4 py-3 shadow-sm">
+                    <div className="flex gap-1">
+                      <div
+                        className="w-2 h-2 bg-slate-400 rounded-full animate-bounce"
+                        style={{ animationDelay: "0ms" }}
+                      ></div>
+                      <div
+                        className="w-2 h-2 bg-slate-400 rounded-full animate-bounce"
+                        style={{ animationDelay: "150ms" }}
+                      ></div>
+                      <div
+                        className="w-2 h-2 bg-slate-400 rounded-full animate-bounce"
+                        style={{ animationDelay: "300ms" }}
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Input Form */}
+            <form
+              onSubmit={handleSendMessage}
+              className="p-4 border-t border-slate-100 bg-white"
+            >
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={inputMessage}
+                  onChange={(e) => setInputMessage(e.target.value)}
+                  placeholder="Ask me anything about Hussain..."
+                  className="flex-1 rounded-lg border border-slate-200 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-slate-400 focus:border-transparent"
+                  disabled={isTyping}
+                />
+                <button
+                  type="submit"
+                  disabled={!inputMessage.trim() || isTyping}
+                  className="rounded-lg bg-slate-700 text-white px-6 py-2.5 text-sm font-medium shadow-md hover:bg-slate-800 transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                >
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
+                    <line x1="22" y1="2" x2="11" y2="13"></line>
+                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                  </svg>
+                  Send
+                </button>
+              </div>
+            </form>
+          </div>
+        </section>
+
         {/* Currently Listening + Blog */}
         <section className="grid grid-cols-1 md:grid-cols-2 gap-6 py-4">
           <div className="rounded-2xl border border-slate-100 shadow-sm p-5 bg-white card-hover">
             <div className="flex items-center gap-2 mb-3">
-              <span className="text-sm">🎧</span>
-              <span className="text-[10px] sm:text-xs uppercase tracking-wider text-slate-400 font-medium">
-                Currently Listening
-              </span>
-            </div>
-            <p className="text-sm text-slate-800 font-semibold">
-              Getting Killed – Gesese
-            </p>
-            <p className="text-xs text-slate-500 mt-1">
-              On repeat while building cool stuff.
-            </p>
-          </div>
-
-          <div className="rounded-2xl border border-slate-100 shadow-sm p-5 bg-white card-hover">
-            <div className="flex items-center gap-2 mb-3">
-              <span className="text-sm">📝</span>
+              <FaBook className="w-4 h-4 text-slate-400" />
               <span className="text-[10px] sm:text-xs uppercase tracking-wider text-slate-400 font-medium">
                 Blog
               </span>
@@ -652,86 +939,6 @@ const V2 = () => {
             <p className="text-xs text-slate-500 leading-relaxed">
               A refreshed look while keeping the playful vibe. Exploring design,
               engineering, and everything in between.
-            </p>
-          </div>
-        </section>
-
-        {/* Chat + Tools */}
-        <section className="grid grid-cols-1 md:grid-cols-2 gap-6 pb-4">
-          <div className="rounded-2xl border border-slate-100 shadow-sm p-5 bg-white card-hover">
-            <div className="flex items-center gap-2 mb-3">
-              <span className="text-sm">💬</span>
-              <span className="text-[10px] sm:text-xs uppercase tracking-wider text-slate-400 font-medium">
-                Chat
-              </span>
-            </div>
-            <div className="rounded-xl border border-slate-200 p-3 bg-slate-50 mb-3 text-sm text-slate-700">
-              Type a message to say hi 👋
-            </div>
-            <form
-              className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full"
-              onSubmit={(e) => {
-                e.preventDefault();
-              }}
-            >
-              <input
-                type="text"
-                placeholder="Type a message"
-                className="flex-1 rounded-lg border border-slate-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400"
-              />
-              <button
-                type="submit"
-                className="rounded-lg bg-purple-600 text-white px-4 py-2 text-sm shadow-md hover:bg-purple-700 transition w-full sm:w-auto"
-              >
-                Send
-              </button>
-            </form>
-          </div>
-        </section>
-
-        {/* GitHub / Fitness */}
-        <section className="grid grid-cols-1 sm:grid-cols-2 gap-6 pb-8">
-          <div className="rounded-2xl border border-slate-100 shadow-sm p-5 bg-gradient-to-br from-slate-50 via-white to-slate-100 card-hover">
-            <div className="flex items-center gap-2 mb-3">
-              <span className="text-sm">🐙</span>
-              <span className="text-[10px] sm:text-xs uppercase tracking-wider text-slate-400 font-medium">
-                GitHub
-              </span>
-            </div>
-            <div className="rounded-xl border border-slate-200 p-4 bg-white/80 shadow-inner space-y-2 text-sm text-slate-700">
-              <div className="flex items-center justify-between">
-                <span>Latest repo</span>
-                <span className="font-semibold">portfolio-v2</span>
-              </div>
-              <div className="flex items-center justify-between text-xs text-slate-500">
-                <span>Updated</span>
-                <span>today</span>
-              </div>
-            </div>
-            <p className="text-xs text-slate-600 mt-3">
-              Swap in live GitHub data when wired.
-            </p>
-          </div>
-
-          <div className="rounded-2xl border border-slate-100 shadow-sm p-5 bg-gradient-to-br from-emerald-50 via-white to-teal-50 card-hover">
-            <div className="flex items-center gap-2 mb-3">
-              <span className="text-sm">🏃‍♂️</span>
-              <span className="text-[10px] sm:text-xs uppercase tracking-wider text-slate-400 font-medium">
-                Fitness
-              </span>
-            </div>
-            <div className="rounded-xl border border-emerald-100 p-4 bg-white/80 shadow-inner space-y-2">
-              <div className="flex items-center justify-between text-sm text-slate-700">
-                <span>Steps</span>
-                <span className="font-semibold">8,420</span>
-              </div>
-              <div className="flex items-center justify-between text-sm text-slate-700">
-                <span>Workout</span>
-                <span className="font-semibold">Leg day</span>
-              </div>
-            </div>
-            <p className="text-xs text-slate-600 mt-3">
-              Ready for real fitness API integration.
             </p>
           </div>
         </section>
