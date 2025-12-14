@@ -1,9 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
-import * as THREE from "three";
-import { FontLoader } from "three/addons/loaders/FontLoader.js";
-import { TextGeometry } from "three/addons/geometries/TextGeometry.js";
+import React, { useEffect, useRef, useState } from 'react';
+import * as THREE from 'three';
+import { FontLoader } from 'three/addons/loaders/FontLoader.js';
+import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
 
-const Text3DScene = ({ initialText = "three.js", texts = null }) => {
+const Text3DScene = ({ initialText = 'three.js', texts = null }) => {
   const containerRef = useRef(null);
   const sceneRef = useRef(null);
   const rendererRef = useRef(null);
@@ -20,8 +20,8 @@ const Text3DScene = ({ initialText = "three.js", texts = null }) => {
 
   const bevelEnabledRef = useRef(true);
   const fontRef = useRef(null);
-  const fontNameRef = useRef("optimer");
-  const fontWeightRef = useRef("bold");
+  const fontNameRef = useRef('optimer');
+  const fontWeightRef = useRef('bold');
   const materialsRef = useRef(null);
   const shadowMaterialRef = useRef(null);
 
@@ -31,7 +31,6 @@ const Text3DScene = ({ initialText = "three.js", texts = null }) => {
   const pointerXOnPointerDownRef = useRef(0);
   const windowHalfXRef = useRef(0);
   const initialSpinCompleteRef = useRef(false);
-  const initialSpinTargetRef = useRef(0);
   const finalAngleRef = useRef(0.4); // Slight angle for nice 3D look (about 23 degrees)
 
   const depth = 20;
@@ -163,9 +162,9 @@ const Text3DScene = ({ initialText = "three.js", texts = null }) => {
         },
         undefined,
         function (error) {
-          console.error("Error loading font:", error);
+          console.error('Error loading font:', error);
           // Try fallback font
-          fontNameRef.current = "helvetiker";
+          fontNameRef.current = 'helvetiker';
           const fallbackPath = `https://threejs.org/examples/fonts/${fontNameRef.current}_${fontWeightRef.current}.typeface.json`;
           loader.load(fallbackPath, function (response) {
             fontRef.current = response;
@@ -273,8 +272,8 @@ const Text3DScene = ({ initialText = "three.js", texts = null }) => {
       if (event.isPrimary === false) return;
       pointerXOnPointerDownRef.current = event.clientX - windowHalfXRef.current;
       targetRotationOnPointerDownRef.current = targetRotationRef.current;
-      document.addEventListener("pointermove", onPointerMove);
-      document.addEventListener("pointerup", onPointerUp);
+      document.addEventListener('pointermove', onPointerMove);
+      document.addEventListener('pointerup', onPointerUp);
     }
 
     function onPointerMove(event) {
@@ -287,15 +286,25 @@ const Text3DScene = ({ initialText = "three.js", texts = null }) => {
 
     function onPointerUp(event) {
       if (event.isPrimary === false) return;
-      document.removeEventListener("pointermove", onPointerMove);
-      document.removeEventListener("pointerup", onPointerUp);
+      document.removeEventListener('pointermove', onPointerMove);
+      document.removeEventListener('pointerup', onPointerUp);
     }
 
     function onDocumentKeyDown(event) {
+      // Don't interfere with input fields, textareas, or contenteditable elements
+      const target = event.target;
+      if (
+        target.tagName === 'INPUT' ||
+        target.tagName === 'TEXTAREA' ||
+        target.isContentEditable
+      ) {
+        return; // Let input fields handle their own events
+      }
+
       if (firstLetterRef.current) {
         firstLetterRef.current = false;
-        textRef.current = "";
-        setText("");
+        textRef.current = '';
+        setText('');
         return;
       }
       const keyCode = event.keyCode;
@@ -313,6 +322,16 @@ const Text3DScene = ({ initialText = "three.js", texts = null }) => {
     }
 
     function onDocumentKeyPress(event) {
+      // Don't interfere with input fields, textareas, or contenteditable elements
+      const target = event.target;
+      if (
+        target.tagName === 'INPUT' ||
+        target.tagName === 'TEXTAREA' ||
+        target.isContentEditable
+      ) {
+        return; // Let input fields handle their own events
+      }
+
       const keyCode = event.which;
       // backspace
       if (keyCode === 8) {
@@ -338,11 +357,11 @@ const Text3DScene = ({ initialText = "three.js", texts = null }) => {
       );
     }
 
-    containerRef.current.style.touchAction = "none";
-    containerRef.current.addEventListener("pointerdown", onPointerDown);
-    document.addEventListener("keypress", onDocumentKeyPress);
-    document.addEventListener("keydown", onDocumentKeyDown);
-    window.addEventListener("resize", handleResize);
+    containerRef.current.style.touchAction = 'none';
+    containerRef.current.addEventListener('pointerdown', onPointerDown);
+    document.addEventListener('keypress', onDocumentKeyPress);
+    document.addEventListener('keydown', onDocumentKeyDown);
+    window.addEventListener('resize', handleResize);
 
     function animate() {
       if (!groupRef.current || !sceneRef.current || !cameraRef.current) return;
@@ -381,26 +400,30 @@ const Text3DScene = ({ initialText = "three.js", texts = null }) => {
 
     // Hover shine effect removed - keeping only transform effect from CSS
 
+    // Capture containerRef and rendererRef for cleanup
+    const container = containerRef.current;
+    const rendererInstance = rendererRef.current;
+
     return () => {
       if (textCycleInterval) {
         clearInterval(textCycleInterval);
       }
-      window.removeEventListener("resize", handleResize);
-      document.removeEventListener("keypress", onDocumentKeyPress);
-      document.removeEventListener("keydown", onDocumentKeyDown);
-      if (containerRef.current) {
-        containerRef.current.removeEventListener("pointerdown", onPointerDown);
-        document.removeEventListener("pointermove", onPointerMove);
-        document.removeEventListener("pointerup", onPointerUp);
-        if (rendererRef.current && rendererRef.current.domElement) {
-          containerRef.current.removeChild(rendererRef.current.domElement);
+      window.removeEventListener('resize', handleResize);
+      document.removeEventListener('keypress', onDocumentKeyPress);
+      document.removeEventListener('keydown', onDocumentKeyDown);
+      if (container) {
+        container.removeEventListener('pointerdown', onPointerDown);
+        document.removeEventListener('pointermove', onPointerMove);
+        document.removeEventListener('pointerup', onPointerUp);
+        if (rendererInstance && rendererInstance.domElement) {
+          container.removeChild(rendererInstance.domElement);
         }
       }
       if (animationFrameRef.current) {
         cancelAnimationFrame(animationFrameRef.current);
       }
-      if (rendererRef.current) {
-        rendererRef.current.dispose();
+      if (rendererInstance) {
+        rendererInstance.dispose();
       }
       if (textMesh1Ref.current && textMesh1Ref.current.geometry) {
         textMesh1Ref.current.geometry.dispose();
@@ -412,7 +435,7 @@ const Text3DScene = ({ initialText = "three.js", texts = null }) => {
         materialsRef.current.forEach((mat) => mat.dispose());
       }
     };
-  }, [texts, initialText]);
+  }, [texts, initialText, mirror]);
 
   // Update text ref when text state changes (for external updates)
   useEffect(() => {
@@ -422,8 +445,8 @@ const Text3DScene = ({ initialText = "three.js", texts = null }) => {
   return (
     <div
       ref={containerRef}
-      className="w-full h-full"
-      style={{ touchAction: "none" }}
+      className='w-full h-full'
+      style={{ touchAction: 'none' }}
     />
   );
 };

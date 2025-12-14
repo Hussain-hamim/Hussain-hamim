@@ -1,5 +1,4 @@
 import React from "react";
-import { FaHeart } from "react-icons/fa";
 import { motion } from "framer-motion";
 import { Heart } from "lucide-react";
 

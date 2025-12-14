@@ -18,12 +18,10 @@ const socials = [
 
 const Header = () => {
   const headerRef = useRef(null);
-  const [isLoaded, setIsLoaded] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    setIsLoaded(true);
 
     let prevScrollPos = window.scrollY;
     const handleScroll = () => {
