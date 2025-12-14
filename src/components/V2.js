@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import erenImg from '../asset/eren.jpg';
+import photo1 from '../images/photo1.jpg';
+import photo2 from '../images/photo2.jpg';
+import photo3 from '../images/photo3.jpg';
+import photo4 from '../images/photo4.jpg';
 import Text3DScene from './Text3DScene';
 import { projects, mobileProjects } from './ProjectsSection';
+import { Puzzle } from 'lucide-react';
 import LocationMap from './LocationMap';
 import GitHubContributions from './GitHubContributions';
 import { FaBook, FaPuzzlePiece } from 'react-icons/fa';
@@ -19,6 +24,13 @@ const V2 = () => {
   ]);
   const [inputMessage, setInputMessage] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  const thumbPhotos = [photo1, photo2, photo3, photo4];
+  const projectTitles = [
+    'Project One',
+    'Project Two',
+    'Project Three',
+    'Project Four',
+  ];
 
   const slugify = (text) =>
     text
@@ -32,7 +44,170 @@ const V2 = () => {
   const topWebProjects = projects.slice(0, 2);
   const topMobileProjects = mobileProjects.slice(0, 2);
 
-  const handleSendMessage = async (e) => {
+  // HSN AI Knowledge Base
+  const aiKnowledgeBase = {
+    name: 'Hussain Hamim',
+    location: 'Khost, Afghanistan',
+    role: 'Full-stack and Mobile Developer',
+    github: 'Hussain-hamim',
+    email: 'mohammadhussainafghan83@gmail.com',
+    skills: [
+      'React',
+      'Node.js',
+      'React Native',
+      'Next.js',
+      'MongoDB',
+      'Supabase',
+      'TypeScript',
+      'JavaScript',
+      'Express.js',
+      'MySQL',
+      'Tailwind CSS',
+    ],
+    projects: [
+      {
+        name: 'Aegnis AI',
+        description:
+          'AI-powered productivity platform that manages your life from to-do to done list',
+        tags: ['AI', 'Productivity', 'Full-stack'],
+      },
+      {
+        name: 'DevSync',
+        description:
+          'Collaborative platform for developers to connect and collaborate on projects with real-time chat',
+        tags: ['Next.js', 'Tailwind', 'Supabase'],
+      },
+      {
+        name: 'Premium Shop',
+        description:
+          'Full-stack e-commerce platform built with MERN stack and Stripe integration',
+        tags: ['MERN', 'E-commerce', 'Stripe'],
+      },
+    ],
+    experience: [
+      {
+        role: 'Software Engineer',
+        company: 'zappstudios',
+        duration: 'Sept 2025 - Present',
+        description: 'Full-stack web applications using Next.js & Supabase',
+      },
+      {
+        role: 'Software Engineer',
+        company: 'EvolvFit',
+        duration: 'Aug 2025 - Oct 2025',
+        description:
+          'Developing mobile apps with React Native & Node.js backend',
+      },
+      {
+        role: 'Mobile App Developer',
+        company: 'Himalbyte',
+        duration: 'May 2025 - Jul 2025',
+        description: 'Cross-platform mobile development focused on performance',
+      },
+    ],
+    interests: [
+      'Passionate about coding',
+      'Love building web applications',
+      'Always learning new technologies',
+      'Enjoy solving complex problems',
+    ],
+  };
+
+  // HSN AI Response Generator
+  const generateAIResponse = (userMessage) => {
+    const message = userMessage.toLowerCase().trim();
+
+    // Greetings
+    if (
+      message.match(
+        /^(hi|hello|hey|greetings|good morning|good afternoon|good evening)/
+      )
+    ) {
+      return "Hello! 👋 I'm HSN AI, here to help you learn about Hussain Hamim. What would you like to know?";
+    }
+
+    // About Hussain
+    if (
+      message.match(
+        /^(who are you|who is hussain|tell me about hussain|about you)/
+      )
+    ) {
+      return `Hussain Hamim is a ${aiKnowledgeBase.role} from ${aiKnowledgeBase.location}. He specializes in building digital experiences with code and creativity, focusing on Full-Stack & Mobile Development. He's passionate about coding, building web applications, and always learning new technologies.`;
+    }
+
+    // Skills
+    if (
+      message.match(
+        /^(skills|technologies|tech stack|what can he do|what does he know)/
+      )
+    ) {
+      return `Hussain works with a variety of technologies including: ${aiKnowledgeBase.skills.join(
+        ', '
+      )}. He's experienced in both frontend and backend development, as well as mobile app development with React Native.`;
+    }
+
+    // Projects
+    if (
+      message.match(/^(projects|what has he built|portfolio|show me projects)/)
+    ) {
+      const projectsList = aiKnowledgeBase.projects
+        .map((p) => `• ${p.name}: ${p.description} (${p.tags.join(', ')})`)
+        .join('\n');
+      return `Here are some of Hussain's notable projects:\n\n${projectsList}\n\nYou can view more projects on his portfolio page!`;
+    }
+
+    // Experience
+    if (
+      message.match(/^(experience|work|jobs|where does he work|employment)/)
+    ) {
+      const expList = aiKnowledgeBase.experience
+        .map(
+          (e) => `• ${e.role} at ${e.company} (${e.duration}): ${e.description}`
+        )
+        .join('\n');
+      return `Hussain's work experience:\n\n${expList}`;
+    }
+
+    // Location
+    if (message.match(/^(where|location|where is he|where does he live)/)) {
+      return `Hussain is located in ${aiKnowledgeBase.location}. You can see his location on the map above!`;
+    }
+
+    // GitHub
+    if (message.match(/^(github|code|repositories|repos)/)) {
+      return `Hussain's GitHub username is ${aiKnowledgeBase.github}. You can check out his code and contributions on GitHub! The contribution graph above shows his recent activity.`;
+    }
+
+    // Contact
+    if (message.match(/^(contact|email|how to reach|get in touch)/)) {
+      return `You can reach Hussain at ${aiKnowledgeBase.email}. You can also connect with him on LinkedIn, Twitter, or check out his resume!`;
+    }
+
+    // Interests/Passions
+    if (message.match(/^(interests|passions|what does he like|hobbies)/)) {
+      return `Hussain is passionate about:\n${aiKnowledgeBase.interests
+        .map((i) => `• ${i}`)
+        .join('\n')}`;
+    }
+
+    // Specific project questions
+    if (message.includes('aegnis')) {
+      return `Aegnis AI is Hussain's AI-powered productivity platform. It's an AI Chief of Staff that doesn't just show you your life, it manages it for you - from a to-do list to a done list. It's built with modern full-stack technologies.`;
+    }
+
+    if (message.includes('devsync')) {
+      return `DevSync is a collaborative platform for developers to connect and collaborate on projects. It features user profiles, project listings, and a real-time chat system. Built with Next.js, Tailwind, and Supabase.`;
+    }
+
+    if (message.includes('premium shop')) {
+      return `Premium Shop is a full-stack e-commerce platform built with the MERN stack (MongoDB, Express, React, Node.js) and includes Stripe integration for payments. It features user authentication, product listings, and shopping cart functionality.`;
+    }
+
+    // Default response
+    return "I'm not sure I understand that question. I can help you learn about Hussain's skills, projects, experience, location, GitHub, or contact information. What would you like to know?";
+  };
+
+  const handleSendMessage = (e) => {
     e.preventDefault();
     if (!inputMessage.trim() || isTyping) return;
 
@@ -42,26 +217,13 @@ const V2 = () => {
     // Add user message
     setMessages((prev) => [...prev, { role: 'user', content: userMessage }]);
 
-    // Show typing indicator
+    // Simulate AI typing
     setIsTyping(true);
-
-    try {
-      // Call the real AI agent
-      const aiResponse = await generateAIResponse(userMessage);
+    setTimeout(() => {
+      const aiResponse = generateAIResponse(userMessage);
       setMessages((prev) => [...prev, { role: 'ai', content: aiResponse }]);
-    } catch (error) {
-      console.error('Error getting AI response:', error);
-      setMessages((prev) => [
-        ...prev,
-        {
-          role: 'ai',
-          content:
-            "I apologize, but I'm experiencing some technical difficulties. Please make sure the Google Gemini API key is configured correctly in your .env file.",
-        },
-      ]);
-    } finally {
       setIsTyping(false);
-    }
+    }, 800);
   };
 
   return (

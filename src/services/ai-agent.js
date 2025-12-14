@@ -55,8 +55,24 @@ const getModel = () => {
   });
 };
 
-// Main function to generate AI response
-export const generateAIResponse = async (userMessage) => {
+// Mock streaming function - simulates token-by-token streaming
+const streamMockResponse = async (fullResponse, onToken, delay = 30) => {
+  // Split response into words and spaces for natural streaming
+  const tokens = fullResponse.split(/(\s+)/);
+
+  for (const token of tokens) {
+    if (token && token.length > 0) {
+      if (onToken && typeof onToken === 'function') {
+        onToken(token);
+      }
+      // Small delay between tokens for smooth streaming effect
+      await new Promise((resolve) => setTimeout(resolve, delay));
+    }
+  }
+};
+
+// Main function to generate AI response with streaming support
+export const generateAIResponse = async (userMessage, onToken = null) => {
   try {
     const model = getModel();
 
@@ -80,32 +96,107 @@ export const generateAIResponse = async (userMessage) => {
     // Create the chain
     const chain = prompt.pipe(model);
 
-    // Invoke the chain
-    const response = await chain.invoke({
-      input: userMessage,
-    });
+    // If onToken callback is provided, use streaming
+    if (onToken && typeof onToken === 'function') {
+      try {
+        // Try to use actual streaming
+        const stream = await chain.stream({
+          input: userMessage,
+        });
 
-    const aiResponse = response.content;
+        let fullResponse = '';
+        for await (const chunk of stream) {
+          let content = '';
+          if (typeof chunk === 'string') {
+            content = chunk;
+          } else if (chunk && typeof chunk === 'object') {
+            content =
+              chunk.content || chunk.text || chunk.message?.content || '';
+          }
 
-    // Add AI response to history
-    conversationHistory.push(new AIMessage(aiResponse));
+          if (content && typeof content === 'string') {
+            fullResponse += content;
+            onToken(content);
+          }
+        }
 
-    // Limit conversation history to last 10 messages to avoid token limits
-    if (conversationHistory.length > 20) {
-      // Keep system message context but limit to recent messages
-      conversationHistory = conversationHistory.slice(-10);
+        // Add AI response to history
+        if (fullResponse) {
+          conversationHistory.push(new AIMessage(fullResponse));
+        }
+
+        // Limit conversation history
+        if (conversationHistory.length > 20) {
+          conversationHistory = conversationHistory.slice(-10);
+        }
+
+        return fullResponse;
+      } catch (streamError) {
+        console.warn(
+          'Streaming failed, using invoke with mock streaming:',
+          streamError
+        );
+        // Fall back to invoke and mock stream
+        const response = await chain.invoke({
+          input: userMessage,
+        });
+
+        const aiResponse = response.content || '';
+
+        // Mock stream the response
+        if (aiResponse && onToken) {
+          await streamMockResponse(aiResponse, onToken);
+        }
+
+        // Add AI response to history
+        if (aiResponse) {
+          conversationHistory.push(new AIMessage(aiResponse));
+        }
+
+        // Limit conversation history
+        if (conversationHistory.length > 20) {
+          conversationHistory = conversationHistory.slice(-10);
+        }
+
+        return aiResponse;
+      }
+    } else {
+      // No streaming - use regular invoke
+      const response = await chain.invoke({
+        input: userMessage,
+      });
+
+      const aiResponse = response.content;
+
+      // Add AI response to history
+      conversationHistory.push(new AIMessage(aiResponse));
+
+      // Limit conversation history to last 10 messages to avoid token limits
+      if (conversationHistory.length > 20) {
+        conversationHistory = conversationHistory.slice(-10);
+      }
+
+      return aiResponse;
     }
-
-    return aiResponse;
   } catch (error) {
     console.error('Error generating AI response:', error);
 
     // Fallback error message
     if (error.message && error.message.includes('API_KEY')) {
-      return "I'm having trouble connecting to my AI service. Please make sure the Google Gemini API key is configured in the .env file.";
+      const errorMsg =
+        "I'm having trouble connecting to my AI service. Please make sure the Google Gemini API key is configured in the .env file.";
+      if (onToken) {
+        await streamMockResponse(errorMsg, onToken);
+      }
+      return errorMsg;
     }
 
-    return "I apologize, but I'm experiencing some technical difficulties. Please try again in a moment.";
+    const errorMsg =
+      "I apologize, but I'm experiencing some technical difficulties. Please try again in a moment.";
+    if (onToken) {
+      await streamMockResponse(errorMsg, onToken);
+    }
+    return errorMsg;
   }
 };
 
