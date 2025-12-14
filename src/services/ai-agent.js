@@ -138,18 +138,129 @@ Remember: You are the face of Hussain Hamim's portfolio. Your goal is to create 
 // Store conversation history
 let conversationHistory = [];
 
-// List of Gemini models to try (in order of preference)
-// Free models that work well: gemini-1.5-flash, gemini-1.5-pro, gemini-pro
-const GEMINI_MODELS = [
-  'gemini-2.5-flash',
-  'gemini-1.5-flash', // Fast and free, best for most use cases
-  'gemini-1.5-pro', // More capable, still free tier
-  'gemini-pro', // Original model, free tier
-  'gemini-1.5-flash-latest', // Latest flash version
+// Default list of Gemini models to try (in order of preference)
+// Will be updated with available models from API if fetch fails
+// Note: Prioritizing free, stable models (no experimental or preview models)
+let GEMINI_MODELS = [
+  'gemini-2.5-flash', // Most likely free and stable (highest priority)
+  'gemini-2.0-flash-001', // Stable versioned model
+  'gemini-flash-latest', // Latest stable flash
+  'gemini-2.5-pro', // Pro model (if free tier allows)
+  'gemini-pro-latest', // Latest pro
+  'gemini-1.5-flash-001', // Fallback: older stable models
+  'gemini-1.5-pro-001',
+  'gemini-1.5-flash',
+  'gemini-1.5-pro',
+  'gemini-pro',
 ];
+
+// Function to fetch available models from API
+const fetchAvailableModels = async () => {
+  const apiKey = process.env.REACT_APP_GOOGLE_GEMINI_API_KEY;
+  if (!apiKey) return;
+
+  try {
+    const response = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models?key=${apiKey}`
+    );
+    const data = await response.json();
+
+    if (data.models && Array.isArray(data.models)) {
+      // Filter models that support generateContent
+      const availableModels = data.models
+        .filter(
+          (model) =>
+            model.supportedGenerationMethods?.includes('generateContent') &&
+            model.name.startsWith('models/gemini')
+        )
+        .map((model) => model.name.replace('models/', ''));
+
+      if (availableModels.length > 0) {
+        console.log('Available models from API:', availableModels);
+
+        // Filter to only free, stable models (no experimental, preview, or specialized models)
+        const freeStableModels = availableModels.filter(
+          (model) =>
+            !model.includes('exp') && // No experimental models
+            !model.includes('preview') && // No preview models
+            !model.includes('image') && // No image-specific models
+            !model.includes('tts') && // No text-to-speech models
+            !model.includes('robotics') && // No robotics models
+            !model.includes('computer-use') && // No specialized models
+            !model.includes('lite') && // Skip lite versions (they're limited)
+            model !== 'gemini-2.0-flash' && // Skip this as it's often rate-limited
+            (model.includes('2.5-flash') || // Prioritize 2.5-flash (most likely free)
+              model.includes('2.0-flash-001') || // Stable versioned models
+              model.includes('flash-latest') || // Latest stable flash
+              model.includes('2.5-pro') || // Pro models
+              model.includes('pro-latest')) // Latest pro
+        );
+
+        // If we have free stable models, use them
+        if (freeStableModels.length > 0) {
+          // Sort by priority: 2.5-flash first, then 2.0-flash-001, then flash-latest, then pro
+          freeStableModels.sort((a, b) => {
+            // 2.5-flash is highest priority
+            if (a === 'gemini-2.5-flash') return -1;
+            if (b === 'gemini-2.5-flash') return 1;
+            // Then 2.0-flash-001
+            if (a.includes('2.0-flash-001')) return -1;
+            if (b.includes('2.0-flash-001')) return 1;
+            // Then flash-latest
+            if (a.includes('flash-latest')) return -1;
+            if (b.includes('flash-latest')) return 1;
+            // Then pro models
+            if (a.includes('pro') && !b.includes('pro')) return 1;
+            if (!a.includes('pro') && b.includes('pro')) return -1;
+            return 0;
+          });
+          GEMINI_MODELS = freeStableModels;
+          console.log('Using free stable models:', GEMINI_MODELS);
+        } else {
+          // Fallback: use any available models, but prioritize stable ones
+          const stableModels = availableModels.filter(
+            (model) =>
+              !model.includes('exp') &&
+              !model.includes('preview') &&
+              !model.includes('image') &&
+              !model.includes('tts') &&
+              !model.includes('robotics') &&
+              !model.includes('computer-use')
+          );
+          GEMINI_MODELS =
+            stableModels.length > 0 ? stableModels : availableModels;
+          console.log('Using fallback models:', GEMINI_MODELS);
+        }
+      }
+    }
+  } catch (error) {
+    console.warn(
+      'Could not fetch available models, using default list:',
+      error
+    );
+  }
+};
+
+// Fetch available models on module load
+fetchAvailableModels();
 
 // Track which model is currently being used
 let currentModelIndex = 0;
+
+// Track rate-limited models to skip them quickly
+const rateLimitedModels = new Set();
+
+// Track last request time to throttle requests
+let lastRequestTime = 0;
+const MIN_REQUEST_INTERVAL = 500; // Minimum 500ms between requests
+
+// Reset rate-limited models after some time (5 minutes)
+const resetRateLimitedModels = () => {
+  setTimeout(() => {
+    rateLimitedModels.clear();
+    console.log('Rate limit tracking reset');
+  }, 5 * 60 * 1000); // 5 minutes
+};
 
 // Initialize the Google Gemini AI model with fallback support
 const getModel = (modelName = null) => {
@@ -164,7 +275,7 @@ const getModel = (modelName = null) => {
   // Use provided model or current model from list
   const modelToUse = modelName || GEMINI_MODELS[currentModelIndex];
 
-  return new ChatGoogleGenerativeAI({
+  const modelInstance = new ChatGoogleGenerativeAI({
     model: modelToUse,
     temperature: 0.8,
     maxTokens: 1000,
@@ -172,6 +283,13 @@ const getModel = (modelName = null) => {
     topK: 40,
     apiKey: apiKey,
   });
+
+  // Disable automatic retries - we handle retries ourselves with model switching
+  if (modelInstance.maxRetries !== undefined) {
+    modelInstance.maxRetries = 0;
+  }
+
+  return modelInstance;
 };
 
 // Function to try next model in the list
@@ -202,14 +320,57 @@ const streamMockResponse = async (fullResponse, onToken, delay = 30) => {
 
 // Main function to generate AI response with streaming support
 export const generateAIResponse = async (userMessage, onToken = null) => {
+  // Throttle requests to avoid rate limits
+  const now = Date.now();
+  const timeSinceLastRequest = now - lastRequestTime;
+  if (timeSinceLastRequest < MIN_REQUEST_INTERVAL) {
+    const delay = MIN_REQUEST_INTERVAL - timeSinceLastRequest;
+    console.log(`Throttling request: waiting ${delay}ms to avoid rate limits`);
+    await new Promise((resolve) => setTimeout(resolve, delay));
+  }
+  lastRequestTime = Date.now();
+
   let attempts = 0;
   const maxAttempts = GEMINI_MODELS.length;
 
-  // Reset to first model for each new request
+  // Reset to first model for each new request, but skip rate-limited models
   currentModelIndex = 0;
+
+  // Skip to first non-rate-limited model
+  while (
+    currentModelIndex < GEMINI_MODELS.length &&
+    rateLimitedModels.has(GEMINI_MODELS[currentModelIndex])
+  ) {
+    console.log(
+      `Skipping rate-limited model at start: ${GEMINI_MODELS[currentModelIndex]}`
+    );
+    currentModelIndex++;
+  }
+
+  // If all models are rate-limited, clear the set and start fresh
+  if (currentModelIndex >= GEMINI_MODELS.length) {
+    console.warn('All models are rate-limited. Clearing and starting fresh...');
+    rateLimitedModels.clear();
+    currentModelIndex = 0;
+  }
 
   while (attempts < maxAttempts) {
     try {
+      // Skip rate-limited models
+      const currentModelName = GEMINI_MODELS[currentModelIndex];
+      if (rateLimitedModels.has(currentModelName)) {
+        console.log(`Skipping rate-limited model: ${currentModelName}`);
+        const nextModel = tryNextModel();
+        if (!nextModel) {
+          // Reset and try again if we've gone through all models
+          rateLimitedModels.clear();
+          currentModelIndex = 0;
+          continue;
+        }
+        attempts++;
+        continue;
+      }
+
       const model = getModel();
 
       // Build conversation context with enhanced formatting
@@ -329,20 +490,105 @@ export const generateAIResponse = async (userMessage, onToken = null) => {
         error
       );
 
+      // Extract error status and message - check multiple possible error structures
+      const errorStatus =
+        error.status ||
+        error.statusCode ||
+        error.response?.status ||
+        error.response?.statusCode ||
+        error.error?.status ||
+        error.error?.statusCode;
+
+      const errorMessage =
+        error.message || error.toString() || error.error?.message || '';
+
+      const errorCode = error.code || error.error?.code || '';
+
+      // Check error message string for status codes
+      const errorString = JSON.stringify(error).toLowerCase();
+      const has429 =
+        errorString.includes('429') ||
+        errorString.includes('too many requests');
+      const has404 =
+        errorString.includes('404') || errorString.includes('not found');
+
+      // Check if it's a rate limit error (429) - switch immediately
+      const isRateLimitError =
+        errorStatus === 429 ||
+        has429 ||
+        errorMessage.includes('429') ||
+        errorMessage.includes('Too Many Requests') ||
+        errorMessage.includes('too many requests') ||
+        errorCode === '429';
+
       // Check if it's a model-specific error (404, model not found, etc.)
       const isModelError =
-        error.message?.includes('404') ||
-        error.message?.includes('not found') ||
-        error.message?.includes('not supported') ||
-        error.message?.includes('models/') ||
-        error.message?.includes('generateContent');
+        errorStatus === 404 ||
+        has404 ||
+        errorMessage.includes('404') ||
+        errorMessage.includes('not found') ||
+        errorMessage.includes('not supported') ||
+        errorMessage.includes('models/') ||
+        errorMessage.includes('generateContent') ||
+        errorCode === '404';
 
-      // Try next model if available
+      // For rate limit errors, mark model as rate-limited and switch immediately
+      if (isRateLimitError) {
+        const failedModel = GEMINI_MODELS[currentModelIndex];
+        rateLimitedModels.add(failedModel);
+        console.warn(
+          `⚠️ Rate limit (429) detected for ${failedModel}. Marking as rate-limited and switching immediately.`
+        );
+
+        // Reset rate-limited models periodically
+        if (rateLimitedModels.size === 1) {
+          resetRateLimitedModels();
+        }
+
+        // Add a small delay before trying next model to avoid immediate rate limiting
+        await new Promise((resolve) => setTimeout(resolve, 200));
+
+        // Immediately try next model
+        const nextModel = tryNextModel();
+        if (nextModel) {
+          // Skip if next model is also rate-limited
+          if (rateLimitedModels.has(nextModel)) {
+            console.log(`Skipping rate-limited model: ${nextModel}`);
+            const nextNextModel = tryNextModel();
+            if (nextNextModel) {
+              attempts++;
+              console.log(`🔄 Switching to model: ${nextNextModel}`);
+              continue;
+            }
+          } else {
+            attempts++;
+            console.log(`🔄 Switching to model: ${nextModel}`);
+            continue; // Switch immediately to next model
+          }
+        }
+
+        // If no more models, clear rate limits and start over
+        console.warn(
+          '⚠️ All models exhausted. Clearing rate limits and retrying...'
+        );
+        rateLimitedModels.clear();
+        currentModelIndex = 0;
+        attempts = 0;
+        // Add a longer delay before retrying
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+        continue;
+      }
+
+      // For other model errors (404, etc.), try next model
       if (isModelError && attempts < maxAttempts - 1) {
         const nextModel = tryNextModel();
         if (nextModel) {
           attempts++;
-          console.log(`Retrying with model: ${nextModel}`);
+          console.log(
+            `Model ${GEMINI_MODELS[currentModelIndex - 1]} failed (${
+              errorStatus || errorMessage
+            }). Retrying with model: ${nextModel}`
+          );
           continue; // Retry with next model
         }
       }

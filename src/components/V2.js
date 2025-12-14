@@ -19,15 +19,111 @@ const V2 = () => {
   ]);
   const [inputMessage, setInputMessage] = useState('');
   const [isTyping, setIsTyping] = useState(false);
-  const messagesEndRef = useRef(null);
   const messagesContainerRef = useRef(null);
+  const [contextMenu, setContextMenu] = useState(null);
+  const longPressTimerRef = useRef(null);
 
-  // Auto-scroll to bottom when new messages arrive
+  // Auto-scroll to bottom when new messages arrive (only within chat container)
   useEffect(() => {
-    if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    if (messagesContainerRef.current) {
+      // Scroll the container itself, not the page
+      messagesContainerRef.current.scrollTo({
+        top: messagesContainerRef.current.scrollHeight,
+        behavior: 'smooth',
+      });
     }
   }, [messages, isTyping]);
+
+  // Close context menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (contextMenu && !event.target.closest('.context-menu')) {
+        setContextMenu(null);
+      }
+    };
+
+    document.addEventListener('click', handleClickOutside);
+    return () => document.removeEventListener('click', handleClickOutside);
+  }, [contextMenu]);
+
+  // Handle long press and right-click for context menu
+  const handleMessageContext = (e, message, index) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const rect = e.currentTarget.getBoundingClientRect();
+    setContextMenu({
+      x: e.clientX || rect.left + rect.width / 2,
+      y: e.clientY || rect.top + rect.height / 2,
+      message,
+      index,
+    });
+  };
+
+  // Handle long press (touch devices)
+  const handleTouchStart = (e, message, index) => {
+    longPressTimerRef.current = setTimeout(() => {
+      handleMessageContext(e, message, index);
+    }, 500); // 500ms for long press
+  };
+
+  const handleTouchEnd = () => {
+    if (longPressTimerRef.current) {
+      clearTimeout(longPressTimerRef.current);
+      longPressTimerRef.current = null;
+    }
+  };
+
+  const handleTouchMove = () => {
+    if (longPressTimerRef.current) {
+      clearTimeout(longPressTimerRef.current);
+      longPressTimerRef.current = null;
+    }
+  };
+
+  // Context menu actions
+  const copyMessage = async () => {
+    if (contextMenu?.message) {
+      try {
+        await navigator.clipboard.writeText(contextMenu.message.content);
+        setContextMenu(null);
+        // Show a brief feedback (you could add a toast notification here)
+      } catch (err) {
+        console.error('Failed to copy:', err);
+      }
+    }
+  };
+
+  const shareMessage = async () => {
+    if (contextMenu?.message) {
+      const shareData = {
+        title: 'Chat Message',
+        text: contextMenu.message.content,
+      };
+
+      try {
+        if (navigator.share) {
+          await navigator.share(shareData);
+        } else {
+          // Fallback: copy to clipboard
+          await navigator.clipboard.writeText(contextMenu.message.content);
+          alert('Message copied to clipboard!');
+        }
+        setContextMenu(null);
+      } catch (err) {
+        if (err.name !== 'AbortError') {
+          console.error('Failed to share:', err);
+        }
+      }
+    }
+  };
+
+  const deleteMessage = () => {
+    if (contextMenu?.index !== undefined) {
+      setMessages((prev) => prev.filter((_, idx) => idx !== contextMenu.index));
+      setContextMenu(null);
+    }
+  };
 
   const slugify = (text) =>
     text
@@ -702,11 +798,15 @@ const V2 = () => {
                   }`}
                 >
                   <div
-                    className={`max-w-[80%] rounded-2xl px-4 py-3 ${
+                    className={`max-w-[80%] rounded-2xl px-4 py-3 cursor-pointer select-text ${
                       msg.role === 'user'
                         ? 'bg-slate-200 text-slate-700'
                         : 'bg-slate-50/80 text-slate-400'
                     }`}
+                    onContextMenu={(e) => handleMessageContext(e, msg, idx)}
+                    onTouchStart={(e) => handleTouchStart(e, msg, idx)}
+                    onTouchEnd={handleTouchEnd}
+                    onTouchMove={handleTouchMove}
                   >
                     <p className='text-sm whitespace-pre-line leading-relaxed'>
                       {msg.content}
@@ -714,8 +814,6 @@ const V2 = () => {
                   </div>
                 </div>
               ))}
-              {/* Scroll anchor */}
-              <div ref={messagesEndRef} />
               {isTyping && (
                 <div className='flex justify-start'>
                   <div className='bg-white border border-slate-200 rounded-2xl px-4 py-3 shadow-sm'>
@@ -775,6 +873,75 @@ const V2 = () => {
             </form>
           </div>
         </section>
+
+        {/* Context Menu */}
+        {contextMenu && (
+          <div
+            className='context-menu fixed z-50 bg-white rounded-lg shadow-xl border border-slate-200 py-1 min-w-[160px]'
+            style={{
+              left: `${Math.min(contextMenu.x, window.innerWidth - 180)}px`,
+              top: `${Math.min(contextMenu.y, window.innerHeight - 200)}px`,
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={copyMessage}
+              className='w-full text-left px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2'
+            >
+              <svg
+                width='16'
+                height='16'
+                viewBox='0 0 24 24'
+                fill='none'
+                stroke='currentColor'
+                strokeWidth='2'
+              >
+                <rect x='9' y='9' width='13' height='13' rx='2' ry='2'></rect>
+                <path d='M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1'></path>
+              </svg>
+              Copy
+            </button>
+            <button
+              onClick={shareMessage}
+              className='w-full text-left px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2'
+            >
+              <svg
+                width='16'
+                height='16'
+                viewBox='0 0 24 24'
+                fill='none'
+                stroke='currentColor'
+                strokeWidth='2'
+              >
+                <circle cx='18' cy='5' r='3'></circle>
+                <circle cx='6' cy='12' r='3'></circle>
+                <circle cx='18' cy='19' r='3'></circle>
+                <line x1='8.59' y1='13.51' x2='15.42' y2='17.49'></line>
+                <line x1='15.41' y1='6.51' x2='8.59' y2='10.49'></line>
+              </svg>
+              Share
+            </button>
+            {contextMenu.index > 0 && (
+              <button
+                onClick={deleteMessage}
+                className='w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 flex items-center gap-2'
+              >
+                <svg
+                  width='16'
+                  height='16'
+                  viewBox='0 0 24 24'
+                  fill='none'
+                  stroke='currentColor'
+                  strokeWidth='2'
+                >
+                  <polyline points='3 6 5 6 21 6'></polyline>
+                  <path d='M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2'></path>
+                </svg>
+                Delete
+              </button>
+            )}
+          </div>
+        )}
 
         {/* Currently Listening + Blog */}
         <section className='grid grid-cols-1 md:grid-cols-2 gap-6 py-4'>
