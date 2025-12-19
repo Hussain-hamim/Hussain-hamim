@@ -15,7 +15,7 @@ export const projects = [
       "Aegnis is your AI Chief of Staff, an AI-powered productivity platform that doesn't just show you your life, it manages it for you. From a to-do list to a done list.",
     getImageSrc: () => require("../images/aegnisai.png"),
     link: "https://github.com/Hussain-hamim",
-    live: "https://x.com/AegnisAI",
+    live: "https://aegnis.lol",
     tags: ["AI", "Productivity", "Full-stack"],
   },
   {
