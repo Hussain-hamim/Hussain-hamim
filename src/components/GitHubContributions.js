@@ -74,7 +74,11 @@ const GitHubContributions = ({ username, dark = false }) => {
               }
             } else {
               const errorData = await response.json();
-              console.warn('GitHub API error:', errorData);
+              if (errorData.message === 'Bad credentials') {
+                console.warn('GitHub token is invalid or not set. Using public API fallback.');
+              } else {
+                console.warn('GitHub API error:', errorData);
+              }
             }
           } catch (error) {
             console.error("Error fetching from GitHub API:", error);
