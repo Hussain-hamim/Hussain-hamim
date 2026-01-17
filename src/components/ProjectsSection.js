@@ -354,7 +354,7 @@ const ProjectsSection = () => {
         </div>
 
         {/* What I Use & GitHub */}
-        <div>
+        <div id="tools-section">
           <SectionHeader title="TOOLS & ACTIVITY" icon={FaGithub} />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* What I Use */}

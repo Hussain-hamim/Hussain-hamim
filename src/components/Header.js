@@ -57,7 +57,7 @@ const Header = () => {
     "experience",
     "projects",
     "mobileapps",
-    "skills",
+    "tools",
     "contactme",
   ];
 
