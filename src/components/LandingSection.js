@@ -8,6 +8,8 @@ import {
   FaWhatsapp,
 } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
+import { Canvas } from "@react-three/fiber";
+import { PerspectiveCamera, Stars, Sparkles } from "@react-three/drei";
 import SpaceGame from "./SpaceGame";
 
 const LandingSection = () => {
@@ -51,67 +53,118 @@ const LandingSection = () => {
 
       {/* Overlay Content */}
       <div
-        className="absolute inset-0 z-10 flex flex-col justify-center px-6 md:px-12 max-w-7xl mx-auto pointer-events-none pt-28"
-        style={{ paddingTop: "100px", paddingBottom: "80px" }}
+        className="absolute inset-0 z-10 flex flex-col justify-center px-6 md:px-12 max-w-7xl mx-auto pointer-events-none pt-20"
       >
-        <div className="pointer-events-auto max-w-4xl">
-          {/* Greeting */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1, duration: 0.8 }}
-            className="text-teal-400 font-mono text-xs md:text-sm mb-1 pt-20"
-          >
-            hey i'm
-          </motion.p>
+        <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+          {/* Left Column - Text */}
+          <div className="pointer-events-auto">
+            {/* Greeting */}
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1, duration: 0.8 }}
+              className="text-teal-400 font-mono text-xs md:text-sm mb-4"
+            >
+              hey i'm
+            </motion.p>
 
-          {/* Name Title */}
-          <motion.h1
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.8 }}
-            className="text-6xl md:text-8xl lg:text-9xl font-bold font-sans1 text-white leading-tight tracking-tighter"
-          >
-            HUSSAIN <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#D7FF00] to-teal-400">
-              HAMIM
-            </span>
-          </motion.h1>
+            {/* Name Title */}
+            <motion.h1
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2, duration: 0.8 }}
+              className="text-5xl md:text-7xl lg:text-8xl font-bold font-sans1 text-white leading-tight tracking-tighter"
+            >
+              HUSSAIN <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#D7FF00] to-teal-400">
+                HAMIM
+              </span>
+            </motion.h1>
 
-          {/* Role & Description */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.4, duration: 0.8 }}
-            className="mt-8 md:mt-12 inline-flex flex-col border-l-2 border-white/10 pl-6"
-          >
-            <p className="text-gray-400 font-sans3 text-lg leading-relaxed max-w-lg">
-              Forging digital experiences with{" "}
-              <span className="text-white">Code</span> &{" "}
-              <span className="text-white">Creativity</span>. Specializing in
-              Full-Stack & Mobile Development.
-            </p>
-          </motion.div>
+            {/* Role & Description */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.4, duration: 0.8 }}
+              className="mt-8 md:mt-12 inline-flex flex-col border-l-2 border-white/10 pl-6"
+            >
+              <p className="text-gray-400 font-sans3 text-lg leading-relaxed max-w-lg">
+                Forging digital experiences with{" "}
+                <span className="text-white">Code</span> &{" "}
+                <span className="text-white">Creativity</span>. Building AI agents, 
+                productivity platforms, business validation tools, and developer collaboration 
+                systems and more... Specializing in Full-Stack, Mobile App Development & AI-powered solutions.
+              </p>
+            </motion.div>
+          </div>
 
-          {/* Social Links */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6, duration: 0.8 }}
-            className="mt-12 flex items-center gap-8 mb-12"
-          >
-            {socialLinks.map((social, index) => (
-              <a
-                key={index}
-                href={social.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`text-gray-500 transition-all duration-300 hover:-translate-y-1 ${social.color}`}
-              >
-                <social.icon size={24} />
-              </a>
-            ))}
-          </motion.div>
+          {/* Right Column - Image & Social Links */}
+          <div className="pointer-events-auto justify-center md:justify-end relative flex flex-col items-center pr-0 md:pr-8 lg:pr-12 mt-12 md:mt-0">
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.5, duration: 0.8 }}
+              whileHover={{ scale: 1.05 }}
+              className="relative w-56 h-56 md:w-64 md:h-64 lg:w-72 lg:h-72 cursor-pointer group mb-8"
+            >
+              <div className="relative w-full h-full rounded-full overflow-hidden transition-all duration-300 group-hover:shadow-2xl group-hover:shadow-[#D7FF00]/20">
+                <div className="absolute -inset-1 bg-black/30 rounded-full blur-xl group-hover:bg-black/40 transition-all duration-300 z-0"></div>
+                <img 
+                  src={require("../asset/hsn3.jpg")} 
+                  alt="Hussain Hamim" 
+                  className="relative w-full h-full object-cover object-center rounded-full transition-all duration-300 group-hover:brightness-110 z-10"
+                />
+                
+                {/* Particle Overlay */}
+                <div className="absolute inset-0 rounded-full overflow-hidden z-30 pointer-events-none mix-blend-screen">
+                  <Canvas
+                    gl={{ alpha: true, premultipliedAlpha: false }}
+                    style={{ background: 'transparent' }}
+                  >
+                    <PerspectiveCamera makeDefault position={[0, 0, 5]} />
+                    <ambientLight intensity={0.5} />
+                    <Stars
+                      radius={50}
+                      depth={30}
+                      count={1500}
+                      factor={3}
+                      saturation={0}
+                      fade
+                      speed={2}
+                    />
+                    <Sparkles
+                      count={40}
+                      scale={8}
+                      size={2.5}
+                      speed={0.4}
+                      opacity={0.2}
+                      color="#00FFFF"
+                    />
+                  </Canvas>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Social Links */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.7, duration: 0.8 }}
+              className="flex items-center gap-6"
+            >
+              {socialLinks.map((social, index) => (
+                <a
+                  key={index}
+                  href={social.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`text-gray-500 transition-all duration-300 hover:-translate-y-1 ${social.color}`}
+                >
+                  <social.icon size={24} />
+                </a>
+              ))}
+            </motion.div>
+          </div>
         </div>
       </div>
 

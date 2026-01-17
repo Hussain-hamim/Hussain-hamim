@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import {
   FaGithub,
@@ -7,15 +7,25 @@ import {
   FaGlobe,
   FaAward,
 } from "react-icons/fa";
+import GitHubContributions from "./GitHubContributions";
 
 export const projects = [
+  {
+    title: "IdeaHunt",
+    description:
+      "Discover & validate your next big idea. We scan millions of conversations, reviews, and complaints across the web to find real problems people are struggling with. then help you turn them into validated business ideas that actually have demand.",
+    getImageSrc: () => require("../images/ideahunt.png"),
+    link: "https://github.com/Hussain-hamim",
+    live: "https://ideahunt.pro",
+    tags: ["AI", "Business", "Validation", "SaaS"],
+  },
   {
     title: "Aegnis AI",
     description:
       "Aegnis is your AI Chief of Staff, an AI-powered productivity platform that doesn't just show you your life, it manages it for you. From a to-do list to a done list.",
     getImageSrc: () => require("../images/aegnisai.png"),
     link: "https://github.com/Hussain-hamim",
-    live: "https://aegnis.lol",
+    live: "https://aegnis.life",
     tags: ["AI", "Productivity", "Full-stack"],
   },
   {
@@ -274,6 +284,13 @@ const ProjectCard = ({ project, index }) => {
 };
 
 const ProjectsSection = () => {
+  const [showAllWeb, setShowAllWeb] = useState(false);
+  const [showAllMobile, setShowAllMobile] = useState(false);
+
+  const initialCount = 6;
+  const webProjectsToShow = showAllWeb ? projects : projects.slice(0, initialCount);
+  const mobileProjectsToShow = showAllMobile ? mobileProjects : mobileProjects.slice(0, initialCount);
+
   return (
     <section
       id="projects-section"
@@ -290,29 +307,247 @@ const ProjectsSection = () => {
         <div className="mb-32">
           <SectionHeader title="WEB PROJECTS" icon={FaGlobe} />
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {projects.map((project, index) => (
+            {webProjectsToShow.map((project, index) => (
               <ProjectCard key={index} project={project} index={index} />
             ))}
           </div>
+          {projects.length > initialCount && (
+            <div className="flex justify-center mt-12">
+              <button
+                onClick={() => setShowAllWeb(!showAllWeb)}
+                className="px-6 py-2 border border-[#D7FF00] text-[#D7FF00] rounded hover:bg-[#D7FF00] hover:text-black transition-colors"
+              >
+                {showAllWeb ? "Show Less" : "Show More"}
+              </button>
+            </div>
+          )}
         </div>
 
         {/* Mobile Projects */}
         <div id="mobileapps-section" className="mb-32">
           <SectionHeader title="MOBILE APPS" icon={FaMobileAlt} />
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {mobileProjects.map((project, index) => (
+            {mobileProjectsToShow.map((project, index) => (
               <ProjectCard key={index} project={project} index={index} />
             ))}
           </div>
+          {mobileProjects.length > initialCount && (
+            <div className="flex justify-center mt-12">
+              <button
+                onClick={() => setShowAllMobile(!showAllMobile)}
+                className="px-6 py-2 border border-[#D7FF00] text-[#D7FF00] rounded hover:bg-[#D7FF00] hover:text-black transition-colors"
+              >
+                {showAllMobile ? "Show Less" : "Show More"}
+              </button>
+            </div>
+          )}
         </div>
 
         {/* Certificates */}
-        <div>
+        <div className="mb-32">
           <SectionHeader title="CERTIFICATES" icon={FaAward} />
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {certificates.map((project, index) => (
               <ProjectCard key={index} project={project} index={index} />
             ))}
+          </div>
+        </div>
+
+        {/* What I Use & GitHub */}
+        <div>
+          <SectionHeader title="TOOLS & ACTIVITY" icon={FaGithub} />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {/* What I Use */}
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              viewport={{ once: true }}
+              className="relative group"
+            >
+              <div className="absolute inset-0 bg-[#D7FF00] rounded-2xl blur-xl opacity-0 group-hover:opacity-20 transition-opacity duration-500"></div>
+              <div className="relative bg-[#111] rounded-2xl p-8 shadow-2xl hover:shadow-[0_0_40px_rgba(215,255,0,0.1)] transition-all duration-300 h-full">
+                <div className="flex items-center gap-3 mb-8">
+                  <div className="w-12 h-12 rounded-xl bg-[#D7FF00]/10 flex items-center justify-center">
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      className="text-[#D7FF00]"
+                    >
+                      <rect x="2" y="3" width="20" height="14" rx="2" />
+                      <line x1="8" y1="21" x2="16" y2="21" />
+                      <line x1="12" y1="17" x2="12" y2="21" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 className="text-2xl font-bold text-white mb-1">What I Use</h3>
+                    <p className="text-sm text-gray-400">Hardware & Software</p>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-8">
+                  {/* Hardware Section */}
+                  <div>
+                    <h4 className="text-[10px] uppercase tracking-wider text-gray-500 font-semibold mb-5">
+                      Hardware
+                    </h4>
+                    <div className="space-y-4">
+                      <div className="flex items-center gap-3 group/item">
+                        <div className="w-8 h-8 rounded-lg bg-[#D7FF00]/10 flex items-center justify-center group-hover/item:bg-[#D7FF00]/20 transition-colors">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            className="text-[#D7FF00]"
+                          >
+                            <rect x="2" y="4" width="20" height="16" rx="2" />
+                            <path d="M6 8h12" />
+                          </svg>
+                        </div>
+                        <span className="text-sm text-gray-300 font-medium">MacBook Pro M3</span>
+                      </div>
+                      <div className="flex items-center gap-3 group/item">
+                        <div className="w-8 h-8 rounded-lg bg-[#D7FF00]/10 flex items-center justify-center group-hover/item:bg-[#D7FF00]/20 transition-colors">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            className="text-[#D7FF00]"
+                          >
+                            <rect x="5" y="2" width="14" height="20" rx="2" />
+                            <path d="M12 18h.01" />
+                          </svg>
+                        </div>
+                        <span className="text-sm text-gray-300 font-medium">iPhone 14 Pro Max</span>
+                      </div>
+                      <div className="flex items-center gap-3 group/item">
+                        <div className="w-8 h-8 rounded-lg bg-[#D7FF00]/10 flex items-center justify-center group-hover/item:bg-[#D7FF00]/20 transition-colors">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            className="text-[#D7FF00]"
+                          >
+                            <rect x="2" y="6" width="20" height="12" rx="2" />
+                            <path d="M6 10h12" />
+                            <path d="M8 14h8" />
+                          </svg>
+                        </div>
+                        <span className="text-sm text-gray-300 font-medium">Dell Precision 5540</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Software Section */}
+                  <div>
+                    <h4 className="text-[10px] uppercase tracking-wider text-gray-500 font-semibold mb-5">
+                      Software
+                    </h4>
+                    <div className="space-y-4">
+                      <div className="flex items-center gap-3 group/item">
+                        <div className="w-8 h-8 rounded-lg bg-[#D7FF00]/10 flex items-center justify-center group-hover/item:bg-[#D7FF00]/20 transition-colors">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            className="text-[#D7FF00]"
+                          >
+                            <rect x="3" y="3" width="18" height="18" rx="2" />
+                            <path d="M9 9h6v6H9z" />
+                          </svg>
+                        </div>
+                        <span className="text-sm text-gray-300 font-medium">Cursor</span>
+                      </div>
+                      <div className="flex items-center gap-3 group/item">
+                        <div className="w-8 h-8 rounded-lg bg-[#D7FF00]/10 flex items-center justify-center group-hover/item:bg-[#D7FF00]/20 transition-colors">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            className="text-[#D7FF00]"
+                          >
+                            <path d="M9 9h6v6H9z" />
+                            <path d="M9 3v6h6V3" />
+                            <path d="M9 15v6h6v-6" />
+                          </svg>
+                        </div>
+                        <span className="text-sm text-gray-300 font-medium">Figma</span>
+                      </div>
+                      <div className="flex items-center gap-3 group/item">
+                        <div className="w-8 h-8 rounded-lg bg-[#D7FF00]/10 flex items-center justify-center group-hover/item:bg-[#D7FF00]/20 transition-colors">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            className="text-[#D7FF00]"
+                          >
+                            <circle cx="12" cy="12" r="10" />
+                            <path d="M12 6v6l4 2" />
+                          </svg>
+                        </div>
+                        <span className="text-sm text-gray-300 font-medium">Xcode</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* GitHub Contributions */}
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              viewport={{ once: true }}
+              className="relative group"
+            >
+              <div className="absolute inset-0 bg-[#D7FF00] rounded-2xl blur-xl opacity-0 group-hover:opacity-20 transition-opacity duration-500"></div>
+              <div className="relative bg-[#111] rounded-2xl p-8 shadow-2xl hover:shadow-[0_0_40px_rgba(215,255,0,0.1)] transition-all duration-300 h-full flex flex-col">
+                <div className="flex items-center gap-3 mb-6">
+                  <FaGithub className="text-2xl text-[#D7FF00]" />
+                  <div>
+                    <h3 className="text-2xl font-bold text-white mb-1">Contribution Activity</h3>
+                    <p className="text-sm text-gray-400">GitHub contributions over the last year</p>
+                  </div>
+                </div>
+                <div className="bg-[#0d1117] rounded-lg p-6 flex-grow min-h-0">
+                  <div className="w-full overflow-x-auto" style={{ scrollbarWidth: 'thin', scrollbarColor: '#333 transparent' }}>
+                    <GitHubContributions username="Hussain-hamim" dark={true} />
+                  </div>
+                </div>
+                <a
+                  href="https://github.com/Hussain-hamim"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-2 mt-6 text-xs font-bold uppercase tracking-wider text-[#D7FF00] hover:text-[#D7FF00]/80 transition-colors"
+                >
+                  <span>View Profile</span>
+                  <FaExternalLinkAlt className="text-sm" />
+                </a>
+              </div>
+            </motion.div>
           </div>
         </div>
       </div>

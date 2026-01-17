@@ -1,160 +1,171 @@
 import React, { useState, useEffect } from "react";
 
-const GitHubContributions = ({ username }) => {
+const GitHubContributions = ({ username, dark = false }) => {
   const [contributions, setContributions] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [totalContributions, setTotalContributions] = useState(0);
 
   useEffect(() => {
     const fetchContributions = async () => {
       try {
         let contributionMap = {};
+        let totalContribsFromAPI = null;
+        const githubToken = process.env.REACT_APP_GITHUB_TOKEN;
 
-        // Use GitHub Contribution Graph API via a public service
-        // Since GitHub API has CORS/rate limit issues, we'll use github-contributions-api
-        try {
-          // Try using github-contributions-api service
-          const contributionsResponse = await fetch(
-            `https://github-contributions-api.jogruber.de/v4/${username}?y=last`
-          );
+        // Try GitHub GraphQL API first if token is available (more accurate)
+        if (githubToken) {
+          try {
+            const oneYearAgo = new Date();
+            oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
+            const fromDate = oneYearAgo.toISOString().split('T')[0];
+            const toDate = new Date().toISOString().split('T')[0];
 
-          if (contributionsResponse.ok) {
-            const data = await contributionsResponse.json();
-            console.log("Contributions API response:", data);
-
-            // The API returns contributions in different possible formats
-            if (data.contributions && Array.isArray(data.contributions)) {
-              data.contributions.forEach((contribution) => {
-                if (contribution.date) {
-                  const dateKey = contribution.date;
-                  const count = contribution.count || 0;
-                  contributionMap[dateKey] = count;
+            const graphqlQuery = {
+              query: `
+                query($username: String!, $from: DateTime!, $to: DateTime!) {
+                  user(login: $username) {
+                    contributionsCollection(from: $from, to: $to) {
+                      contributionCalendar {
+                        totalContributions
+                        weeks {
+                          contributionDays {
+                            date
+                            contributionCount
+                          }
+                        }
+                      }
+                    }
+                  }
                 }
-              });
-            } else if (data.data && Array.isArray(data.data)) {
-              // Alternative format
-              data.data.forEach((contribution) => {
-                if (contribution.date) {
-                  contributionMap[contribution.date] = contribution.count || 0;
-                }
-              });
+              `,
+              variables: {
+                username: username,
+                from: `${fromDate}T00:00:00Z`,
+                to: `${toDate}T23:59:59Z`
+              }
+            };
+
+            const response = await fetch('https://api.github.com/graphql', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${githubToken}`
+              },
+              body: JSON.stringify(graphqlQuery)
+            });
+
+            if (response.ok) {
+              const data = await response.json();
+              
+              if (data.data?.user?.contributionsCollection?.contributionCalendar) {
+                const calendar = data.data.user.contributionsCollection.contributionCalendar;
+                totalContribsFromAPI = calendar.totalContributions || 0;
+                
+                calendar.weeks.forEach((week) => {
+                  week.contributionDays.forEach((day) => {
+                    if (day.date) {
+                      const dateKey = day.date.split('T')[0];
+                      contributionMap[dateKey] = day.contributionCount || 0;
+                    }
+                  });
+                });
+
+                console.log('Fetched contributions from GitHub API (accurate data)');
+              }
+            } else {
+              const errorData = await response.json();
+              console.warn('GitHub API error:', errorData);
             }
-          } else {
-            console.warn(
-              "Contributions API returned:",
-              contributionsResponse.status
-            );
+          } catch (error) {
+            console.error("Error fetching from GitHub API:", error);
           }
-        } catch (error) {
-          console.error("Error fetching from contributions API:", error);
         }
 
-        // If still no data, try alternative service
+        // Fallback to public API if no token or if GitHub API failed
         if (Object.keys(contributionMap).length === 0) {
           try {
-            const altResponse = await fetch(
-              `https://api.github-contributions.vercel.app/api?username=${username}`
+            const contributionsResponse = await fetch(
+              `https://github-contributions-api.jogruber.de/v4/${username}?y=last`
             );
 
-            if (altResponse.ok) {
-              const altData = await altResponse.json();
-              console.log("Alternative API response:", altData);
-              if (altData.contributions) {
-                altData.contributions.forEach((contribution) => {
+            if (contributionsResponse.ok) {
+              const data = await contributionsResponse.json();
+              
+              if (data.contributions && Array.isArray(data.contributions)) {
+                data.contributions.forEach((contribution) => {
                   if (contribution.date) {
-                    contributionMap[contribution.date] =
-                      contribution.count || 0;
+                    const dateKey = contribution.date;
+                    const count = contribution.count || 0;
+                    contributionMap[dateKey] = count;
+                  }
+                });
+              } else if (data.data && Array.isArray(data.data)) {
+                data.data.forEach((contribution) => {
+                  if (contribution.date) {
+                    contributionMap[contribution.date] = contribution.count || 0;
                   }
                 });
               }
+              console.log('Fetched contributions from public API (may be less accurate)');
             }
-          } catch (altError) {
-            console.error("Error with alternative API:", altError);
+          } catch (error) {
+            console.error("Error fetching from contributions API:", error);
           }
         }
 
-        console.log(
-          "Final contribution map:",
-          contributionMap,
-          "Total dates:",
-          Object.keys(contributionMap).length
-        );
-
-        // Generate data for last 5 months, each with 4 weeks
-        const allWeeks = [];
-        const monthLabels = [];
+        // Generate full year of weeks (52 weeks)
         const today = new Date();
         today.setHours(0, 0, 0, 0);
-
-        // Get last 5 months
-        for (let monthOffset = 4; monthOffset >= 0; monthOffset--) {
-          const monthStart = new Date(
-            today.getFullYear(),
-            today.getMonth() - monthOffset,
-            1
-          );
-          const monthName = monthStart.toLocaleDateString("en-US", {
-            month: "short",
-          });
-          const monthEnd = new Date(
-            today.getFullYear(),
-            today.getMonth() - monthOffset + 1,
-            0
-          );
-
-          // Get the first Sunday of the month (or before if month doesn't start on Sunday)
-          const firstDay = new Date(monthStart);
-          const startDayOfWeek = firstDay.getDay(); // 0 = Sunday
-          const firstSunday = new Date(firstDay);
-          firstSunday.setDate(firstDay.getDate() - startDayOfWeek);
-
-          // Generate 4 weeks for this month
-          const monthWeeks = [];
-          for (let week = 0; week < 4; week++) {
-            const weekStart = new Date(firstSunday);
-            weekStart.setDate(firstSunday.getDate() + week * 7);
-
-            const weekDays = [];
-            for (let day = 0; day < 7; day++) {
-              const date = new Date(weekStart);
-              date.setDate(weekStart.getDate() + day);
-
-              // Only include days that are in this month
-              if (date >= monthStart && date <= monthEnd) {
-                const dateKey = date.toISOString().split("T")[0];
-                const count = contributionMap[dateKey] || 0;
-                weekDays.push({ date, count });
-              } else {
-                weekDays.push({ date: null, count: 0 });
+        
+        // Start from 371 days ago (approximately 53 weeks to ensure we cover full year)
+        const startDate = new Date(today);
+        startDate.setDate(today.getDate() - 371);
+        
+        // Find the Sunday before or on the start date
+        const startDayOfWeek = startDate.getDay();
+        const firstSunday = new Date(startDate);
+        firstSunday.setDate(startDate.getDate() - startDayOfWeek);
+        
+        const weeks = [];
+        const monthPositions = new Map();
+        let totalCount = 0;
+        
+        // Generate 53 weeks to ensure we cover full year
+        for (let week = 0; week < 53; week++) {
+          const weekStart = new Date(firstSunday);
+          weekStart.setDate(firstSunday.getDate() + week * 7);
+          
+          const weekDays = [];
+          for (let day = 0; day < 7; day++) {
+            const date = new Date(weekStart);
+            date.setDate(weekStart.getDate() + day);
+            
+            // Only include dates within the last year
+            if (date <= today) {
+              const dateKey = date.toISOString().split("T")[0];
+              const count = contributionMap[dateKey] || 0;
+              totalCount += count;
+              weekDays.push({ date, count });
+              
+              // Track first occurrence of each month for labels
+              if (date.getDate() === 1 && !monthPositions.has(date.getMonth())) {
+                const monthName = date.toLocaleDateString("en-US", { month: "short" });
+                monthPositions.set(date.getMonth(), { name: monthName, weekIndex: week });
               }
+            } else {
+              weekDays.push({ date: null, count: 0 });
             }
-
-            monthWeeks.push(weekDays);
-            allWeeks.push(...weekDays);
           }
-
-          // Store month label with its starting week index
-          monthLabels.push({
-            name: monthName,
-            startWeek: allWeeks.length - 16, // 4 weeks * 7 days = 28, but we're adding 4 weeks
-          });
+          
+          weeks.push(weekDays);
         }
-
-        // Reorganize: group weeks by month (4 weeks per month)
-        const months = [];
-        for (let i = 0; i < 5; i++) {
-          const startIdx = i * 28; // 4 weeks * 7 days
-          const monthWeeks = [];
-          for (let week = 0; week < 4; week++) {
-            const weekStart = startIdx + week * 7;
-            monthWeeks.push(allWeeks.slice(weekStart, weekStart + 7));
-          }
-          months.push({
-            name: monthLabels[i].name,
-            weeks: monthWeeks,
-          });
-        }
-
-        setContributions(months);
+        
+        // Convert map to array sorted by week index
+        const sortedMonths = Array.from(monthPositions.values()).sort((a, b) => a.weekIndex - b.weekIndex);
+        
+        // Use total from GitHub API if available, otherwise calculate from map
+        setTotalContributions(totalContribsFromAPI !== null ? totalContribsFromAPI : totalCount);
+        setContributions({ weeks, monthPositions: sortedMonths });
       } catch (error) {
         console.error("Error fetching GitHub contributions:", error);
         generateEmptyContributions();
@@ -164,53 +175,45 @@ const GitHubContributions = ({ username }) => {
     };
 
     const generateEmptyContributions = () => {
-      const months = [];
       const today = new Date();
-
-      for (let monthOffset = 4; monthOffset >= 0; monthOffset--) {
-        const monthStart = new Date(
-          today.getFullYear(),
-          today.getMonth() - monthOffset,
-          1
-        );
-        const monthName = monthStart.toLocaleDateString("en-US", {
-          month: "short",
-        });
-        const monthEnd = new Date(
-          today.getFullYear(),
-          today.getMonth() - monthOffset + 1,
-          0
-        );
-
-        const firstDay = new Date(monthStart);
-        const startDayOfWeek = firstDay.getDay();
-        const firstSunday = new Date(firstDay);
-        firstSunday.setDate(firstDay.getDate() - startDayOfWeek);
-
-        const monthWeeks = [];
-        for (let week = 0; week < 4; week++) {
-          const weekStart = new Date(firstSunday);
-          weekStart.setDate(firstSunday.getDate() + week * 7);
-
-          const weekDays = [];
-          for (let day = 0; day < 7; day++) {
-            const date = new Date(weekStart);
-            date.setDate(weekStart.getDate() + day);
-
-            if (date >= monthStart && date <= monthEnd) {
-              weekDays.push({ date, count: 0 });
-            } else {
-              weekDays.push({ date: null, count: 0 });
+      const startDate = new Date(today);
+      startDate.setDate(today.getDate() - 371);
+      
+      const startDayOfWeek = startDate.getDay();
+      const firstSunday = new Date(startDate);
+      firstSunday.setDate(startDate.getDate() - startDayOfWeek);
+      
+      const weeks = [];
+      const monthPositions = new Map();
+      
+      for (let week = 0; week < 53; week++) {
+        const weekStart = new Date(firstSunday);
+        weekStart.setDate(firstSunday.getDate() + week * 7);
+        
+        const weekDays = [];
+        for (let day = 0; day < 7; day++) {
+          const date = new Date(weekStart);
+          date.setDate(weekStart.getDate() + day);
+          
+          if (date <= today) {
+            weekDays.push({ date, count: 0 });
+            
+            // Track first occurrence of each month for labels
+            if (date.getDate() === 1 && !monthPositions.has(date.getMonth())) {
+              const monthName = date.toLocaleDateString("en-US", { month: "short" });
+              monthPositions.set(date.getMonth(), { name: monthName, weekIndex: week });
             }
+          } else {
+            weekDays.push({ date: null, count: 0 });
           }
-
-          monthWeeks.push(weekDays);
         }
-
-        months.push({ name: monthName, weeks: monthWeeks });
+        
+        weeks.push(weekDays);
       }
-
-      setContributions(months);
+      
+      const sortedMonths = Array.from(monthPositions.values()).sort((a, b) => a.weekIndex - b.weekIndex);
+      setTotalContributions(0);
+      setContributions({ weeks, monthPositions: sortedMonths });
     };
 
     if (username) {
@@ -221,37 +224,34 @@ const GitHubContributions = ({ username }) => {
   }, [username]);
 
   const getIntensity = (count) => {
-    if (count === 0) return "bg-slate-100 border-slate-200";
-    if (count === 1) return "bg-green-400 border-green-400";
-    if (count <= 3) return "bg-green-500 border-green-500";
-    if (count <= 5) return "bg-green-600 border-green-600";
-    return "bg-green-700 border-green-700";
+    // GitHub's exact color scheme
+    if (count === 0) return "bg-[#161b22]";
+    if (count === 1) return "bg-[#0e4429]";
+    if (count <= 3) return "bg-[#006d32]";
+    if (count <= 5) return "bg-[#26a641]";
+    return "bg-[#39d353]";
   };
+
+  const dayLabels = ["", "Mon", "", "Wed", "", "Fri", ""];
 
   if (loading) {
     return (
-      <div className="space-y-2">
-        <div className="flex items-center justify-between gap-1">
-          {Array.from({ length: 5 }).map((_, i) => (
-            <span
-              key={i}
-              className="text-[9px] text-slate-500 flex-1 text-center"
-            >
-              ...
-            </span>
-          ))}
-        </div>
-        <div className="flex gap-0.5">
-          {Array.from({ length: 20 }).map((_, i) => (
-            <div key={i} className="flex flex-col gap-0.5">
-              {Array.from({ length: 7 }).map((_, j) => (
-                <div
-                  key={j}
-                  className="w-2 h-2 rounded-sm bg-slate-100 border border-slate-200 animate-pulse"
-                />
-              ))}
-            </div>
-          ))}
+      <div className="space-y-3">
+        <div className="h-4 bg-gray-700 rounded w-48 animate-pulse"></div>
+        <div className="flex gap-1">
+          <div className="w-12"></div>
+          <div className="flex gap-1 flex-1">
+            {Array.from({ length: 53 }).map((_, i) => (
+              <div key={i} className="flex flex-col gap-1">
+                {Array.from({ length: 7 }).map((_, j) => (
+                  <div
+                    key={j}
+                    className="w-3 h-3 rounded bg-[#161b22] animate-pulse"
+                  />
+                ))}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     );
@@ -260,48 +260,100 @@ const GitHubContributions = ({ username }) => {
   if (!contributions) return null;
 
   return (
-    <div className="space-y-2">
-      {/* Month labels - each month spans 4 weeks */}
-      <div className="flex items-center justify-between gap-0.5">
-        {contributions.map((month, idx) => (
-          <span
-            key={idx}
-            className="text-[9px] text-slate-500 whitespace-nowrap flex-1 text-center"
-            style={{ flex: "0 0 20%" }}
-          >
-            {month.name}
-          </span>
-        ))}
+    <div className="space-y-3 w-full">
+      {/* Title */}
+      <div className="flex items-center justify-between">
+        <h4 className="text-sm font-semibold text-white">
+          {totalContributions.toLocaleString()} contributions in the last year
+        </h4>
       </div>
 
-      {/* Contribution grid - 7 rows (days of week) x 20 columns (5 months × 4 weeks) */}
-      <div className="flex gap-0.5">
-        {contributions.map((month, monthIndex) =>
-          month.weeks.map((week, weekIndex) => (
+      {/* Graph Container */}
+      <div className="flex gap-2" style={{ minWidth: 'max-content' }}>
+        {/* Day Labels */}
+        <div className="flex flex-col gap-1 pt-3 flex-shrink-0">
+          {dayLabels.map((label, idx) => (
             <div
-              key={`${monthIndex}-${weekIndex}`}
-              className="flex flex-col gap-0.5"
+              key={idx}
+              className="h-3 flex items-center justify-end pr-2"
             >
-              {week.map((day, dayIndex) => (
-                <div
-                  key={`${monthIndex}-${weekIndex}-${dayIndex}`}
-                  className={`w-3 h-3 rounded-sm border ${
-                    day.date
-                      ? getIntensity(day.count)
-                      : "bg-transparent border-transparent"
-                  }`}
-                  title={
-                    day.date
-                      ? `${day.date.toLocaleDateString()}: ${
-                          day.count
-                        } contribution${day.count !== 1 ? "s" : ""}`
-                      : ""
-                  }
-                />
-              ))}
+              {label && (
+                <span className="text-[10px] text-gray-400 leading-none whitespace-nowrap">
+                  {label}
+                </span>
+              )}
             </div>
-          ))
-        )}
+          ))}
+        </div>
+
+        {/* Main Graph */}
+        <div className="flex-shrink-0">
+          {/* Month Labels */}
+          <div className="flex gap-1 mb-1 relative h-4" style={{ width: `${53 * 16}px` }}>
+            {contributions.monthPositions.map((month, idx) => {
+              const nextMonth = contributions.monthPositions[idx + 1];
+              // Each week: w-3 (12px) + gap-1 (4px) = 16px total
+              const weekWidth = 16;
+              const leftPosition = month.weekIndex * weekWidth;
+              const width = nextMonth
+                ? (nextMonth.weekIndex - month.weekIndex) * weekWidth
+                : (53 - month.weekIndex) * weekWidth;
+              return (
+                <div
+                  key={idx}
+                  className="absolute"
+                  style={{
+                    left: `${leftPosition}px`,
+                    minWidth: `${width}px`,
+                  }}
+                >
+                  <span className="text-[10px] text-gray-400 leading-none whitespace-nowrap">
+                    {month.name}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Contribution Grid */}
+          <div className="flex gap-1" style={{ width: `${53 * 16}px` }}>
+            {contributions.weeks.map((week, weekIndex) => (
+              <div key={weekIndex} className="flex flex-col gap-1">
+                {week.map((day, dayIndex) => (
+                  <div
+                    key={dayIndex}
+                    className={`w-3 h-3 rounded ${
+                      day.date ? getIntensity(day.count) : "bg-transparent"
+                    }`}
+                    title={
+                      day.date
+                        ? `${day.date.toLocaleDateString("en-US", {
+                            weekday: "long",
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                          })}: ${day.count} contribution${day.count !== 1 ? "s" : ""}`
+                        : ""
+                    }
+                  />
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Legend */}
+      <div className="flex items-center justify-end gap-2 text-[10px] text-gray-400">
+        <span>Less</span>
+        <div className="flex gap-0.5">
+          <div className="w-3 h-3 rounded bg-[#161b22]"></div>
+          <div className="w-3 h-3 rounded bg-[#0e4429]"></div>
+          <div className="w-3 h-3 rounded bg-[#006d32]"></div>
+          <div className="w-3 h-3 rounded bg-[#26a641]"></div>
+          <div className="w-3 h-3 rounded bg-[#39d353]"></div>
+        </div>
+        <span>More</span>
       </div>
     </div>
   );
