@@ -6,12 +6,6 @@ import {
   FaMobileAlt,
   FaGlobe,
   FaAward,
-  FaCode,
-  FaDatabase,
-  FaServer,
-  FaCloud,
-  FaCog,
-  FaBrain,
   FaBook,
   FaCamera,
 } from "react-icons/fa";

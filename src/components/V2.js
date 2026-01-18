@@ -5,7 +5,7 @@ import Text3DScene from "./Text3DScene";
 import { projects, mobileProjects } from "./ProjectsSection";
 import LocationMap from "./LocationMap";
 import GitHubContributions from "./GitHubContributions";
-import { FaBook, FaPuzzlePiece } from "react-icons/fa";
+import { FaBook, FaPuzzlePiece, FaCamera, FaPenFancy, FaImage } from "react-icons/fa";
 import { generateAIResponse } from "../services/ai-agent";
 
 const V2 = () => {
@@ -943,22 +943,99 @@ const V2 = () => {
           </div>
         )}
 
-        {/* Currently Listening + Blog */}
+        {/* Blog & Photos - Side by Side */}
         <section className="grid grid-cols-1 md:grid-cols-2 gap-6 py-4">
-          <div className="rounded-2xl border border-slate-100 shadow-sm p-5 bg-white card-hover">
-            <div className="flex items-center gap-2 mb-3">
-              <FaBook className="w-4 h-4 text-slate-400" />
-              <span className="text-[10px] sm:text-xs uppercase tracking-wider text-slate-400 font-medium">
-                Blog
-              </span>
+          {/* Blog Card */}
+          <div className="rounded-2xl border border-slate-100 shadow-sm p-6 bg-gradient-to-br from-white via-blue-50/30 to-indigo-50/20 card-hover relative overflow-hidden">
+            {/* Decorative background elements */}
+            <div className="absolute top-0 right-0 w-32 h-32 bg-blue-100/20 rounded-full blur-3xl"></div>
+            <div className="absolute bottom-0 left-0 w-24 h-24 bg-indigo-100/20 rounded-full blur-2xl"></div>
+            
+            <div className="relative z-10">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center shadow-lg">
+                  <FaBook className="w-5 h-5 text-white" />
+                </div>
+                <div>
+                  <span className="text-[10px] sm:text-xs uppercase tracking-wider text-slate-500 font-semibold block">
+                    Blog
+                  </span>
+                  <span className="text-[9px] text-slate-400">Latest thoughts & insights</span>
+                </div>
+              </div>
+              
+              <div className="space-y-3">
+                <div className="flex items-start gap-2">
+                  <FaPenFancy className="w-4 h-4 text-blue-500 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <p className="text-sm text-slate-800 font-semibold mb-1">
+                      New Website Launch
+                    </p>
+                    <p className="text-xs text-slate-600 leading-relaxed">
+                      A refreshed look while keeping the playful vibe. Exploring design,
+                      engineering, and everything in between.
+                    </p>
+                  </div>
+                </div>
+                
+                <div className="pt-2 border-t border-slate-200/50">
+                  <div className="flex items-center gap-2 text-xs text-slate-500">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                    <span>2 days ago</span>
+                  </div>
+                </div>
+              </div>
             </div>
-            <p className="text-sm text-slate-800 font-semibold mb-1">
-              New Website
-            </p>
-            <p className="text-xs text-slate-500 leading-relaxed">
-              A refreshed look while keeping the playful vibe. Exploring design,
-              engineering, and everything in between.
-            </p>
+          </div>
+
+          {/* Photos Card */}
+          <div className="rounded-2xl border border-slate-100 shadow-sm p-6 bg-gradient-to-br from-white via-purple-50/30 to-pink-50/20 card-hover relative overflow-hidden">
+            {/* Decorative background elements */}
+            <div className="absolute top-0 right-0 w-32 h-32 bg-purple-100/20 rounded-full blur-3xl"></div>
+            <div className="absolute bottom-0 left-0 w-24 h-24 bg-pink-100/20 rounded-full blur-2xl"></div>
+            
+            <div className="relative z-10">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center shadow-lg">
+                  <FaCamera className="w-5 h-5 text-white" />
+                </div>
+                <div>
+                  <span className="text-[10px] sm:text-xs uppercase tracking-wider text-slate-500 font-semibold block">
+                    Photos
+                  </span>
+                  <span className="text-[9px] text-slate-400">Visual stories & moments</span>
+                </div>
+              </div>
+              
+              <div className="space-y-3">
+                <div className="flex items-start gap-2">
+                  <FaImage className="w-4 h-4 text-purple-500 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <p className="text-sm text-slate-800 font-semibold mb-1">
+                      Photography Collection
+                    </p>
+                    <p className="text-xs text-slate-600 leading-relaxed">
+                      A collection of moments, travels, and creative photography from my journey.
+                      Capturing life through the lens.
+                    </p>
+                  </div>
+                </div>
+                
+                <div className="pt-2 border-t border-slate-200/50">
+                  <div className="flex items-center gap-2 text-xs text-slate-500">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                      <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                      <polyline points="21 15 16 10 5 21"></polyline>
+                    </svg>
+                    <span>Gallery coming soon</span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
 
