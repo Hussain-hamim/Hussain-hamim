@@ -99,9 +99,17 @@ const Header = () => {
             <a
               href="/Hussain-resume3.pdf"
               download="Hussain-resume3.pdf"
-              className="ml-4 px-4 py-1.5 text-xs font-semibold text-[#D7FF00] border border-[#D7FF00]/50 rounded-full 
-                         hover:bg-[#D7FF00] hover:text-black transition-all duration-300
-                         hover:border-[#D7FF00] hover:shadow-[0_0_20px_rgba(215,255,0,0.4)]"
+              className="ml-4 px-4 py-1.5 text-xs font-semibold text-[#D7FF00] rounded-full transition-all hover:bg-[#D7FF00]/10 hover:shadow-lg hover:shadow-[#D7FF00]/20"
+              style={{
+                borderWidth: '0.5px',
+                borderColor: 'rgba(215, 255, 0, 0.5)',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = 'rgba(215, 255, 0, 1)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = 'rgba(215, 255, 0, 0.5)';
+              }}
             >
               Resume
             </a>
@@ -142,9 +150,17 @@ const Header = () => {
             <a
               href="/Hussain-resume3.pdf"
               download="Hussain-resume3.pdf"
-              className="block w-full text-center px-6 py-3 text-sm font-semibold text-[#D7FF00] 
-                         border border-[#D7FF00]/50 rounded-full hover:bg-[#D7FF00] hover:text-black 
-                         transition-all duration-300 mb-4"
+              className="block w-full text-center px-6 py-3 text-sm font-semibold text-[#D7FF00] rounded-full transition-all hover:bg-[#D7FF00]/10 hover:shadow-lg hover:shadow-[#D7FF00]/20 mb-4"
+              style={{
+                borderWidth: '0.5px',
+                borderColor: 'rgba(215, 255, 0, 0.5)',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = 'rgba(215, 255, 0, 1)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = 'rgba(215, 255, 0, 0.5)';
+              }}
             >
               Download Resume
             </a>

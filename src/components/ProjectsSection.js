@@ -18,7 +18,7 @@ export const projects = [
       "Discover & validate your next big idea. We scan millions of conversations, reviews, and complaints across the web to find real problems people are struggling with. then help you turn them into validated business ideas that actually have demand.",
     getImageSrc: () => require("../images/ideahunt2.png"),
     link: "https://github.com/Hussain-hamim",
-    live: "https://x.com/hussainim_",
+    live: "https://ideahunt.pro",
     tags: ["AI", "Business", "Validation", "SaaS"],
   },
   {
@@ -225,7 +225,14 @@ const ProjectCard = ({ project, index }) => {
       {/* Hover Glow Effect */}
       <div className="absolute -inset-0.5 bg-gradient-to-r from-[#D7FF00] to-teal-400 rounded-2xl opacity-0 group-hover:opacity-30 transition duration-500 blur-xl"></div>
 
-      <div className="relative h-full bg-[#111] rounded-2xl overflow-hidden transition-all duration-300 flex flex-col hover:shadow-2xl hover:shadow-[#D7FF00]/10 hover:ring-[#D7FF00]/50">
+      <div 
+        className="relative h-full rounded-2xl overflow-hidden transition-all duration-300 flex flex-col hover:shadow-2xl hover:shadow-[#D7FF00]/10 hover:ring-[#D7FF00]/50"
+        style={{
+          backgroundColor: '#0a0a0a',
+          backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px)',
+          backgroundSize: '24px 24px',
+        }}
+      >
         {/* Image Container */}
         <div className="relative h-60 overflow-hidden bg-[#1a1a1a]">
           <img
@@ -272,7 +279,17 @@ const ProjectCard = ({ project, index }) => {
                 href={project.live}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#D7FF00] hover:text-[#D7FF00]/80 transition-colors ml-auto"
+                className="flex items-center gap-2 px-3 py-2 text-xs   tracking-wider text-[#D7FF00] rounded-full ml-auto transition-all hover:bg-[#D7FF00]/10"
+                style={{
+                  borderWidth: '0.5px',
+                  borderColor: 'rgba(215, 255, 0, 0.5)',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = 'rgba(215, 255, 0, 1)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = 'rgba(215, 255, 0, 0.5)';
+                }}
               >
                 <span>Live Demo</span>
                 <FaExternalLinkAlt className="text-sm" />
@@ -317,7 +334,17 @@ const ProjectsSection = () => {
             <div className="flex justify-center mt-12">
               <button
                 onClick={() => setShowAllWeb(!showAllWeb)}
-                className="px-6 py-2 border border-[#D7FF00] text-[#D7FF00] rounded hover:bg-[#D7FF00] hover:text-black transition-colors"
+                className="px-8 py-3 text-sm font-bold uppercase tracking-wider text-[#D7FF00] rounded-full transition-all hover:bg-[#D7FF00]/10 hover:shadow-lg hover:shadow-[#D7FF00]/20"
+                style={{
+                  borderWidth: '0.5px',
+                  borderColor: 'rgba(215, 255, 0, 0.5)',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = 'rgba(215, 255, 0, 1)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = 'rgba(215, 255, 0, 0.5)';
+                }}
               >
                 {showAllWeb ? "Show Less" : "Show More"}
               </button>
@@ -337,7 +364,17 @@ const ProjectsSection = () => {
             <div className="flex justify-center mt-12">
               <button
                 onClick={() => setShowAllMobile(!showAllMobile)}
-                className="px-6 py-2 border border-[#D7FF00] text-[#D7FF00] rounded hover:bg-[#D7FF00] hover:text-black transition-colors"
+                className="px-8 py-3 text-sm font-bold uppercase tracking-wider text-[#D7FF00] rounded-full transition-all hover:bg-[#D7FF00]/10 hover:shadow-lg hover:shadow-[#D7FF00]/20"
+                style={{
+                  borderWidth: '0.5px',
+                  borderColor: 'rgba(215, 255, 0, 0.5)',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = 'rgba(215, 255, 0, 1)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = 'rgba(215, 255, 0, 0.5)';
+                }}
               >
                 {showAllMobile ? "Show Less" : "Show More"}
               </button>
@@ -543,7 +580,17 @@ const ProjectsSection = () => {
                   href="https://github.com/Hussain-hamim"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2 mt-6 text-xs font-bold uppercase tracking-wider text-[#D7FF00] hover:text-[#D7FF00]/80 transition-colors"
+                  className="flex items-center justify-center gap-2 mt-6 px-6 py-2 text-xs font-bold uppercase tracking-wider text-[#D7FF00] rounded-full transition-all hover:bg-[#D7FF00]/10 hover:shadow-lg hover:shadow-[#D7FF00]/20"
+                  style={{
+                    borderWidth: '0.5px',
+                    borderColor: 'rgba(215, 255, 0, 0.5)',
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.borderColor = 'rgba(215, 255, 0, 1)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.borderColor = 'rgba(215, 255, 0, 0.5)';
+                  }}
                 >
                   <span>View Profile</span>
                   <FaExternalLinkAlt className="text-sm" />
@@ -554,7 +601,7 @@ const ProjectsSection = () => {
         </div>
 
         {/* Coming Soon */}
-        <div className="mt-24">
+        <div className="mt-36">
           <SectionHeader title="Blogs & Photos" icon={FaAward} />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Blogs Card */}

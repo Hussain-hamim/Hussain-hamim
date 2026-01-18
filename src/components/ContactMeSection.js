@@ -234,7 +234,21 @@ const ContactMeSection = () => {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full bg-[#D7FF00] text-black font-bold py-4 rounded-xl hover:bg-[#b8da00] transition-colors flex items-center justify-center gap-2 group disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full text-[#D7FF00] font-bold py-4 rounded-full transition-all hover:bg-[#D7FF00]/10 hover:shadow-lg hover:shadow-[#D7FF00]/20 flex items-center justify-center gap-2 group disabled:opacity-50 disabled:cursor-not-allowed"
+                style={{
+                  borderWidth: '0.5px',
+                  borderColor: 'rgba(215, 255, 0, 0.5)',
+                }}
+                onMouseEnter={(e) => {
+                  if (!isLoading) {
+                    e.currentTarget.style.borderColor = 'rgba(215, 255, 0, 1)';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (!isLoading) {
+                    e.currentTarget.style.borderColor = 'rgba(215, 255, 0, 0.5)';
+                  }
+                }}
               >
                 {isLoading ? (
                   <span className="animate-pulse">Sending...</span>
