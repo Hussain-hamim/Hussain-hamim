@@ -68,6 +68,9 @@ module.exports = {
   },
   // Suppress warnings overlay in browser
   devServer: {
+    host: '0.0.0.0', // Allow external connections
+    port: 3000,
+    allowedHosts: 'all', // Allow all hosts
     client: {
       overlay: {
         warnings: false,

@@ -636,7 +636,7 @@ const V2 = () => {
                       <path d="M6 8h12" />
                     </svg>
                     <span className="text-xs text-slate-700">
-                      MacBook Pro M3
+                      MacBook Air
                     </span>
                   </div>
                   <div className="flex items-center gap-2">
