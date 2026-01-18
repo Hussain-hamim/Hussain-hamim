@@ -14,7 +14,7 @@ export const projects = [
     title: "IdeaHunt",
     description:
       "Discover & validate your next big idea. We scan millions of conversations, reviews, and complaints across the web to find real problems people are struggling with. then help you turn them into validated business ideas that actually have demand.",
-    getImageSrc: () => require("../images/ideahunt.png"),
+    getImageSrc: () => require("../images/ideahunt2.png"),
     link: "https://github.com/Hussain-hamim",
     live: "https://x.com/hussainim_",
     tags: ["AI", "Business", "Validation", "SaaS"],
