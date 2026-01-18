@@ -6,6 +6,14 @@ import {
   FaMobileAlt,
   FaGlobe,
   FaAward,
+  FaCode,
+  FaDatabase,
+  FaServer,
+  FaCloud,
+  FaCog,
+  FaBrain,
+  FaBook,
+  FaCamera,
 } from "react-icons/fa";
 import GitHubContributions from "./GitHubContributions";
 
@@ -546,6 +554,86 @@ const ProjectsSection = () => {
                   <span>View Profile</span>
                   <FaExternalLinkAlt className="text-sm" />
                 </a>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+
+        {/* Coming Soon */}
+        <div className="mt-24">
+          <SectionHeader title="Blogs & Photos" icon={FaAward} />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {/* Blogs Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              viewport={{ once: true }}
+              className="relative group"
+            >
+              <div className="absolute inset-0 bg-[#D7FF00] rounded-2xl blur-xl opacity-0 group-hover:opacity-20 transition-opacity duration-500"></div>
+              <div className="relative bg-[#111] rounded-2xl p-8 shadow-2xl hover:shadow-[0_0_40px_rgba(215,255,0,0.1)] transition-all duration-300 h-full">
+                <div className="flex flex-col items-center text-center">
+                  <div className="w-16 h-16 rounded-full bg-[#D7FF00]/10 flex items-center justify-center mb-6 group-hover:bg-[#D7FF00]/20 transition-colors">
+                    <FaBook className="text-3xl text-[#D7FF00]" />
+                  </div>
+                  <h3 className="text-2xl font-bold text-white mb-3">Blogs</h3>
+                  <p className="text-gray-400 mb-4">
+                    Technical insights, tutorials, and thoughts on development, AI, and technology.
+                  </p>
+                  <div className="flex items-center gap-2 text-sm text-[#D7FF00] font-semibold">
+                    <span>Coming Soon</span>
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      className="animate-pulse"
+                    >
+                      <circle cx="12" cy="12" r="10" />
+                      <path d="M12 6v6l4 2" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Photos Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              viewport={{ once: true }}
+              className="relative group"
+            >
+              <div className="absolute inset-0 bg-[#D7FF00] rounded-2xl blur-xl opacity-0 group-hover:opacity-20 transition-opacity duration-500"></div>
+              <div className="relative bg-[#111] rounded-2xl p-8 shadow-2xl hover:shadow-[0_0_40px_rgba(215,255,0,0.1)] transition-all duration-300 h-full">
+                <div className="flex flex-col items-center text-center">
+                  <div className="w-16 h-16 rounded-full bg-[#D7FF00]/10 flex items-center justify-center mb-6 group-hover:bg-[#D7FF00]/20 transition-colors">
+                    <FaCamera className="text-3xl text-[#D7FF00]" />
+                  </div>
+                  <h3 className="text-2xl font-bold text-white mb-3">Photos</h3>
+                  <p className="text-gray-400 mb-4">
+                    A collection of moments, travels, and creative photography from my journey.
+                  </p>
+                  <div className="flex items-center gap-2 text-sm text-[#D7FF00] font-semibold">
+                    <span>Coming Soon</span>
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      className="animate-pulse"
+                    >
+                      <circle cx="12" cy="12" r="10" />
+                      <path d="M12 6v6l4 2" />
+                    </svg>
+                  </div>
+                </div>
               </div>
             </motion.div>
           </div>

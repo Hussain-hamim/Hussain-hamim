@@ -55,7 +55,7 @@ const ExperienceSection = () => {
           viewport={{ once: true }}
           className="mb-20 text-center"
         >
-          <h2 className="text-5xl md:text-7xl font-bold font-sans1 text-white mb-4 tracking-tight">
+          <h2 className="text-4xl md:text-5xl font-bold font-sans1 text-white mb-4 tracking-tight">
             EXPERIENCE
           </h2>
           <div className="w-24 h-1 bg-[#D7FF00] mx-auto"></div>
@@ -79,7 +79,7 @@ const ExperienceSection = () => {
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex-1">
                       <div className="text-[#D7FF00] font-mono text-sm mb-2">{exp.duration}</div>
-                      <h3 className="text-2xl font-bold text-white mb-1">{exp.role}</h3>
+                      <h3 className="text-lg font-bold text-white mb-1">{exp.role}</h3>
                       <div className="text-gray-400 font-medium">{exp.company}</div>
                     </div>
                     <button
