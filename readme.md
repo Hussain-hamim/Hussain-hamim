@@ -1,4 +1,4 @@
-```markdown
+
 # **Hello, <span style="color: #3d82ef;">&lt;Coders/&gt;</span>!** 👋
 
 <div align="center">
@@ -103,4 +103,3 @@
   ![Footer](https://capsule-render.vercel.app/api?type=waving&color=3d82ef&height=100&section=footer)
   
 </div>
-```
