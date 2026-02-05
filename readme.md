@@ -1,146 +1,497 @@
-# **Hello, <span style="color: #3d82ef;">&lt;Coders/&gt;</span>!** 👋
-
-<div align="center">
+<!-- Animated Background Container -->
+<div align="center" style="position: relative;">
   
-  ### **I'm Hussain Hamim** 🚀
+  <!-- Floating Particles Animation -->
+  <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none;">
+    <canvas id="particles-canvas"></canvas>
+  </div>
   
-  *Full-Stack & AI Agentic Developer | Building Intelligent Digital Experiences*
+  <!-- Glitch Text Effect -->
+  <div class="glitch-wrapper">
+    <h1 class="glitch" data-text="Hello, <span style='color: #3d82ef;'>&lt;Coders/&gt;</span>!">
+      Hello, <span style="color: #3d82ef;">&lt;Coders/&gt;</span>! 
+    </h1>
+    <div class="glitch-lines"></div>
+  </div>
   
-  ![AI Developer](https://user-images.githubusercontent.com/74038190/212284115-0c59fe1b-43f5-4e8c-9ea6-db5d6fa8ea05.gif)
+  <!-- Animated Avatar/Icon -->
+  <div class="pulse-avatar">
+    <div class="avatar-ring">
+      <div class="avatar-ring-inner">
+        <img src="https://avatars.githubusercontent.com/u/YOUR_GITHUB_ID?v=4" width="150" style="border-radius: 50%; border: 3px solid #3d82ef;" alt="Hussain Hamim"/>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Typewriter Effect -->
+  <div class="typewriter">
+    <h2>I'm <span class="highlight-text">Hussain Hamim</span> 🚀</h2>
+  </div>
+  
+  <!-- Floating Badges -->
+  <div class="floating-badges">
+    <div class="badge-float" style="animation-delay: 0s;">
+      <span class="badge-pulse">🤖 AI Agentic Developer</span>
+    </div>
+    <div class="badge-float" style="animation-delay: 0.5s;">
+      <span class="badge-pulse">💻 Full-Stack Engineer</span>
+    </div>
+    <div class="badge-float" style="animation-delay: 1s;">
+      <span class="badge-pulse">🚀 Tech Innovator</span>
+    </div>
+  </div>
+  
+  <!-- Animated Divider -->
+  <div class="animated-divider">
+    <div class="divider-line"></div>
+    <div class="divider-dot"></div>
+    <div class="divider-line"></div>
+  </div>
   
 </div>
 
-## 🤖 **AI & Agentic Development**
+<!-- CSS Animations -->
+<style>
+  /* Glitch Effect */
+  .glitch-wrapper {
+    position: relative;
+    margin: 20px 0;
+  }
+  
+  .glitch {
+    position: relative;
+    font-size: 3.5rem;
+    font-weight: bold;
+    color: white;
+    letter-spacing: 3px;
+    animation: glitch-anim 5s infinite;
+  }
+  
+  .glitch:before,
+  .glitch:after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .glitch:before {
+    animation: glitch-1 2s infinite linear alternate-reverse;
+    left: 2px;
+    text-shadow: -2px 0 #ff00ff;
+    clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%);
+  }
+  
+  .glitch:after {
+    animation: glitch-2 3s infinite linear alternate-reverse;
+    left: -2px;
+    text-shadow: -2px 0 #00ffff;
+    clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%);
+  }
+  
+  /* Pulse Avatar Animation */
+  .pulse-avatar {
+    margin: 30px 0;
+    position: relative;
+  }
+  
+  .avatar-ring {
+    position: relative;
+    width: 160px;
+    height: 160px;
+    margin: 0 auto;
+  }
+  
+  .avatar-ring:before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    border: 2px solid transparent;
+    border-radius: 50%;
+    animation: pulse-ring 2s cubic-bezier(0.215, 0.610, 0.355, 1) infinite;
+  }
+  
+  .avatar-ring-inner {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    margin: 0 auto;
+    border-radius: 50%;
+    overflow: hidden;
+    animation: float 6s ease-in-out infinite;
+  }
+  
+  /* Typewriter Effect */
+  .typewriter h2 {
+    overflow: hidden;
+    border-right: .15em solid #3d82ef;
+    white-space: nowrap;
+    margin: 0 auto;
+    letter-spacing: .15em;
+    animation: typing 3.5s steps(40, end), blink-caret .75s step-end infinite;
+  }
+  
+  /* Floating Badges */
+  .floating-badges {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin: 30px 0;
+    flex-wrap: wrap;
+  }
+  
+  .badge-float {
+    animation: float-badge 4s ease-in-out infinite;
+  }
+  
+  .badge-pulse {
+    background: linear-gradient(90deg, #3d82ef, #8a2be2);
+    padding: 12px 24px;
+    border-radius: 30px;
+    color: white;
+    font-weight: bold;
+    display: inline-block;
+    animation: badge-glow 2s ease-in-out infinite alternate;
+    box-shadow: 0 4px 15px rgba(61, 130, 239, 0.4);
+  }
+  
+  /* Animated Divider */
+  .animated-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 40px 0;
+    width: 100%;
+  }
+  
+  .divider-line {
+    height: 2px;
+    width: 100px;
+    background: linear-gradient(90deg, transparent, #3d82ef, transparent);
+    animation: line-glow 3s ease-in-out infinite alternate;
+  }
+  
+  .divider-dot {
+    width: 12px;
+    height: 12px;
+    background: #3d82ef;
+    border-radius: 50%;
+    margin: 0 20px;
+    animation: dot-pulse 2s ease-in-out infinite;
+    box-shadow: 0 0 20px #3d82ef;
+  }
+  
+  /* Highlight Text */
+  .highlight-text {
+    background: linear-gradient(90deg, #3d82ef, #00ffff, #3d82ef);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shine 3s linear infinite;
+  }
+  
+  /* Keyframe Animations */
+  @keyframes glitch-1 {
+    0% { transform: translateX(0); }
+    70% { transform: translateX(0); }
+    72% { transform: translateX(-2px); }
+    74% { transform: translateX(2px); }
+    76% { transform: translateX(-2px); }
+    78% { transform: translateX(2px); }
+    80% { transform: translateX(0); }
+    100% { transform: translateX(0); }
+  }
+  
+  @keyframes glitch-2 {
+    0% { transform: translateX(0); }
+    60% { transform: translateX(0); }
+    62% { transform: translateX(2px); }
+    64% { transform: translateX(-2px); }
+    66% { transform: translateX(2px); }
+    68% { transform: translateX(-2px); }
+    70% { transform: translateX(0); }
+    100% { transform: translateX(0); }
+  }
+  
+  @keyframes pulse-ring {
+    0% { transform: scale(0.8); opacity: 0.8; border-color: rgba(61, 130, 239, 0.8); }
+    100% { transform: scale(1.2); opacity: 0; border-color: rgba(61, 130, 239, 0); }
+  }
+  
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+  }
+  
+  @keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
+  }
+  
+  @keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: #3d82ef; }
+  }
+  
+  @keyframes float-badge {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-15px); }
+  }
+  
+  @keyframes badge-glow {
+    from { box-shadow: 0 4px 15px rgba(61, 130, 239, 0.4); }
+    to { box-shadow: 0 4px 25px rgba(61, 130, 239, 0.8), 0 0 30px rgba(61, 130, 239, 0.4); }
+  }
+  
+  @keyframes line-glow {
+    from { background: linear-gradient(90deg, transparent, #3d82ef, transparent); }
+    to { background: linear-gradient(90deg, transparent, #00ffff, transparent); }
+  }
+  
+  @keyframes dot-pulse {
+    0%, 100% { transform: scale(1); box-shadow: 0 0 20px #3d82ef; }
+    50% { transform: scale(1.2); box-shadow: 0 0 40px #00ffff; }
+  }
+  
+  @keyframes shine {
+    to { background-position: 200% center; }
+  }
+  
+  /* Particle Animation Script */
+  <script>
+    const canvas = document.getElementById('particles-canvas');
+    if (canvas) {
+      const ctx = canvas.getContext('2d');
+      canvas.width = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
+      
+      const particles = [];
+      const particleCount = 50;
+      
+      class Particle {
+        constructor() {
+          this.x = Math.random() * canvas.width;
+          this.y = Math.random() * canvas.height;
+          this.size = Math.random() * 2 + 1;
+          this.speedX = Math.random() * 1 - 0.5;
+          this.speedY = Math.random() * 1 - 0.5;
+          this.color = `rgba(${Math.random() * 100 + 61}, ${Math.random() * 100 + 130}, ${Math.random() * 100 + 239}, ${Math.random() * 0.5 + 0.2})`;
+        }
+        
+        update() {
+          this.x += this.speedX;
+          this.y += this.speedY;
+          
+          if (this.x > canvas.width) this.x = 0;
+          if (this.x < 0) this.x = canvas.width;
+          if (this.y > canvas.height) this.y = 0;
+          if (this.y < 0) this.y = canvas.height;
+        }
+        
+        draw() {
+          ctx.fillStyle = this.color;
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+      
+      function initParticles() {
+        for (let i = 0; i < particleCount; i++) {
+          particles.push(new Particle());
+        }
+      }
+      
+      function animateParticles() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        for (let i = 0; i < particles.length; i++) {
+          particles[i].update();
+          particles[i].draw();
+          
+          for (let j = i; j < particles.length; j++) {
+            const dx = particles[i].x - particles[j].x;
+            const dy = particles[i].y - particles[j].y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            
+            if (distance < 100) {
+              ctx.beginPath();
+              ctx.strokeStyle = `rgba(61, 130, 239, ${0.1 * (1 - distance/100)})`;
+              ctx.lineWidth = 0.5;
+              ctx.moveTo(particles[i].x, particles[i].y);
+              ctx.lineTo(particles[j].x, particles[j].y);
+              ctx.stroke();
+            }
+          }
+        }
+        requestAnimationFrame(animateParticles);
+      }
+      
+      initParticles();
+      animateParticles();
+      
+      window.addEventListener('resize', () => {
+        canvas.width = canvas.offsetWidth;
+        canvas.height = canvas.offsetHeight;
+      });
+    }
+  </script>
+</style>
+
+## 🔥 **Expertise & Focus**
 <div align="center">
   
-  ![AI Agent](https://img.shields.io/badge/AI_Agentic_Developer-FF6B6B?style=for-the-badge&logo=openai&logoColor=white)
-  ![AI Engineering](https://img.shields.io/badge/AI_Engineering-4A90E2?style=for-the-badge&logo=ai&logoColor=white)
+  <!-- Animated Tech Stack -->
+  <div class="tech-slider">
+    <div class="tech-track">
+      <div class="tech-card">🤖 Autonomous AI Agents</div>
+      <div class="tech-card">🧠 RAG Systems</div>
+      <div class="tech-card">⚡ Multi-Agent Architectures</div>
+      <div class="tech-card">🌐 Full-Stack Development</div>
+      <div class="tech-card">📱 Mobile Solutions</div>
+      <div class="tech-card">☁️ Cloud Infrastructure</div>
+    </div>
+  </div>
   
 </div>
+
+<style>
+  /* Tech Slider Animation */
+  .tech-slider {
+    overflow: hidden;
+    padding: 20px 0;
+    position: relative;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .tech-track {
+    display: flex;
+    animation: slide 20s linear infinite;
+    gap: 20px;
+  }
+  
+  .tech-card {
+    background: rgba(61, 130, 239, 0.1);
+    padding: 15px 30px;
+    border-radius: 15px;
+    border: 1px solid rgba(61, 130, 239, 0.3);
+    white-space: nowrap;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    animation: card-glow 3s ease-in-out infinite alternate;
+  }
+  
+  .tech-card:hover {
+    transform: translateY(-5px) scale(1.05);
+    background: rgba(61, 130, 239, 0.2);
+    box-shadow: 0 10px 30px rgba(61, 130, 239, 0.4);
+  }
+  
+  @keyframes slide {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  
+  @keyframes card-glow {
+    from { box-shadow: 0 5px 15px rgba(61, 130, 239, 0.2); }
+    to { box-shadow: 0 5px 25px rgba(61, 130, 239, 0.4); }
+  }
+</style>
 
 ## 🏆 **GitHub Ranking**
-<div align="center">
+<div align="center" class="pulse-container">
   
-  ![Afghanistan Rank](https://user-badge.committers.top/afghanistan/Hussain-hamim.svg)
-  
-  **Top AI Developer in Afghanistan**
+  <div class="ranking-card">
+    ![Afghanistan Rank](https://user-badge.committers.top/afghanistan/Hussain-hamim.svg)
+    <div class="ranking-text">🌟 Top AI Developer in Afghanistan</div>
+  </div>
   
 </div>
+
+<style>
+  .pulse-container {
+    padding: 30px 0;
+  }
+  
+  .ranking-card {
+    display: inline-block;
+    padding: 20px 40px;
+    background: linear-gradient(135deg, rgba(61, 130, 239, 0.1), rgba(0, 255, 255, 0.1));
+    border-radius: 20px;
+    border: 1px solid rgba(61, 130, 239, 0.3);
+    animation: border-glow 4s ease-in-out infinite;
+  }
+  
+  .ranking-text {
+    margin-top: 10px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #3d82ef;
+    animation: text-color-shift 3s ease-in-out infinite alternate;
+  }
+  
+  @keyframes border-glow {
+    0%, 100% { box-shadow: 0 0 20px rgba(61, 130, 239, 0.2); }
+    50% { box-shadow: 0 0 40px rgba(61, 130, 239, 0.4); }
+  }
+  
+  @keyframes text-color-shift {
+    from { color: #3d82ef; }
+    to { color: #00ffff; }
+  }
+</style>
 
 ## 📊 **GitHub Stats**
-<div align="center">
+<div align="center" class="stats-grid">
   
-  <img src="https://github-readme-stats.vercel.app/api?username=Hussain-hamim&show_icons=true&count_private=true&theme=radical&hide_border=true&bg_color=0d1117&title_color=3d82ef&icon_color=3d82ef" height="165" alt="GitHub Stats"/>
+  <div class="stat-card" style="animation-delay: 0s;">
+    <img src="https://github-readme-stats.vercel.app/api?username=Hussain-hamim&show_icons=true&count_private=true&theme=radical&hide_border=true&bg_color=0d1117&title_color=3d82ef&icon_color=3d82ef" alt="GitHub Stats"/>
+  </div>
   
-  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=Hussain-hamim&layout=compact&theme=radical&hide_border=true&bg_color=0d1117&title_color=3d82ef" height="165" alt="Top Languages"/>
-  
-  ![GitHub Streak](https://github-readme-streak-stats.herokuapp.com/?user=Hussain-hamim&theme=radical&hide_border=true&background=0d1117&stroke=3d82ef)
-  
-</div>
-
-## 🏅 **GitHub Trophies**
-<div align="center">
-  
-  ![](https://github-profile-trophy.vercel.app/?username=Hussain-hamim&theme=radical&no-bg=true&no-frame=true&margin-w=15&margin-h=15&column=7)
-  
-</div>
-
-## 🚀 **Modern Tech Stack**
-
-### **AI & Machine Learning**
-![OpenAI](https://img.shields.io/badge/OpenAI-412991?style=for-the-badge&logo=openai&logoColor=white)
-![LangChain](https://img.shields.io/badge/LangChain-1C3C3C?style=for-the-badge&logo=chainlink&logoColor=white)
-![TensorFlow](https://img.shields.io/badge/TensorFlow-FF6F00?style=for-the-badge&logo=tensorflow&logoColor=white)
-![PyTorch](https://img.shields.io/badge/PyTorch-EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white)
-![LlamaIndex](https://img.shields.io/badge/LlamaIndex-4B5563?style=for-the-badge&logo=meta&logoColor=white)
-
-### **Frontend Development**
-![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
-![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black)
-![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)
-![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)
-
-### **Backend Development**
-![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
-![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white)
-![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
-![Express.js](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)
-
-### **Databases & Vector Stores**
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-336791?style=for-the-badge&logo=postgresql&logoColor=white)
-![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white)
-![Redis](https://img.shields.io/badge/Redis-DC382D?style=for-the-badge&logo=redis&logoColor=white)
-![Pinecone](https://img.shields.io/badge/Pinecone-4B5563?style=for-the-badge&logo=pinecone&logoColor=white)
-![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)
-
-### **DevOps & Cloud**
-![AWS](https://img.shields.io/badge/AWS-232F3E?style=for-the-badge&logo=amazonaws&logoColor=white)
-![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
-![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
-![Kubernetes](https://img.shields.io/badge/Kubernetes-326CE5?style=for-the-badge&logo=kubernetes&logoColor=white)
-
-### **Tools & IDEs**
-![Cursor](https://img.shields.io/badge/Cursor-000000?style=for-the-badge&logo=cursor&logoColor=white)
-![VS Code](https://img.shields.io/badge/VS_Code-007ACC?style=for-the-badge&logo=visualstudiocode&logoColor=white)
-![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white)
-![GitHub Copilot](https://img.shields.io/badge/GitHub_Copilot-000000?style=for-the-badge&logo=githubcopilot&logoColor=white)
-
-### **Testing & Monitoring**
-![Jest](https://img.shields.io/badge/Jest-C21325?style=for-the-badge&logo=jest&logoColor=white)
-![Playwright](https://img.shields.io/badge/Playwright-2EAD33?style=for-the-badge&logo=playwright&logoColor=white)
-![Grafana](https://img.shields.io/badge/Grafana-F46800?style=for-the-badge&logo=grafana&logoColor=white)
-
-## 🤝 **Connect With Me**
-<div align="center">
-  
-  [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/hussain-hamim/)
-  [![Twitter](https://img.shields.io/badge/Twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white)](https://twitter.com/hussainhamim_)
-  [![Email](https://img.shields.io/badge/Email-EA4335?style=for-the-badge&logo=gmail&logoColor=white)](mailto:mohammadhussainafghan83@gmail.com)
-  [![Portfolio](https://img.shields.io/badge/Portfolio-3d82ef?style=for-the-badge&logo=vercel&logoColor=white)](https://hussain-hamim.vercel.app/)
-  [![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Hussain-hamim)
-  
-</div>
-
-## 📈 **Recent Activity**
-<div align="center">
-  
-  <!--START_SECTION:activity-->
-  *🎯 Building AI Agents & Intelligent Systems*
-  *🤖 Working on LLM-powered applications*
-  *🚀 Developing scalable AI architectures*
-  <!--END_SECTION:activity-->
-  
-</div>
-
-## 💡 **AI Dev Quote**
-<div align="center">
-  
-  ![](https://quotes-github-readme.vercel.app/api?type=horizontal&theme=radical&quote_color=3d82ef)
-  
-</div>
-
-## 📊 **Profile Views**
-<div align="center">
-  
-  ![Profile Views](https://komarev.com/ghpvc/?username=Hussain-hamim&color=3d82ef&style=for-the-badge)
-  
-  *AI is the new electricity. I'm here to wire the world.*
-  
-</div>
-
----
-
-<div align="center">
-  
-  *"The best way to predict the future is to invent it." – Alan Kay*
-  
-  ![Footer](https://capsule-render.vercel.app/api?type=waving&color=3d82ef&height=100&section=footer&reversal=true)
+  <div class="stat-card" style="animation-delay: 0.2s;">
+    <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=Hussain-hamim&layout=compact&theme=radical&hide_border=true&bg_color=0d1117&title_color=3d82ef" alt="Top Languages"/>
+  </div>
   
 </div>
 
 <div align="center">
   
-  **🔭 Currently exploring:** *Autonomous AI Agents, RAG Systems, Multi-Agent Architectures*
+  <div class="streak-card" style="animation-delay: 0.4s;">
+    ![GitHub Streak](https://github-readme-streak-stats.herokuapp.com/?user=Hussain-hamim&theme=radical&hide_border=true&background=0d1117&stroke=3d82ef)
+  </div>
   
 </div>
+
+<style>
+  .stats-grid {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    margin: 30px 0;
+  }
+  
+  .stat-card, .streak-card {
+    animation: card-float 6s ease-in-out infinite;
+    transition: transform 0.3s ease;
+  }
+  
+  .stat-card:hover, .streak-card:hover {
+    transform: scale(1.05);
+  }
+  
+  @keyframes card-float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+</style>
+
+<!-- Continue with the rest of your README content below -->
+<!-- [Rest of your README content - Tech Stack, Connect With Me, etc.] -->
