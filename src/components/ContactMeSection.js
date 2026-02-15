@@ -6,9 +6,28 @@ import { useAlertContext } from "../context/alertContext";
 import useSubmit from "../hooks/useSubmit";
 import { FaGithub, FaLinkedin, FaEnvelope, FaPaperPlane } from "react-icons/fa";
 
-const ContactMeSection = () => {
+const ContactMeSection = ({ locale = "en" }) => {
+  const isPashto = locale === "ps";
   const { isLoading, response, submit, clearResponse } = useSubmit();
   const { onOpen } = useAlertContext();
+
+  const socials = [
+    {
+      icon: FaEnvelope,
+      url: "mailto:mohammadhussainafghan83@gmail.com",
+      label: isPashto ? "ايمېل راولېږئ" : "Email Me",
+    },
+    {
+      icon: FaGithub,
+      url: "https://github.com/Hussain-hamim",
+      label: "github.com/Hussain-hamim",
+    },
+    {
+      icon: FaLinkedin,
+      url: "https://www.linkedin.com/in/hussain-hamim/",
+      label: "linkedin.com/in/hussain-hamim",
+    },
+  ];
 
   const formik = useFormik({
     initialValues: {
@@ -21,11 +40,13 @@ const ContactMeSection = () => {
       submit(null, values);
     },
     validationSchema: Yup.object({
-      firstName: Yup.string().required("Required"),
-      email: Yup.string().email("Invalid email address").required("Required"),
+      firstName: Yup.string().required(isPashto ? "اړين دی" : "Required"),
+      email: Yup.string()
+        .email(isPashto ? "د ايمېل پته ناسمه ده" : "Invalid email address")
+        .required(isPashto ? "اړين دی" : "Required"),
       comment: Yup.string()
-        .min(5, "Must be at least 5 characters")
-        .required("Required"),
+        .min(5, isPashto ? "لږ تر لږه ۵ توري" : "Must be at least 5 characters")
+        .required(isPashto ? "اړين دی" : "Required"),
     }),
   });
 
@@ -61,15 +82,15 @@ const ContactMeSection = () => {
             viewport={{ once: true }}
           >
             <h2 className="text-5xl md:text-7xl font-bold font-sans1 text-white mb-8 tracking-tight">
-              LET'S <br />
+              {isPashto ? "راځئ" : "LET'S"} <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#D7FF00] to-teal-400">
-                CONNECT
+                {isPashto ? "اړيکه ټينګه کړو" : "CONNECT"}
               </span>
             </h2>
             <p className="text-gray-400 text-lg leading-relaxed mb-12 font-sans3 max-w-md">
-              Have a project in mind or just want to chat? Feel free to reach
-              out. I'm always open to discussing new projects, creative ideas or
-              opportunities to be part of your visions.
+              {isPashto
+                ? "که کومه پروژه لرئ، يا يوازې خبرې کول غواړئ، له ما سره اړيکه ونيسئ. زه تل د نوو پروژو، نوښتګرو مفکورو او ګټورو همکاريو ته چمتو يم."
+                : "Have a project in mind or just want to chat? Feel free to reach out. I'm always open to discussing new projects, creative ideas or opportunities to be part of your visions."}
             </p>
 
             <div className="space-y-6">
@@ -109,13 +130,13 @@ const ContactMeSection = () => {
                     htmlFor="firstName"
                     className="block text-sm font-mono text-gray-400 mb-2 uppercase tracking-wider"
                   >
-                    Name
+                    {isPashto ? "نوم" : "Name"}
                   </label>
                   <input
                     id="firstName"
                     name="firstName"
                     type="text"
-                    placeholder="Ahmad"
+                    placeholder={isPashto ? "احمد" : "Ahmad"}
                     {...formik.getFieldProps("firstName")}
                     className={`w-full bg-white/5 border ${
                       formik.touched.firstName && formik.errors.firstName
@@ -135,13 +156,13 @@ const ContactMeSection = () => {
                     htmlFor="email"
                     className="block text-sm font-mono text-gray-400 mb-2 uppercase tracking-wider"
                   >
-                    Email
+                    {isPashto ? "ایمېل" : "Email"}
                   </label>
                   <input
                     id="email"
                     name="email"
                     type="email"
-                    placeholder="ahmad@example.com"
+                    placeholder={isPashto ? "ahmad@example.com" : "ahmad@example.com"}
                     {...formik.getFieldProps("email")}
                     className={`w-full bg-white/5 border ${
                       formik.touched.email && formik.errors.email
@@ -161,7 +182,7 @@ const ContactMeSection = () => {
                     htmlFor="type"
                     className="block text-sm font-mono text-gray-400 mb-2 uppercase tracking-wider"
                   >
-                    Type of Inquiry
+                    {isPashto ? "د پوښتنې ډول" : "Type of Inquiry"}
                   </label>
                   <div className="relative">
                     <select
@@ -171,19 +192,19 @@ const ContactMeSection = () => {
                       className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#D7FF00] transition-colors appearance-none cursor-pointer"
                     >
                       <option value="hireMe" className="bg-[#1a1a1a]">
-                        Freelance project proposal
+                        {isPashto ? "د فريلانس پروژې وړانديز" : "Freelance project proposal"}
                       </option>
                       <option value="collaboration" className="bg-[#1a1a1a]">
-                        Collaboration on a project
+                        {isPashto ? "پر پروژه ګډه همکاري" : "Collaboration on a project"}
                       </option>
                       <option value="openSource" className="bg-[#1a1a1a]">
-                        Open source consultancy
+                        {isPashto ? "د Open Source مشوره" : "Open source consultancy"}
                       </option>
                       <option value="jobOffer" className="bg-[#1a1a1a]">
-                        Job opportunity
+                        {isPashto ? "د کار فرصت" : "Job opportunity"}
                       </option>
                       <option value="other" className="bg-[#1a1a1a]">
-                        Other
+                        {isPashto ? "بل څه" : "Other"}
                       </option>
                     </select>
                     <div className="absolute right-4 top-1/2 transform -translate-y-1/2 pointer-events-none">
@@ -209,13 +230,13 @@ const ContactMeSection = () => {
                     htmlFor="comment"
                     className="block text-sm font-mono text-gray-400 mb-2 uppercase tracking-wider"
                   >
-                    Message
+                    {isPashto ? "پيغام" : "Message"}
                   </label>
                   <textarea
                     id="comment"
                     name="comment"
                     rows={4}
-                    placeholder="Tell me about your project..."
+                    placeholder={isPashto ? "د خپلې پروژې په اړه راته وليکئ..." : "Tell me about your project..."}
                     {...formik.getFieldProps("comment")}
                     className={`w-full bg-white/5 border ${
                       formik.touched.comment && formik.errors.comment
@@ -251,10 +272,10 @@ const ContactMeSection = () => {
                 }}
               >
                 {isLoading ? (
-                  <span className="animate-pulse">Sending...</span>
+                  <span className="animate-pulse">{isPashto ? "پيغام لېږل کېږي..." : "Sending..."}</span>
                 ) : (
                   <>
-                    <span>Send Message</span>
+                    <span>{isPashto ? "پيغام ولېږه" : "Send Message"}</span>
                     <FaPaperPlane className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                   </>
                 )}
@@ -266,23 +287,5 @@ const ContactMeSection = () => {
     </section>
   );
 };
-
-const socials = [
-  {
-    icon: FaEnvelope,
-    url: "mailto:mohammadhussainafghan83@gmail.com",
-    label: "Email Me",
-  },
-  {
-    icon: FaGithub,
-    url: "https://github.com/Hussain-hamim",
-    label: "github.com/Hussain-hamim",
-  },
-  {
-    icon: FaLinkedin,
-    url: "https://www.linkedin.com/in/hussain-hamim/",
-    label: "linkedin.com/in/hussain-hamim",
-  },
-];
 
 export default ContactMeSection;

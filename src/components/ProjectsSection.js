@@ -211,7 +211,7 @@ const SectionHeader = ({ title, icon: Icon }) => (
   </motion.div>
 );
 
-const ProjectCard = ({ project, index }) => {
+const ProjectCard = ({ project, index, isPashto }) => {
   const tags = project.tags || [];
 
   return (
@@ -272,7 +272,7 @@ const ProjectCard = ({ project, index }) => {
               className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-gray-400 hover:text-white transition-colors"
             >
               <FaGithub className="text-lg" />
-              <span>Code</span>
+              <span>{isPashto ? "کوډ" : "Code"}</span>
             </a>
             {project.live && (
               <a
@@ -291,7 +291,7 @@ const ProjectCard = ({ project, index }) => {
                   e.currentTarget.style.borderColor = 'rgba(215, 255, 0, 0.5)';
                 }}
               >
-                <span>Live Demo</span>
+                <span>{isPashto ? "ژوندۍ نسخه" : "Live Demo"}</span>
                 <FaExternalLinkAlt className="text-sm" />
               </a>
             )}
@@ -302,13 +302,88 @@ const ProjectCard = ({ project, index }) => {
   );
 };
 
-const ProjectsSection = () => {
+const ProjectsSection = ({ locale = "en" }) => {
+  const isPashto = locale === "ps";
   const [showAllWeb, setShowAllWeb] = useState(false);
   const [showAllMobile, setShowAllMobile] = useState(false);
 
+  const webDescriptionsPs = {
+    IdeaHunt:
+      "خپله راتلونکې لويه مفکوره ومومئ او اعتبار يې تاييد کړئ. موږ د وېب له بېلابېلو سرچينو ميليونونه خبرې، ارزونې او شکايتونه څېړو، څو هغه رښتينې ستونزې پيدا کړو چې خلک ورسره مخ دي، بيا يې د بازار غوښتنې لرونکو سوداګريزو مفکورو ته اړوو.",
+    "Aegnis AI":
+      "Aegnis ستاسو AI Chief of Staff دی. دا يوازې د کارونو لېست نه ښيي، بلکې ستاسو ورځنی نظم هم سمبالوي؛ يعنې کارونه له to-do نه done-list ته رسوي.",
+    DevSync:
+      "DevSync د پراختياکوونکو د نښلېدو او ګډ کار لپاره يو همکار پليټفارم دی. پکې د کارن پروفايلونه، د پروژو ليست او real-time چټ سيستم شامل دي.",
+    "Premium Shop":
+      "يو Full-Stack (MERN) اي-کامرس پليټفارم چې React.js، MongoDB، Node.js او Stripe سره جوړ شوی. پکې د کارن ننوتل، د محصولاتو ليست او د پېرود cart ټول امکانات شته.",
+    "Ocean Of Games":
+      "د RAWG وېبسايټ په څېر د لوبو پليټفارم چې د RAWG API پر بنسټ کار کوي. کاروونکي پکې لوبې لټولی، فلټر کولی او سپړلی شي.",
+    "Book Ocean":
+      "په دې کتابي پليټفارم کې له login وروسته کتابونه موندلی شئ، د لوستلو يا بشپړ شويو لېسټونو ته يې زياتولی شئ، او ورته rating او نوټ ورکولی شئ.",
+    "Nature Quest":
+      "يو متحرک ټور بوکينګ پليټفارم چې کاروونکو ته د سفر زړه راښکونکي ځایونه معرفي کوي. دا پروژه custom backend او real-time tour data لري.",
+    "Issue Tracker":
+      "Issue Tracker د Next.js پر بنسټ Full-Stack پروژه ده. کاروونکي پکې ستونزې (issues) جوړوي، ټاکل شوو کسانو ته يې سپاري او په اغېزمن ډول يې مديريتوي.",
+    TaskList:
+      "دا د ورځنيو کارونو د مديريت وېب اپ دی. کاروونکي کولی شي کارونه زيات کړي، لرې کړي او بشپړ يې نښه کړي.",
+    Hamimfy:
+      "Hamimfy يو responsive وېبسايټ دی چې د عصري وېب پراختيا بېلابېل تخنيکونه او ځانګړنې ښيي، په cloud hosting ځانګړي تمرکز سره.",
+  };
+
+  const mobileDescriptionsPs = {
+    "Shan-AI":
+      "ShanAI يو کراس پلېټفارم AI موبايل مرستيال دی؛ له دې سره هر څه پوښتلی شئ. دا conversational AI، د عکس جوړول او د عکس تحليل په يو ځای کې درکوي.",
+    EaseShop:
+      "يو بډای امکانات لرونکی موبايل اي-کامرس اپ چې React Native + Expo سره جوړ شوی او د AI voice agents (Vapi) ملاتړ هم لري.",
+    Threads:
+      "Threads Clone: يو کراس پلېټفارم اپ چې د Threads تجربه بيا رغوي. پکې د real-time اپډېټونو لپاره Convex او د authentication لپاره Clerk کارول شوي.",
+    "Himal Beauty":
+      "Barber Booking App: يو Full-Stack موبايل اپ د admin او client جلا پينلونو سره، چې د Supabase او Expo په مرسته جوړ شوی.",
+    "Brick Blitz":
+      "Brick Breaker لوبه: يو کراس پلېټفارم موبايل ګېم چې د React Native او Reanimated په مرسته ډېر نرم انيميشنونه وړاندې کوي.",
+    "Airbnb Clone":
+      "Airbnb UI Clone: يو کراس پلېټفارم اپ چې د Airbnb د ښکلي UI او روان navigation پر بيا جوړولو تمرکز لري.",
+    SnapDish:
+      "Food Ordering App: يو موبايل اپ د admin او user جلا پينلونو سره، چې push notifications او Stripe integration پکې شامل دي.",
+    "Done With It":
+      "هغه شيان چې نور ورته اړتيا نه لرئ، په دې موبايل پليټفارم کې يې خرڅولی شئ. دا اپ د Node API پر بنسټ کار کوي.",
+    Coursia: "د زده کړو کورسونو او سندونو ترلاسه کولو لپاره يو ساده او ګټور موبايل اپ.",
+  };
+
+  const certificateDescriptionsPs = {
+    "Meta Front-End Developer":
+      "د Meta Front-End Developer Specialization پروګرام کې ۹ کورسونه شامل دي، او د دې سند ترلاسه کولو لپاره شاوخوا ۷ مياشتې وخت ونيول شو.",
+  };
+
+  const webProjects = isPashto
+    ? projects.map((project) => ({
+        ...project,
+        description: webDescriptionsPs[project.title] || project.description,
+      }))
+    : projects;
+
+  const mobileProjectsLocalized = isPashto
+    ? mobileProjects.map((project) => ({
+        ...project,
+        description: mobileDescriptionsPs[project.title] || project.description,
+      }))
+    : mobileProjects;
+
+  const certificatesLocalized = isPashto
+    ? certificates.map((project) => ({
+        ...project,
+        description:
+          certificateDescriptionsPs[project.title] || project.description,
+      }))
+    : certificates;
+
   const initialCount = 6;
-  const webProjectsToShow = showAllWeb ? projects : projects.slice(0, initialCount);
-  const mobileProjectsToShow = showAllMobile ? mobileProjects : mobileProjects.slice(0, initialCount);
+  const webProjectsToShow = showAllWeb
+    ? webProjects
+    : webProjects.slice(0, initialCount);
+  const mobileProjectsToShow = showAllMobile
+    ? mobileProjectsLocalized
+    : mobileProjectsLocalized.slice(0, initialCount);
 
   return (
     <section
@@ -324,13 +399,13 @@ const ProjectsSection = () => {
       <div className="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
         {/* Web Projects */}
         <div className="mb-32">
-          <SectionHeader title="WEB PROJECTS" icon={FaGlobe} />
+          <SectionHeader title={isPashto ? "وېب پروژې" : "WEB PROJECTS"} icon={FaGlobe} />
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {webProjectsToShow.map((project, index) => (
-              <ProjectCard key={index} project={project} index={index} />
+              <ProjectCard key={index} project={project} index={index} isPashto={isPashto} />
             ))}
           </div>
-          {projects.length > initialCount && (
+          {webProjects.length > initialCount && (
             <div className="flex justify-center mt-12">
               <button
                 onClick={() => setShowAllWeb(!showAllWeb)}
@@ -346,7 +421,7 @@ const ProjectsSection = () => {
                   e.currentTarget.style.borderColor = 'rgba(215, 255, 0, 0.5)';
                 }}
               >
-                {showAllWeb ? "Show Less" : "Show More"}
+                {showAllWeb ? (isPashto ? "لږ وښيه" : "Show Less") : (isPashto ? "نور وښيه" : "Show More")}
               </button>
             </div>
           )}
@@ -354,13 +429,13 @@ const ProjectsSection = () => {
 
         {/* Mobile Projects */}
         <div id="mobileapps-section" className="mb-32">
-          <SectionHeader title="MOBILE APPS" icon={FaMobileAlt} />
+          <SectionHeader title={isPashto ? "موبايل اپونه" : "MOBILE APPS"} icon={FaMobileAlt} />
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {mobileProjectsToShow.map((project, index) => (
-              <ProjectCard key={index} project={project} index={index} />
+              <ProjectCard key={index} project={project} index={index} isPashto={isPashto} />
             ))}
           </div>
-          {mobileProjects.length > initialCount && (
+          {mobileProjectsLocalized.length > initialCount && (
             <div className="flex justify-center mt-12">
               <button
                 onClick={() => setShowAllMobile(!showAllMobile)}
@@ -376,7 +451,7 @@ const ProjectsSection = () => {
                   e.currentTarget.style.borderColor = 'rgba(215, 255, 0, 0.5)';
                 }}
               >
-                {showAllMobile ? "Show Less" : "Show More"}
+                {showAllMobile ? (isPashto ? "لږ وښيه" : "Show Less") : (isPashto ? "نور وښيه" : "Show More")}
               </button>
             </div>
           )}
@@ -384,17 +459,17 @@ const ProjectsSection = () => {
 
         {/* Certificates */}
         <div className="mb-32">
-          <SectionHeader title="CERTIFICATES" icon={FaAward} />
+          <SectionHeader title={isPashto ? "سندونه" : "CERTIFICATES"} icon={FaAward} />
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {certificates.map((project, index) => (
-              <ProjectCard key={index} project={project} index={index} />
+            {certificatesLocalized.map((project, index) => (
+              <ProjectCard key={index} project={project} index={index} isPashto={isPashto} />
             ))}
           </div>
         </div>
 
         {/* What I Use & GitHub */}
         <div id="tools-section">
-          <SectionHeader title="TOOLS & ACTIVITY" icon={FaGithub} />
+          <SectionHeader title={isPashto ? "وسايل او فعاليت" : "TOOLS & ACTIVITY"} icon={FaGithub} />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* What I Use */}
             <motion.div
@@ -423,8 +498,8 @@ const ProjectsSection = () => {
                     </svg>
                   </div>
                   <div>
-                    <h3 className="text-2xl font-bold text-white mb-1">What I Use</h3>
-                    <p className="text-sm text-gray-400">Hardware & Software</p>
+                    <h3 className="text-2xl font-bold text-white mb-1">{isPashto ? "زه څه کاروم" : "What I Use"}</h3>
+                    <p className="text-sm text-gray-400">{isPashto ? "هارډوېیر او سافټوېیر" : "Hardware & Software"}</p>
                   </div>
                 </div>
 
@@ -432,7 +507,7 @@ const ProjectsSection = () => {
                   {/* Hardware Section */}
                   <div>
                     <h4 className="text-[10px] uppercase tracking-wider text-gray-500 font-semibold mb-5">
-                      Hardware
+                      {isPashto ? "هارډوېیر" : "Hardware"}
                     </h4>
                     <div className="space-y-4">
                       <div className="flex items-center gap-3 group/item">
@@ -493,7 +568,7 @@ const ProjectsSection = () => {
                   {/* Software Section */}
                   <div>
                     <h4 className="text-[10px] uppercase tracking-wider text-gray-500 font-semibold mb-5">
-                      Software
+                      {isPashto ? "سافټوېیر" : "Software"}
                     </h4>
                     <div className="space-y-4">
                       <div className="flex items-center gap-3 group/item">
@@ -567,8 +642,8 @@ const ProjectsSection = () => {
                 <div className="flex items-center gap-3 mb-6">
                   <FaGithub className="text-2xl text-[#D7FF00]" />
                   <div>
-                    <h3 className="text-2xl font-bold text-white mb-1">Contribution Activity</h3>
-                    <p className="text-sm text-gray-400">GitHub contributions over the last year</p>
+                    <h3 className="text-2xl font-bold text-white mb-1">{isPashto ? "د ونډو فعاليت" : "Contribution Activity"}</h3>
+                    <p className="text-sm text-gray-400">{isPashto ? "په تېرو ۱۲ مياشتو کې د GitHub ونډې" : "GitHub contributions over the last year"}</p>
                   </div>
                 </div>
                 <div className="bg-[#0d1117] rounded-lg p-6 flex-grow min-h-0">
@@ -592,7 +667,7 @@ const ProjectsSection = () => {
                     e.currentTarget.style.borderColor = 'rgba(215, 255, 0, 0.5)';
                   }}
                 >
-                  <span>View Profile</span>
+                  <span>{isPashto ? "پروفایل وګورئ" : "View Profile"}</span>
                   <FaExternalLinkAlt className="text-sm" />
                 </a>
               </div>
@@ -602,7 +677,7 @@ const ProjectsSection = () => {
 
         {/* Coming Soon */}
         <div className="mt-36">
-          <SectionHeader title="Blogs & Photos" icon={FaAward} />
+          <SectionHeader title={isPashto ? "بلاګونه او عکسونه" : "Blogs & Photos"} icon={FaAward} />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Blogs Card */}
             <motion.div
@@ -618,12 +693,14 @@ const ProjectsSection = () => {
                   <div className="w-16 h-16 rounded-full bg-[#D7FF00]/10 flex items-center justify-center mb-6 group-hover:bg-[#D7FF00]/20 transition-colors">
                     <FaBook className="text-3xl text-[#D7FF00]" />
                   </div>
-                  <h3 className="text-2xl font-bold text-white mb-3">Blogs</h3>
+                  <h3 className="text-2xl font-bold text-white mb-3">{isPashto ? "بلاګونه" : "Blogs"}</h3>
                   <p className="text-gray-400 mb-4">
-                    Technical insights, tutorials, and thoughts on development, AI, and technology.
+                    {isPashto
+                      ? "تخنيکي ليکنې، ټيوټوريالونه، او د پراختيا، AI او ټکنالوژۍ په اړه نظرونه."
+                      : "Technical insights, tutorials, and thoughts on development, AI, and technology."}
                   </p>
                   <div className="flex items-center gap-2 text-sm text-[#D7FF00] font-semibold">
-                    <span>Coming Soon</span>
+                    <span>{isPashto ? "ژر راځي" : "Coming Soon"}</span>
                     <svg
                       width="16"
                       height="16"
@@ -655,12 +732,14 @@ const ProjectsSection = () => {
                   <div className="w-16 h-16 rounded-full bg-[#D7FF00]/10 flex items-center justify-center mb-6 group-hover:bg-[#D7FF00]/20 transition-colors">
                     <FaCamera className="text-3xl text-[#D7FF00]" />
                   </div>
-                  <h3 className="text-2xl font-bold text-white mb-3">Photos</h3>
+                  <h3 className="text-2xl font-bold text-white mb-3">{isPashto ? "عکسونه" : "Photos"}</h3>
                   <p className="text-gray-400 mb-4">
-                    A collection of moments, travels, and creative photography from my journey.
+                    {isPashto
+                      ? "زما د سفرونو، شېبو او تخليقي عکاسۍ يو ټولګه."
+                      : "A collection of moments, travels, and creative photography from my journey."}
                   </p>
                   <div className="flex items-center gap-2 text-sm text-[#D7FF00] font-semibold">
-                    <span>Coming Soon</span>
+                    <span>{isPashto ? "ژر راځي" : "Coming Soon"}</span>
                     <svg
                       width="16"
                       height="16"

@@ -12,7 +12,16 @@ import { Canvas } from "@react-three/fiber";
 import { PerspectiveCamera, Stars, Sparkles } from "@react-three/drei";
 import SpaceGame from "./SpaceGame";
 
-const LandingSection = () => {
+const LandingSection = ({ locale = "en" }) => {
+  const isPashto = locale === "ps";
+  const copy = {
+    greeting: isPashto ? "سلام، زه" : "hey i'm",
+    firstName: isPashto ? "محمد حسین" : "HUSSAIN",
+    lastName: isPashto ? "حمیم" : "HAMIM",
+    description: isPashto
+      ? "زه د کوډ او خلاقيت په مرسته اغېزمنې ډيجيټل تجربې جوړوم. د AI اېجنټونه، د کار د ګړنديتوب پليټفارمونه، د سوداګرۍ د اعتبار وسايل، او د پراختياکوونکو د همکارۍ سيستمونه جوړوم. زما اصلي تمرکز Full-Stack، Mobile App Development او AI پر بنسټ حللارو باندې دی."
+      : "Forging digital experiences with Code & Creativity. Building AI agents, productivity platforms, business validation tools, and developer collaboration systems and more... Specializing in Full-Stack, Mobile App Development & AI-powered solutions.",
+  };
   const socialLinks = [
     {
       icon: FaGithub,
@@ -65,7 +74,7 @@ const LandingSection = () => {
               transition={{ delay: 0.1, duration: 0.8 }}
               className="text-teal-400 font-mono text-xs md:text-sm mb-4"
             >
-              hey i'm
+              {copy.greeting}
             </motion.p>
 
             {/* Name Title */}
@@ -75,9 +84,9 @@ const LandingSection = () => {
               transition={{ delay: 0.2, duration: 0.8 }}
               className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold font-sans1 text-white leading-tight tracking-tighter break-words"
             >
-              HUSSAIN <br />
+              {copy.firstName} <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#D7FF00] to-teal-400">
-                HAMIM
+                {copy.lastName}
               </span>
             </motion.h1>
 
@@ -89,11 +98,11 @@ const LandingSection = () => {
               className="mt-6 sm:mt-8 md:mt-12 inline-flex flex-col border-l-2 border-white/10 pl-4 sm:pl-6"
             >
               <p className="text-gray-400 font-sans3 text-base sm:text-lg leading-relaxed max-w-lg">
-                Forging digital experiences with{" "}
+                {isPashto ? copy.description : <>Forging digital experiences with{" "}
                 <span className="text-white">Code</span> &{" "}
                 <span className="text-white">Creativity</span>. Building AI agents, 
                 productivity platforms, business validation tools, and developer collaboration 
-                systems and more... Specializing in Full-Stack, Mobile App Development & AI-powered solutions.
+                systems and more... Specializing in Full-Stack, Mobile App Development & AI-powered solutions.</>}
               </p>
             </motion.div>
           </div>

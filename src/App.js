@@ -1,5 +1,6 @@
 import { ChakraProvider } from '@chakra-ui/react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { useEffect } from 'react';
 import Alert from './components/Alert';
 import ContactMeSection from './components/ContactMeSection';
 import Footer from './components/Footer';
@@ -11,6 +12,27 @@ import ExperienceSection from './components/ExperienceSection';
 import V2 from './components/V2';
 import ProjectDetails from './components/ProjectDetails';
 import ProjectsList from './components/ProjectsList';
+
+function PortfolioPage({ locale }) {
+  const isPashto = locale === 'ps';
+
+  useEffect(() => {
+    document.documentElement.lang = isPashto ? 'ps' : 'en';
+    document.documentElement.dir = isPashto ? 'rtl' : 'ltr';
+  }, [isPashto]);
+
+  return (
+    <main dir={isPashto ? 'rtl' : 'ltr'}>
+      <Header locale={locale} />
+      <LandingSection locale={locale} />
+      <ExperienceSection locale={locale} />
+      <ProjectsSection locale={locale} />
+      <ContactMeSection locale={locale} />
+      <Footer locale={locale} />
+      <Alert />
+    </main>
+  );
+}
 
 function App() {
   return (
@@ -30,19 +52,13 @@ function App() {
               path="/projects/:slug"
               element={<ProjectDetails />}
             />
+            <Route
+              path="/ps"
+              element={<PortfolioPage locale="ps" />}
+            />
             <Route 
               path="/*" 
-              element={
-                <main>
-                  <Header />
-                  <LandingSection />
-                  <ExperienceSection />
-                  <ProjectsSection />
-                  <ContactMeSection />
-                  <Footer />
-                  <Alert />
-                </main>
-              } 
+              element={<PortfolioPage locale="en" />} 
             />
           </Routes>
         </AlertProvider>

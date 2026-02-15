@@ -2,7 +2,8 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Heart } from "lucide-react";
 
-const Footer = () => {
+const Footer = ({ locale = "en" }) => {
+  const isPashto = locale === "ps";
   const currentYear = new Date().getFullYear();
 
   return (
@@ -15,7 +16,7 @@ const Footer = () => {
           </span>
           <span className="text-gray-600">|</span>
           <span className="text-gray-400 text-sm font-mono">
-            © {currentYear} All Rights Reserved
+            © {currentYear} {isPashto ? "ټول حقونه خوندي دي" : "All Rights Reserved"}
           </span>
         </div>
 
@@ -24,7 +25,7 @@ const Footer = () => {
           className="flex items-center gap-2 text-sm text-gray-400"
           whileHover={{ scale: 1.05 }}
         >
-          <span>Made with</span>
+          <span>{isPashto ? "په مينه جوړ شوی" : "Made with"}</span>
           <motion.div
             animate={{
               scale: [1, 1.2, 1],
@@ -37,7 +38,7 @@ const Footer = () => {
           >
             <Heart className="text-red-500 text-xs" size={18} />
           </motion.div>
-          <span>by Hussain Hamim</span>
+          <span>{isPashto ? "جوړوونکی: Hussain Hamim" : "by Hussain Hamim"}</span>
         </motion.div>
 
         {/* Tech Stack Tags - Optional decoration */}

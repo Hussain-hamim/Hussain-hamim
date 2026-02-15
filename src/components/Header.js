@@ -16,7 +16,8 @@ const socials = [
   { icon: faEnvelope, url: "mailto: mohammadhussainafghan83@gmail.com" },
 ];
 
-const Header = () => {
+const Header = ({ locale = "en" }) => {
+  const isPashto = locale === "ps";
   const headerRef = useRef(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -54,11 +55,11 @@ const Header = () => {
   };
 
   const navItems = [
-    "experience",
-    "projects",
-    "mobileapps",
-    "tools",
-    "contactme",
+    { id: "experience", label: isPashto ? "تجربه" : "experience" },
+    { id: "projects", label: isPashto ? "پروژې" : "projects" },
+    { id: "mobileapps", label: isPashto ? "موبايل اپونه" : "mobileapps" },
+    { id: "tools", label: isPashto ? "وسايل" : "tools" },
+    { id: "contactme", label: isPashto ? "اړيکه ونيسئ" : "contactme" },
   ];
 
   return (
@@ -75,7 +76,7 @@ const Header = () => {
         <div className="flex justify-between items-center">
           {/* Logo */}
           <a
-            href="/"
+            href={isPashto ? "/ps" : "/"}
             className="text-xl font-bold font-sans1 tracking-tight text-[#D7FF00] hover:text-white transition-all duration-300 relative group"
           >
             <span className="relative z-10">HSN.</span>
@@ -84,13 +85,13 @@ const Header = () => {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-1">
-            {navItems.map((item, index) => (
+            {navItems.map((item) => (
               <button
-                key={item}
-                onClick={handleClick(item)}
+                key={item.id}
+                onClick={handleClick(item.id)}
                 className="relative px-3 py-1.5 text-sm font-medium text-gray-400 hover:text-white transition-all duration-300 uppercase tracking-wider group"
               >
-                <span className="relative z-10">{item}</span>
+                <span className="relative z-10">{item.label}</span>
                 <span className="absolute inset-0 bg-white/5 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
                 <span className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-0 h-[2px] bg-[#D7FF00] group-hover:w-3/4 transition-all duration-300"></span>
               </button>
@@ -111,7 +112,7 @@ const Header = () => {
                 e.currentTarget.style.borderColor = 'rgba(215, 255, 0, 0.5)';
               }}
             >
-              Resume
+              {isPashto ? "رزومه" : "Resume"}
             </a>
           </nav>
 
@@ -136,13 +137,11 @@ const Header = () => {
         <div className="px-6 py-8 space-y-6">
           {navItems.map((item) => (
             <button
-              key={item}
-              onClick={handleClick(item)}
-              className="block w-full text-left text-lg font-medium text-gray-300 hover:text-[#D7FF00] 
-                         transition-all duration-300 py-2 border-b border-white/5 hover:border-[#D7FF00]/30"
+              key={item.id}
+              onClick={handleClick(item.id)}
+              className={`block w-full ${isPashto ? "text-right" : "text-left"} text-lg font-medium text-gray-300 hover:text-[#D7FF00] transition-all duration-300 py-2 border-b border-white/5 hover:border-[#D7FF00]/30`}
             >
-              {item.charAt(0).toUpperCase() +
-                item.slice(1).replace(/([A-Z])/g, " $1")}
+              {item.label}
             </button>
           ))}
 
@@ -162,7 +161,7 @@ const Header = () => {
                 e.currentTarget.style.borderColor = 'rgba(215, 255, 0, 0.5)';
               }}
             >
-              Download Resume
+              {isPashto ? "رزومه ډاونلوډ" : "Download Resume"}
             </a>
 
             <div className="flex items-center justify-center space-x-6 pt-4">

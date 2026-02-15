@@ -3,7 +3,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { FaChevronDown } from "react-icons/fa";
 import ExperienceBackground from "./ExperienceBackground";
 
-const ExperienceSection = () => {
+const ExperienceSection = ({ locale = "en" }) => {
+  const isPashto = locale === "ps";
   const [expandedCards, setExpandedCards] = useState({});
 
   const toggleCard = (id) => {
@@ -16,26 +17,32 @@ const ExperienceSection = () => {
   const experiences = [
     {
       id: 1,
-      role: "Software Engineer",
+      role: isPashto ? "سافټوېیر انجينر" : "Software Engineer",
       company: "EvolvFit",
       duration: "Aug 2025 - Oct 2025",
-      description: "Developing mobile apps with React Native & Node.js backend.",
+      description: isPashto
+        ? "د React Native او Node.js بیکېنډ په کارولو د موبايل اپونو جوړول او پراختيا."
+        : "Developing mobile apps with React Native & Node.js backend.",
       tech: ["React Native", "Node.js", "MongoDB"],
     },
     {
       id: 2,
-      role: "Mobile App Developer",
+      role: isPashto ? "موبايل اپ پراختياکوونکی" : "Mobile App Developer",
       company: "Himalbyte",
       duration: "May 2025 - Jul 2025",
-      description: "Cross-platform mobile development focused on performance.",
+      description: isPashto
+        ? "د کراس پلېټفارم موبايل اپونو پراختيا، په لوړ کارکردګۍ تمرکز سره."
+        : "Cross-platform mobile development focused on performance.",
       tech: ["React Native", "Supabase", "TypeScript"],
     },
     {
       id: 3,
-      role: "Software Engineer",
+      role: isPashto ? "سافټوېیر انجينر" : "Software Engineer",
       company: "zappstudios",
       duration: "Sept 2025",
-      description: "Full-stack web applications using Next.js & Supabase.",
+      description: isPashto
+        ? "د Next.js او Supabase په مرسته د Full-Stack وېب اپليکېشنونو پراختيا."
+        : "Full-stack web applications using Next.js & Supabase.",
       tech: ["Next.js", "Supabase", "Stripe"],
     },
   ];
@@ -56,7 +63,7 @@ const ExperienceSection = () => {
           className="mb-20 text-center"
         >
           <h2 className="text-4xl md:text-5xl font-bold font-sans1 text-white mb-4 tracking-tight">
-            EXPERIENCE
+            {isPashto ? "تجربه" : "EXPERIENCE"}
           </h2>
           <div className="w-24 h-1 bg-[#D7FF00] mx-auto"></div>
         </motion.div>
