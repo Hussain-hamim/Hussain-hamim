@@ -9,6 +9,7 @@ import LandingSection from './components/LandingSection';
 import ProjectsSection from './components/ProjectsSection';
 import { AlertProvider } from './context/alertContext';
 import ExperienceSection from './components/ExperienceSection';
+import PsEducationSection from './components/PsEducationSection';
 import V2 from './components/V2';
 import ProjectDetails from './components/ProjectDetails';
 import ProjectsList from './components/ProjectsList';
@@ -26,6 +27,7 @@ function PortfolioPage({ locale }) {
       <Header locale={locale} />
       <LandingSection locale={locale} />
       <ExperienceSection locale={locale} />
+      {isPashto && <PsEducationSection />}
       <ProjectsSection locale={locale} />
       <ContactMeSection locale={locale} />
       <Footer locale={locale} />
