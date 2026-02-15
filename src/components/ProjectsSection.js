@@ -325,7 +325,7 @@ const ProjectsSection = ({ locale = "en" }) => {
     "Issue Tracker":
       "Issue Tracker د Next.js پر بنسټ Full-Stack پروژه ده. کاروونکي پکې ستونزې (issues) جوړوي، ټاکل شوو کسانو ته يې سپاري او په اغېزمن ډول يې مديريتوي.",
     TaskList:
-      "دا د ورځنيو کارونو د مديريت وېب اپ دی. کاروونکي کولی شي کارونه زيات کړي، لرې کړي او بشپړ يې نښه کړي.",
+      "دا د ورځنيو کارونو د مديريت وېب پروګرام دی. کاروونکي کولی شي کارونه زيات کړي، لرې کړي او بشپړ يې نښه کړي.",
     Hamimfy:
       "Hamimfy يو responsive وېبسايټ دی چې د عصري وېب پراختيا بېلابېل تخنيکونه او ځانګړنې ښيي، په cloud hosting ځانګړي تمرکز سره.",
   };
@@ -334,20 +334,20 @@ const ProjectsSection = ({ locale = "en" }) => {
     "Shan-AI":
       "ShanAI يو کراس پلېټفارم AI موبايل مرستيال دی؛ له دې سره هر څه پوښتلی شئ. دا conversational AI، د عکس جوړول او د عکس تحليل په يو ځای کې درکوي.",
     EaseShop:
-      "يو بډای امکانات لرونکی موبايل اي-کامرس اپ چې React Native + Expo سره جوړ شوی او د AI voice agents (Vapi) ملاتړ هم لري.",
+      "يو بډای امکانات لرونکی موبايل اي-کامرس پروګرام چې React Native + Expo سره جوړ شوی او د AI voice agents (Vapi) ملاتړ هم لري.",
     Threads:
-      "Threads Clone: يو کراس پلېټفارم اپ چې د Threads تجربه بيا رغوي. پکې د real-time اپډېټونو لپاره Convex او د authentication لپاره Clerk کارول شوي.",
+      "Threads Clone: يو کراس پلېټفارم پروګرام چې د Threads تجربه بيا رغوي. پکې د real-time اپډېټونو لپاره Convex او د authentication لپاره Clerk کارول شوي.",
     "Himal Beauty":
-      "Barber Booking App: يو Full-Stack موبايل اپ د admin او client جلا پينلونو سره، چې د Supabase او Expo په مرسته جوړ شوی.",
+      "Barber Booking App: يو Full-Stack موبايل پروګرام د admin او client جلا پينلونو سره، چې د Supabase او Expo په مرسته جوړ شوی.",
     "Brick Blitz":
       "Brick Breaker لوبه: يو کراس پلېټفارم موبايل ګېم چې د React Native او Reanimated په مرسته ډېر نرم انيميشنونه وړاندې کوي.",
     "Airbnb Clone":
-      "Airbnb UI Clone: يو کراس پلېټفارم اپ چې د Airbnb د ښکلي UI او روان navigation پر بيا جوړولو تمرکز لري.",
+      "Airbnb UI Clone: يو کراس پلېټفارم پروګرام چې د Airbnb د ښکلي UI او روان navigation پر بيا جوړولو تمرکز لري.",
     SnapDish:
-      "Food Ordering App: يو موبايل اپ د admin او user جلا پينلونو سره، چې push notifications او Stripe integration پکې شامل دي.",
+      "Food Ordering App: يو موبايل پروګرام د admin او user جلا پينلونو سره، چې push notifications او Stripe integration پکې شامل دي.",
     "Done With It":
-      "هغه شيان چې نور ورته اړتيا نه لرئ، په دې موبايل پليټفارم کې يې خرڅولی شئ. دا اپ د Node API پر بنسټ کار کوي.",
-    Coursia: "د زده کړو کورسونو او سندونو ترلاسه کولو لپاره يو ساده او ګټور موبايل اپ.",
+      "هغه شيان چې نور ورته اړتيا نه لرئ، په دې موبايل پليټفارم کې يې خرڅولی شئ. دا پروګرام د Node API پر بنسټ کار کوي.",
+    Coursia: "د زده کړو کورسونو او سندونو ترلاسه کولو لپاره يو ساده او ګټور موبايل پروګرام.",
   };
 
   const certificateDescriptionsPs = {
@@ -429,7 +429,7 @@ const ProjectsSection = ({ locale = "en" }) => {
 
         {/* Mobile Projects */}
         <div id="mobileapps-section" className="mb-32">
-          <SectionHeader title={isPashto ? "موبايل اپونه" : "MOBILE APPS"} icon={FaMobileAlt} />
+          <SectionHeader title={isPashto ? "موبايل پروګرامونه" : "MOBILE APPS"} icon={FaMobileAlt} />
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {mobileProjectsToShow.map((project, index) => (
               <ProjectCard key={index} project={project} index={index} isPashto={isPashto} />

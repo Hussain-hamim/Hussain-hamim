@@ -21,17 +21,17 @@ const ExperienceSection = ({ locale = "en" }) => {
       company: "EvolvFit",
       duration: "Aug 2025 - Oct 2025",
       description: isPashto
-        ? "د React Native او Node.js بیکېنډ په کارولو د موبايل اپونو جوړول او پراختيا."
+        ? "د React Native او Node.js بیکېنډ په کارولو د موبايل پروګرامونو جوړول او پراختيا."
         : "Developing mobile apps with React Native & Node.js backend.",
       tech: ["React Native", "Node.js", "MongoDB"],
     },
     {
       id: 2,
-      role: isPashto ? "موبايل اپ پراختياکوونکی" : "Mobile App Developer",
+      role: isPashto ? "د موبايل پروګرامونو پراختياکوونکی" : "Mobile App Developer",
       company: "Himalbyte",
       duration: "May 2025 - Jul 2025",
       description: isPashto
-        ? "د کراس پلېټفارم موبايل اپونو پراختيا، په لوړ کارکردګۍ تمرکز سره."
+        ? "د کراس پلېټفارم موبايل پروګرامونو پراختيا، په لوړ کارکردګۍ تمرکز سره."
         : "Cross-platform mobile development focused on performance.",
       tech: ["React Native", "Supabase", "TypeScript"],
     },
@@ -41,7 +41,7 @@ const ExperienceSection = ({ locale = "en" }) => {
       company: "zappstudios",
       duration: "Sept 2025",
       description: isPashto
-        ? "د Next.js او Supabase په مرسته د Full-Stack وېب اپليکېشنونو پراختيا."
+        ? "د Next.js او Supabase په مرسته د Full-Stack وېب پروګرامونو پراختيا."
         : "Full-stack web applications using Next.js & Supabase.",
       tech: ["Next.js", "Supabase", "Stripe"],
     },

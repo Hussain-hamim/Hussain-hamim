@@ -57,7 +57,7 @@ const Header = ({ locale = "en" }) => {
   const navItems = [
     { id: "experience", label: isPashto ? "تجربه" : "experience" },
     { id: "projects", label: isPashto ? "پروژې" : "projects" },
-    { id: "mobileapps", label: isPashto ? "موبايل اپونه" : "mobileapps" },
+    { id: "mobileapps", label: isPashto ? "موبايل پروګرامونه" : "mobileapps" },
     { id: "tools", label: isPashto ? "وسايل" : "tools" },
     { id: "contactme", label: isPashto ? "اړيکه ونيسئ" : "contactme" },
   ];
@@ -112,7 +112,7 @@ const Header = ({ locale = "en" }) => {
                 e.currentTarget.style.borderColor = 'rgba(215, 255, 0, 0.5)';
               }}
             >
-              {isPashto ? "رزومه" : "Resume"}
+              {isPashto ? "سي وي" : "Resume"}
             </a>
           </nav>
 
@@ -161,7 +161,7 @@ const Header = ({ locale = "en" }) => {
                 e.currentTarget.style.borderColor = 'rgba(215, 255, 0, 0.5)';
               }}
             >
-              {isPashto ? "رزومه ډاونلوډ" : "Download Resume"}
+              {isPashto ? "سي وي ډاونلوډ" : "Download Resume"}
             </a>
 
             <div className="flex items-center justify-center space-x-6 pt-4">
