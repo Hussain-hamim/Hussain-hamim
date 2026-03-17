@@ -1,149 +1,203 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaChevronDown } from 'react-icons/fa';
+import { FaBriefcase } from 'react-icons/fa';
 import ExperienceBackground from './ExperienceBackground';
+
+const ExperienceCard = ({ exp, index, isPashto, isRtl }) => (
+  <motion.article
+    initial={{ opacity: 0, x: isRtl ? 20 : -20 }}
+    whileInView={{ opacity: 1, x: 0 }}
+    transition={{ duration: 0.5, delay: index * 0.1 }}
+    viewport={{ once: true, margin: '-50px' }}
+    className='relative flex gap-4 md:gap-5 group'
+  >
+    <div className='relative z-10 flex-shrink-0 mt-1'>
+      <div className='w-4 h-4 md:w-5 md:h-5 rounded-full bg-[#0f0f0f] border-2 border-[#D7FF00] flex items-center justify-center'>
+        {exp.isCurrent && (
+          <div className='w-2 h-2 md:w-2.5 md:h-2.5 rounded-full bg-[#D7FF00]' />
+        )}
+      </div>
+    </div>
+    <div className='flex-1 min-w-0'>
+      <div className='absolute -inset-0.5 bg-gradient-to-r from-[#D7FF00] to-teal-400 rounded-xl opacity-0 group-hover:opacity-20 transition duration-500 blur-xl' />
+      <div
+        className='relative rounded-xl p-4 md:p-5 transition-all duration-300'
+        style={{
+          backgroundColor: '#0a0a0a',
+          backgroundImage:
+            'radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px)',
+          backgroundSize: '24px 24px',
+        }}
+      >
+        <div className='flex flex-wrap items-center gap-2 mb-1.5'>
+          <span className='text-[10px] font-mono text-[#D7FF00] uppercase tracking-wider'>
+            {exp.duration}
+          </span>
+          {exp.isCurrent && (
+            <span
+              className='text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full text-[#0f0f0f] bg-[#D7FF00]'
+              aria-label={isPashto ? 'اوسنۍ دنده' : 'Current role'}
+            >
+              {isPashto ? 'اوس' : 'Present'}
+            </span>
+          )}
+        </div>
+        <h3 className='text-lg md:text-xl font-bold font-sans1 text-white mb-0.5 tracking-tight'>
+          {exp.role}
+        </h3>
+        <p className='text-gray-400 text-sm font-medium mb-2'>{exp.company}</p>
+        <p className='text-gray-300 text-sm leading-relaxed mb-3 font-sans3'>
+          {exp.description}
+        </p>
+        <div className='flex flex-wrap gap-1.5'>
+          {exp.tech.map((t, i) => (
+            <span
+              key={i}
+              className='px-2.5 py-1 text-[10px] uppercase tracking-wider font-semibold bg-[#D7FF00]/10 text-[#D7FF00] rounded-md'
+            >
+              {t}
+            </span>
+          ))}
+        </div>
+      </div>
+    </div>
+  </motion.article>
+);
 
 const ExperienceSection = ({ locale = 'en' }) => {
   const isPashto = locale === 'ps';
-  const [expandedCards, setExpandedCards] = useState({});
-
-  const toggleCard = (id) => {
-    setExpandedCards((prev) => ({
-      ...prev,
-      [id]: !prev[id],
-    }));
-  };
+  const isRtl = isPashto;
+  const [showThird, setShowThird] = useState(false);
 
   const experiences = [
     {
       id: 1,
       role: isPashto ? 'سافټوېیر انجينر' : 'Software Engineer',
+      company: 'Zapp studios',
+      duration: 'Sept 2025',
+      isCurrent: true,
+      description: isPashto
+        ? 'د Next.js او Supabase په مرسته د Full-Stack وېب پروګرامونو پراختيا.'
+        : 'Full-stack web applications and Mobile applications using Next.js, Swift & Supabase.',
+      tech: ['Next.js', 'Supabase', 'Stripe'],
+    },
+    {
+      id: 2,
+      role: isPashto ? 'سافټوېیر انجينر' : 'Software Engineer',
       company: 'EvolvFit',
       duration: 'Aug 2025 - Oct 2025',
+      isCurrent: false,
       description: isPashto
         ? 'د React Native او Node.js بیکېنډ په کارولو د موبايل پروګرامونو جوړول او پراختيا.'
         : 'Developing mobile apps with React Native & Node.js backend.',
       tech: ['React Native', 'Node.js', 'MongoDB'],
     },
     {
-      id: 2,
+      id: 3,
       role: isPashto ? 'د موبايل پروګرامونو انجينر' : 'Mobile App Developer',
       company: 'Himalbyte',
       duration: 'May 2025 - Jul 2025',
+      isCurrent: false,
       description: isPashto
         ? 'د کراس پلېټفارم موبايل پروګرامونو پراختيا، په لوړ کارکردګۍ تمرکز سره.'
         : 'Cross-platform mobile development focused on performance.',
       tech: ['React Native', 'Supabase', 'TypeScript'],
-    },
-    {
-      id: 3,
-      role: isPashto ? 'سافټوېیر انجينر' : 'Software Engineer',
-      company: 'zappstudios',
-      duration: 'Sept 2025 - Present',
-      description: isPashto
-        ? 'د Next.js او Supabase په مرسته د Full-Stack وېب پروګرامونو پراختيا.'
-        : 'Full-stack web applications using Next.js & Supabase.',
-      tech: ['Next.js', 'Supabase', 'Stripe'],
     },
   ];
 
   return (
     <section
       id='experience-section'
-      className='relative py-32 px-4 md:px-8 lg:px-16 bg-black overflow-hidden min-h-screen flex items-center'
+      className='relative py-32 px-4 md:px-8 overflow-hidden min-h-screen flex items-center bg-[#0f0f0f]'
     >
       <ExperienceBackground />
 
-      <div className='max-w-7xl mx-auto relative z-10 w-full'>
+      <div className='max-w-4xl mx-auto relative z-10 w-full'>
+        {/* Section header - matches ProjectsSection style */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className='mb-20 text-center'
+          className='flex flex-col items-center mb-20'
         >
-          <h2 className='text-4xl md:text-5xl font-bold font-sans1 text-white mb-4 tracking-tight'>
-            {isPashto ? 'تجربه' : 'EXPERIENCE'}
-          </h2>
-          <div className='w-24 h-1 bg-[#D7FF00] mx-auto'></div>
+          <div className='flex items-center gap-3 mb-4'>
+            <FaBriefcase className='text-3xl text-[#D7FF00]' />
+            <h2 className='text-4xl md:text-5xl font-bold font-sans1 text-white tracking-tight'>
+              {isPashto ? 'تجربه' : 'EXPERIENCE'}
+            </h2>
+          </div>
+          <div className='w-24 h-1 bg-gradient-to-r from-[#D7FF00] to-teal-400 rounded-full' />
         </motion.div>
 
-        <div className='grid grid-cols-1 md:grid-cols-3 gap-8'>
-          {experiences.map((exp, index) => {
-            const isExpanded = expandedCards[exp.id];
-            return (
-              <motion.div
-                key={exp.id}
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.2 }}
-                viewport={{ once: true }}
-                className='relative group'
-              >
-                <div className='absolute inset-0 bg-[#D7FF00] rounded-xl blur-xl opacity-0 group-hover:opacity-30 transition-opacity duration-500'></div>
-                <div
-                  className={`relative bg-black/60 backdrop-blur-md rounded-xl shadow-2xl hover:shadow-[0_0_40px_rgba(215,255,0,0.2)] transition-all duration-300 flex flex-col overflow-hidden ${
-                    isExpanded ? 'p-8' : 'p-6'
-                  }`}
-                >
-                  {/* Header - Always Visible */}
-                  <div className='flex items-start justify-between mb-4'>
-                    <div className='flex-1'>
-                      <div className='text-[#D7FF00] font-mono text-sm mb-2'>
-                        {exp.duration}
-                      </div>
-                      <h3 className='text-lg font-bold text-white mb-1'>
-                        {exp.role}
-                      </h3>
-                      <div className='text-gray-400 font-medium'>
-                        {exp.company}
-                      </div>
-                    </div>
-                    <button
-                      onClick={() => toggleCard(exp.id)}
-                      className='ml-4 p-2 text-[#D7FF00] hover:bg-[#D7FF00]/10 rounded-lg transition-all duration-300 flex-shrink-0'
-                    >
-                      <motion.div
-                        animate={{ rotate: isExpanded ? 180 : 0 }}
-                        transition={{ duration: 0.3 }}
-                      >
-                        <FaChevronDown size={20} />
-                      </motion.div>
-                    </button>
-                  </div>
+        {/* Timeline */}
+        <div className='relative'>
+          {/* Vertical line */}
+          <div
+            className='absolute left-6 md:left-8 top-0 bottom-0 w-px bg-gradient-to-b from-[#D7FF00]/50 via-teal-400/30 to-transparent'
+            aria-hidden
+          />
 
-                  {/* Expandable Content */}
-                  <AnimatePresence>
-                    {isExpanded && (
-                      <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: 'auto', opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.3 }}
-                        className='overflow-hidden'
-                      >
-                        <div className='pt-4 border-t border-white/10'>
-                          <p className='text-gray-300 mb-6'>
-                            {exp.description}
-                          </p>
-                          <div className='flex flex-wrap gap-2'>
-                            {exp.tech.map((t, i) => (
-                              <span
-                                key={i}
-                                className='text-xs font-mono text-teal-400 bg-teal-400/10 px-2 py-1 rounded'
-                              >
-                                {t}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-              </motion.div>
-            );
-          })}
+          <div className='space-y-5'>
+            {experiences.slice(0, 2).map((exp, index) => (
+              <ExperienceCard
+                key={exp.id}
+                exp={exp}
+                index={index}
+                isPashto={isPashto}
+                isRtl={isRtl}
+              />
+            ))}
+
+            {/* Toggle for third experience */}
+            <div className='flex gap-4 md:gap-5'>
+              <div className='w-4 md:w-5 flex-shrink-0' />
+              <div className='flex-1 flex justify-center py-2'>
+                <button
+                  type='button'
+                  onClick={() => setShowThird((v) => !v)}
+                  className='px-5 py-2 text-xs font-bold uppercase tracking-wider text-[#D7FF00] rounded-full transition-all hover:bg-[#D7FF00]/10'
+                  style={{
+                    borderWidth: '0.5px',
+                    borderColor: 'rgba(215, 255, 0, 0.5)',
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.borderColor = 'rgba(215, 255, 0, 1)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.borderColor = 'rgba(215, 255, 0, 0.5)';
+                  }}
+                >
+                  {showThird
+                    ? isPashto
+                      ? 'لږ وښيه'
+                      : 'Show less'
+                    : isPashto
+                    ? 'نور تجربه وښيه'
+                    : 'Show more experience'}
+                </button>
+              </div>
+            </div>
+
+            <AnimatePresence>
+              {showThird && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: 'auto', opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className='overflow-hidden space-y-5'
+                >
+                  <ExperienceCard
+                    exp={experiences[2]}
+                    index={0}
+                    isPashto={isPashto}
+                    isRtl={isRtl}
+                  />
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
         </div>
       </div>
     </section>

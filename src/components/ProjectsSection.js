@@ -106,6 +106,15 @@ export const projects = [
 
 export const mobileProjects = [
   {
+    title: 'Goal Tracking App',
+    description:
+      'A goal tracking app that allows users to set goals, track their progress, and achieve their goals.',
+    getImageSrc: () => require('../images/goaltracking.png'),
+    link: 'https://github.com/Hussain-hamim',
+    live: 'https://github.com/Hussain-hamim',
+    tags: ['Swift', 'iOS', 'Supabase'],
+  },
+  {
     title: 'Shan-AI',
     description:
       'Ask ShanAI anything: A cross platform AI-powered mobile assistant that combines conversational AI, image generation and analysis using OpenAI, Gemini, and Stability APIs.',
