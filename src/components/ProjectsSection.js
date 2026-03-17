@@ -111,7 +111,7 @@ export const mobileProjects = [
       'A goal tracking app that allows users to set goals, track their progress, and achieve their goals.',
     getImageSrc: () => require('../images/goaltracking.png'),
     link: 'https://github.com/Hussain-hamim',
-    live: 'https://github.com/Hussain-hamim',
+    live: 'https://goals-tracking-cc.vercel.app/',
     tags: ['Swift', 'iOS', 'Supabase'],
   },
   {
