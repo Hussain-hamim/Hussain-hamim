@@ -11,6 +11,7 @@ import {
   FaRocket,
 } from 'react-icons/fa';
 import GitHubContributions from './GitHubContributions';
+import SpaceGame from './SpaceGame';
 
 const sectionAccent = '#D7FF00'; // single accent for whole section so cards match bg
 
@@ -572,19 +573,11 @@ const ProjectsSection = ({ locale = 'en' }) => {
   );
 
   return (
-    <section
-      id='projects-section'
-      className='relative bg-[#0f0f0f] py-32 overflow-hidden'
-    >
-      {/* Background Decor — single accent to match cards */}
-      <div className='absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none'>
-        <div className='absolute top-20 left-0 w-96 h-96 bg-[#D7FF00]/[0.07] rounded-full blur-[120px]' />
-        <div className='absolute bottom-20 right-0 w-96 h-96 bg-[#D7FF00]/[0.05] rounded-full blur-[120px]' />
-      </div>
-
-      <div className='max-w-7xl mx-auto px-6 md:px-8 relative z-10'>
-        {/* Current side projects */}
-        <div className='mb-32'>
+    <section id='projects-section' className='relative overflow-hidden'>
+      {/* Current side projects — same SpaceGame bg as Experience so they feel like one */}
+      <div className='relative py-32 overflow-hidden min-h-screen flex items-center'>
+        <SpaceGame />
+        <div className='max-w-7xl mx-auto px-6 md:px-8 relative z-10 w-full'>
           <SectionHeader
             title={isPashto ? 'اوسنۍ پروژې' : 'CURRENT SIDE PROJECTS'}
             icon={FaRocket}
@@ -601,7 +594,17 @@ const ProjectsSection = ({ locale = 'en' }) => {
             ))}
           </div>
         </div>
+      </div>
 
+      {/* Rest of projects — dark bg */}
+      <div className='relative bg-[#0f0f0f] py-32 overflow-hidden'>
+        {/* Background Decor — single accent to match cards */}
+        <div className='absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none'>
+          <div className='absolute top-20 left-0 w-96 h-96 bg-[#D7FF00]/[0.07] rounded-full blur-[120px]' />
+          <div className='absolute bottom-20 right-0 w-96 h-96 bg-[#D7FF00]/[0.05] rounded-full blur-[120px]' />
+        </div>
+
+        <div className='max-w-7xl mx-auto px-6 md:px-8 relative z-10'>
         {/* Web Projects */}
         <div className='mb-32'>
           <SectionHeader
@@ -1044,6 +1047,7 @@ const ProjectsSection = ({ locale = 'en' }) => {
             </motion.div>
           </div>
         </div>
+      </div>
       </div>
     </section>
   );
