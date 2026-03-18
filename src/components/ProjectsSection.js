@@ -8,8 +8,12 @@ import {
   FaAward,
   FaBook,
   FaCamera,
+  FaRocket,
 } from 'react-icons/fa';
 import GitHubContributions from './GitHubContributions';
+
+const defaultTheme = { primary: '#D7FF00', secondary: '#14B8A6' };
+const sectionAccent = '#D7FF00'; // single accent for whole section so cards match bg
 
 export const projects = [
   {
@@ -20,6 +24,7 @@ export const projects = [
     link: 'https://github.com/Hussain-hamim',
     live: 'https://ideahunt.pro',
     tags: ['AI', 'Business', 'Validation', 'SaaS'],
+    theme: { primary: '#286A64', secondary: '#2DD4BF' },
   },
   {
     title: 'Aegnis AI',
@@ -29,6 +34,7 @@ export const projects = [
     link: 'https://github.com/Hussain-hamim',
     live: 'https://aegnis.life',
     tags: ['AI', 'Productivity', 'Full-stack'],
+    theme: { primary: '#1F1205', secondary: '#D97706' },
   },
   {
     title: 'DevSync',
@@ -38,6 +44,7 @@ export const projects = [
     link: 'https://github.com/Hussain-hamim/DevSync',
     live: 'https://devsync.codes/',
     tags: ['Next.js', 'Tailwind', 'Supabase'],
+    theme: { primary: '#3B82F6', secondary: '#60A5FA' },
   },
   {
     title: 'Premium Shop',
@@ -47,6 +54,7 @@ export const projects = [
     link: 'https://github.com/Hussain-hamim/PremiumShop',
     live: 'https://premium-shop-teal.vercel.app',
     tags: ['MERN', 'E-commerce', 'Stripe'],
+    theme: { primary: '#10B981', secondary: '#34D399' },
   },
   {
     title: 'Ocean Of Games',
@@ -56,6 +64,7 @@ export const projects = [
     link: 'https://github.com/Hussain-hamim/ocean-of-games',
     live: 'https://ocean-of-games.vercel.app/',
     tags: ['React', 'API', 'Clone'],
+    theme: { primary: '#0EA5E9', secondary: '#38BDF8' },
   },
   {
     title: 'Book Ocean',
@@ -65,6 +74,7 @@ export const projects = [
     link: 'https://github.com/Hussain-hamim/book-ocean',
     live: 'https://book-ocean.vercel.app/discover',
     tags: ['React', 'Firebase', 'Books'],
+    theme: { primary: '#F59E0B', secondary: '#FBBF24' },
   },
   {
     title: 'Nature Quest',
@@ -74,6 +84,7 @@ export const projects = [
     link: 'https://github.com/Hussain-hamim/NatureQuest',
     live: 'https://nature-quest-gamma.vercel.app/',
     tags: ['Travel', 'Backend', 'UI/UX'],
+    theme: { primary: '#22C55E', secondary: '#4ADE80' },
   },
   {
     title: 'Issue Tracker',
@@ -83,6 +94,7 @@ export const projects = [
     link: 'https://github.com/Hussain-hamim/issue-tracker',
     live: 'https://issue-tracker-tan-eta.vercel.app/',
     tags: ['Next.js', 'Management', 'Full-stack'],
+    theme: { primary: '#6366F1', secondary: '#818CF8' },
   },
   {
     title: 'TaskList',
@@ -92,6 +104,7 @@ export const projects = [
     link: 'https://github.com/Hussain-hamim/my-tasklist',
     live: 'https://my-tasklist-gamma.vercel.app/',
     tags: ['React', 'Productivity', 'CRUD'],
+    theme: { primary: '#D7FF00', secondary: '#14B8A6' },
   },
   {
     title: 'Hamimfy',
@@ -101,6 +114,7 @@ export const projects = [
     link: 'https://github.com/Hussain-hamim/hamimfy',
     live: 'https://hamimfy.vercel.app/',
     tags: ['Design', 'Responsive', 'Cloud'],
+    theme: { primary: '#64748B', secondary: '#94A3B8' },
   },
 ];
 
@@ -111,8 +125,10 @@ export const mobileProjects = [
       'A goal tracking app that allows users to set goals, track their progress, and achieve their goals.',
     getImageSrc: () => require('../images/goaltracking.png'),
     link: 'https://github.com/Hussain-hamim',
-    live: 'https://goals-tracking-cc.vercel.app/',
+    live: 'https://goals-tracking-cc.vercel.app/#app-screenshots',
+    embedUrl: 'https://goals-tracking-cc.vercel.app/#app-screenshots',
     tags: ['Swift', 'iOS', 'Supabase'],
+    theme: { primary: '#160C1A', secondary: '#E8A598' },
   },
   {
     title: 'Shan-AI',
@@ -122,6 +138,7 @@ export const mobileProjects = [
     link: 'https://github.com/Hussain-hamim',
     live: 'https://github.com/Hussain-hamim/ShanAI/releases/download/my-tag/ShanAI_1.0.0.apk',
     tags: ['React Native', 'AI', 'Expo'],
+    theme: { primary: '#7C3AED', secondary: '#A78BFA' },
   },
   {
     title: 'EaseShop',
@@ -131,6 +148,7 @@ export const mobileProjects = [
     link: 'https://github.com/Hussain-hamim/easeshop-mobile',
     live: 'https://drive.google.com/file/d/1xZ0jOSVEwuIGFCz0AHVnBIzJmRLtmusc/view?usp=drive_link',
     tags: ['E-commerce', 'AI Voice', 'Mobile'],
+    theme: { primary: '#EC4899', secondary: '#F472B6' },
   },
   {
     title: 'Threads',
@@ -139,6 +157,7 @@ export const mobileProjects = [
     getImageSrc: () => require('../images/threads2.png'),
     link: 'https://github.com/Hussain-hamim/threads',
     tags: ['Clone', 'Real-time', 'Social'],
+    theme: { primary: '#525252', secondary: '#737373' },
   },
   {
     title: 'Himal Beauty',
@@ -148,6 +167,7 @@ export const mobileProjects = [
     link: 'https://github.com/Hussain-hamim/barber-app',
     live: 'https://drive.google.com/file/d/1uk3aGfYUKCDck4uJFPJ0PtQJTrXe6YKS/view?usp=drive_link',
     tags: ['Booking', 'Supabase', 'Mobile'],
+    theme: { primary: '#E11D48', secondary: '#F43F5E' },
   },
   {
     title: 'Brick Blitz',
@@ -156,6 +176,7 @@ export const mobileProjects = [
     getImageSrc: () => require('../images/blitz.png'),
     link: 'https://github.com/Hussain-hamim',
     tags: ['Game', 'Animation', 'React Native'],
+    theme: { primary: '#EF4444', secondary: '#F87171' },
   },
   {
     title: 'Airbnb Clone',
@@ -164,6 +185,7 @@ export const mobileProjects = [
     getImageSrc: () => require('../images/airbnb-clone .jpg'),
     link: 'https://github.com/Hussain-hamim/airbnb-clone',
     tags: ['UI/UX', 'Clone', 'Maps'],
+    theme: { primary: '#FF5A5F', secondary: '#FF7E82' },
   },
   {
     title: 'SnapDish',
@@ -172,6 +194,7 @@ export const mobileProjects = [
     getImageSrc: () => require('../images/snapdish2.png'),
     link: 'https://github.com/Hussain-hamim/SnapDish',
     tags: ['Food', 'Stripe', 'Admin'],
+    theme: { primary: '#F59E0B', secondary: '#FBBF24' },
   },
   {
     title: 'Done With It',
@@ -180,6 +203,7 @@ export const mobileProjects = [
     getImageSrc: () => require('../images/donewithit2.png'),
     link: 'https://github.com/Hussain-hamim/donewithit',
     tags: ['Marketplace', 'Node.js', 'Mobile'],
+    theme: { primary: '#14B8A6', secondary: '#2DD4BF' },
   },
   {
     title: 'Coursia',
@@ -187,6 +211,7 @@ export const mobileProjects = [
     getImageSrc: () => require('../images/coursia2.png'),
     link: 'https://github.com/Hussain-hamim/Coursia',
     tags: ['E-learning', 'Mobile'],
+    theme: { primary: '#6366F1', secondary: '#818CF8' },
   },
 ];
 
@@ -199,6 +224,7 @@ const certificates = [
     link: 'https://www.coursera.org/account/accomplishments/specialization/CMEZCDWLG4AG',
     live: 'https://www.coursera.org/account/accomplishments/specialization/CMEZCDWLG4AG',
     tags: ['Certificate', 'Meta', 'Frontend'],
+    theme: { primary: '#0668E1', secondary: '#1877F2' },
   },
 ];
 
@@ -216,64 +242,211 @@ const SectionHeader = ({ title, icon: Icon }) => (
         {title}
       </h2>
     </div>
-    <div className='w-24 h-1 bg-gradient-to-r from-[#D7FF00] to-teal-400 rounded-full'></div>
+    <div className='w-24 h-1 rounded-full' style={{ background: sectionAccent }} />
   </motion.div>
 );
 
-const ProjectCard = ({ project, index, isPashto }) => {
-  const tags = project.tags || [];
+const hexToRgba = (hex, a) => {
+  const [r, g, b] = hex.replace(/^#/, '').match(/.{2}/g).map((x) => parseInt(x, 16));
+  return `rgba(${r},${g},${b},${a})`;
+};
 
+const isDark = (hex) => {
+  const [r, g, b] = hex.replace(/^#/, '').match(/.{2}/g).map((x) => parseInt(x, 16));
+  const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+  return luminance < 0.4;
+};
+
+const ProjectCard = ({ project, index, isPashto, featured = false }) => {
+  const [hovered, setHovered] = useState(false);
+  const tags = project.tags || [];
+  const accent = sectionAccent;
+
+  // ——— Showcase style: only for the 3 current side projects ——— 
+  if (featured) {
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: index * 0.08, ease: [0.22, 1, 0.36, 1] }}
+        viewport={{ once: true, margin: '-40px' }}
+        className='group relative h-full'
+      >
+        <motion.div
+          className='relative h-full rounded-3xl overflow-hidden flex flex-col'
+          style={{
+            background: '#0d0d0d',
+            boxShadow: '0 0 0 1px rgba(255,255,255,0.06), 0 4px 24px rgba(0,0,0,0.3)',
+          }}
+          whileHover={{
+            y: -8,
+            boxShadow: '0 32px 64px -12px rgba(0,0,0,0.4)',
+            transition: { duration: 0.35, ease: [0.22, 1, 0.36, 1] },
+          }}
+        >
+          <div className='relative h-56 sm:h-64 overflow-hidden'>
+            {project.embedUrl ? (
+              <iframe
+                src={project.embedUrl}
+                title={`${project.title} preview`}
+                className='absolute inset-0 w-full h-full border-0 scale-[0.35] origin-top-left pointer-events-none'
+                style={{ width: '286%', height: '286%' }}
+                loading='lazy'
+                sandbox='allow-scripts allow-same-origin'
+              />
+            ) : (
+              <img
+                src={project.getImageSrc()}
+                alt={project.title}
+                className='absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110'
+              />
+            )}
+            {/* Neutral dark overlay so title is readable on any image */}
+            <div
+              className='absolute inset-0 pointer-events-none'
+              style={{
+                background: 'linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.4) 40%, transparent 70%)',
+              }}
+            />
+            <div className='absolute bottom-0 left-0 right-0 p-5 pt-12'>
+              <h3
+                className='text-2xl sm:text-3xl font-bold font-sans1 text-white tracking-tight'
+                style={{ textShadow: '0 2px 16px rgba(0,0,0,0.8)' }}
+              >
+                {project.title}
+              </h3>
+              <div className='flex flex-wrap gap-1.5 mt-2'>
+                {tags.slice(0, 3).map((tag, i) => (
+                  <span
+                    key={i}
+                    className='px-2 py-0.5 text-[9px] uppercase tracking-widest font-bold rounded-full text-black'
+                    style={{ backgroundColor: accent }}
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+          <div
+            className='relative flex-1 flex flex-col p-5 sm:p-6'
+            style={{
+              background: 'linear-gradient(135deg, rgba(255,255,255,0.02) 0%, transparent 50%)',
+            }}
+          >
+            <p className='text-gray-400 text-sm leading-relaxed mb-5 flex-grow font-sans3 line-clamp-3'>
+              {project.description}
+            </p>
+            <div className='flex items-center justify-between gap-3 pt-4 border-t border-white/10'>
+              <a
+                href={project.link}
+                target='_blank'
+                rel='noopener noreferrer'
+                className='flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-gray-400 hover:text-white transition-colors'
+              >
+                <FaGithub className='text-base' />
+                <span>{isPashto ? 'کوډ' : 'Code'}</span>
+              </a>
+              {project.live && (
+                <a
+                  href={project.live}
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  className='flex items-center gap-2 px-4 py-2.5 text-xs font-bold uppercase tracking-wider rounded-full transition-all text-black'
+                  style={{ backgroundColor: accent }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'scale(1.05)';
+                    e.currentTarget.style.boxShadow = `0 8px 24px ${hexToRgba(accent, 0.45)}`;
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = '';
+                    e.currentTarget.style.boxShadow = '';
+                  }}
+                >
+                  <span>{isPashto ? 'ژوندۍ نسخه' : 'Live'}</span>
+                  <FaExternalLinkAlt className='text-xs' />
+                </a>
+              )}
+            </div>
+          </div>
+          <div
+            className='absolute bottom-0 left-0 right-0 h-0.5 opacity-80'
+            style={{ background: `linear-gradient(90deg, transparent, ${accent}, transparent)` }}
+          />
+        </motion.div>
+      </motion.div>
+    );
+  }
+
+  // ——— Classic style: all other projects ———
   return (
     <motion.div
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
       initial={{ opacity: 0, y: 50 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
       viewport={{ once: true }}
       className='group relative h-full'
     >
-      {/* Hover Glow Effect */}
-      <div className='absolute -inset-0.5 bg-gradient-to-r from-[#D7FF00] to-teal-400 rounded-2xl opacity-0 group-hover:opacity-30 transition duration-500 blur-xl'></div>
-
       <div
-        className='relative h-full rounded-2xl overflow-hidden transition-all duration-300 flex flex-col hover:shadow-2xl hover:shadow-[#D7FF00]/10 hover:ring-[#D7FF00]/50'
+        className='absolute -inset-0.5 rounded-2xl blur-xl opacity-0 group-hover:opacity-25 transition duration-500'
+        style={{ background: accent }}
+      />
+      <div
+        className='relative h-full rounded-2xl overflow-hidden transition-all duration-300 flex flex-col'
         style={{
-          backgroundColor: '#0a0a0a',
-          backgroundImage:
-            'radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px)',
-          backgroundSize: '24px 24px',
+          backgroundColor: '#141414',
+          backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px)',
+          backgroundSize: '20px 20px',
+          boxShadow: '0 0 0 1px rgba(255,255,255,0.06)',
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.boxShadow = '0 20px 40px -12px rgba(0,0,0,0.4)';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.boxShadow = '0 0 0 1px rgba(255,255,255,0.06)';
         }}
       >
-        {/* Image Container */}
         <div className='relative h-60 overflow-hidden bg-[#1a1a1a]'>
-          <img
-            src={project.getImageSrc()}
-            alt={project.title}
-            className='w-full h-full object-contain transition-transform duration-500'
-          />
+          {project.embedUrl ? (
+            <iframe
+              src={project.embedUrl}
+              title={`${project.title} preview`}
+              className='w-full h-full border-0 scale-[0.35] origin-top-left'
+              style={{ width: '286%', height: '286%' }}
+              loading='lazy'
+              sandbox='allow-scripts allow-same-origin'
+            />
+          ) : (
+            <img
+              src={project.getImageSrc()}
+              alt={project.title}
+              className='w-full h-full object-contain transition-transform duration-500 group-hover:scale-105'
+            />
+          )}
         </div>
-
-        {/* Content */}
         <div className='p-6 flex flex-col flex-grow relative z-20'>
-          {/* Tags */}
           <div className='flex flex-wrap gap-2 mb-4'>
             {tags.map((tag, i) => (
               <span
                 key={i}
-                className='px-2 py-1 text-[10px] uppercase tracking-wider font-bold bg-[#D7FF00]/10 text-[#D7FF00] rounded-md'
+                className='px-2 py-1 text-[10px] uppercase tracking-wider font-bold rounded-md'
+                style={{ backgroundColor: hexToRgba(accent, 0.15), color: accent }}
               >
                 {tag}
               </span>
             ))}
           </div>
-
-          <h3 className='text-xl font-bold font-sans3 text-white mb-3 group-hover:text-[#D7FF00] transition-colors tracking-tight'>
+          <h3
+            className='text-xl font-bold font-sans3 mb-3 tracking-tight text-white'
+            style={{ color: hovered ? accent : undefined }}
+          >
             {project.title}
           </h3>
           <p className='text-gray-400 text-sm leading-relaxed mb-6 flex-grow font-sans3'>
             {project.description}
           </p>
-
-          {/* Links */}
           <div className='flex items-center gap-4 mt-auto pt-4 border-t border-white/10'>
             <a
               href={project.link}
@@ -289,16 +462,15 @@ const ProjectCard = ({ project, index, isPashto }) => {
                 href={project.live}
                 target='_blank'
                 rel='noopener noreferrer'
-                className='flex items-center gap-2 px-3 py-2 text-xs   tracking-wider text-[#D7FF00] rounded-full ml-auto transition-all hover:bg-[#D7FF00]/10'
+                className='flex items-center gap-2 px-3 py-2 text-xs font-bold tracking-wider rounded-full ml-auto transition-all text-black'
                 style={{
-                  borderWidth: '0.5px',
-                  borderColor: 'rgba(215, 255, 0, 0.5)',
+                  backgroundColor: accent,
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = 'rgba(215, 255, 0, 1)';
+                  e.currentTarget.style.boxShadow = `0 4px 16px ${hexToRgba(accent, 0.4)}`;
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = 'rgba(215, 255, 0, 0.5)';
+                  e.currentTarget.style.boxShadow = '';
                 }}
               >
                 <span>{isPashto ? 'ژوندۍ نسخه' : 'Live Demo'}</span>
@@ -396,18 +568,47 @@ const ProjectsSection = ({ locale = 'en' }) => {
     ? mobileProjectsLocalized
     : mobileProjectsLocalized.slice(0, initialCount);
 
+  const currentSideProjectTitles = ['IdeaHunt', 'Aegnis AI', 'Goal Tracking App'];
+  const currentSideProjects = [
+    ...webProjects.filter((p) => p.title === 'IdeaHunt' || p.title === 'Aegnis AI'),
+    ...mobileProjectsLocalized.filter((p) => p.title === 'Goal Tracking App'),
+  ].sort(
+    (a, b) =>
+      currentSideProjectTitles.indexOf(a.title) -
+      currentSideProjectTitles.indexOf(b.title)
+  );
+
   return (
     <section
       id='projects-section'
       className='relative bg-[#0f0f0f] py-32 overflow-hidden'
     >
-      {/* Background Decor */}
+      {/* Background Decor — single accent to match cards */}
       <div className='absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none'>
-        <div className='absolute top-20 left-0 w-96 h-96 bg-[#D7FF00]/5 rounded-full blur-[120px]'></div>
-        <div className='absolute bottom-20 right-0 w-96 h-96 bg-teal-400/5 rounded-full blur-[120px]'></div>
+        <div className='absolute top-20 left-0 w-96 h-96 bg-[#D7FF00]/[0.07] rounded-full blur-[120px]' />
+        <div className='absolute bottom-20 right-0 w-96 h-96 bg-[#D7FF00]/[0.05] rounded-full blur-[120px]' />
       </div>
 
       <div className='max-w-7xl mx-auto px-6 md:px-8 relative z-10'>
+        {/* Current side projects */}
+        <div className='mb-32'>
+          <SectionHeader
+            title={isPashto ? 'اوسنۍ پروژې' : 'CURRENT SIDE PROJECTS'}
+            icon={FaRocket}
+          />
+          <div className='grid grid-cols-1 md:grid-cols-3 gap-8'>
+            {currentSideProjects.map((project, index) => (
+              <ProjectCard
+                key={project.title}
+                project={project}
+                index={index}
+                isPashto={isPashto}
+                featured
+              />
+            ))}
+          </div>
+        </div>
+
         {/* Web Projects */}
         <div className='mb-32'>
           <SectionHeader
