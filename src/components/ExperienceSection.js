@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaBriefcase } from 'react-icons/fa';
-import ExperienceBackground from './ExperienceBackground';
+import SpaceGame from './SpaceGame';
 
 const ExperienceCard = ({ exp, index, isPashto, isRtl }) => (
   <motion.article
@@ -108,9 +108,9 @@ const ExperienceSection = ({ locale = 'en' }) => {
   return (
     <section
       id='experience-section'
-      className='relative py-32 px-4 md:px-8 overflow-hidden min-h-screen flex items-center bg-[#0f0f0f]'
+      className='relative py-32 px-4 md:px-8 overflow-hidden min-h-screen flex items-center'
     >
-      <ExperienceBackground />
+      <SpaceGame />
 
       <div className='max-w-4xl mx-auto relative z-10 w-full'>
         {/* Section header - matches ProjectsSection style */}

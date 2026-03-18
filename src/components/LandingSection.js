@@ -10,7 +10,6 @@ import {
 import { FaXTwitter } from 'react-icons/fa6';
 import { Canvas } from '@react-three/fiber';
 import { PerspectiveCamera, Stars, Sparkles } from '@react-three/drei';
-import SpaceGame from './SpaceGame';
 
 const LandingSection = ({ locale = 'en' }) => {
   const isPashto = locale === 'ps';
@@ -56,10 +55,7 @@ const LandingSection = ({ locale = 'en' }) => {
   ];
 
   return (
-    <section className='relative w-full min-h-screen overflow-hidden bg-[#0f0f0f]'>
-      {/* 3D Game Background */}
-      <SpaceGame />
-
+    <section className='relative w-full min-h-screen overflow-hidden'>
       {/* Overlay Content */}
       <div className='absolute inset-0 z-10 flex flex-col justify-center px-4 sm:px-6 md:px-12 max-w-7xl mx-auto pointer-events-none pt-24 sm:pt-20 pb-20 md:pb-0'>
         <div className='w-full grid grid-cols-1 md:grid-cols-2 gap-12 items-center'>

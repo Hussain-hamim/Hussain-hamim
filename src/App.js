@@ -1,6 +1,7 @@
 import { ChakraProvider } from '@chakra-ui/react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useEffect } from 'react';
+import Lottie from 'lottie-react';
 import Alert from './components/Alert';
 import ContactFooterWrap from './components/ContactFooterWrap';
 import ContactMeSection from './components/ContactMeSection';
@@ -14,6 +15,7 @@ import PsEducationSection from './components/PsEducationSection';
 import V2 from './components/V2';
 import ProjectDetails from './components/ProjectDetails';
 import ProjectsList from './components/ProjectsList';
+import starsAnimation from './assets/Stars.json';
 
 function PortfolioPage({ locale }) {
   const isPashto = locale === 'ps';
@@ -25,6 +27,19 @@ function PortfolioPage({ locale }) {
 
   return (
     <main dir={isPashto ? 'rtl' : 'ltr'}>
+      {/* Single Lottie for header + hero (upside down, clouds at top) */}
+      <div className="fixed top-0 left-0 right-0 h-screen min-h-screen z-0 pointer-events-none">
+        <div style={{ transform: 'scaleY(-1)', width: '100%', height: '100%' }}>
+          <Lottie
+            animationData={starsAnimation}
+            loop
+            rendererSettings={{ preserveAspectRatio: 'xMidYMid slice' }}
+            style={{ width: '100%', height: '100%', minHeight: '100%' }}
+          />
+        </div>
+        <div className="absolute inset-0 bg-black/40" aria-hidden />
+      </div>
+
       <Header locale={locale} />
       <LandingSection locale={locale} />
       <ExperienceSection locale={locale} />

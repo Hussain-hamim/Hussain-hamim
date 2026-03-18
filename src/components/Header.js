@@ -7,7 +7,6 @@ import {
   faTwitter,
   faInstagram,
 } from "@fortawesome/free-brands-svg-icons";
-
 const socials = [
   { icon: faGithub, url: "https://github.com/Hussain-hamim" },
   { icon: faLinkedin, url: "https://www.linkedin.com/in/hussain-hamim/" },
@@ -77,10 +76,12 @@ const Header = ({ locale = "en" }) => {
           {/* Logo */}
           <a
             href={isPashto ? "/ps" : "/"}
-            className="text-xl font-bold font-sans1 tracking-tight text-[#D7FF00] hover:text-white transition-all duration-300 relative group"
+            className={`text-xl font-bold font-sans1 tracking-tight transition-all duration-300 relative group ${
+              scrolled ? "text-[#D7FF00] hover:text-white" : "text-black hover:text-black/80"
+            }`}
           >
             <span className="relative z-10">HSN.</span>
-            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#D7FF00] group-hover:w-full transition-all duration-300"></span>
+            <span className={`absolute -bottom-1 left-0 w-0 h-0.5 group-hover:w-full transition-all duration-300 ${scrolled ? "bg-[#D7FF00]" : "bg-black"}`}></span>
           </a>
 
           {/* Desktop Navigation */}
@@ -89,27 +90,34 @@ const Header = ({ locale = "en" }) => {
               <button
                 key={item.id}
                 onClick={handleClick(item.id)}
-                className="relative px-3 py-1.5 text-sm font-medium text-gray-400 hover:text-white transition-all duration-300 uppercase tracking-wider group"
+                className={`relative px-3 py-1.5 text-sm font-medium transition-all duration-300 uppercase tracking-wider group ${
+                  scrolled ? "text-gray-400 hover:text-white" : "text-black hover:text-black/80"
+                }`}
               >
                 <span className="relative z-10">{item.label}</span>
-                <span className="absolute inset-0 bg-white/5 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
-                <span className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-0 h-[2px] bg-[#D7FF00] group-hover:w-3/4 transition-all duration-300"></span>
+                <span className={`absolute inset-0 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${scrolled ? "bg-white/5" : "bg-black/5"}`}></span>
+                <span className={`absolute bottom-0 left-1/2 transform -translate-x-1/2 w-0 h-[2px] group-hover:w-3/4 transition-all duration-300 ${scrolled ? "bg-[#D7FF00]" : "bg-black"}`}></span>
               </button>
             ))}
 
             <a
               href="/Hussain-resume3.pdf"
               download="Hussain-resume3.pdf"
-              className="ml-4 px-4 py-1.5 text-xs font-semibold text-[#D7FF00] rounded-full transition-all hover:bg-[#D7FF00]/10 hover:shadow-lg hover:shadow-[#D7FF00]/20"
-              style={{
-                borderWidth: '0.5px',
-                borderColor: 'rgba(215, 255, 0, 0.5)',
-              }}
+              className={`ml-4 px-4 py-1.5 text-xs font-semibold rounded-full transition-all ${
+                scrolled
+                  ? "text-[#D7FF00] hover:bg-[#D7FF00]/10 hover:shadow-lg hover:shadow-[#D7FF00]/20"
+                  : "text-black hover:bg-black/10 hover:shadow-lg"
+              }`}
+              style={scrolled
+                ? { borderWidth: '0.5px', borderColor: 'rgba(215, 255, 0, 0.5)' }
+                : { borderWidth: '1px', borderColor: 'rgba(0,0,0,0.3)' }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = 'rgba(215, 255, 0, 1)';
+                if (scrolled) e.currentTarget.style.borderColor = 'rgba(215, 255, 0, 1)';
+                else e.currentTarget.style.borderColor = 'rgb(0,0,0)';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = 'rgba(215, 255, 0, 0.5)';
+                if (scrolled) e.currentTarget.style.borderColor = 'rgba(215, 255, 0, 0.5)';
+                else e.currentTarget.style.borderColor = 'rgba(0,0,0,0.3)';
               }}
             >
               {isPashto ? "سي وي" : "Resume"}
@@ -119,7 +127,7 @@ const Header = ({ locale = "en" }) => {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="md:hidden text-gray-400 hover:text-white p-2 transition-colors relative z-50"
+            className={`md:hidden p-2 transition-colors relative z-50 ${scrolled ? "text-gray-400 hover:text-white" : "text-black hover:text-black/80"}`}
             aria-label="Toggle menu"
           >
             <FontAwesomeIcon icon={isMenuOpen ? faXmark : faBars} size="lg" />
