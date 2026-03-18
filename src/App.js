@@ -2,6 +2,7 @@ import { ChakraProvider } from '@chakra-ui/react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useEffect } from 'react';
 import Alert from './components/Alert';
+import ContactFooterWrap from './components/ContactFooterWrap';
 import ContactMeSection from './components/ContactMeSection';
 import Footer from './components/Footer';
 import Header from './components/Header';
@@ -29,8 +30,10 @@ function PortfolioPage({ locale }) {
       <ExperienceSection locale={locale} />
       {isPashto && <PsEducationSection />}
       <ProjectsSection locale={locale} />
-      <ContactMeSection locale={locale} />
-      <Footer locale={locale} />
+      <ContactFooterWrap>
+        <ContactMeSection locale={locale} />
+        <Footer locale={locale} />
+      </ContactFooterWrap>
       <Alert />
     </main>
   );

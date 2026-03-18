@@ -7,7 +7,7 @@ const Footer = ({ locale = "en" }) => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-black border-t border-white/10 py-8 relative overflow-hidden">
+    <footer className="py-8">
       <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
         {/* Logo/Name */}
         <div className="flex items-center gap-2">
