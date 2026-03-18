@@ -11,18 +11,18 @@ const Footer = ({ locale = "en" }) => {
       <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
         {/* Logo/Name */}
         <div className="flex items-center gap-2">
-          <span className="text-xl font-bold font-sans1 text-white tracking-tight">
+          <span className="text-xl font-bold font-sans1 text-black tracking-tight">
             HSN
           </span>
-          <span className="text-gray-600">|</span>
-          <span className="text-gray-400 text-sm font-mono">
+          <span className="text-black/50">|</span>
+          <span className="text-black/80 text-sm font-mono">
             © {currentYear} {isPashto ? "ټول حقونه خوندي دي" : "All Rights Reserved"}
           </span>
         </div>
 
         {/* Made with Love */}
         <motion.div
-          className="flex items-center gap-2 text-sm text-gray-400"
+          className="flex items-center gap-2 text-sm text-black/80"
           whileHover={{ scale: 1.05 }}
         >
           <span>{isPashto ? "په مينه جوړ شوی" : "Made with"}</span>
@@ -42,7 +42,7 @@ const Footer = ({ locale = "en" }) => {
         </motion.div>
 
         {/* Tech Stack Tags - Optional decoration */}
-        <div className="hidden md:flex items-center gap-3">
+        {/* <div className="hidden md:flex items-center gap-3">
           {["React", "Tailwind", "Framer", "Three.js"].map((tech, index) => (
             <span
               key={index}
@@ -51,7 +51,7 @@ const Footer = ({ locale = "en" }) => {
               {tech}
             </span>
           ))}
-        </div>
+        </div> */}
       </div>
     </footer>
   );
