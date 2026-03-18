@@ -12,7 +12,6 @@ import {
 } from 'react-icons/fa';
 import GitHubContributions from './GitHubContributions';
 
-const defaultTheme = { primary: '#D7FF00', secondary: '#14B8A6' };
 const sectionAccent = '#D7FF00'; // single accent for whole section so cards match bg
 
 export const projects = [
@@ -249,12 +248,6 @@ const SectionHeader = ({ title, icon: Icon }) => (
 const hexToRgba = (hex, a) => {
   const [r, g, b] = hex.replace(/^#/, '').match(/.{2}/g).map((x) => parseInt(x, 16));
   return `rgba(${r},${g},${b},${a})`;
-};
-
-const isDark = (hex) => {
-  const [r, g, b] = hex.replace(/^#/, '').match(/.{2}/g).map((x) => parseInt(x, 16));
-  const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
-  return luminance < 0.4;
 };
 
 const ProjectCard = ({ project, index, isPashto, featured = false }) => {
