@@ -663,7 +663,11 @@ const ProjectsSection = ({ locale = 'en' }) => {
             {mobileProjectsToShow.map((project, index) => (
               <ProjectCard
                 key={index}
-                project={project}
+                project={
+                  project.title === 'Goal Tracking App'
+                    ? { ...project, embedUrl: undefined }
+                    : project
+                }
                 index={index}
                 isPashto={isPashto}
               />
