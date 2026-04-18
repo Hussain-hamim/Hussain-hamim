@@ -121,7 +121,7 @@ const LandingSection = ({ locale = 'en' }) => {
               <div className='relative w-full h-full rounded-full overflow-hidden transition-all duration-300 group-hover:shadow-2xl group-hover:shadow-[#D7FF00]/20'>
                 <div className='absolute -inset-1 bg-black/30 rounded-full blur-xl group-hover:bg-black/40 transition-all duration-300 z-0'></div>
                 <img
-                  src={require('../asset/hsn3.jpg')}
+                  src={require('../asset/eren.jpg')}
                   alt='Hussain Hamim'
                   className='relative w-full h-full object-cover object-center rounded-full transition-all duration-300 group-hover:brightness-110 z-10'
                 />

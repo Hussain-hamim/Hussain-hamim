@@ -15,6 +15,7 @@ import PsEducationSection from './components/PsEducationSection';
 import V2 from './components/V2';
 import ProjectDetails from './components/ProjectDetails';
 import ProjectsList from './components/ProjectsList';
+import ProposalDeckAgentPage from './components/ProposalDeckAgentPage';
 import starsAnimation from './assets/Stars.json';
 
 function PortfolioPage({ locale }) {
@@ -71,6 +72,10 @@ function App() {
             <Route
               path="/projects/:slug"
               element={<ProjectDetails />}
+            />
+            <Route
+              path="/proposal/muse-ai-deck-agent"
+              element={<ProposalDeckAgentPage />}
             />
             <Route
               path="/ps"
