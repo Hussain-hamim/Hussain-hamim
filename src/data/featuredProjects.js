@@ -23,7 +23,7 @@ export const featuredProjects = [
     live: 'https://www.ideahunt.pro/',
     code: 'https://github.com/Hussain-hamim',
     role: 'Founder & engineer',
-    stack: ['Next.js', 'Supabase', 'LangChain', 'OpenAI', 'Dodo Payments'],
+    stack: ['Next.js', 'Supabase', 'OpenAI', 'Dodo Payments'],
     problem:
       'Most founders waste months building ideas nobody wants — guessing at demand instead of listening to it.',
     built:

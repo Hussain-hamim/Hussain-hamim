@@ -17,14 +17,14 @@ const SpaceGame = () => {
         <Stars
           radius={100}
           depth={50}
-          count={5000}
+          count={2000}
           factor={4}
           saturation={0}
           fade
           speed={2}
         />
         <Sparkles
-          count={100}
+          count={48}
           scale={12}
           size={4}
           speed={0.4}

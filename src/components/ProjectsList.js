@@ -57,7 +57,7 @@ const ProjectsList = () => {
             </p>
           </div>
           <Link
-            to="/v2"
+            to="/"
             className="group inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 hover:border-slate-300 transition-all shadow-sm hover:shadow-md font-medium text-sm"
           >
             <svg

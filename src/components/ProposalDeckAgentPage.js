@@ -229,7 +229,7 @@ const openSourceTools = [
   {
     title: "Agent orchestration",
     body:
-      "A lightweight workflow engine can handle tools, research, and memory. LangChain or LangGraph can be added later if needed.",
+      "A lightweight workflow engine can handle tools, research, and memory, with room to grow into richer orchestration later if needed.",
   },
   {
     title: "Open-source references",

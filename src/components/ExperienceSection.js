@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import SpaceGame from './SpaceGame';
-
 const ExperienceCard = ({ exp, index, isPashto, isRtl }) => (
   <motion.article
     initial={{ opacity: 0, x: isRtl ? 20 : -20 }}
@@ -94,10 +92,8 @@ const ExperienceSection = ({ locale = 'en' }) => {
   return (
     <section
       id='experience-section'
-      className='relative py-32 px-4 md:px-8 overflow-hidden min-h-screen flex items-center'
+      className='relative z-10 py-32 px-4 md:px-8 overflow-hidden min-h-screen flex items-center'
     >
-      <SpaceGame />
-
       <div className='max-w-4xl mx-auto relative z-10 w-full'>
         {/* Section header - matches ProjectsSection style */}
         <motion.div

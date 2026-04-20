@@ -98,8 +98,8 @@ const AllProjectsPage = () => {
             className='mt-4 max-w-2xl mx-auto text-white/60 text-sm md:text-base font-sans3'
           >
             {isPashto
-              ? 'د وېب پروژو، موبايل پروګرامونو، سندونو او د GitHub فعاليت بشپړه ټولګه.'
-              : 'The full archive — web apps, mobile apps, certificates, and GitHub activity.'}
+              ? 'وېب او موبايل پروژې — بشپړ لیست په یوه ځای کې.'
+              : 'Web and mobile projects — the full list in one place.'}
           </motion.p>
         </div>
       </section>

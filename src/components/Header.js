@@ -123,32 +123,37 @@ const Header = ({ locale = "en" }) => {
     return activeSection === item.id;
   };
 
+  /** Solid bar when scrolled or mobile drawer open — matches panel below */
+  const headerBarSolid = scrolled || isMenuOpen;
+
   return (
     <header
       ref={headerRef}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-in-out
         ${
-          scrolled
+          isMenuOpen
+            ? "bg-black backdrop-blur-xl border-b border-white/10"
+            : scrolled
             ? "bg-black/80 backdrop-blur-xl border-b border-white/5 shadow-2xl"
             : "bg-transparent"
         }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-3">
-        <div className="flex justify-between items-center">
+      <div className="max-w-7xl mx-auto py-3.5 sm:py-3 pl-[max(1.25rem,env(safe-area-inset-left))] pr-[max(1.25rem,env(safe-area-inset-right))] sm:pl-6 sm:pr-6 md:px-8">
+        <div className="flex justify-between items-center gap-3 min-h-[44px]">
           {/* Logo */}
           <a
             href={isPashto ? "/ps" : "/"}
             onClick={handleLogoClick}
-            className={`text-xl font-bold font-sans1 tracking-tight transition-all duration-300 relative group ${
-              scrolled
+            className={`text-lg sm:text-xl font-bold font-sans1 tracking-tight transition-all duration-300 relative group min-w-0 shrink ${
+              headerBarSolid
                 ? "text-[#D7FF00] hover:text-white"
-                : "text-black hover:text-black/80"
+                : "text-white drop-shadow-[0_1px_8px_rgba(0,0,0,0.65)] hover:text-white/85"
             }`}
           >
             <span className="relative z-10">Hussain Hamim.</span>
             <span
               className={`absolute -bottom-1 left-0 w-0 h-0.5 group-hover:w-full transition-all duration-300 ${
-                scrolled ? "bg-[#D7FF00]" : "bg-black"
+                headerBarSolid ? "bg-[#D7FF00]" : "bg-white"
               }`}
             ></span>
           </a>
@@ -158,25 +163,25 @@ const Header = ({ locale = "en" }) => {
             {navItems.map((item) => {
               const active = isActive(item);
               const cls = `relative px-3 py-1.5 text-sm font-medium transition-all duration-300 uppercase tracking-wider group ${
-                scrolled
+                headerBarSolid
                   ? active
                     ? "text-white"
                     : "text-gray-400 hover:text-white"
                   : active
-                  ? "text-black"
-                  : "text-black/70 hover:text-black"
+                  ? "text-white drop-shadow-[0_1px_6px_rgba(0,0,0,0.5)]"
+                  : "text-white/80 hover:text-white drop-shadow-[0_1px_6px_rgba(0,0,0,0.45)]"
               }`;
               const inner = (
                 <>
                   <span className="relative z-10">{item.label}</span>
                   <span
                     className={`absolute inset-0 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${
-                      scrolled ? "bg-white/5" : "bg-black/5"
+                      headerBarSolid ? "bg-white/5" : "bg-white/10"
                     }`}
                   ></span>
                   <span
                     className={`absolute bottom-0 left-1/2 transform -translate-x-1/2 h-[2px] transition-all duration-300 ${
-                      scrolled ? "bg-[#D7FF00]" : "bg-black"
+                      headerBarSolid ? "bg-[#D7FF00]" : "bg-white"
                     } ${active ? "w-3/4" : "w-0 group-hover:w-3/4"}`}
                   ></span>
                 </>
@@ -202,9 +207,9 @@ const Header = ({ locale = "en" }) => {
               target="_blank"
               rel="noopener noreferrer"
               className={`ml-4 inline-flex items-center gap-1.5 rounded-full border-[0.5px] px-4 py-1.5 text-xs font-semibold transition-all ${
-                scrolled
+                headerBarSolid
                   ? "border-[#D7FF00]/50 text-[#D7FF00] hover:border-[#D7FF00] hover:bg-[#D7FF00]/10 hover:shadow-lg hover:shadow-[#D7FF00]/20"
-                  : "border-black/30 text-black hover:border-black hover:bg-black/10"
+                  : "border-white/35 text-white hover:border-white/60 hover:bg-white/10"
               }`}
             >
               <FontAwesomeIcon
@@ -219,10 +224,10 @@ const Header = ({ locale = "en" }) => {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className={`md:hidden p-2 transition-colors relative z-50 ${
-              scrolled
+            className={`md:hidden -mr-1 flex h-11 w-11 shrink-0 items-center justify-center rounded-lg transition-colors relative z-50 ${
+              headerBarSolid
                 ? "text-gray-400 hover:text-white"
-                : "text-black hover:text-black/80"
+                : "text-white drop-shadow-[0_1px_6px_rgba(0,0,0,0.6)] hover:text-white/85"
             }`}
             aria-label="Toggle menu"
           >
@@ -233,7 +238,7 @@ const Header = ({ locale = "en" }) => {
 
       {/* Mobile Menu */}
       <div
-        className={`md:hidden absolute top-full left-0 right-0 bg-black/95 backdrop-blur-2xl border-b border-white/10 
+        className={`md:hidden absolute top-full left-0 right-0 bg-black border-b border-white/10 
           transition-all duration-500 ease-in-out overflow-hidden ${
             isMenuOpen ? "max-h-[640px] opacity-100" : "max-h-0 opacity-0"
           }`}

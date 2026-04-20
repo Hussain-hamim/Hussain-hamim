@@ -662,44 +662,52 @@ const ProjectsSection = ({ locale = 'en' }) => {
 
   return (
     <section id='projects-section' className='relative overflow-hidden'>
-      {/* Selected Work — same SpaceGame bg as Experience so they feel like one */}
-      <div className='relative py-32 overflow-hidden min-h-screen flex items-center'>
-        <SpaceGame />
-        <div className='max-w-7xl mx-auto px-6 md:px-8 relative z-10 w-full'>
-          <SectionHeader title={isPashto ? 'غوره کارونه' : 'SELECTED WORK'} />
-          <div className='grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto'>
-            {currentSideProjects.map((project, index) => (
-              <ProjectCard
-                key={project.title}
-                project={project}
-                index={index}
-                isPashto={isPashto}
-                featured
-                featuredMeta={featuredMetaByTitle[project.title] || null}
-              />
-            ))}
-          </div>
-
-          {/* See all projects CTA */}
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.15 }}
-            viewport={{ once: true }}
-            className='mt-14 flex justify-center'
-          >
-            <Link
-              to='/projects'
-              className='group inline-flex items-center gap-2 rounded-full border-[0.5px] border-[#D7FF00]/50 bg-transparent px-7 py-3 text-sm font-bold uppercase tracking-wider text-[#D7FF00] transition-all hover:border-[#D7FF00] hover:bg-[#D7FF00]/10 hover:shadow-lg hover:shadow-[#D7FF00]/20'
-            >
-              <span>{isPashto ? 'ټولې پروژې وګورئ' : 'See all projects'}</span>
-              <FaExternalLinkAlt className='text-[10px] transition-transform duration-300 group-hover:translate-x-0.5' />
-            </Link>
-          </motion.div>
+      {/* One WebGL starfield behind Selected Work + Experience (avoids two canvases). */}
+      <div className='relative'>
+        <div
+          className='absolute inset-0 z-0 pointer-events-none min-h-full'
+          aria-hidden
+        >
+          <SpaceGame />
         </div>
-      </div>
 
-      <ExperienceSection locale={locale} />
+        <div className='relative z-10 py-32 overflow-hidden min-h-screen flex items-center'>
+          <div className='max-w-7xl mx-auto px-6 md:px-8 relative z-10 w-full'>
+            <SectionHeader title={isPashto ? 'غوره کارونه' : 'SELECTED WORK'} />
+            <div className='grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto'>
+              {currentSideProjects.map((project, index) => (
+                <ProjectCard
+                  key={project.title}
+                  project={project}
+                  index={index}
+                  isPashto={isPashto}
+                  featured
+                  featuredMeta={featuredMetaByTitle[project.title] || null}
+                />
+              ))}
+            </div>
+
+            {/* See all projects CTA */}
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.15 }}
+              viewport={{ once: true }}
+              className='mt-14 flex justify-center'
+            >
+              <Link
+                to='/projects'
+                className='group inline-flex items-center gap-2 rounded-full border-[0.5px] border-[#D7FF00]/50 bg-transparent px-7 py-3 text-sm font-bold uppercase tracking-wider text-[#D7FF00] transition-all hover:border-[#D7FF00] hover:bg-[#D7FF00]/10 hover:shadow-lg hover:shadow-[#D7FF00]/20'
+              >
+                <span>{isPashto ? 'ټولې پروژې وګورئ' : 'See all projects'}</span>
+                <FaExternalLinkAlt className='text-[10px] transition-transform duration-300 group-hover:translate-x-0.5' />
+              </Link>
+            </motion.div>
+          </div>
+        </div>
+
+        <ExperienceSection locale={locale} />
+      </div>
 
       {/* Tools & Activity · Blogs & Photos · Certificates */}
       <div className='relative bg-[#0f0f0f] py-32 overflow-hidden'>

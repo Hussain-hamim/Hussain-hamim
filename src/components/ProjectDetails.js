@@ -40,7 +40,7 @@ const ProjectDetails = () => {
             The project you're looking for doesn't exist or has been moved.
           </p>
           <Link
-            to="/v2"
+            to="/"
             className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-slate-800 text-white hover:bg-slate-900 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
           >
             <svg
@@ -133,7 +133,7 @@ const ProjectDetails = () => {
           </div>
 
           <Link
-            to="/v2"
+            to="/"
             className="group inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 hover:border-slate-300 transition-all shadow-sm hover:shadow-md font-medium text-sm"
           >
             <svg
@@ -270,7 +270,7 @@ const ProjectDetails = () => {
         {/* Mobile Back Button */}
         <div className="sm:hidden pt-4">
           <Link
-            to="/v2"
+            to="/"
             className="w-full inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-slate-800 text-white hover:bg-slate-900 transition-all shadow-lg font-medium"
           >
             <svg
