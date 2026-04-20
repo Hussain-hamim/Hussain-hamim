@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaBriefcase } from 'react-icons/fa';
 import SpaceGame from './SpaceGame';
 
 const ExperienceCard = ({ exp, index, isPashto, isRtl }) => (
@@ -35,7 +34,7 @@ const ExperienceCard = ({ exp, index, isPashto, isRtl }) => (
           </span>
           {exp.isCurrent && (
             <span
-              className='text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full text-[#0f0f0f] bg-[#D7FF00]'
+              className='text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full text-white bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.45)]'
               aria-label={isPashto ? 'اوسنۍ دنده' : 'Current role'}
             >
               {isPashto ? 'اوس' : 'Present'}
@@ -46,19 +45,9 @@ const ExperienceCard = ({ exp, index, isPashto, isRtl }) => (
           {exp.role}
         </h3>
         <p className='text-gray-400 text-sm font-medium mb-2'>{exp.company}</p>
-        <p className='text-gray-300 text-sm leading-relaxed mb-3 font-sans3'>
+        <p className='text-gray-300 text-sm leading-relaxed font-sans3'>
           {exp.description}
         </p>
-        <div className='flex flex-wrap gap-1.5'>
-          {exp.tech.map((t, i) => (
-            <span
-              key={i}
-              className='px-2.5 py-1 text-[10px] uppercase tracking-wider font-semibold bg-[#D7FF00]/10 text-[#D7FF00] rounded-md'
-            >
-              {t}
-            </span>
-          ))}
-        </div>
       </div>
     </div>
   </motion.article>
@@ -79,7 +68,6 @@ const ExperienceSection = ({ locale = 'en' }) => {
       description: isPashto
         ? 'د Next.js او Supabase په مرسته د Full-Stack وېب پروګرامونو پراختيا.'
         : 'Full-stack web applications and Mobile applications using Next.js, Swift & Supabase.',
-      tech: ['Next.js', 'Supabase', 'Stripe'],
     },
     {
       id: 2,
@@ -90,7 +78,6 @@ const ExperienceSection = ({ locale = 'en' }) => {
       description: isPashto
         ? 'د React Native او Node.js بیکېنډ په کارولو د موبايل پروګرامونو جوړول او پراختيا.'
         : 'Developing mobile apps with React Native & Node.js backend.',
-      tech: ['React Native', 'Node.js', 'MongoDB'],
     },
     {
       id: 3,
@@ -101,7 +88,6 @@ const ExperienceSection = ({ locale = 'en' }) => {
       description: isPashto
         ? 'د کراس پلېټفارم موبايل پروګرامونو پراختيا، په لوړ کارکردګۍ تمرکز سره.'
         : 'Cross-platform mobile development focused on performance.',
-      tech: ['React Native', 'Supabase', 'TypeScript'],
     },
   ];
 
@@ -121,13 +107,9 @@ const ExperienceSection = ({ locale = 'en' }) => {
           viewport={{ once: true }}
           className='flex flex-col items-center mb-20'
         >
-          <div className='flex items-center gap-3 mb-4'>
-            <FaBriefcase className='text-3xl text-[#D7FF00]' />
-            <h2 className='text-4xl md:text-5xl font-bold font-sans1 text-white tracking-tight'>
-              {isPashto ? 'تجربه' : 'EXPERIENCE'}
-            </h2>
-          </div>
-          <div className='w-24 h-1 bg-gradient-to-r from-[#D7FF00] to-teal-400 rounded-full' />
+          <h2 className='text-center text-4xl md:text-5xl font-bold font-sans1 text-white tracking-tight'>
+            {isPashto ? 'تجربه' : 'EXPERIENCE'}
+          </h2>
         </motion.div>
 
         {/* Timeline */}
@@ -156,17 +138,7 @@ const ExperienceSection = ({ locale = 'en' }) => {
                 <button
                   type='button'
                   onClick={() => setShowThird((v) => !v)}
-                  className='px-5 py-2 text-xs font-bold uppercase tracking-wider text-[#D7FF00] rounded-full transition-all hover:bg-[#D7FF00]/10'
-                  style={{
-                    borderWidth: '0.5px',
-                    borderColor: 'rgba(215, 255, 0, 0.5)',
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.borderColor = 'rgba(215, 255, 0, 1)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.borderColor = 'rgba(215, 255, 0, 0.5)';
-                  }}
+                  className='px-5 py-2 text-xs font-bold uppercase tracking-wider text-[#D7FF00] rounded-full border-0 transition-all hover:bg-[#D7FF00]/10'
                 >
                   {showThird
                     ? isPashto

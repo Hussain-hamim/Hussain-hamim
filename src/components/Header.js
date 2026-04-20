@@ -1,28 +1,35 @@
 import React, { useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEnvelope, faBars, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faEnvelope, faBars, faXmark, faCalendar } from "@fortawesome/free-solid-svg-icons";
 import {
   faGithub,
   faLinkedin,
   faTwitter,
   faInstagram,
 } from "@fortawesome/free-brands-svg-icons";
+
+const DEFAULT_CAL_BOOKING_URL = "https://cal.com/hussain-hamim-fp9qc6/30min";
+
 const socials = [
   { icon: faGithub, url: "https://github.com/Hussain-hamim" },
   { icon: faLinkedin, url: "https://www.linkedin.com/in/hussain-hamim/" },
   { icon: faTwitter, url: "https://twitter.com/hussainhamim_" },
   { icon: faInstagram, url: "https://www.instagram.com/hussainhamim_" },
-  { icon: faEnvelope, url: "mailto: mohammadhussainafghan83@gmail.com" },
+  { icon: faEnvelope, url: "mailto:mohammadhussainafghan83@gmail.com" },
 ];
 
 const Header = ({ locale = "en" }) => {
   const isPashto = locale === "ps";
+  const bookingUrl = (
+    process.env.REACT_APP_BOOKING_URL || DEFAULT_CAL_BOOKING_URL
+  ).trim();
   const headerRef = useRef(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState("");
 
+  // Scroll direction + scrolled state (hide on scroll down, show on scroll up)
   useEffect(() => {
-
     let prevScrollPos = window.scrollY;
     const handleScroll = () => {
       const currentScrollPos = window.scrollY;
@@ -33,10 +40,8 @@ const Header = ({ locale = "en" }) => {
 
       if (prevScrollPos > currentScrollPos) {
         headerElement.style.transform = "translateY(0)";
-      } else {
-        if (currentScrollPos > 100) {
-          headerElement.style.transform = "translateY(-100%)";
-        }
+      } else if (currentScrollPos > 100) {
+        headerElement.style.transform = "translateY(-100%)";
       }
       prevScrollPos = currentScrollPos;
     };
@@ -45,7 +50,48 @@ const Header = ({ locale = "en" }) => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const handleClick = (anchor) => () => {
+  // Track which section is in view for active nav underline (home page only)
+  useEffect(() => {
+    const onHome =
+      window.location.pathname === "/" || window.location.pathname === "/ps";
+    if (!onHome) return;
+
+    const ids = ["experience", "projects", "tools", "contactme"];
+    const nodes = ids
+      .map((id) => document.getElementById(`${id}-section`))
+      .filter(Boolean);
+    if (nodes.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        // Pick the entry with the highest intersection ratio that is intersecting
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+        if (visible[0]) {
+          const id = visible[0].target.id.replace("-section", "");
+          setActiveSection(id);
+        }
+      },
+      {
+        // Trigger when section is roughly centered
+        rootMargin: "-35% 0px -55% 0px",
+        threshold: [0, 0.25, 0.5, 0.75, 1],
+      }
+    );
+
+    nodes.forEach((n) => observer.observe(n));
+    return () => observer.disconnect();
+  }, []);
+
+  const handleScrollClick = (anchor) => () => {
+    const onHome =
+      window.location.pathname === "/" || window.location.pathname === "/ps";
+    if (!onHome) {
+      window.location.href = `${isPashto ? "/ps" : "/"}#${anchor}-section`;
+      setIsMenuOpen(false);
+      return;
+    }
     const element = document.getElementById(`${anchor}-section`);
     if (element) {
       element.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -53,13 +99,29 @@ const Header = ({ locale = "en" }) => {
     setIsMenuOpen(false);
   };
 
+  const handleLogoClick = (e) => {
+    const onHome =
+      window.location.pathname === "/" || window.location.pathname === "/ps";
+    if (onHome) {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      setIsMenuOpen(false);
+    }
+  };
+
   const navItems = [
-    { id: "experience", label: isPashto ? "تجربه" : "experience" },
-    { id: "projects", label: isPashto ? "پروژې" : "projects" },
-    { id: "mobileapps", label: isPashto ? "موبايل پروګرامونه" : "mobileapps" },
-    { id: "tools", label: isPashto ? "وسايل" : "tools" },
-    { id: "contactme", label: isPashto ? "اړيکه ونيسئ" : "contactme" },
+    { id: "projects", label: isPashto ? "زما کار" : "see my work", type: "scroll" },
+    { id: "tools", label: isPashto ? "وسايل" : "tools", type: "scroll" },
+    { id: "all-projects", label: isPashto ? "ټولې پروژې" : "projects", type: "link", href: "/projects" },
+    { id: "contactme", label: isPashto ? "اړيکه" : "contact", type: "scroll" },
   ];
+
+  const isActive = (item) => {
+    if (item.type === "link") {
+      return window.location.pathname.startsWith(item.href);
+    }
+    return activeSection === item.id;
+  };
 
   return (
     <header
@@ -76,58 +138,92 @@ const Header = ({ locale = "en" }) => {
           {/* Logo */}
           <a
             href={isPashto ? "/ps" : "/"}
+            onClick={handleLogoClick}
             className={`text-xl font-bold font-sans1 tracking-tight transition-all duration-300 relative group ${
-              scrolled ? "text-[#D7FF00] hover:text-white" : "text-black hover:text-black/80"
+              scrolled
+                ? "text-[#D7FF00] hover:text-white"
+                : "text-black hover:text-black/80"
             }`}
           >
-            <span className="relative z-10">HSN.</span>
-            <span className={`absolute -bottom-1 left-0 w-0 h-0.5 group-hover:w-full transition-all duration-300 ${scrolled ? "bg-[#D7FF00]" : "bg-black"}`}></span>
+            <span className="relative z-10">Hussain Hamim.</span>
+            <span
+              className={`absolute -bottom-1 left-0 w-0 h-0.5 group-hover:w-full transition-all duration-300 ${
+                scrolled ? "bg-[#D7FF00]" : "bg-black"
+              }`}
+            ></span>
           </a>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-1">
-            {navItems.map((item) => (
-              <button
-                key={item.id}
-                onClick={handleClick(item.id)}
-                className={`relative px-3 py-1.5 text-sm font-medium transition-all duration-300 uppercase tracking-wider group ${
-                  scrolled ? "text-gray-400 hover:text-white" : "text-black hover:text-black/80"
-                }`}
-              >
-                <span className="relative z-10">{item.label}</span>
-                <span className={`absolute inset-0 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${scrolled ? "bg-white/5" : "bg-black/5"}`}></span>
-                <span className={`absolute bottom-0 left-1/2 transform -translate-x-1/2 w-0 h-[2px] group-hover:w-3/4 transition-all duration-300 ${scrolled ? "bg-[#D7FF00]" : "bg-black"}`}></span>
-              </button>
-            ))}
-
-            <a
-              href="/Hussain-resume3.pdf"
-              download="Hussain-resume3.pdf"
-              className={`ml-4 px-4 py-1.5 text-xs font-semibold rounded-full transition-all ${
+          <nav className="hidden md:flex items-center gap-1">
+            {navItems.map((item) => {
+              const active = isActive(item);
+              const cls = `relative px-3 py-1.5 text-sm font-medium transition-all duration-300 uppercase tracking-wider group ${
                 scrolled
-                  ? "text-[#D7FF00] hover:bg-[#D7FF00]/10 hover:shadow-lg hover:shadow-[#D7FF00]/20"
-                  : "text-black hover:bg-black/10 hover:shadow-lg"
+                  ? active
+                    ? "text-white"
+                    : "text-gray-400 hover:text-white"
+                  : active
+                  ? "text-black"
+                  : "text-black/70 hover:text-black"
+              }`;
+              const inner = (
+                <>
+                  <span className="relative z-10">{item.label}</span>
+                  <span
+                    className={`absolute inset-0 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${
+                      scrolled ? "bg-white/5" : "bg-black/5"
+                    }`}
+                  ></span>
+                  <span
+                    className={`absolute bottom-0 left-1/2 transform -translate-x-1/2 h-[2px] transition-all duration-300 ${
+                      scrolled ? "bg-[#D7FF00]" : "bg-black"
+                    } ${active ? "w-3/4" : "w-0 group-hover:w-3/4"}`}
+                  ></span>
+                </>
+              );
+              return item.type === "link" ? (
+                <a key={item.id} href={item.href} className={cls}>
+                  {inner}
+                </a>
+              ) : (
+                <button
+                  key={item.id}
+                  onClick={handleScrollClick(item.id)}
+                  className={cls}
+                >
+                  {inner}
+                </button>
+              );
+            })}
+
+            {/* Book a call — outline, keeps hero CTA as primary */}
+            <a
+              href={bookingUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`ml-4 inline-flex items-center gap-1.5 rounded-full border-[0.5px] px-4 py-1.5 text-xs font-semibold transition-all ${
+                scrolled
+                  ? "border-[#D7FF00]/50 text-[#D7FF00] hover:border-[#D7FF00] hover:bg-[#D7FF00]/10 hover:shadow-lg hover:shadow-[#D7FF00]/20"
+                  : "border-black/30 text-black hover:border-black hover:bg-black/10"
               }`}
-              style={scrolled
-                ? { borderWidth: '0.5px', borderColor: 'rgba(215, 255, 0, 0.5)' }
-                : { borderWidth: '1px', borderColor: 'rgba(0,0,0,0.3)' }}
-              onMouseEnter={(e) => {
-                if (scrolled) e.currentTarget.style.borderColor = 'rgba(215, 255, 0, 1)';
-                else e.currentTarget.style.borderColor = 'rgb(0,0,0)';
-              }}
-              onMouseLeave={(e) => {
-                if (scrolled) e.currentTarget.style.borderColor = 'rgba(215, 255, 0, 0.5)';
-                else e.currentTarget.style.borderColor = 'rgba(0,0,0,0.3)';
-              }}
             >
-              {isPashto ? "سي وي" : "Resume"}
+              <FontAwesomeIcon
+                icon={faCalendar}
+                className="text-[11px] opacity-90"
+                aria-hidden
+              />
+              {isPashto ? "د لیدنې وخت وټاکئ" : "Book a call"}
             </a>
           </nav>
 
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className={`md:hidden p-2 transition-colors relative z-50 ${scrolled ? "text-gray-400 hover:text-white" : "text-black hover:text-black/80"}`}
+            className={`md:hidden p-2 transition-colors relative z-50 ${
+              scrolled
+                ? "text-gray-400 hover:text-white"
+                : "text-black hover:text-black/80"
+            }`}
             aria-label="Toggle menu"
           >
             <FontAwesomeIcon icon={isMenuOpen ? faXmark : faBars} size="lg" />
@@ -139,40 +235,72 @@ const Header = ({ locale = "en" }) => {
       <div
         className={`md:hidden absolute top-full left-0 right-0 bg-black/95 backdrop-blur-2xl border-b border-white/10 
           transition-all duration-500 ease-in-out overflow-hidden ${
-            isMenuOpen ? "max-h-[600px] opacity-100" : "max-h-0 opacity-0"
+            isMenuOpen ? "max-h-[640px] opacity-100" : "max-h-0 opacity-0"
           }`}
       >
-        <div className="px-6 py-8 space-y-6">
-          {navItems.map((item) => (
-            <button
-              key={item.id}
-              onClick={handleClick(item.id)}
-              className={`block w-full ${isPashto ? "text-right" : "text-left"} text-lg font-medium text-gray-300 hover:text-[#D7FF00] transition-all duration-300 py-2 border-b border-white/5 hover:border-[#D7FF00]/30`}
-            >
-              {item.label}
-            </button>
-          ))}
+        <div className="px-6 py-6">
+          <nav className="space-y-1">
+            {navItems.map((item) => {
+              const active = isActive(item);
+              const cls = `relative flex w-full items-center ${
+                isPashto ? "justify-end" : "justify-start"
+              } text-lg font-medium py-3 px-2 rounded-lg transition-all duration-300 ${
+                active
+                  ? "text-[#D7FF00] bg-[#D7FF00]/5"
+                  : "text-gray-300 hover:text-[#D7FF00] hover:bg-white/[0.03]"
+              }`;
+              const content = (
+                <>
+                  {active && (
+                    <span
+                      aria-hidden
+                      className={`absolute top-1/2 -translate-y-1/2 h-5 w-0.5 rounded-full bg-[#D7FF00] ${
+                        isPashto ? "right-0" : "left-0"
+                      }`}
+                    />
+                  )}
+                  <span className="relative z-10">{item.label}</span>
+                </>
+              );
+              return item.type === "link" ? (
+                <a
+                  key={item.id}
+                  href={item.href}
+                  onClick={() => setIsMenuOpen(false)}
+                  className={cls}
+                >
+                  {content}
+                </a>
+              ) : (
+                <button
+                  key={item.id}
+                  onClick={handleScrollClick(item.id)}
+                  className={cls}
+                >
+                  {content}
+                </button>
+              );
+            })}
+          </nav>
 
-          <div className="pt-4 border-t border-white/10">
+          <div className="pt-6 mt-4 border-t border-white/10">
+            {/* Primary CTA on mobile — filled lime */}
             <a
-              href="/Hussain-resume3.pdf"
-              download="Hussain-resume3.pdf"
-              className="block w-full text-center px-6 py-3 text-sm font-semibold text-[#D7FF00] rounded-full transition-all hover:bg-[#D7FF00]/10 hover:shadow-lg hover:shadow-[#D7FF00]/20 mb-4"
-              style={{
-                borderWidth: '0.5px',
-                borderColor: 'rgba(215, 255, 0, 0.5)',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = 'rgba(215, 255, 0, 1)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = 'rgba(215, 255, 0, 0.5)';
-              }}
+              href={bookingUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setIsMenuOpen(false)}
+              className="flex w-full items-center justify-center gap-2 rounded-full bg-[#D7FF00] px-6 py-3 text-center text-sm font-semibold text-black transition-all hover:bg-[#c4ec00] hover:shadow-lg hover:shadow-[#D7FF00]/30"
             >
-              {isPashto ? "سي وي ډاونلوډ" : "Download Resume"}
+              <FontAwesomeIcon
+                icon={faCalendar}
+                className="text-sm opacity-90"
+                aria-hidden
+              />
+              {isPashto ? "د لیدنې وخت وټاکئ" : "Book a call"}
             </a>
 
-            <div className="flex items-center justify-center space-x-6 pt-4">
+            <div className="mt-6 flex items-center justify-center gap-6">
               {socials.map((social, index) => (
                 <a
                   key={index}

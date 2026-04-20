@@ -10,12 +10,13 @@ import Header from './components/Header';
 import LandingSection from './components/LandingSection';
 import ProjectsSection from './components/ProjectsSection';
 import { AlertProvider } from './context/alertContext';
-import ExperienceSection from './components/ExperienceSection';
 import PsEducationSection from './components/PsEducationSection';
 import V2 from './components/V2';
 import ProjectDetails from './components/ProjectDetails';
 import ProjectsList from './components/ProjectsList';
+import AllProjectsPage from './components/AllProjectsPage';
 import ProposalDeckAgentPage from './components/ProposalDeckAgentPage';
+import CaseStudyPage from './components/CaseStudyPage';
 import starsAnimation from './assets/Stars.json';
 
 function PortfolioPage({ locale }) {
@@ -43,9 +44,8 @@ function PortfolioPage({ locale }) {
 
       <Header locale={locale} />
       <LandingSection locale={locale} />
-      <ExperienceSection locale={locale} />
-      {isPashto && <PsEducationSection />}
       <ProjectsSection locale={locale} />
+      {isPashto && <PsEducationSection />}
       <ContactFooterWrap>
         <ContactMeSection locale={locale} />
         <Footer locale={locale} />
@@ -67,6 +67,10 @@ function App() {
             />
             <Route
               path="/projects"
+              element={<AllProjectsPage />}
+            />
+            <Route
+              path="/projects-legacy"
               element={<ProjectsList />}
             />
             <Route
@@ -76,6 +80,10 @@ function App() {
             <Route
               path="/proposal/muse-ai-deck-agent"
               element={<ProposalDeckAgentPage />}
+            />
+            <Route
+              path="/case-study/:slug"
+              element={<CaseStudyPage />}
             />
             <Route
               path="/ps"

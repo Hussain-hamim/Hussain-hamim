@@ -8,18 +8,36 @@ import {
   FaWhatsapp,
 } from 'react-icons/fa';
 import { FaXTwitter } from 'react-icons/fa6';
+import { Calendar, MessageSquare } from 'lucide-react';
 import { Canvas } from '@react-three/fiber';
 import { PerspectiveCamera, Stars, Sparkles } from '@react-three/drei';
 
+const scrollToSection = (anchor) => {
+  const el = document.getElementById(`${anchor}-section`);
+  el?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+};
+
+/** Default 30 min Cal.com booking — override with REACT_APP_BOOKING_URL if needed */
+const DEFAULT_CAL_BOOKING_URL = 'https://cal.com/hussain-hamim-fp9qc6/30min';
+
 const LandingSection = ({ locale = 'en' }) => {
   const isPashto = locale === 'ps';
+  const bookingUrl = (
+    process.env.REACT_APP_BOOKING_URL || DEFAULT_CAL_BOOKING_URL
+  ).trim();
   const copy = {
     greeting: isPashto ? 'سلام، زه' : "hey i'm",
     firstName: isPashto ? 'محمد حسین' : 'HUSSAIN',
     lastName: isPashto ? 'حمیم' : 'HAMIM',
+    headline: isPashto
+      ? 'زه د سټارټ اپونو لپاره د AI پر بنسټ وېب او موبايل پروډکټونه جوړوم، له MVP څخه تر لانچ پورې.'
+      : 'I build AI-powered web and mobile products for startups, from MVP to launch.',
     description: isPashto
-      ? 'زه د کوډ او خلاقيت په مرسته اغېزمنې ډيجيټل تجربې جوړوم. د AI اېجنټونه، د کار د ګړنديتوب پليټفارمونه، د سوداګرۍ د اعتبار وسايل، او د پراختياکوونکو د همکارۍ سيستمونه جوړوم. زما اصلي تمرکز Full-Stack، Mobile App Development او AI پر بنسټ حللارو باندې دی.'
-      : 'Forging digital experiences with Code & Creativity. Building AI agents, productivity platforms, business validation tools, and developer collaboration systems and more... Specializing in Full-Stack, Mobile App Development & AI-powered solutions.',
+      ? 'Full-Stack، موبايل پروګرامونه، او د AI اېجنټ سيستمونه چې په ژر وخت کې رښتينې پايلې راوړي.'
+      : 'Full-stack web, mobile apps, and AI agent systems that ship fast and drive real results.',
+    ctaSeeWork: isPashto ? 'زما کار وګورئ' : 'See my work',
+    ctaBook: isPashto ? 'د لیدنې وخت وټاکئ' : 'Book a call',
+    ctaDropMessage: isPashto ? 'پیغام پریږدئ' : 'Drop a message',
   };
   const socialLinks = [
     {
@@ -49,8 +67,10 @@ const LandingSection = ({ locale = 'en' }) => {
     },
     {
       icon: FaWhatsapp,
-      url: 'https://wa.me/93780338261',
+      url: 'https://wa.me/93780338261?text=' + encodeURIComponent("Hi Hussain — saw your portfolio, got a quick question."),
       color: 'hover:text-green-400',
+      primary: true,
+      label: isPashto ? 'چټ وکړئ' : 'Chat',
     },
   ];
 
@@ -66,7 +86,7 @@ const LandingSection = ({ locale = 'en' }) => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1, duration: 0.8 }}
-              className='text-teal-400 font-mono text-xs md:text-sm mb-4'
+              className='font-sans1 text-xs font-bold text-black md:text-sm mb-4'
             >
               {copy.greeting}
             </motion.p>
@@ -91,21 +111,55 @@ const LandingSection = ({ locale = 'en' }) => {
               transition={{ delay: 0.4, duration: 0.8 }}
               className='mt-6 sm:mt-8 md:mt-12 inline-flex flex-col border-l-2 border-white/10 pl-4 sm:pl-6'
             >
-              <p className='text-gray-400 font-sans3 text-base sm:text-lg leading-relaxed max-w-lg'>
+              <p className='text-white font-sans3 text-lg sm:text-xl md:text-2xl leading-snug max-w-lg font-medium'>
                 {isPashto ? (
-                  copy.description
+                  copy.headline
                 ) : (
                   <>
-                    Forging digital experiences with{' '}
-                    <span className='text-white'>Code</span> &{' '}
-                    <span className='text-white'>Creativity</span>. Building AI
-                    agents, productivity platforms, business validation tools,
-                    and developer collaboration systems and more... Specializing
-                    in Full-Stack, Mobile App Development & AI-powered
-                    solutions.
+                    I build{' '}
+                    <span className='text-[#D7FF00]'>AI-powered</span> web
+                    and mobile products for{' '}
+                    <span className='text-[#D7FF00]'>startups</span>, from
+                    MVP to launch.
                   </>
                 )}
               </p>
+              <p className='mt-4 text-gray-400 font-sans3 text-sm sm:text-base leading-relaxed max-w-lg'>
+                {copy.description}
+              </p>
+              <motion.div
+                initial={{ opacity: 0, y: 14 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5, duration: 0.55 }}
+                className='mt-6 flex w-full max-w-lg flex-col gap-3 sm:max-w-none sm:flex-row sm:flex-wrap sm:items-center'
+              >
+                <button
+                  type='button'
+                  onClick={() => scrollToSection('projects')}
+                  className='inline-flex w-full min-h-[44px] items-center justify-center rounded-full bg-[#D7FF00] px-6 py-3 text-sm font-semibold text-black transition-all duration-300 hover:bg-[#c4ec00] hover:shadow-lg hover:shadow-[#D7FF00]/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D7FF00]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0a] sm:w-auto'
+                >
+                  {copy.ctaSeeWork}
+                </button>
+                {bookingUrl ? (
+                  <a
+                    href={bookingUrl}
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    className='inline-flex w-full min-h-[44px] items-center justify-center gap-2 rounded-full border-[0.5px] border-white/15 bg-white/[0.04] px-6 py-3 text-sm font-semibold text-white transition-all duration-300 hover:border-[#D7FF00]/50 hover:bg-[#D7FF00]/10 hover:shadow-lg hover:shadow-[#D7FF00]/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D7FF00]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0a] sm:w-auto'
+                  >
+                    <Calendar className='h-4 w-4 shrink-0 opacity-90' aria-hidden />
+                    {copy.ctaBook}
+                  </a>
+                ) : null}
+                <button
+                  type='button'
+                  onClick={() => scrollToSection('contactme')}
+                  className='inline-flex w-full min-h-[44px] items-center justify-center gap-2 rounded-full border-[0.5px] border-white/15 bg-white/[0.04] px-6 py-3 text-sm font-semibold text-white transition-all duration-300 hover:border-[#D7FF00]/50 hover:bg-[#D7FF00]/10 hover:shadow-lg hover:shadow-[#D7FF00]/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D7FF00]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0a] sm:w-auto'
+                >
+                  <MessageSquare className='h-4 w-4 shrink-0 opacity-90' aria-hidden />
+                  {copy.ctaDropMessage}
+                </button>
+              </motion.div>
             </motion.div>
           </div>
 
@@ -121,7 +175,7 @@ const LandingSection = ({ locale = 'en' }) => {
               <div className='relative w-full h-full rounded-full overflow-hidden transition-all duration-300 group-hover:shadow-2xl group-hover:shadow-[#D7FF00]/20'>
                 <div className='absolute -inset-1 bg-black/30 rounded-full blur-xl group-hover:bg-black/40 transition-all duration-300 z-0'></div>
                 <img
-                  src={require('../asset/eren.jpg')}
+                  src={require('../asset/hsn3.jpg')}
                   alt='Hussain Hamim'
                   className='relative w-full h-full object-cover object-center rounded-full transition-all duration-300 group-hover:brightness-110 z-10'
                 />
@@ -163,19 +217,38 @@ const LandingSection = ({ locale = 'en' }) => {
               transition={{ delay: 0.7, duration: 0.8 }}
               className='flex items-center justify-center gap-4 md:gap-6 z-40 relative w-full'
             >
-              {socialLinks.map((social, index) => (
-                <a
-                  key={index}
-                  href={social.url}
-                  target='_blank'
-                  rel='noopener noreferrer'
-                  className={`text-gray-300 md:text-gray-500 transition-all duration-300 hover:-translate-y-1 ${social.color} z-40 relative`}
-                  style={{ fontSize: '28px' }}
-                  aria-label={`Visit ${social.url}`}
-                >
-                  <social.icon size={28} className='md:w-6 md:h-6' />
-                </a>
-              ))}
+              {socialLinks.map((social, index) => {
+                if (social.primary) {
+                  return (
+                    <a
+                      key={index}
+                      href={social.url}
+                      target='_blank'
+                      rel='noopener noreferrer'
+                      aria-label={social.label || 'WhatsApp'}
+                      className='group relative inline-flex items-center gap-2 rounded-full bg-[#25D366] px-3.5 py-1.5 text-sm font-semibold text-white shadow-[0_8px_24px_rgba(37,211,102,0.45)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#1ebe5a] hover:shadow-[0_10px_28px_rgba(37,211,102,0.6)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#25D366]/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0a] z-40'
+                    >
+                      <span className='relative flex h-6 w-6 items-center justify-center rounded-full bg-white/15'>
+                        <social.icon size={16} />
+                      </span>
+                      <span className='relative hidden sm:inline'>{social.label}</span>
+                    </a>
+                  );
+                }
+                return (
+                  <a
+                    key={index}
+                    href={social.url}
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    className={`text-gray-300 md:text-gray-500 transition-all duration-300 hover:-translate-y-1 ${social.color} z-40 relative`}
+                    style={{ fontSize: '28px' }}
+                    aria-label={`Visit ${social.url}`}
+                  >
+                    <social.icon size={28} className='md:w-6 md:h-6' />
+                  </a>
+                );
+              })}
             </motion.div>
           </div>
         </div>
