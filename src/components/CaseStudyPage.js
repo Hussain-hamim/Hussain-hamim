@@ -100,42 +100,6 @@ const MetricTile = ({ value, label }) => {
   );
 };
 
-const BeforeAfter = ({ beforeAfter }) => {
-  const before = beforeAfter?.before;
-  const after = beforeAfter?.after;
-  const Frame = ({ src, label }) => (
-    <div className='relative overflow-hidden rounded-2xl border-[0.5px] border-white/10 bg-white/[0.03]'>
-      <div className='absolute left-3 top-3 z-10 rounded-full bg-black/60 px-2 py-0.5 text-[10px] font-mono uppercase tracking-widest text-[#D7FF00]'>
-        {label}
-      </div>
-      {src ? (
-        <img
-          src={src}
-          alt={label}
-          className='h-64 w-full object-cover sm:h-80'
-        />
-      ) : (
-        <div className='flex h-64 w-full items-center justify-center bg-gradient-to-br from-white/[0.02] to-transparent sm:h-80'>
-          <Placeholder>{`<REPLACE: add ${label.toLowerCase()} screenshot>`}</Placeholder>
-        </div>
-      )}
-    </div>
-  );
-  return (
-    <div className='space-y-4'>
-      <div className='grid gap-4 sm:grid-cols-2'>
-        <Frame src={before} label='Before' />
-        <Frame src={after} label='After' />
-      </div>
-      {beforeAfter?.note && (
-        <p className='text-sm text-white/70'>
-          <MaybePlaceholder value={beforeAfter.note} />
-        </p>
-      )}
-    </div>
-  );
-};
-
 const Testimonials = ({ items = [] }) => {
   if (!items.length) {
     return (
@@ -370,13 +334,6 @@ const CaseStudyPage = () => {
             </div>
           </section>
         )}
-
-        {/* Before / After — hidden for now, re-enable when screenshots are ready
-        <section className='mt-14'>
-          <SectionTitle kicker='Visuals' title='Before / After' />
-          <BeforeAfter beforeAfter={project.beforeAfter} />
-        </section>
-        */}
 
         {/* Testimonials */}
         {project.testimonials?.length > 0 && (
