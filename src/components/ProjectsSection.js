@@ -5,6 +5,7 @@ import {
   FaExternalLinkAlt,
   FaBook,
   FaCamera,
+  FaChevronDown,
 } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import SpaceGame from './SpaceGame';
@@ -34,6 +35,16 @@ export const projects = [
     live: 'https://aegnis.life',
     tags: ['AI', 'Productivity', 'Full-stack'],
     theme: { primary: '#1F1205', secondary: '#D97706' },
+  },
+  {
+    title: 'LiquidGlass',
+    description:
+      'A WebGL-powered library for React that lets developers browse, preview, and copy beautiful glass effects into their projects — 54 effects ready to use.',
+    getImageSrc: () => require('../images/liquidglass.png'),
+    link: 'https://github.com/Hussain-hamim',
+    live: 'https://liquidglass-sigma.vercel.app/',
+    tags: ['React', 'WebGL', 'Library'],
+    theme: { primary: '#6366F1', secondary: '#818CF8' },
   },
   {
     title: 'DevSync',
@@ -216,13 +227,34 @@ export const mobileProjects = [
 
 export const certificates = [
   {
-    title: 'Meta Front-End Developer',
+    title: 'Meta Front-End Developer Professional Certificate',
     description:
-      'Meta Front-End Developer Specialization include 9 courses, took approximately 7 months to get this certificate.',
-    getImageSrc: () => require('../images/meta-cert.jpeg'),
+      'Earned after completing 9 rigorous courses over 7 months. This specialization covered essential front-end skills and culminated in a Meta-issued professional certificate.',
+ 
+    getImageSrc: () => require('../images/meta-cert.png'),
     link: 'https://www.coursera.org/account/accomplishments/specialization/CMEZCDWLG4AG',
     live: 'https://www.coursera.org/account/accomplishments/specialization/CMEZCDWLG4AG',
     tags: ['Certificate', 'Meta', 'Frontend'],
+    theme: { primary: '#0668E1', secondary: '#1877F2' },
+  },
+  {
+    title: 'Principles of UX/UI Design',
+    description:
+      'Completed May 2024. Meta-authorized Coursera course covering UX/UI fundamentals, accessibility, user research, and Figma wireframing.',
+    getImageSrc: () => require('../images/principles-ux-ui-cert.png'),
+    link: 'https://coursera.org/share/c366587be140e302c8789a49b943cad3',
+    live: 'https://coursera.org/share/c366587be140e302c8789a49b943cad3',
+    tags: ['Certificate', 'Meta', 'UX/UI'],
+    theme: { primary: '#0668E1', secondary: '#1877F2' },
+  },
+  {
+    title: 'React Native',
+    description:
+      'Completed October 2024. Meta-authorized Coursera course on cross-platform mobile development with React Native.',
+    getImageSrc: () => require('../images/react-native-cert.png'),
+    link: 'https://coursera.org/share/20edf03a10679ae7e3bd4d269c7f5c90',
+    live: 'https://coursera.org/share/20edf03a10679ae7e3bd4d269c7f5c90',
+    tags: ['Certificate', 'Meta', 'React Native'],
     theme: { primary: '#0668E1', secondary: '#1877F2' },
   },
 ];
@@ -255,8 +287,9 @@ const FeaturedPlaceholder = ({ children }) => (
   </span>
 );
 
-export const ProjectCard = ({ project, index, isPashto, featured = false, featuredMeta = null }) => {
+export const ProjectCard = ({ project, index, isPashto, featured = false, featuredMeta = null, isCertificate = false }) => {
   const [hovered, setHovered] = useState(false);
+  const [descriptionExpanded, setDescriptionExpanded] = useState(false);
   const tags = project.tags || [];
   const accent = sectionAccent;
 
@@ -302,58 +335,9 @@ export const ProjectCard = ({ project, index, isPashto, featured = false, featur
           <div className='relative flex-1 flex flex-col p-5 sm:p-6'>
             {featuredMeta ? (
               <>
-                {/* Role line + optional partnership badge (badge right-aligned) */}
-                {(featuredMeta.role || featuredMeta.partnership?.badge) && (
-                  <div
-                    className={`mb-2 flex flex-wrap items-center gap-2 ${
-                      featuredMeta.role && featuredMeta.partnership?.badge
-                        ? 'justify-between'
-                        : featuredMeta.partnership?.badge
-                        ? 'justify-end'
-                        : ''
-                    }`}
-                  >
-                    {featuredMeta.role && (
-                      <p className='text-[10px] font-mono uppercase tracking-[0.2em] text-[#D7FF00]/80'>
-                        {featuredMeta.role}
-                      </p>
-                    )}
-                    {featuredMeta.partnership?.badge && (
-                      <span
-                        className='shrink-0 rounded-full border-[0.5px] border-amber-400/45 bg-amber-500/[0.12] px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-amber-100'
-                        title={
-                          isPashto
-                            ? featuredMeta.partnership.hint?.ps ||
-                              featuredMeta.partnership.hint?.en
-                            : featuredMeta.partnership.hint?.en
-                        }
-                      >
-                        {isPashto
-                          ? featuredMeta.partnership.badge.ps ||
-                            featuredMeta.partnership.badge.en
-                          : featuredMeta.partnership.badge.en}
-                      </span>
-                    )}
-                  </div>
-                )}
-
                 <h3 className='text-xl sm:text-2xl font-bold font-sans1 text-white tracking-tight mb-3'>
                   {project.title}
                 </h3>
-
-                {/* Stack chips */}
-                {featuredMeta.stack?.length > 0 && (
-                  <div className='flex flex-wrap gap-1.5 mb-4'>
-                    {featuredMeta.stack.slice(0, 4).map((s) => (
-                      <span
-                        key={s}
-                        className='px-2 py-0.5 text-[10px] font-semibold rounded-md border-[0.5px] border-white/10 bg-white/[0.04] text-white/75'
-                      >
-                        {s}
-                      </span>
-                    ))}
-                  </div>
-                )}
 
                 {/* Single summary line (uses Result, falls back to Built) */}
                 <p className='text-[13px] leading-relaxed text-white/75 font-sans3 mb-5 flex-grow line-clamp-3'>
@@ -454,10 +438,6 @@ export const ProjectCard = ({ project, index, isPashto, featured = false, featur
               </>
             )}
           </div>
-          <div
-            className='absolute bottom-0 left-0 right-0 h-0.5 opacity-80'
-            style={{ background: `linear-gradient(90deg, transparent, ${accent}, transparent)` }}
-          />
         </div>
       </motion.div>
     );
@@ -507,7 +487,8 @@ export const ProjectCard = ({ project, index, isPashto, featured = false, featur
             <img
               src={project.getImageSrc()}
               alt={project.title}
-              className='w-full h-full object-contain transition-transform duration-500 group-hover:scale-105'
+              className={`w-full h-full transition-transform duration-500 group-hover:scale-105 ${isCertificate ? 'object-cover object-top' : 'object-contain'}`}
+              style={isCertificate ? { filter: 'invert(0.92) hue-rotate(180deg) brightness(1.05) contrast(0.95)' } : undefined}
             />
           )}
         </div>
@@ -523,43 +504,80 @@ export const ProjectCard = ({ project, index, isPashto, featured = false, featur
               </span>
             ))}
           </div>
-          <h3
-            className='text-xl font-bold font-sans3 mb-3 tracking-tight text-white'
-            style={{ color: hovered ? accent : undefined }}
-          >
-            {project.title}
-          </h3>
-          <p className='text-gray-400 text-sm leading-relaxed mb-6 flex-grow font-sans3'>
-            {project.description}
-          </p>
-          <div className='flex items-center gap-4 mt-auto pt-4 border-t border-white/10'>
-            <a
-              href={project.link}
-              target='_blank'
-              rel='noopener noreferrer'
-              className='flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-gray-400 hover:text-white transition-colors'
+          <div className={`flex items-start justify-between gap-3 ${isCertificate && !descriptionExpanded ? 'mb-0' : 'mb-3'}`}>
+            <h3
+              className='text-xl font-bold font-sans3 tracking-tight text-white'
+              style={{ color: hovered ? accent : undefined }}
             >
-              <FaGithub className='text-lg' />
-              <span>{isPashto ? 'کوډ' : 'Code'}</span>
-            </a>
+              {project.title}
+            </h3>
+            {isCertificate && (
+              <button
+                type='button'
+                onClick={() => setDescriptionExpanded((prev) => !prev)}
+                className='mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/[0.04] text-gray-400 transition-colors hover:border-white/20 hover:bg-white/[0.06] hover:text-white'
+                aria-expanded={descriptionExpanded}
+                aria-label={
+                  descriptionExpanded
+                    ? isPashto
+                      ? 'تفصیل پټ کړئ'
+                      : 'Hide description'
+                    : isPashto
+                    ? 'تفصیل وښایئ'
+                    : 'Show description'
+                }
+              >
+                <FaChevronDown
+                  className={`text-xs transition-transform duration-200 ${descriptionExpanded ? 'rotate-180' : ''}`}
+                />
+              </button>
+            )}
+          </div>
+          {(!isCertificate || descriptionExpanded) && (
+            <p className='text-gray-400 text-sm leading-relaxed mb-6 flex-grow font-sans3'>
+              {project.description}
+            </p>
+          )}
+          <div className='flex items-center gap-4 mt-auto pt-4 border-t border-white/10'>
+            {!isCertificate && (
+              <a
+                href={project.link}
+                target='_blank'
+                rel='noopener noreferrer'
+                className='flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-gray-400 hover:text-white transition-colors'
+              >
+                <FaGithub className='text-lg' />
+                <span>{isPashto ? 'کوډ' : 'Code'}</span>
+              </a>
+            )}
             {project.live && (
               <a
                 href={project.live}
                 target='_blank'
                 rel='noopener noreferrer'
-                className='flex items-center gap-2 px-3 py-2 text-xs font-bold tracking-wider rounded-full ml-auto transition-all text-black'
-                style={{
-                  backgroundColor: accent,
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.boxShadow = `0 4px 16px ${hexToRgba(accent, 0.4)}`;
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.boxShadow = '';
-                }}
+                className={
+                  isCertificate
+                    ? 'flex items-center px-3 py-2 text-xs font-bold uppercase tracking-wider rounded-full border border-white/10 bg-white/[0.04] text-gray-400 transition-colors hover:text-white hover:border-white/20 hover:bg-white/[0.06]'
+                    : 'flex items-center gap-2 px-3 py-2 text-xs font-bold tracking-wider rounded-full ml-auto transition-all text-black'
+                }
+                style={isCertificate ? undefined : { backgroundColor: accent }}
+                onMouseEnter={
+                  isCertificate
+                    ? undefined
+                    : (e) => {
+                        e.currentTarget.style.boxShadow = `0 4px 16px ${hexToRgba(accent, 0.4)}`;
+                      }
+                }
+                onMouseLeave={
+                  isCertificate
+                    ? undefined
+                    : (e) => {
+                        e.currentTarget.style.boxShadow = '';
+                      }
+                }
               >
-                <span>{isPashto ? 'ژوندۍ نسخه' : 'Live Demo'}</span>
-                <FaExternalLinkAlt className='text-sm' />
+                <span>{isCertificate ? (isPashto ? 'وګورئ' : 'View') : (isPashto ? 'ژوندۍ نسخه' : 'Live Demo')}</span>
+                {!isCertificate && <FaExternalLinkAlt className='text-sm' />}
               </a>
             )}
           </div>
@@ -574,6 +592,8 @@ export const webDescriptionsPs = {
       'خپله راتلونکې لويه مفکوره ومومئ او اعتبار يې تاييد کړئ. موږ د وېب له بېلابېلو سرچينو ميليونونه خبرې، ارزونې او شکايتونه څېړو، څو هغه رښتينې ستونزې پيدا کړو چې خلک ورسره مخ دي، بيا يې د بازار غوښتنې لرونکو سوداګريزو مفکورو ته اړوو.',
     'Aegnis AI':
       'Aegnis ستاسو AI Chief of Staff دی. دا يوازې د کارونو لېست نه ښيي، بلکې ستاسو ورځنی نظم هم سمبالوي؛ يعنې کارونه له to-do نه done-list ته رسوي.',
+    LiquidGlass:
+      'LiquidGlass د React لپاره يو WebGL کتابتون دی چې پراختياکوونکي پکې زړه راښکونکي شيشه‌يي اغېزې وګوري، مخکې وګوري، او په خپلو پروژو کې يې وکاروي.',
     DevSync:
       'DevSync د پراختياکوونکو د نښلېدو او ګډ کار لپاره يو همکار پليټفارم دی. پکې د کارن پروفايلونه، د پروژو ليست او real-time چټ سيستم شامل دي.',
     'Premium Shop':
@@ -616,6 +636,12 @@ export const mobileDescriptionsPs = {
 export const certificateDescriptionsPs = {
   'Meta Front-End Developer':
     'د Meta Front-End Developer Specialization پروګرام کې ۹ کورسونه شامل دي، او د دې سند ترلاسه کولو لپاره شاوخوا ۷ مياشتې وخت ونيول شو.',
+  'Advanced React':
+    'د ۲۰۲۴ اپریل کې بشپړ شو. د Meta لخوا تصدیق شوی Coursera کورس چې reusable components، API integration، React Testing Library، او پرمختللي React patterns پکې شامل دي.',
+  'Principles of UX/UI Design':
+    'د ۲۰۲۴ مۍ کې بشپړ شو. د Meta لخوا تصدیق شوی Coursera کورس چې UX/UI بنسټونه، accessibility، user research، او Figma wireframing پکې شامل دي.',
+  'React Native':
+    'د ۲۰۲۴ اکتوبر کې بشپړ شو. د Meta لخوا تصدیق شوی Coursera کورس چې د React Native سره cross-platform موبايل پراختيا پکې ښودل شوې ده.',
 };
 
 const ProjectsSection = ({ locale = 'en' }) => {
@@ -643,10 +669,10 @@ const ProjectsSection = ({ locale = 'en' }) => {
       }))
     : certificates;
 
-  const currentSideProjectTitles = ['IdeaHunt', 'Aegnis AI', 'DevSync', 'Goal Tracking App'];
+  const currentSideProjectTitles = ['IdeaHunt', 'Aegnis AI', 'LiquidGlass', 'Goal Tracking App'];
   const currentSideProjects = [
     ...webProjects.filter(
-      (p) => p.title === 'IdeaHunt' || p.title === 'Aegnis AI' || p.title === 'DevSync'
+      (p) => p.title === 'IdeaHunt' || p.title === 'Aegnis AI' || p.title === 'LiquidGlass'
     ),
     ...mobileProjectsLocalized.filter((p) => p.title === 'Goal Tracking App'),
   ].sort(
@@ -697,7 +723,7 @@ const ProjectsSection = ({ locale = 'en' }) => {
             >
               <Link
                 to='/projects'
-                className='group inline-flex items-center gap-2 rounded-full border-[0.5px] border-[#D7FF00]/50 bg-transparent px-7 py-3 text-sm font-bold uppercase tracking-wider text-[#D7FF00] transition-all hover:border-[#D7FF00] hover:bg-[#D7FF00]/10 hover:shadow-lg hover:shadow-[#D7FF00]/20'
+                className='group inline-flex items-center gap-2 rounded-full bg-transparent px-7 py-3 text-sm font-bold uppercase tracking-wider text-[#D7FF00] transition-all hover:bg-[#D7FF00]/10 hover:shadow-lg hover:shadow-[#D7FF00]/20'
               >
                 <span>{isPashto ? 'ټولې پروژې وګورئ' : 'See all projects'}</span>
                 <FaExternalLinkAlt className='text-[10px] transition-transform duration-300 group-hover:translate-x-0.5' />
@@ -710,7 +736,7 @@ const ProjectsSection = ({ locale = 'en' }) => {
       </div>
 
       {/* Tools & Activity · Blogs & Photos · Certificates */}
-      <div className='relative bg-[#0f0f0f] py-32 overflow-hidden'>
+      <div className='relative bg-[#0f0f0f] py-32 overflow-visible'>
         <div className='absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none'>
           <div className='absolute top-20 left-0 w-96 h-96 bg-[#D7FF00]/[0.07] rounded-full blur-[120px]' />
           <div className='absolute bottom-20 right-0 w-96 h-96 bg-[#D7FF00]/[0.05] rounded-full blur-[120px]' />
@@ -806,7 +832,7 @@ const ProjectsSection = ({ locale = 'en' }) => {
                     href='https://github.com/Hussain-hamim'
                     target='_blank'
                     rel='noopener noreferrer'
-                    className='flex items-center justify-center gap-2 mt-6 px-6 py-2 text-xs font-bold uppercase tracking-wider text-[#D7FF00] rounded-full transition-all hover:bg-[#D7FF00]/10 hover:shadow-lg hover:shadow-[#D7FF00]/20 border-[0.5px] border-[#D7FF00]/50 hover:border-[#D7FF00]'
+                    className='flex items-center justify-center gap-2 mt-6 px-6 py-2 text-xs font-bold uppercase tracking-wider text-[#D7FF00] rounded-full transition-all hover:bg-[#D7FF00]/10 hover:shadow-lg hover:shadow-[#D7FF00]/20'
                   >
                     <span>{isPashto ? 'پروفایل وګورئ' : 'View Profile'}</span>
                     <FaExternalLinkAlt className='text-sm' />
@@ -817,9 +843,9 @@ const ProjectsSection = ({ locale = 'en' }) => {
           </div>
 
           {/* Blogs & Photos */}
-          <div className='mt-36 mb-0'>
+          <div className='mt-36 mb-0 overflow-visible'>
             <SectionHeader title={isPashto ? 'بلاګونه او عکسونه' : 'Blogs & Photos'} />
-            <div className='grid grid-cols-1 md:grid-cols-2 gap-8'>
+            <div className='grid grid-cols-1 md:grid-cols-2 gap-8 overflow-visible'>
               <ComingSoonCard
                 icon={FaBook}
                 title={isPashto ? 'بلاګونه' : 'Blogs'}
@@ -830,16 +856,7 @@ const ProjectsSection = ({ locale = 'en' }) => {
                 }
                 isPashto={isPashto}
               />
-              <ComingSoonCard
-                icon={FaCamera}
-                title={isPashto ? 'عکسونه' : 'Photos'}
-                description={
-                  isPashto
-                    ? 'زما د سفرونو، شېبو او تخليقي عکاسۍ يو ټولګه.'
-                    : 'A collection of moments, travels, and creative photography from my journey.'
-                }
-                isPashto={isPashto}
-              />
+              <PhotosCard isPashto={isPashto} />
             </div>
           </div>
 
@@ -853,6 +870,7 @@ const ProjectsSection = ({ locale = 'en' }) => {
                   project={project}
                   index={index}
                   isPashto={isPashto}
+                  isCertificate
                 />
               ))}
             </div>
@@ -860,6 +878,90 @@ const ProjectsSection = ({ locale = 'en' }) => {
         </div>
       </div>
     </section>
+  );
+};
+
+const PHOTO_STACK = [
+  {
+    src: require('../images/photos-stack-4.png'),
+    zIndex: 10,
+    defaultClass:
+      '-rotate-[16deg] -translate-x-9 translate-y-3.5 scale-[0.84] opacity-78',
+    hoverClass:
+      'group-hover:-rotate-[30deg] group-hover:-translate-x-[9.5rem] group-hover:-translate-y-3 group-hover:scale-[0.95] group-hover:opacity-100',
+  },
+  {
+    src: require('../images/photos-stack-3.png'),
+    zIndex: 20,
+    defaultClass:
+      '-rotate-[10deg] -translate-x-6 translate-y-2 scale-[0.9] opacity-85',
+    hoverClass:
+      'group-hover:-rotate-[22deg] group-hover:-translate-x-[7rem] group-hover:-translate-y-2 group-hover:scale-[0.97] group-hover:opacity-100',
+  },
+  {
+    src: require('../images/photos-stack-2.png'),
+    zIndex: 30,
+    defaultClass:
+      '-rotate-[4deg] -translate-x-3 translate-y-1 scale-[0.95] opacity-90',
+    hoverClass:
+      'group-hover:-rotate-[14deg] group-hover:-translate-x-[3.5rem] group-hover:-translate-y-1 group-hover:scale-[0.99] group-hover:opacity-100',
+  },
+  {
+    src: require('../images/photos-stack-1.png'),
+    zIndex: 40,
+    defaultClass: 'rotate-[4deg] translate-x-1',
+    hoverClass:
+      'group-hover:rotate-[7deg] group-hover:translate-x-4 group-hover:-translate-y-1',
+  },
+];
+
+const PhotosCard = ({ isPashto }) => {
+  const [hoveredPhoto, setHoveredPhoto] = useState(null);
+
+  return (
+  <motion.div
+    initial={{ opacity: 0, y: 30 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+    viewport={{ once: true }}
+    className='relative group overflow-visible'
+  >
+    <div className='relative overflow-visible rounded-2xl bg-[#111] shadow-2xl transition-all duration-500 ease-out hover:shadow-[0_0_45px_rgba(215,255,0,0.12)]'>
+      <div className='relative flex h-[21rem] items-center justify-center overflow-visible px-6 py-4 sm:h-[23rem]'>
+        <div className='relative h-[14.5rem] w-[11.5rem] sm:h-[16.5rem] sm:w-[13rem]'>
+          {PHOTO_STACK.map((photo, index) => {
+            const isActive = hoveredPhoto === index;
+            return (
+              <div
+                key={index}
+                style={{
+                  zIndex: isActive ? 50 : photo.zIndex,
+                  transitionTimingFunction: 'cubic-bezier(0.22, 1, 0.36, 1)',
+                  transitionDuration: '700ms',
+                  transitionDelay: `${(PHOTO_STACK.length - 1 - index) * 45}ms`,
+                }}
+                onMouseEnter={() => setHoveredPhoto(index)}
+                onMouseLeave={() => setHoveredPhoto(null)}
+                className={`absolute inset-0 origin-center cursor-pointer transition-all will-change-transform ${photo.defaultClass} ${photo.hoverClass} ${isActive ? 'scale-[1.06]' : ''}`}
+              >
+                <img
+                  src={photo.src}
+                  alt=''
+                  className={`h-full w-full rounded-2xl border-[3px] border-white object-cover transition-shadow duration-500 ${isActive ? 'shadow-[0_22px_55px_rgba(0,0,0,0.6)]' : 'shadow-[0_12px_32px_rgba(0,0,0,0.45)]'}`}
+                />
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      <div className='flex items-center justify-center border-t border-white/10 px-6 py-4'>
+        <span className='text-xs font-bold uppercase tracking-[0.28em] text-gray-300'>
+          {isPashto ? 'عکسونه' : 'Photos'}
+        </span>
+      </div>
+    </div>
+  </motion.div>
   );
 };
 

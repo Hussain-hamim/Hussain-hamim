@@ -4,7 +4,7 @@ import * as Yup from "yup";
 import { motion } from "framer-motion";
 import { useAlertContext } from "../context/alertContext";
 import useSubmit from "../hooks/useSubmit";
-import { FaGithub, FaLinkedin, FaEnvelope, FaPaperPlane } from "react-icons/fa";
+import { FaPaperPlane } from "react-icons/fa";
 
 const ContactMeSection = ({ locale = "en" }) => {
   const isPashto = locale === "ps";
@@ -13,19 +13,24 @@ const ContactMeSection = ({ locale = "en" }) => {
 
   const socials = [
     {
-      icon: FaEnvelope,
+      img: require("../images/socials/email.png"),
       url: "mailto:mohammadhussainafghan83@gmail.com",
       label: isPashto ? "ايمېل راولېږئ" : "Email Me",
     },
     {
-      icon: FaGithub,
+      img: require("../images/socials/github.png"),
       url: "https://github.com/Hussain-hamim",
-      label: "github.com/Hussain-hamim",
+      label: "GitHub",
     },
     {
-      icon: FaLinkedin,
+      img: require("../images/socials/linkedin.png"),
       url: "https://www.linkedin.com/in/hussain-hamim/",
-      label: "linkedin.com/in/hussain-hamim",
+      label: "LinkedIn",
+    },
+    {
+      img: require("../images/socials/twitter.png"),
+      url: "https://x.com/hussainim_",
+      label: "Twitter",
     },
   ];
 
@@ -64,7 +69,7 @@ const ContactMeSection = ({ locale = "en" }) => {
   return (
     <section
       id="contactme-section"
-      className="relative py-32 overflow-hidden"
+      className="relative pt-20 md:pt-24 pb-36 md:pb-44 overflow-hidden"
     >
       <div className="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
         <div className="grid md:grid-cols-2 gap-16 items-start">
@@ -75,11 +80,9 @@ const ContactMeSection = ({ locale = "en" }) => {
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-5xl md:text-7xl font-bold font-sans1 text-white mb-8 tracking-tight">
-              {isPashto ? "راځئ" : "LET'S"} <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#D7FF00] to-teal-400">
-                {isPashto ? "اړيکه ټينګه کړو" : "CONNECT"}
-              </span>
+            <h2 className="text-2xl md:text-4xl font-bold font-sans1 text-white mb-8 tracking-tight">
+              {isPashto ? "ښکلی ایدیا لرئ؟" : "Have a Cool Idea?"} <br />
+              {isPashto ? "راځئ یې جوړ کړو." : "Let's Build It."}
             </h2>
             <p className="text-gray-400 text-lg leading-relaxed mb-12 font-sans3 max-w-md">
               {isPashto
@@ -87,18 +90,20 @@ const ContactMeSection = ({ locale = "en" }) => {
                 : "Have a project in mind or just want to chat? Feel free to reach out. I'm always open to discussing new projects, creative ideas or opportunities to be part of your visions."}
             </p>
 
-            <div className="space-y-6">
+            <div className="grid grid-cols-2 gap-x-6 gap-y-6">
               {socials.map((social, index) => (
                 <a
                   key={index}
                   href={social.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-4 text-gray-300 hover:text-[#D7FF00] transition-all duration-300 group"
+                  className="flex items-center gap-3 text-gray-300 hover:text-[#D7FF00] transition-all duration-300 group"
                 >
-                  <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-[#D7FF00]/10 transition-colors border border-white/10 group-hover:border-[#D7FF00]/30">
-                    <social.icon className="text-xl" />
-                  </div>
+                  <img
+                    src={social.img}
+                    alt=""
+                    className="h-9 w-9 shrink-0 rounded-lg object-contain transition-transform duration-300 group-hover:scale-105"
+                  />
                   <span className="font-mono text-sm tracking-wider">
                     {social.label}
                   </span>
@@ -113,10 +118,8 @@ const ContactMeSection = ({ locale = "en" }) => {
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
             viewport={{ once: true }}
-            className="bg-[#111] border border-white/10 p-8 md:p-12 rounded-3xl relative overflow-hidden"
+            className="bg-gradient-to-br from-[#D7FF00]/[0.05] via-white/[0.04] to-black/50 backdrop-blur-md border border-white/10 p-8 pb-12 md:p-12 md:pb-16 rounded-3xl relative overflow-hidden mb-4 md:mb-6"
           >
-            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#D7FF00] to-teal-400"></div>
-
             <form onSubmit={formik.handleSubmit} className="space-y-6">
               <div className="space-y-4">
                 <div>
@@ -130,7 +133,7 @@ const ContactMeSection = ({ locale = "en" }) => {
                     id="firstName"
                     name="firstName"
                     type="text"
-                    placeholder={isPashto ? "احمد" : "Ahmad"}
+                    placeholder={isPashto ? "ستاسو نوم" : "Your name"}
                     {...formik.getFieldProps("firstName")}
                     className={`w-full bg-white/5 border ${
                       formik.touched.firstName && formik.errors.firstName
@@ -156,7 +159,7 @@ const ContactMeSection = ({ locale = "en" }) => {
                     id="email"
                     name="email"
                     type="email"
-                    placeholder={isPashto ? "ahmad@example.com" : "ahmad@example.com"}
+                    placeholder={isPashto ? "email@example.com" : "you@company.com"}
                     {...formik.getFieldProps("email")}
                     className={`w-full bg-white/5 border ${
                       formik.touched.email && formik.errors.email
@@ -229,14 +232,14 @@ const ContactMeSection = ({ locale = "en" }) => {
                   <textarea
                     id="comment"
                     name="comment"
-                    rows={4}
+                    rows={3}
                     placeholder={isPashto ? "د خپلې پروژې په اړه راته وليکئ..." : "Tell me about your project..."}
                     {...formik.getFieldProps("comment")}
                     className={`w-full bg-white/5 border ${
                       formik.touched.comment && formik.errors.comment
                         ? "border-red-500"
                         : "border-white/10"
-                    } rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#D7FF00] transition-colors placeholder-gray-600 resize-none`}
+                    } rounded-xl px-4 py-2 text-white focus:outline-none focus:border-[#D7FF00] transition-colors placeholder-gray-600 resize-none`}
                   />
                   {formik.touched.comment && formik.errors.comment && (
                     <p className="text-red-500 text-xs mt-1 font-mono">

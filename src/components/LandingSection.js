@@ -1,13 +1,6 @@
 import React, { lazy, Suspense } from 'react';
 import { motion } from 'framer-motion';
-import {
-  FaGithub,
-  FaLinkedin,
-  FaInstagram,
-  FaEnvelope,
-  FaWhatsapp,
-} from 'react-icons/fa';
-import { FaXTwitter } from 'react-icons/fa6';
+import { FaWhatsapp } from 'react-icons/fa';
 import { Calendar, MessageSquare } from 'lucide-react';
 
 const ProfileAvatarCanvas = lazy(() => import('./ProfileAvatarCanvas'));
@@ -41,27 +34,27 @@ const LandingSection = ({ locale = 'en' }) => {
   };
   const socialLinks = [
     {
-      icon: FaGithub,
+      img: require('../images/socials/github.png'),
       url: 'https://github.com/Hussain-hamim',
       color: 'hover:text-white',
     },
     {
-      icon: FaLinkedin,
+      img: require('../images/socials/linkedin.png'),
       url: 'https://www.linkedin.com/in/hussain-hamim/',
       color: 'hover:text-blue-400',
     },
     {
-      icon: FaInstagram,
+      img: require('../images/socials/instagram.png'),
       url: 'https://www.instagram.com/hussainhamim_',
       color: 'hover:text-pink-500',
     },
     {
-      icon: FaXTwitter,
+      img: require('../images/socials/twitter.png'),
       url: 'https://x.com/hussainim_',
       color: 'hover:text-gray-400',
     },
     {
-      icon: FaEnvelope,
+      img: require('../images/socials/email.png'),
       url: 'mailto:mohammadhussainafghan83@gmail.com',
       color: 'hover:text-red-400',
     },
@@ -164,13 +157,13 @@ const LandingSection = ({ locale = 'en' }) => {
           </div>
 
           {/* Right column: photo first, socials below (mobile + desktop) */}
-          <div className='pointer-events-auto relative z-20 mt-3 flex w-full min-w-0 flex-col items-center justify-center sm:mt-5 md:mt-0 md:items-end md:pr-8 lg:pr-12'>
+          <div className='pointer-events-auto relative z-20 mt-3 flex w-full min-w-0 flex-col items-center sm:mt-5 md:mt-0'>
             <motion.div
               initial={{ opacity: 0, x: 50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.5, duration: 0.8 }}
               whileHover={{ scale: 1.05 }}
-              className='group relative mb-4 h-44 w-44 cursor-pointer sm:mb-5 sm:h-56 sm:w-56 md:mb-8 md:h-64 md:w-64 lg:h-72 lg:w-72'
+              className='group relative mb-6 h-44 w-44 cursor-pointer sm:mb-8 sm:h-56 sm:w-56 md:mb-10 md:h-64 md:w-64 lg:h-72 lg:w-72'
             >
               <div className='relative h-full w-full rounded-full overflow-hidden transition-all duration-300 group-hover:shadow-2xl group-hover:shadow-[#D7FF00]/20'>
                 <div className='absolute -inset-1 bg-black/30 rounded-full blur-xl group-hover:bg-black/40 transition-all duration-300 z-0'></div>
@@ -193,7 +186,7 @@ const LandingSection = ({ locale = 'en' }) => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.7, duration: 0.8 }}
-              className='flex w-full max-w-md flex-wrap items-center justify-center gap-3 sm:gap-4 md:gap-6'
+              className='flex flex-wrap items-center justify-center gap-3 sm:gap-4 md:gap-5'
             >
               {socialLinks.map((social, index) => {
                 if (social.primary) {
@@ -222,7 +215,15 @@ const LandingSection = ({ locale = 'en' }) => {
                     className={`z-40 relative text-gray-300 transition-all duration-300 hover:-translate-y-1 md:text-gray-500 ${social.color}`}
                     aria-label={`Visit ${social.url}`}
                   >
-                    <social.icon className='h-6 w-6 sm:h-7 sm:w-7 md:h-6 md:w-6' />
+                    {social.img ? (
+                      <img
+                        src={social.img}
+                        alt=''
+                        className='h-7 w-7 rounded-lg object-contain sm:h-8 sm:w-8 md:h-7 md:w-7'
+                      />
+                    ) : (
+                      <social.icon className='h-6 w-6 sm:h-7 sm:w-7 md:h-6 md:w-6' />
+                    )}
                   </a>
                 );
               })}

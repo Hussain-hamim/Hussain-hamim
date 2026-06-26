@@ -1,21 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEnvelope, faBars, faXmark, faCalendar } from "@fortawesome/free-solid-svg-icons";
-import {
-  faGithub,
-  faLinkedin,
-  faTwitter,
-  faInstagram,
-} from "@fortawesome/free-brands-svg-icons";
+import { faBars, faXmark, faCalendar } from "@fortawesome/free-solid-svg-icons";
 
 const DEFAULT_CAL_BOOKING_URL = "https://cal.com/hussain-hamim-fp9qc6/30min";
 
 const socials = [
-  { icon: faGithub, url: "https://github.com/Hussain-hamim" },
-  { icon: faLinkedin, url: "https://www.linkedin.com/in/hussain-hamim/" },
-  { icon: faTwitter, url: "https://twitter.com/hussainhamim_" },
-  { icon: faInstagram, url: "https://www.instagram.com/hussainhamim_" },
-  { icon: faEnvelope, url: "mailto:mohammadhussainafghan83@gmail.com" },
+  { img: require("../images/socials/github.png"), url: "https://github.com/Hussain-hamim" },
+  { img: require("../images/socials/linkedin.png"), url: "https://www.linkedin.com/in/hussain-hamim/" },
+  { img: require("../images/socials/twitter.png"), url: "https://x.com/hussainim_" },
+  { img: require("../images/socials/instagram.png"), url: "https://www.instagram.com/hussainhamim_" },
+  { img: require("../images/socials/email.png"), url: "mailto:mohammadhussainafghan83@gmail.com" },
 ];
 
 const Header = ({ locale = "en" }) => {
@@ -314,7 +308,15 @@ const Header = ({ locale = "en" }) => {
                   rel="noopener noreferrer"
                   className="text-gray-400 hover:text-[#D7FF00] transition-colors duration-300"
                 >
-                  <FontAwesomeIcon icon={social.icon} size="lg" />
+                  {social.img ? (
+                    <img
+                      src={social.img}
+                      alt=""
+                      className="h-7 w-7 rounded-lg object-contain"
+                    />
+                  ) : (
+                    <FontAwesomeIcon icon={social.icon} size="lg" />
+                  )}
                 </a>
               ))}
             </div>

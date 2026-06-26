@@ -1,57 +1,17 @@
 import React from "react";
-import { motion } from "framer-motion";
-import { Heart } from "lucide-react";
 
-const Footer = ({ locale = "en" }) => {
-  const isPashto = locale === "ps";
-  const currentYear = new Date().getFullYear();
-
+const Footer = () => {
   return (
-    <footer className="py-8">
-      <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
-        {/* Logo/Name */}
-        <div className="flex items-center gap-2">
-          <span className="text-xl font-bold font-sans1 text-black tracking-tight">
-            HSN
-          </span>
-          <span className="text-black/50">|</span>
-          <span className="text-black/80 text-sm font-mono">
-            © {currentYear} {isPashto ? "ټول حقونه خوندي دي" : "All Rights Reserved"}
-          </span>
-        </div>
-
-        {/* Made with Love */}
-        <motion.div
-          className="flex items-center gap-2 text-sm text-black/80"
-          whileHover={{ scale: 1.05 }}
-        >
-          <span>{isPashto ? "په مينه جوړ شوی" : "Made with"}</span>
-          <motion.div
-            animate={{
-              scale: [1, 1.2, 1],
-            }}
-            transition={{
-              duration: 1.5,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-          >
-            <Heart className="text-red-500 text-xs" size={18} />
-          </motion.div>
-          <span>{isPashto ? "جوړوونکی: Hussain Hamim" : "by Hussain Hamim"}</span>
-        </motion.div>
-
-        {/* Tech Stack Tags - Optional decoration */}
-        {/* <div className="hidden md:flex items-center gap-3">
-          {["React", "Tailwind", "Framer", "Three.js"].map((tech, index) => (
-            <span
-              key={index}
-              className="text-[10px] font-mono uppercase tracking-wider text-gray-600  px-2 py-1 rounded-full"
-            >
-              {tech}
-            </span>
-          ))}
-        </div> */}
+    <footer className="relative pt-10 pb-8">
+      {/* Giant name watermark - centered behind footer, allowed to overflow upward */}
+      <div
+        className="pointer-events-none absolute inset-x-0 bottom-0 z-0 flex items-center justify-center px-4"
+        style={{ top: "-9rem" }}
+        aria-hidden
+      >
+        <span className="select-none whitespace-nowrap bg-gradient-to-r from-[#D7FF00] to-teal-400 bg-clip-text text-center font-sans1 font-bold leading-none tracking-tighter text-transparent opacity-[0.12] text-[clamp(2.5rem,15vw,11rem)]">
+          Hussain
+        </span>
       </div>
     </footer>
   );

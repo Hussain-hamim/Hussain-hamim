@@ -29,7 +29,7 @@ export const featuredProjects = [
     built:
       'An AI research platform that monitors Reddit, Twitter/X, G2, and forums 24/7, extracts recurring pain points, and scores ideas by demand, competition, and revenue potential.',
     result:
-      'Live at ideahunt.pro · 1k+ active users · 2,337 validated ideas generated · shipped in 4 weeks · scans Reddit, X, G2 & forums for real pain (not guesses) · each idea shows demand, competition & revenue signals · IdeaHunt Agents can monitor a niche 24/7 with instant alerts.',
+      'IdeaHunt helps builders stop guessing what to build by turning real pain points from Reddit, X, G2, and forums into validated startup ideas with demand, competition, and revenue signals.',
     metrics: [
       { value: '1k+', label: 'Active users' },
       { value: '2,337', label: 'Ideas generated' },
@@ -76,7 +76,7 @@ export const featuredProjects = [
     built:
       'Aegnis is an AI Chief of Staff that helps triage priorities, break work into actionable steps, and keep execution moving instead of just tracking to-dos.',
     result:
-      'Live at aegnis.life · 300+ active users · saves ~2.5h/week per user · shipped in 6 weeks.',
+      'Aegnis is an AI Chief of Staff for staying organized and moving faster: it helps manage workflows, schedule priorities, and turn daily planning into clear execution.',
     metrics: [
       { value: '300+', label: 'Active users' },
       { value: '2.5h/week', label: 'Avg. time saved / week' },
@@ -108,24 +108,24 @@ export const featuredProjects = [
     ],
   },
   {
-    slug: 'devsync',
-    title: 'DevSync',
+    slug: 'liquidglass',
+    title: 'LiquidGlass',
     tagline:
-      'The platform where developers connect through code, not resumes, and ship projects with real teams.',
-    live: 'https://devsync.codes/',
-    code: 'https://github.com/Hussain-hamim/DevSync',
+      'WebGL glass effects for the modern web — browse, preview, and copy beautiful liquid glass into any React project.',
+    live: 'https://liquidglass-sigma.vercel.app/',
+    code: 'https://github.com/Hussain-hamim',
     role: 'Solo full-stack engineer',
-    stack: ['Next.js', 'Tailwind', 'Supabase'],
+    stack: ['React', 'WebGL', 'TypeScript'],
     problem:
-      'Developers can show code on GitHub but still struggle to find aligned collaborators and active projects to build with.',
+      'Glassmorphism looks great in design tools, but recreating realistic refraction, blur, and chromatic aberration on the web is slow and inconsistent across projects.',
     built:
-      'A collaboration platform with smart matching, project discovery, code-native team discussions, AI code review, and one-click deployment flows.',
+      'A library and live gallery with 54 copy-ready glass effects powered by WebGL — browse, preview, and drop them straight into React apps.',
     result:
-      'Live at devsync.codes · 100+ developers · 10+ active projects · built for global, always-on collaboration.',
+      'LiquidGlass helps developers add polished glass UI fast: browse 54 effects, preview them live, and copy what you need into React projects powered by WebGL.',
     metrics: [
-      { value: '100+', label: 'Developers' },
-      { value: '10+', label: 'Projects' },
-      { value: '24/7', label: 'Active' },
+      { value: '54', label: 'Glass effects' },
+      { value: 'WebGL', label: 'Powered by' },
+      { value: 'MIT', label: 'License' },
     ],
     beforeAfter: {
       before: null,
@@ -150,7 +150,7 @@ export const featuredProjects = [
     built:
       'Couple Connect: shared goals (track savings, travel, home, or fitness together with contributions and milestones), private couple chat, unlimited moments & memories on a shared timeline, partner invite (subscribe to Pro and your partner gets it free), plus Home, Goals, Chat, and Profile in one simple app — private & secure.',
     result:
-      'In development · download on iPhone, invite your partner, and keep goals, chat, and memories in one couple-first app.',
+      'Couple Connect is an iOS app for couples to grow together with shared goals, real-time chat, love letters, milestones, memories, and partner invites in one private space.',
     metrics: [
       { value: '4', label: 'Core sections (Home/Goals/Chat/Profile)' },
       { value: '2', label: 'Users per shared space (couple)' },

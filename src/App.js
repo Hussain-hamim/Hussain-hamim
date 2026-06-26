@@ -43,7 +43,7 @@ function PortfolioPage({ locale }) {
       {isPashto && <PsEducationSection />}
       <ContactFooterWrap>
         <ContactMeSection locale={locale} />
-        <Footer locale={locale} />
+        <Footer />
       </ContactFooterWrap>
     </main>
   );

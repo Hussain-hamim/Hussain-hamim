@@ -15,6 +15,7 @@ const ContactFooterWrap = ({ children }) => {
         />
         <div className="absolute inset-0 bg-black/60" aria-hidden />
       </div>
+
       <div className="relative z-10">{children}</div>
     </div>
   );
