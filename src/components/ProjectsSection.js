@@ -4,7 +4,6 @@ import {
   FaGithub,
   FaExternalLinkAlt,
   FaBook,
-  FaCamera,
   FaChevronDown,
 } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
