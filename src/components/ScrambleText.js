@@ -1,7 +1,9 @@
 import {
   Fragment,
+  useCallback,
   useEffect,
   useLayoutEffect,
+  useMemo,
   useRef,
   useState,
 } from 'react';
@@ -110,35 +112,42 @@ export default function ScrambleText(props) {
   const enterFlickerIntensity = enterAnimation?.flickerIntensity ?? 70;
   const enterFlickerSpeed = enterAnimation?.flickerSpeed ?? 10;
 
-  const paragraphs = String(words ?? '')
-    .split('\n')
-    .map((line) => {
-      const tokens = line.match(/\s+|\S+/g) ?? [];
-      const out = [];
-      let pendingGap = '';
-      for (const tok of tokens) {
-        if (/^\s+$/.test(tok)) pendingGap += tok;
-        else {
-          out.push({ text: tok, gap: pendingGap });
-          pendingGap = '';
-        }
-      }
-      return out;
-    })
-    .filter((p) => p.length > 0);
+  const paragraphs = useMemo(
+    () =>
+      String(words ?? '')
+        .split('\n')
+        .map((line) => {
+          const tokens = line.match(/\s+|\S+/g) ?? [];
+          const out = [];
+          let pendingGap = '';
+          for (const tok of tokens) {
+            if (/^\s+$/.test(tok)) pendingGap += tok;
+            else {
+              out.push({ text: tok, gap: pendingGap });
+              pendingGap = '';
+            }
+          }
+          return out;
+        })
+        .filter((p) => p.length > 0),
+    [words]
+  );
 
-  const allWords = [];
-  paragraphs.forEach((paraWords, pi) => {
-    paraWords.forEach(({ text, gap }, wiInPara) => {
-      allWords.push({
-        text,
-        gap,
-        pi,
-        wiInPara,
-        globalWi: allWords.length,
+  const allWords = useMemo(() => {
+    const list = [];
+    paragraphs.forEach((paraWords, pi) => {
+      paraWords.forEach(({ text, gap }, wiInPara) => {
+        list.push({
+          text,
+          gap,
+          pi,
+          wiInPara,
+          globalWi: list.length,
+        });
       });
     });
-  });
+    return list;
+  }, [paragraphs]);
 
   const containerRef = useRef(null);
   const ghostRefs = useRef([]);
@@ -149,7 +158,7 @@ export default function ScrambleText(props) {
   const [shouldAnimate, setShouldAnimate] = useState(false);
   const [enterAnimComplete, setEnterAnimComplete] = useState(false);
 
-  const detectLines = () => {
+  const detectLines = useCallback(() => {
     const allLines = [];
     paragraphs.forEach((_, pi) => {
       const paraEntries = allWords.filter((w) => w.pi === pi);
@@ -173,19 +182,19 @@ export default function ScrambleText(props) {
       );
     });
     setLineGroups(allLines);
-  };
+  }, [paragraphs, allWords]);
 
   useLayoutEffect(() => {
     detectLines();
-  }, [words]);
+  }, [detectLines]);
 
   useEffect(() => {
     const el = containerRef.current;
-    if (!el) return;
+    if (!el) return undefined;
     const obs = new ResizeObserver(() => detectLines());
     obs.observe(el);
     return () => obs.disconnect();
-  }, []);
+  }, [detectLines]);
 
   // Play once when visible
   useEffect(() => {
@@ -360,7 +369,9 @@ export default function ScrambleText(props) {
         for (const group of lineGroups) {
           for (const gWi of group) {
             if (cancelled) return;
-            await animateWordInsert(gWi, () => targetAt(++idx));
+            idx += 1;
+            const step = idx;
+            await animateWordInsert(gWi, () => targetAt(step));
           }
         }
       } else if (enterMode === 'multiLine') {
@@ -375,8 +386,10 @@ export default function ScrambleText(props) {
               animStart + durationMs * easeFn(step / Math.max(1, total));
             for (const gWi of group) {
               if (cancelled) return;
+              li += 1;
+              const step = li;
               await animateWordInsert(gWi, () =>
-                targetAtScaled(++li, lineSteps)
+                targetAtScaled(step, lineSteps)
               );
             }
           })
@@ -395,7 +408,8 @@ export default function ScrambleText(props) {
         let idx = 0;
         for (const { globalWi, ci, char } of all) {
           if (cancelled) return;
-          await animateChar(globalWi, ci, char, targetAt(++idx));
+          idx += 1;
+          await animateChar(globalWi, ci, char, targetAt(idx));
         }
       }
     };
@@ -412,6 +426,7 @@ export default function ScrambleText(props) {
       cancelled = true;
     };
   }, [
+    allWords,
     lineGroups,
     enterMode,
     enterFlickerEnabled,

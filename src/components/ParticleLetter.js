@@ -117,15 +117,24 @@ function mkParticle(src, x, y, idleX, idleY) {
   };
 }
 
-async function renderLetterSource(letter, color, size = 720) {
+async function renderLetterSource(
+  letter,
+  color,
+  size = 720,
+  font = { fontFamily: 'Daisyogre', fontWeight: 700, fontStyle: 'normal' }
+) {
   const canvas = document.createElement('canvas');
   canvas.width = size;
   canvas.height = size;
   const ctx = canvas.getContext('2d');
   if (!ctx) return null;
 
-  const mainSize = Math.round(size * 0.78);
-  const fontStr = `700 ${mainSize}px Daisyogre, Impact, sans-serif`;
+  const fontFamily = font.fontFamily || 'Daisyogre';
+  const fontWeight = font.fontWeight ?? 700;
+  const fontStyle = font.fontStyle || 'normal';
+  const mainSize = Math.round(size * 0.82);
+  // Match MeshText canvas font string exactly.
+  const fontStr = `${fontStyle} ${fontWeight} ${mainSize}px ${fontFamily}, sans-serif`;
   try {
     if (document.fonts?.load) await document.fonts.load(fontStr);
     if (document.fonts?.ready) await document.fonts.ready;
@@ -135,6 +144,7 @@ async function renderLetterSource(letter, color, size = 720) {
 
   ctx.clearRect(0, 0, size, size);
   ctx.fillStyle = color;
+  ctx.letterSpacing = '-0.02em';
 
   const raw = String(letter || 'H');
   const isPower =
@@ -151,7 +161,8 @@ async function renderLetterSource(letter, color, size = 720) {
     ctx.textBaseline = 'middle';
     const baseWidth = ctx.measureText(base).width;
     const powerSize = Math.round(mainSize * 0.42);
-    ctx.font = `700 ${powerSize}px Daisyogre, Impact, sans-serif`;
+    const powerFontStr = `${fontStyle} ${fontWeight} ${powerSize}px ${fontFamily}, sans-serif`;
+    ctx.font = powerFontStr;
     const powerWidth = ctx.measureText(power).width;
     const totalWidth = baseWidth + powerWidth * 0.85;
     const startX = (size - totalWidth) / 2;
@@ -159,7 +170,7 @@ async function renderLetterSource(letter, color, size = 720) {
 
     ctx.font = fontStr;
     ctx.fillText(base, startX, midY);
-    ctx.font = `700 ${powerSize}px Daisyogre, Impact, sans-serif`;
+    ctx.font = powerFontStr;
     ctx.fillText(power, startX + baseWidth * 0.92, midY - mainSize * 0.28);
   } else {
     ctx.font = fontStr;
@@ -174,6 +185,12 @@ async function renderLetterSource(letter, color, size = 720) {
 const DEFAULTS = {
   letter: 'H',
   letterColor: '#0a0a0a',
+  font: {
+    fontFamily: 'Daisyogre',
+    variant: 'Bold',
+    fontWeight: 700,
+    fontStyle: 'normal',
+  },
   particleCount: 50,
   particleSize: 5,
   particleShape: 'circle',
@@ -211,6 +228,7 @@ export default function ParticleLetter(props) {
   const merged = {
     ...DEFAULTS,
     ...props,
+    font: { ...DEFAULTS.font, ...(props.font || {}) },
     hoverConfig: { ...DEFAULTS.hoverConfig, ...(props.hoverConfig || {}) },
     repulsionConfig: {
       ...DEFAULTS.repulsionConfig,
@@ -221,6 +239,7 @@ export default function ParticleLetter(props) {
   const {
     letter,
     letterColor,
+    font,
     particleCount,
     particleSize,
     particleShape,
@@ -238,6 +257,14 @@ export default function ParticleLetter(props) {
 
   const hover = hoverEnabled;
   const externallyControlled = typeof assembled === 'boolean';
+  const assembledRef = useRef(assembled);
+  assembledRef.current = assembled;
+  const fontKey = [
+    font?.fontFamily,
+    font?.fontWeight,
+    font?.fontStyle,
+    font?.variant,
+  ].join('|');
   const {
     hoverType = 'roam',
     transition,
@@ -296,6 +323,7 @@ export default function ParticleLetter(props) {
   samplingRef.current = {
     letter,
     letterColor,
+    font,
     particleCount,
     hover,
     hoverType,
@@ -367,6 +395,7 @@ export default function ParticleLetter(props) {
     const {
       letter: L,
       letterColor: LC,
+      font: fontCfg,
       particleCount: count,
       hover: hOn,
       hoverType: ht,
@@ -390,7 +419,7 @@ export default function ParticleLetter(props) {
 
     const srcCanvas =
       letterSourceRef.current ||
-      (await renderLetterSource(L, LC || '#0a0a0a', 720));
+      (await renderLetterSource(L, LC || '#0a0a0a', 720, fontCfg));
     if (!srcCanvas) return;
     letterSourceRef.current = srcCanvas;
 
@@ -470,11 +499,16 @@ export default function ParticleLetter(props) {
       animStateRef.current = 'idle';
     }
     sceneRef.current = { particles };
+
+    // Re-apply external assemble after rebuild (e.g. resize / font load).
+    if (assembledRef.current && hOn) {
+      startAnimRef.current?.('assembling');
+    }
   };
 
   useEffect(() => {
     letterSourceRef.current = null;
-  }, [letter, letterColor]);
+  }, [letter, letterColor, fontKey]);
 
   useEffect(() => {
     const el = containerRef.current;
@@ -497,6 +531,7 @@ export default function ParticleLetter(props) {
   }, [
     letter,
     letterColor,
+    fontKey,
     particleCount,
     hover,
     hoverType,

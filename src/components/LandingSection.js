@@ -15,6 +15,13 @@ const scrollToSection = (anchor) => {
 /** Default 30 min Cal.com booking — override with REACT_APP_BOOKING_URL if needed */
 const DEFAULT_CAL_BOOKING_URL = 'https://cal.com/hussain-hamim-fp9qc6/30min';
 
+const PARTICLE_LETTER_FONT = {
+  fontFamily: 'Daisyogre',
+  variant: 'Bold',
+  fontWeight: 700,
+  fontStyle: 'normal',
+};
+
 /** Painted accent stroke behind the name — inked highlight, not a solid box. */
 function HighlightedMeshText({ text, color = '#0a0a0a' }) {
   const shellRef = useRef(null);
@@ -284,6 +291,7 @@ const LandingSection = ({ locale = 'en' }) => {
           <ParticleLetter
             letter='H^2'
             letterColor='#0a0a0a'
+            font={PARTICLE_LETTER_FONT}
             particleCount={50}
             particleSize={5}
             particleShape='circle'
