@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ['./src/**/*.{js,jsx,ts,tsx}'],
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {
@@ -12,12 +13,21 @@ module.exports = {
         mygray: '#171717',
         accent: '#D7FF00',
         'accent-hover': '#c4ec00',
+        darkbg: '#0B1215',
+        surface: 'var(--surface)',
+        'surface-alt': 'var(--surface-alt)',
+        panel: 'var(--panel)',
+        'panel-hover': 'var(--panel-hover)',
+        ink: 'var(--ink)',
+        'ink-muted': 'var(--ink-muted)',
+        line: 'var(--line)',
+        'media-bg': 'var(--media-bg)',
       },
 
       boxShadow: {
-        brutal: '4px 4px 0 0 #000',
-        'brutal-sm': '2px 2px 0 0 #000',
-        'brutal-press': '0 0 0 0 #000',
+        brutal: '4px 4px 0 0 var(--line)',
+        'brutal-sm': '2px 2px 0 0 var(--line)',
+        'brutal-press': '0 0 0 0 var(--line)',
       },
 
       fontFamily: {

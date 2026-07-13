@@ -21,7 +21,19 @@
     <meta name="robots" content="index, follow" />
     <meta name="language" content="English" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#0f0f0f" />
+    <meta name="theme-color" content="#EFEFEF" />
+
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem('hsn-theme');
+          if (t === 'dark') {
+            document.documentElement.classList.add('dark');
+            document.documentElement.style.colorScheme = 'dark';
+          }
+        } catch (e) {}
+      })();
+    </script>
 
     <!-- Favicon -->
     <link rel="icon" type="image/jpeg" href="%PUBLIC_URL%/hsn3.jpg" />

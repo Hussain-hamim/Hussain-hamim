@@ -20,11 +20,11 @@ const SIZE = {
 
 const VARIANT = {
   primary:
-    'border border-black bg-accent text-black shadow-brutal-sm hover:bg-accent-hover',
+    'border border-line bg-accent text-black shadow-brutal-sm hover:bg-accent-hover',
   secondary:
-    'border border-black bg-white text-black shadow-brutal-sm hover:bg-[#f5f5f5]',
+    'border border-line bg-white text-black shadow-brutal-sm hover:bg-[#f5f5f5] dark:bg-panel dark:text-ink dark:hover:bg-panel-hover',
   outline:
-    'border border-black bg-transparent text-accent shadow-brutal-sm hover:bg-accent/10',
+    'border border-line bg-transparent text-accent shadow-brutal-sm hover:bg-accent/10',
 };
 
 /**
@@ -79,7 +79,7 @@ export default function Button({
   const sharedClass = [
     'group/btn inline-flex items-center justify-center rounded-full font-sans3 font-bold uppercase tracking-wide',
     'transition-[transform,box-shadow,background-color] duration-150 ease-out',
-    'focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0a]',
+    'focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-surface',
     'disabled:pointer-events-none disabled:opacity-50',
     sizeStyles.root,
     variantStyles,

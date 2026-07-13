@@ -182,8 +182,59 @@ async function renderLetterSource(
   return canvas;
 }
 
+/** Load an image and paint it cover-fit onto a square canvas for particle sampling. */
+async function renderImageSource(src, size = 720, objectPosition = 'center top') {
+  if (!src) return null;
+
+  const img = await new Promise((resolve, reject) => {
+    const el = new Image();
+    el.decoding = 'async';
+    el.onload = () => resolve(el);
+    el.onerror = () => reject(new Error('Failed to load particle image'));
+    el.src = src;
+  }).catch(() => null);
+
+  if (!img) return null;
+
+  const canvas = document.createElement('canvas');
+  canvas.width = size;
+  canvas.height = size;
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return null;
+
+  const iw = img.naturalWidth || img.width;
+  const ih = img.naturalHeight || img.height;
+  if (!iw || !ih) return null;
+
+  // Cover fit
+  const scale = Math.max(size / iw, size / ih);
+  const dw = iw * scale;
+  const dh = ih * scale;
+  let dx = (size - dw) / 2;
+  let dy = (size - dh) / 2;
+
+  // Bias toward face for portraits (default center top)
+  if (objectPosition.includes('top')) dy = 0;
+  if (objectPosition.includes('bottom')) dy = size - dh;
+  if (objectPosition.includes('left')) dx = 0;
+  if (objectPosition.includes('right')) dx = size - dw;
+
+  ctx.clearRect(0, 0, size, size);
+  ctx.drawImage(img, dx, dy, dw, dh);
+  return canvas;
+}
+
 const DEFAULTS = {
   letter: 'H',
+  /**
+   * When set with a letter, letter defines the particle shape/mask and
+   * this image supplies pixel colors (photo painted into the glyph).
+   * When set alone (no letter intent), samples the image as the shape.
+   */
+  src: null,
+  /** Use letter mask + image colors. Default true whenever src is set. */
+  imageFillLetter: true,
+  objectPosition: 'center top',
   letterColor: '#0a0a0a',
   font: {
     fontFamily: 'Daisyogre',
@@ -220,8 +271,8 @@ const DEFAULTS = {
 };
 
 /**
- * SVG Particle — Originkit-style particle letter.
- * Samples a rendered letter and roams / reassembles on hover.
+ * SVG Particle — Originkit-style particle letter / image.
+ * Samples a rendered letter or photo and roams / reassembles on hover.
  * @see https://www.originkit.dev/
  */
 export default function ParticleLetter(props) {
@@ -238,6 +289,9 @@ export default function ParticleLetter(props) {
 
   const {
     letter,
+    src,
+    imageFillLetter,
+    objectPosition,
     letterColor,
     font,
     particleCount,
@@ -256,6 +310,7 @@ export default function ParticleLetter(props) {
   } = merged;
 
   const hover = hoverEnabled;
+  const fillLetterWithImage = Boolean(src) && imageFillLetter !== false;
   const externallyControlled = typeof assembled === 'boolean';
   const assembledRef = useRef(assembled);
   assembledRef.current = assembled;
@@ -322,6 +377,9 @@ export default function ParticleLetter(props) {
 
   samplingRef.current = {
     letter,
+    src,
+    imageFillLetter: fillLetterWithImage,
+    objectPosition,
     letterColor,
     font,
     particleCount,
@@ -394,6 +452,9 @@ export default function ParticleLetter(props) {
   const initParticles = async () => {
     const {
       letter: L,
+      src: imageSrc,
+      imageFillLetter: fillWithImage,
+      objectPosition: objPos,
       letterColor: LC,
       font: fontCfg,
       particleCount: count,
@@ -410,21 +471,32 @@ export default function ParticleLetter(props) {
     if (!canvas) return;
 
     clearTimeout(animTimerRef.current);
-    const gap = Math.max(2, Math.round(150 / Math.max(1, count)));
+    // Higher count = denser grid. Photo-in-letter needs a tighter gap.
+    const density = imageSrc ? 220 : 150;
+    const gap = Math.max(2, Math.round(density / Math.max(1, count)));
     const dpr = window.devicePixelRatio || 1;
     canvas.width = Math.round(W * dpr);
     canvas.height = Math.round(H * dpr);
     mouseRef.current = { x: -99999, y: -99999, active: false };
     sceneRef.current = { particles: [] };
 
-    const srcCanvas =
+    // Shape mask: letter when painting photo into glyph, else image or letter alone.
+    const useLetterMask = !imageSrc || fillWithImage;
+    const shapeCanvas =
       letterSourceRef.current ||
-      (await renderLetterSource(L, LC || '#0a0a0a', 720, fontCfg));
-    if (!srcCanvas) return;
-    letterSourceRef.current = srcCanvas;
+      (useLetterMask
+        ? await renderLetterSource(L, LC || '#0a0a0a', 720, fontCfg)
+        : await renderImageSource(imageSrc, 720, objPos || 'center top'));
+    if (!shapeCanvas) return;
+    letterSourceRef.current = shapeCanvas;
 
-    const rect = containRect(srcCanvas.width, srcCanvas.height, W, H);
-    const scale = 1.05;
+    const photoCanvas =
+      imageSrc && fillWithImage
+        ? await renderImageSource(imageSrc, 720, objPos || 'center top')
+        : null;
+
+    const rect = containRect(shapeCanvas.width, shapeCanvas.height, W, H);
+    const scale = useLetterMask ? 1.05 : 1;
     const w = rect.w * scale;
     const h = rect.h * scale;
     const drawRect = { x: (W - w) / 2, y: (H - h) / 2, w, h };
@@ -434,32 +506,85 @@ export default function ParticleLetter(props) {
     off.height = H;
     const oc = off.getContext('2d');
     if (!oc) return;
-    oc.drawImage(srcCanvas, drawRect.x, drawRect.y, drawRect.w, drawRect.h);
+    oc.drawImage(shapeCanvas, drawRect.x, drawRect.y, drawRect.w, drawRect.h);
 
-    let px;
+    let maskPx;
     try {
-      px = oc.getImageData(0, 0, W, H).data;
+      maskPx = oc.getImageData(0, 0, W, H).data;
     } catch {
       return;
     }
 
-    const src = [];
+    let colorPx = null;
+    if (photoCanvas) {
+      const colorOff = document.createElement('canvas');
+      colorOff.width = W;
+      colorOff.height = H;
+      const cc = colorOff.getContext('2d');
+      if (cc) {
+        // Cover-fit photo into the same draw rect so face maps into the H
+        const pr = containRect(photoCanvas.width, photoCanvas.height, W, H);
+        const pw = pr.w;
+        const ph = pr.h;
+        cc.drawImage(
+          photoCanvas,
+          (W - pw) / 2,
+          (H - ph) / 2,
+          pw,
+          ph
+        );
+        try {
+          colorPx = cc.getImageData(0, 0, W, H).data;
+        } catch {
+          colorPx = null;
+        }
+      }
+    }
+
+    const srcPts = [];
     for (let y = 0; y < H; y += gap) {
       for (let x = 0; x < W; x += gap) {
         const i = (y * W + x) * 4;
-        if (px[i + 3] >= 20) {
-          src.push({
+        const a = maskPx[i + 3];
+        if (a < 24) continue;
+
+        if (colorPx) {
+          // Lift photo pixels so the letter stays vivid on light backgrounds
+          const lift = 1.22;
+          srcPts.push({
             homeX: x,
             homeY: y,
-            r: px[i],
-            g: px[i + 1],
-            b: px[i + 2],
-            a: px[i + 3],
+            r: Math.min(255, Math.round(colorPx[i] * lift)),
+            g: Math.min(255, Math.round(colorPx[i + 1] * lift)),
+            b: Math.min(255, Math.round(colorPx[i + 2] * lift)),
+            a: Math.min(a, colorPx[i + 3] || 255),
+          });
+        } else if (imageSrc && !fillWithImage) {
+          const r = maskPx[i];
+          const g = maskPx[i + 1];
+          const b = maskPx[i + 2];
+          if (r > 248 && g > 248 && b > 248) continue;
+          srcPts.push({
+            homeX: x,
+            homeY: y,
+            r,
+            g,
+            b,
+            a,
+          });
+        } else {
+          srcPts.push({
+            homeX: x,
+            homeY: y,
+            r: maskPx[i],
+            g: maskPx[i + 1],
+            b: maskPx[i + 2],
+            a,
           });
         }
       }
     }
-    shuffle(src);
+    shuffle(srcPts);
 
     const hidePos = (homeX, homeY) => {
       const range = hT === 'in-place' ? 1 : 10;
@@ -472,7 +597,7 @@ export default function ParticleLetter(props) {
     let particles = [];
     if (!hOn) {
       animStateRef.current = 'active';
-      particles = src.map((p) =>
+      particles = srcPts.map((p) =>
         mkParticle(p, p.homeX, p.homeY, p.homeX, p.homeY)
       );
     } else if (ht === 'roam') {
@@ -480,7 +605,7 @@ export default function ParticleLetter(props) {
       const bh = Math.max(80, rh || H);
       const bx = (W - bw) / 2;
       const by = (H - bh) / 2;
-      particles = src.map((p) => {
+      particles = srcPts.map((p) => {
         const [rx, ry] = randomInShape(rs, bx, by, bw, bh);
         const pt = mkParticle(p, rx, ry, rx, ry);
         const [tx, ty] = randomInShape(rs, bx, by, bw, bh);
@@ -492,7 +617,7 @@ export default function ParticleLetter(props) {
       });
       animStateRef.current = 'idle';
     } else {
-      particles = src.map((p) => {
+      particles = srcPts.map((p) => {
         const [ox, oy] = hidePos(p.homeX, p.homeY);
         return mkParticle(p, ox, oy, ox, oy);
       });
@@ -508,7 +633,7 @@ export default function ParticleLetter(props) {
 
   useEffect(() => {
     letterSourceRef.current = null;
-  }, [letter, letterColor, fontKey]);
+  }, [letter, letterColor, fontKey, src, objectPosition, fillLetterWithImage]);
 
   useEffect(() => {
     const el = containerRef.current;
@@ -532,6 +657,9 @@ export default function ParticleLetter(props) {
     letter,
     letterColor,
     fontKey,
+    src,
+    objectPosition,
+    fillLetterWithImage,
     particleCount,
     hover,
     hoverType,
@@ -854,7 +982,13 @@ export default function ParticleLetter(props) {
     >
       <canvas
         ref={canvasRef}
-        style={{ display: 'block', width: '100%', height: '100%' }}
+        style={{
+          display: 'block',
+          width: '100%',
+          height: '100%',
+          cursor: 'pointer',
+        }}
+        onClick={typeof props.onClick === 'function' ? props.onClick : undefined}
         onMouseMove={onMouseMove}
         onMouseLeave={onMouseLeave}
       />

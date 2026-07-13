@@ -274,13 +274,13 @@ export const SectionHeader = ({ title, light = false }) => {
     >
       <h2
         className={`text-center text-4xl md:text-5xl font-bold font-sans1 tracking-tight uppercase ${
-          light ? 'text-[#0a0a0a]' : 'text-white'
+          light ? 'text-ink' : 'text-white'
         }`}
       >
         {showSplit ? (
           <>
-            <span className='text-[#0a0a0a]'>{words[0]}</span>{' '}
-            <span className='text-[#0a0a0a]/55'>{words.slice(1).join(' ')}</span>
+            <span className='text-ink'>{words[0]}</span>{' '}
+            <span className='text-ink-muted'>{words.slice(1).join(' ')}</span>
           </>
         ) : (
           title
@@ -333,7 +333,7 @@ export const ProjectCard = ({
     const isInternal = Boolean(featuredMeta?.slug);
 
     const media = (
-      <div className='relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-black bg-[#e8e6db] sm:rounded-3xl'>
+      <div className='relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-line bg-media-bg sm:rounded-3xl'>
         {project.embedUrl ? (
           <iframe
             src={project.embedUrl}
@@ -356,7 +356,7 @@ export const ProjectCard = ({
     const body = (
       <>
         {media}
-        <h3 className='mt-3 line-clamp-2 text-left text-xs font-bold uppercase leading-snug tracking-wide text-[#0a0a0a] font-sans3 sm:mt-4 sm:text-[13px]'>
+        <h3 className='mt-3 line-clamp-2 text-left text-xs font-bold uppercase leading-snug tracking-wide text-ink font-sans3 sm:mt-4 sm:text-[13px]'>
           {isPlaceholder(headline) ? (
             <FeaturedPlaceholder>{headline}</FeaturedPlaceholder>
           ) : (
@@ -380,7 +380,7 @@ export const ProjectCard = ({
     );
 
     const cardShell =
-      'block h-full rounded-2xl bg-[#EDEBE0] p-3 sm:rounded-3xl sm:p-4 shadow-[0_0_0_0_transparent] transition-[box-shadow,background-color] duration-300 group-hover:bg-[#E9E7DB] group-hover:shadow-[0_0_0_0.5px_rgba(0,0,0,0.22)] focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 focus-visible:ring-offset-[#F3F1E6]';
+      'block h-full rounded-2xl bg-panel p-3 sm:rounded-3xl sm:p-4 shadow-[0_0_0_0_transparent] transition-[box-shadow,background-color] duration-300 group-hover:bg-panel-hover group-hover:shadow-[0_0_0_0.5px_rgba(0,0,0,0.22)] focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 focus-visible:ring-offset-surface-alt';
 
     return (
       <motion.div
@@ -428,7 +428,7 @@ export const ProjectCard = ({
       <div
         className={`relative h-full rounded-2xl overflow-hidden flex flex-col transition-[box-shadow,background-color] duration-300 ${
           useLight
-            ? 'bg-[#EDEBE0] group-hover:bg-[#E9E7DB] group-hover:shadow-[0_0_0_0.5px_rgba(0,0,0,0.22)]'
+            ? 'bg-panel group-hover:bg-panel-hover group-hover:shadow-[0_0_0_0.5px_rgba(0,0,0,0.22)]'
             : ''
         }`}
         style={
@@ -457,7 +457,7 @@ export const ProjectCard = ({
           className={`relative overflow-hidden ${
             isCertificate ? 'h-44 sm:h-48' : 'h-60'
           } ${
-            useLight ? 'bg-[#e8e6db] border-b border-black/10' : 'bg-[#1a1a1a]'
+            useLight ? 'bg-media-bg border-b border-black/10' : 'bg-[#1a1a1a]'
           }`}
         >
           {project.embedUrl ? (
@@ -511,7 +511,7 @@ export const ProjectCard = ({
             <h3
               className={`font-bold font-sans3 tracking-tight ${
                 isCertificate ? 'text-base sm:text-lg' : 'text-xl'
-              } ${useLight ? 'text-[#0a0a0a]' : 'text-white'}`}
+              } ${useLight ? 'text-ink' : 'text-white'}`}
               style={
                 !useLight && hovered ? { color: accent } : undefined
               }
@@ -535,7 +535,7 @@ export const ProjectCard = ({
           {!isCertificate && (
             <p
               className={`text-sm leading-relaxed mb-6 flex-grow font-sans3 ${
-                useLight ? 'text-gray-700' : 'text-gray-400'
+                useLight ? 'text-gray-700 dark:text-white/70' : 'text-gray-400'
               }`}
             >
               {project.description}
@@ -678,9 +678,9 @@ const ProjectsSection = ({ locale = 'en' }) => {
   }, {});
 
   return (
-    <section id='projects-section' className='relative overflow-hidden bg-[#F3F1E6]'>
+    <section id='projects-section' className='relative overflow-hidden bg-surface-alt transition-colors duration-300'>
       {/* Featured Work */}
-      <div className='relative min-h-screen bg-[#F3F1E6]'>
+      <div className='relative min-h-screen bg-surface-alt'>
         <div className='relative z-10 py-32 overflow-hidden min-h-screen flex items-center'>
           <div className='max-w-7xl mx-auto w-full px-6 md:px-8 relative z-10'>
             <SectionHeader
@@ -724,7 +724,7 @@ const ProjectsSection = ({ locale = 'en' }) => {
       <ExperienceSection locale={locale} />
 
       {/* Activity · About · Blogs & Photos · Certificates */}
-      <div className='relative bg-[#F3F1E6] py-32 overflow-visible'>
+      <div className='relative bg-surface-alt py-32 overflow-visible'>
         <div className='max-w-7xl mx-auto w-full px-6 md:px-8 relative z-10'>
           {/* Activity */}
           <div id='activity-section'>
@@ -750,14 +750,14 @@ const ProjectsSection = ({ locale = 'en' }) => {
                 viewport={{ once: true }}
                 className='relative group'
               >
-                <div className='relative rounded-2xl p-8 bg-[#EDEBE0] transition-[box-shadow,background-color] duration-300 h-full flex flex-col group-hover:bg-[#E9E7DB] group-hover:shadow-[0_0_0_0.5px_rgba(0,0,0,0.22)]'>
+                <div className='relative rounded-2xl p-8 bg-panel transition-[box-shadow,background-color] duration-300 h-full flex flex-col group-hover:bg-panel-hover group-hover:shadow-[0_0_0_0.5px_rgba(0,0,0,0.22)]'>
                   <div className='flex items-center gap-3 mb-6'>
-                    <FaGithub className='text-2xl text-[#0a0a0a]' />
+                    <FaGithub className='text-2xl text-ink' />
                     <div>
-                      <h3 className='text-2xl font-bold text-[#0a0a0a] mb-1'>
+                      <h3 className='text-2xl font-bold text-ink mb-1'>
                         {isPashto ? 'د ونډو فعاليت' : 'Contribution Activity'}
                       </h3>
-                      <p className='text-sm text-gray-600'>
+                      <p className='text-sm text-gray-600 dark:text-white/55'>
                         {isPashto
                           ? 'په تېرو ۱۲ مياشتو کې د GitHub ونډې'
                           : 'GitHub contributions over the last year'}
@@ -850,7 +850,7 @@ const PhotosCard = () => (
       dragSpeed={20}
       driftAmount={14}
       friction={10}
-      backgroundColor='#EDEBE0'
+      backgroundColor='var(--panel)'
       width='100%'
       height='100%'
     />
@@ -878,16 +878,16 @@ const BlogsCard = ({ isPashto }) => (
     viewport={{ once: true }}
     className='relative group'
   >
-    <div className='relative flex h-full flex-col rounded-2xl bg-[#EDEBE0] p-6 transition-[box-shadow,background-color] duration-300 group-hover:bg-[#E9E7DB] group-hover:shadow-[0_0_0_0.5px_rgba(0,0,0,0.22)] sm:p-8'>
+    <div className='relative flex h-full flex-col rounded-2xl bg-panel p-6 transition-[box-shadow,background-color] duration-300 group-hover:bg-panel-hover group-hover:shadow-[0_0_0_0.5px_rgba(0,0,0,0.22)] sm:p-8'>
       <div className='mb-5 flex items-center gap-3'>
-        <div className='flex h-10 w-10 items-center justify-center rounded-full bg-[#D7FF00] border border-black'>
+        <div className='flex h-10 w-10 items-center justify-center rounded-full bg-[#D7FF00] border border-line'>
           <FaBook className='text-base text-black' />
         </div>
         <div>
-          <h3 className='text-xl font-bold text-[#0a0a0a]'>
+          <h3 className='text-xl font-bold text-ink'>
             {isPashto ? 'بلاګونه' : 'Blogs'}
           </h3>
-          <p className='text-xs text-gray-600'>
+          <p className='text-xs text-gray-600 dark:text-white/55'>
             {isPashto ? 'تخنيکي ليکنې' : 'Technical writing'}
           </p>
         </div>
@@ -897,16 +897,16 @@ const BlogsCard = ({ isPashto }) => (
         {BLOG_POSTS.map((post) => (
           <div
             key={post.url}
-            className='group/post relative flex w-full max-w-[220px] flex-col overflow-hidden rounded-xl border border-black/10 bg-[#F3F1E6] px-3.5 py-4 transition-all duration-300 hover:border-black/25 hover:shadow-[0_0_0_0.5px_rgba(0,0,0,0.22)]'
+            className='group/post relative flex w-full max-w-[220px] flex-col overflow-hidden rounded-xl border border-line/10 bg-surface-alt px-3.5 py-4 transition-all duration-300 hover:border-black/25 hover:shadow-[0_0_0_0.5px_rgba(0,0,0,0.22)]'
           >
             <div className='min-w-0'>
-              <span className='mb-2 inline-block text-[9px] font-mono uppercase tracking-[0.18em] text-gray-600'>
+              <span className='mb-2 inline-block text-[9px] font-mono uppercase tracking-[0.18em] text-gray-600 dark:text-white/55'>
                 {post.source}
               </span>
-              <h4 className='mb-2 text-sm font-semibold leading-snug text-[#0a0a0a]'>
+              <h4 className='mb-2 text-sm font-semibold leading-snug text-ink'>
                 {isPashto ? post.titlePs : post.title}
               </h4>
-              <p className='text-xs leading-relaxed text-gray-600'>
+              <p className='text-xs leading-relaxed text-gray-600 dark:text-white/55'>
                 {isPashto ? post.descriptionPs : post.description}
               </p>
             </div>

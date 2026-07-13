@@ -12,34 +12,26 @@ const ExperienceCard = ({ exp, index, isPashto, isRtl }) => (
     className='relative flex gap-4 md:gap-5 group'
   >
     <div className='relative z-10 flex-shrink-0 mt-1'>
-      <div className='w-4 h-4 md:w-5 md:h-5 rounded-full bg-[#F3F1E6] border-2 border-black flex items-center justify-center'>
+      <div className='w-4 h-4 md:w-5 md:h-5 rounded-full bg-surface-alt border-2 border-line flex items-center justify-center'>
         {exp.isCurrent && (
-          <div className='w-2 h-2 md:w-2.5 md:h-2.5 rounded-full bg-[#D7FF00] border border-black' />
+          <div className='w-2 h-2 md:w-2.5 md:h-2.5 rounded-full bg-[#D7FF00] border border-line' />
         )}
       </div>
     </div>
     <div className='flex-1 min-w-0'>
       <div
-        className='relative rounded-xl p-4 md:p-5 bg-[#EDEBE0] transition-[box-shadow,background-color] duration-300 group-hover:bg-[#E9E7DB] group-hover:shadow-[0_0_0_0.5px_rgba(0,0,0,0.22)]'
+        className='relative rounded-xl p-4 md:p-5 bg-panel transition-[box-shadow,background-color] duration-300 group-hover:bg-panel-hover group-hover:shadow-[0_0_0_0.5px_rgba(0,0,0,0.22)]'
       >
-        <div className='flex flex-wrap items-center gap-2 mb-1.5'>
-          <span className='text-[10px] font-mono text-gray-600 uppercase tracking-wider'>
+        <div className='mb-1.5'>
+          <span className='text-[10px] font-mono text-gray-600 dark:text-white/55 uppercase tracking-wider'>
             {exp.duration}
           </span>
-          {exp.isCurrent && (
-            <span
-              className='text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full text-black bg-[#D7FF00] border border-black'
-              aria-label={isPashto ? 'اوسنۍ دنده' : 'Current role'}
-            >
-              {isPashto ? 'اوس' : 'Present'}
-            </span>
-          )}
         </div>
-        <h3 className='text-lg md:text-xl font-bold font-sans1 text-[#0a0a0a] mb-0.5 tracking-tight'>
+        <h3 className='text-lg md:text-xl font-bold font-sans1 text-ink mb-0.5 tracking-tight'>
           {exp.role}
         </h3>
-        <p className='text-gray-600 text-sm font-medium mb-2'>{exp.company}</p>
-        <p className='text-gray-700 text-sm leading-relaxed font-sans3'>
+        <p className='text-gray-600 dark:text-white/55 text-sm font-medium mb-2'>{exp.company}</p>
+        <p className='text-gray-700 dark:text-white/70 text-sm leading-relaxed font-sans3'>
           {exp.description}
         </p>
       </div>
@@ -98,7 +90,7 @@ const ExperienceSection = ({ locale = 'en' }) => {
   return (
     <section
       id='experience-section'
-      className='relative z-10 py-32 px-4 md:px-8 overflow-hidden min-h-screen flex items-center bg-[#F3F1E6]'
+      className='relative z-10 py-32 px-4 md:px-8 overflow-hidden min-h-screen flex items-center bg-surface-alt transition-colors duration-300'
     >
       <div className='max-w-4xl mx-auto relative z-10 w-full'>
         <motion.div
@@ -108,7 +100,7 @@ const ExperienceSection = ({ locale = 'en' }) => {
           viewport={{ once: true }}
           className='flex flex-col items-center mb-16'
         >
-          <h2 className='text-center text-4xl md:text-5xl font-bold font-sans1 text-[#0a0a0a] tracking-tight uppercase'>
+          <h2 className='text-center text-4xl md:text-5xl font-bold font-sans1 text-ink tracking-tight uppercase'>
             {isPashto ? 'تجربه' : 'EXPERIENCE'}
           </h2>
         </motion.div>
@@ -117,7 +109,7 @@ const ExperienceSection = ({ locale = 'en' }) => {
         <div className='relative'>
           {/* Vertical line */}
           <div
-            className='absolute left-6 md:left-8 top-0 bottom-0 w-px bg-gradient-to-b from-black/40 via-black/15 to-transparent'
+            className='absolute left-6 md:left-8 top-0 bottom-0 w-px bg-gradient-to-b from-line/40 via-line/15 to-transparent'
             aria-hidden
           />
 

@@ -1,8 +1,9 @@
 import React, { useEffect, useRef, useState, lazy, Suspense } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faXmark } from "@fortawesome/free-solid-svg-icons";
-import { Calendar } from "lucide-react";
+import { Calendar, Moon, Sun } from "lucide-react";
 import Button from "./Button";
+import { useTheme } from "../context/themeContext";
 import { PEEL_VARIATIONS } from "./peelDirections";
 
 const StickerPeeling = lazy(() => import("./StickerPeeling"));
@@ -40,6 +41,7 @@ const socials = [
 
 const Header = ({ locale = "en" }) => {
   const isPashto = locale === "ps";
+  const { isDark, toggleTheme } = useTheme();
   const bookingUrl = (
     process.env.REACT_APP_BOOKING_URL || DEFAULT_CAL_BOOKING_URL
   ).trim();
@@ -144,8 +146,26 @@ const Header = ({ locale = "en" }) => {
 
   /** Solid dark bar when scrolled or mobile drawer open */
   const headerBarSolid = scrolled || isMenuOpen;
-  /** Light cream hero at top — dark nav text until user scrolls */
-  const onLightHero = !headerBarSolid;
+  /** Cream hero at top — dark nav text until scroll; dark theme uses light text */
+  const onLightHero = !headerBarSolid && !isDark;
+
+  const themeToggleBtn = (
+    <button
+      type="button"
+      onClick={toggleTheme}
+      aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+      title={isDark ? "Light mode" : "Dark mode"}
+      className={`inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border transition-colors duration-300 ${
+        headerBarSolid
+          ? "border-white/15 text-gray-300 hover:border-white/30 hover:text-white hover:bg-white/5"
+          : onLightHero
+          ? "border-black/15 text-[#0a0a0a] hover:border-black/30 hover:bg-black/[0.04]"
+          : "border-white/25 text-white hover:border-white/45 hover:bg-white/10"
+      }`}
+    >
+      {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+    </button>
+  );
 
   return (
     <header
@@ -246,22 +266,27 @@ const Header = ({ locale = "en" }) => {
             >
               {isPashto ? "د لیدنې وخت وټاکئ" : "Book a call"}
             </Button>
+
+            <div className="ml-2">{themeToggleBtn}</div>
           </nav>
 
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className={`md:hidden -mr-1 flex h-11 w-11 shrink-0 items-center justify-center rounded-lg transition-colors relative z-50 ${
-              headerBarSolid
-                ? "text-gray-400 hover:text-white"
-                : onLightHero
-                ? "text-[#0a0a0a] hover:text-[#0a0a0a]/70"
-                : "text-white drop-shadow-[0_1px_6px_rgba(0,0,0,0.6)] hover:text-white/85"
-            }`}
-            aria-label="Toggle menu"
-          >
-            <FontAwesomeIcon icon={isMenuOpen ? faXmark : faBars} size="lg" />
-          </button>
+          {/* Mobile controls */}
+          <div className="flex items-center gap-1.5 md:hidden">
+            {themeToggleBtn}
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className={`-mr-1 flex h-11 w-11 shrink-0 items-center justify-center rounded-lg transition-colors relative z-50 ${
+                headerBarSolid
+                  ? "text-gray-400 hover:text-white"
+                  : onLightHero
+                  ? "text-[#0a0a0a] hover:text-[#0a0a0a]/70"
+                  : "text-white drop-shadow-[0_1px_6px_rgba(0,0,0,0.6)] hover:text-white/85"
+              }`}
+              aria-label="Toggle menu"
+            >
+              <FontAwesomeIcon icon={isMenuOpen ? faXmark : faBars} size="lg" />
+            </button>
+          </div>
         </div>
       </div>
 

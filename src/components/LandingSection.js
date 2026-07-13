@@ -6,6 +6,8 @@ import MeshText from './MeshText';
 import TextMorph from './TextMorph';
 import ScrambleText from './ScrambleText';
 import ParticleLetter from './ParticleLetter';
+import { useTheme } from '../context/themeContext';
+import heroPortrait from '../asset/hsn3.jpg';
 
 const scrollToSection = (anchor) => {
   const el = document.getElementById(`${anchor}-section`);
@@ -14,13 +16,6 @@ const scrollToSection = (anchor) => {
 
 /** Default 30 min Cal.com booking — override with REACT_APP_BOOKING_URL if needed */
 const DEFAULT_CAL_BOOKING_URL = 'https://cal.com/hussain-hamim-fp9qc6/30min';
-
-const PARTICLE_LETTER_FONT = {
-  fontFamily: 'Daisyogre',
-  variant: 'Bold',
-  fontWeight: 700,
-  fontStyle: 'normal',
-};
 
 /** Painted accent stroke behind the name — inked highlight, not a solid box. */
 function HighlightedMeshText({ text, color = '#0a0a0a' }) {
@@ -136,6 +131,8 @@ function HighlightedMeshText({ text, color = '#0a0a0a' }) {
 
 const LandingSection = ({ locale = 'en' }) => {
   const isPashto = locale === 'ps';
+  const { isDark } = useTheme();
+  const ink = isDark ? '#F3F1E6' : '#0a0a0a';
   const bookingUrl = (
     process.env.REACT_APP_BOOKING_URL || DEFAULT_CAL_BOOKING_URL
   ).trim();
@@ -161,7 +158,7 @@ const LandingSection = ({ locale = 'en' }) => {
 
   return (
     <section
-      className='relative w-full min-h-screen overflow-hidden bg-[#EFEFEF]'
+      className='relative w-full min-h-screen overflow-hidden bg-surface transition-colors duration-300'
       onMouseEnter={() => setHeroHovered(true)}
       onMouseLeave={() => setHeroHovered(false)}
     >
@@ -171,7 +168,7 @@ const LandingSection = ({ locale = 'en' }) => {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.05, duration: 0.5 }}
-            className='mb-2 font-sans3 text-sm text-gray-600 sm:mb-3 sm:text-base'
+            className='mb-2 font-sans3 text-sm text-gray-600 dark:text-white/55 sm:mb-3 sm:text-base'
           >
             {copy.greeting}
           </motion.p>
@@ -191,7 +188,7 @@ const LandingSection = ({ locale = 'en' }) => {
             >
               <MeshText
                 text={copy.firstName}
-                color='#0a0a0a'
+                color={ink}
                 font={{
                   fontFamily: 'Daisyogre',
                   variant: 'Bold',
@@ -203,14 +200,14 @@ const LandingSection = ({ locale = 'en' }) => {
                 textAlign='left'
               />
             </div>
-            <HighlightedMeshText text={copy.lastName} />
+            <HighlightedMeshText text={copy.lastName} color='#0a0a0a' />
           </motion.h1>
 
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.28, duration: 0.6 }}
-            className='mt-6 max-w-xl font-sans1 text-[clamp(1.15rem,3.2vw,1.65rem)] font-bold uppercase leading-[1.15] tracking-tight text-[#0a0a0a] sm:mt-8'
+            className='mt-6 max-w-xl font-sans1 text-[clamp(1.15rem,3.2vw,1.65rem)] font-bold uppercase leading-[1.15] tracking-tight text-ink sm:mt-8'
           >
             {isPashto ? (
               <>
@@ -233,7 +230,7 @@ const LandingSection = ({ locale = 'en' }) => {
                   transition={{ duration: 0.85, delay: 1.4, ease: 'easeInOut' }}
                 />{' '}
                 products for{' '}
-                <span className='text-[#0a0a0a]/55'>startups that need to</span>{' '}
+                <span className='text-ink-muted'>startups that need to</span>{' '}
                 ship.
               </>
             )}
@@ -243,7 +240,7 @@ const LandingSection = ({ locale = 'en' }) => {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.6 }}
-            className='mt-4 max-w-md font-sans3 text-sm leading-relaxed text-gray-600 sm:mt-5 sm:text-base'
+            className='mt-4 max-w-md font-sans3 text-sm leading-relaxed text-gray-600 dark:text-white/55 sm:mt-5 sm:text-base'
           >
             {copy.subline}
           </motion.p>
@@ -252,30 +249,34 @@ const LandingSection = ({ locale = 'en' }) => {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.55 }}
-            className='mt-8 flex w-full max-w-md flex-col items-stretch justify-start gap-3 sm:mt-10 sm:max-w-none sm:flex-row sm:items-center sm:justify-start'
+            className='mt-8 flex w-full max-w-md flex-col items-stretch justify-start gap-3 sm:mt-10 sm:max-w-none sm:flex-row sm:flex-wrap sm:items-center sm:justify-start'
           >
-            {bookingUrl ? (
+            <div className='flex w-full flex-row items-center gap-3 sm:w-auto'>
+              {bookingUrl ? (
+                <Button
+                  href={bookingUrl}
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  icon={<Calendar />}
+                  className='min-w-0 flex-1 sm:flex-none'
+                >
+                  {copy.ctaBook}
+                </Button>
+              ) : null}
               <Button
-                href={bookingUrl}
-                target='_blank'
-                rel='noopener noreferrer'
-                icon={<Calendar />}
+                variant='secondary'
+                onClick={() => scrollToSection('projects')}
+                icon={<ArrowRight />}
+                className='min-w-0 flex-1 sm:flex-none'
               >
-                {copy.ctaBook}
+                {copy.ctaSeeWork}
               </Button>
-            ) : null}
-            <Button
-              variant='secondary'
-              onClick={() => scrollToSection('projects')}
-              icon={<ArrowRight />}
-            >
-              {copy.ctaSeeWork}
-            </Button>
+            </div>
             <Button
               variant='outline'
               onClick={() => scrollToSection('contactme')}
               icon={<MessageSquare />}
-              className='!text-[#0a0a0a]'
+              className='!text-ink w-full sm:w-auto'
             >
               {copy.ctaDropMessage}
             </Button>
@@ -289,19 +290,20 @@ const LandingSection = ({ locale = 'en' }) => {
           className='relative flex h-[min(38vw,14rem)] w-full max-w-[14rem] shrink-0 items-center justify-center md:h-[min(42vh,20rem)] md:max-w-[20rem] lg:h-[min(46vh,22rem)] lg:max-w-[22rem]'
         >
           <ParticleLetter
-            letter='H^2'
-            letterColor='#0a0a0a'
-            font={PARTICLE_LETTER_FONT}
-            particleCount={50}
-            particleSize={5}
-            particleShape='circle'
+            letter='H'
+            src={heroPortrait}
+            objectPosition='center top'
+            imageFillLetter
+            particleCount={70}
+            particleSize={4}
+            particleShape='square'
             particleColor='original'
             assembled={heroHovered}
             hoverEnabled
             hoverConfig={{
               hoverType: 'roam',
               transition: { duration: 0.8, ease: 'easeInOut' },
-              roamOpacity: 0.4,
+              roamOpacity: 0.55,
               roamShape: 'rectangle',
             }}
             repulsionEnabled
@@ -310,6 +312,7 @@ const LandingSection = ({ locale = 'en' }) => {
               repulsionForce: 10,
               repulsionRadius: 55,
             }}
+            onClick={() => scrollToSection('about')}
             className='h-full w-full'
           />
         </motion.div>

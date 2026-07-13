@@ -8,6 +8,7 @@ import Header from './components/Header';
 import LandingSection from './components/LandingSection';
 import ProjectsSection from './components/ProjectsSection';
 import { AlertProvider } from './context/alertContext';
+import { ThemeProvider } from './context/themeContext';
 import PsEducationSection from './components/PsEducationSection';
 
 const ProjectDetails = lazy(() => import('./components/ProjectDetails'));
@@ -47,23 +48,25 @@ function PortfolioPage({ locale }) {
 function App() {
   return (
     <Router>
-      <AlertProvider>
-        <Suspense fallback={<RouteFallback />}>
-          <Routes>
-            <Route path="/projects" element={<AllProjectsPage />} />
-            <Route path="/projects-legacy" element={<ProjectsList />} />
-            <Route path="/projects/:slug" element={<ProjectDetails />} />
-            <Route
-              path="/proposal/muse-ai-deck-agent"
-              element={<ProposalDeckAgentPage />}
-            />
-            <Route path="/case-study/:slug" element={<CaseStudyPage />} />
-            <Route path="/ps" element={<PortfolioPage locale="ps" />} />
-            <Route path="/*" element={<PortfolioPage locale="en" />} />
-          </Routes>
-        </Suspense>
-        <Alert />
-      </AlertProvider>
+      <ThemeProvider>
+        <AlertProvider>
+          <Suspense fallback={<RouteFallback />}>
+            <Routes>
+              <Route path="/projects" element={<AllProjectsPage />} />
+              <Route path="/projects-legacy" element={<ProjectsList />} />
+              <Route path="/projects/:slug" element={<ProjectDetails />} />
+              <Route
+                path="/proposal/muse-ai-deck-agent"
+                element={<ProposalDeckAgentPage />}
+              />
+              <Route path="/case-study/:slug" element={<CaseStudyPage />} />
+              <Route path="/ps" element={<PortfolioPage locale="ps" />} />
+              <Route path="/*" element={<PortfolioPage locale="en" />} />
+            </Routes>
+          </Suspense>
+          <Alert />
+        </AlertProvider>
+      </ThemeProvider>
     </Router>
   );
 }

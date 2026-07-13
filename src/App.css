@@ -6,15 +6,42 @@
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap');
 @font-face {
   font-family: Daisyogre;
-  src: url(/public/Fonts/Daisyogre.ttf);
+  src: url('../public/Fonts/Daisyogre.ttf');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
 }
 
 :root {
+  --surface: #efefef;
+  --surface-alt: #f3f1e6;
+  --panel: #edebe0;
+  --panel-hover: #e9e7db;
+  --ink: #0a0a0a;
+  --ink-muted: rgba(10, 10, 10, 0.55);
+  --line: #0a0a0a;
+  --media-bg: #e8e6db;
   --bg-color: #0f0f0f;
   --text-color: #ffffff;
   --accent-color: rgb(160, 40, 132);
   --card-bg: rgba(26, 26, 26, 0.8);
   --gradient: linear-gradient(135deg, #2c9bd2, #00ffff);
+}
+
+html.dark {
+  --surface: #0b1215;
+  --surface-alt: #0b1215;
+  --panel: #121a1e;
+  --panel-hover: #162025;
+  --ink: #f3f1e6;
+  --ink-muted: rgba(243, 241, 230, 0.55);
+  --line: #f3f1e6;
+  --media-bg: #0f1619;
+}
+
+html {
+  background-color: var(--surface);
+  color: var(--ink);
 }
 
 .seeMore {

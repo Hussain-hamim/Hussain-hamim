@@ -17,7 +17,7 @@ const educationEntries = [
 
 const PsEducationSection = () => {
   return (
-    <section className="relative bg-[#F3F1E6] py-32 overflow-hidden">
+    <section className="relative bg-surface-alt py-32 overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -27,8 +27,8 @@ const PsEducationSection = () => {
           className="flex flex-col items-center mb-16"
         >
           <div className="flex items-center gap-3 mb-4">
-            <FaGraduationCap className="text-3xl text-[#0a0a0a]" />
-            <h2 className="text-4xl md:text-5xl font-bold font-sans1 text-[#0a0a0a] tracking-tight">
+            <FaGraduationCap className="text-3xl text-ink" />
+            <h2 className="text-4xl md:text-5xl font-bold font-sans1 text-ink tracking-tight">
               زده کړې
             </h2>
           </div>
@@ -44,14 +44,14 @@ const PsEducationSection = () => {
               viewport={{ once: true }}
               className="relative group"
             >
-              <div className="relative rounded-2xl p-8 bg-[#EDEBE0] transition-[box-shadow,background-color] duration-300 h-full group-hover:bg-[#E9E7DB] group-hover:shadow-[0_0_0_0.5px_rgba(0,0,0,0.22)]">
-                <p className="text-xs uppercase tracking-wider text-gray-600 font-semibold mb-3 font-mono">
+              <div className="relative rounded-2xl p-8 bg-panel transition-[box-shadow,background-color] duration-300 h-full group-hover:bg-panel-hover group-hover:shadow-[0_0_0_0.5px_rgba(0,0,0,0.22)]">
+                <p className="text-xs uppercase tracking-wider text-gray-600 dark:text-white/55 font-semibold mb-3 font-mono">
                   {entry.duration}
                 </p>
-                <h3 className="text-2xl font-bold text-[#0a0a0a] mb-3">
+                <h3 className="text-2xl font-bold text-ink mb-3">
                   {entry.institution}
                 </h3>
-                <p className="text-gray-700 leading-relaxed">
+                <p className="text-gray-700 dark:text-white/70 leading-relaxed">
                   {entry.degree}
                 </p>
               </div>
