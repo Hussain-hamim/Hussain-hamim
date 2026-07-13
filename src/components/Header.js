@@ -173,10 +173,12 @@ const Header = ({ locale = "en" }) => {
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-in-out
         ${
           isMenuOpen
-            ? "bg-black backdrop-blur-xl border-b border-white/10"
+            ? "border-b border-white/15 bg-black/45 backdrop-blur-2xl backdrop-saturate-150 supports-[backdrop-filter]:bg-black/35"
             : scrolled
-            ? "bg-black/80 backdrop-blur-xl border-b border-white/5 shadow-2xl"
-            : "bg-transparent"
+            ? "border-b border-white/10 bg-black/40 shadow-[0_8px_32px_rgba(0,0,0,0.18)] backdrop-blur-2xl backdrop-saturate-150 supports-[backdrop-filter]:bg-black/25"
+            : onLightHero
+            ? "border-b border-transparent bg-white/25 backdrop-blur-xl backdrop-saturate-150 supports-[backdrop-filter]:bg-white/15"
+            : "border-b border-transparent bg-transparent"
         }`}
     >
       <div className="max-w-7xl mx-auto py-3.5 sm:py-3 pl-[max(1.25rem,env(safe-area-inset-left))] pr-[max(1.25rem,env(safe-area-inset-right))] sm:pl-6 sm:pr-6 md:px-8">

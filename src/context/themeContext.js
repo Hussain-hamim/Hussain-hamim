@@ -50,7 +50,7 @@ export function ThemeProvider({ children }) {
     }
     const meta = document.querySelector('meta[name="theme-color"]');
     if (meta) {
-      meta.setAttribute('content', theme === 'dark' ? '#0B1215' : '#EFEFEF');
+      meta.setAttribute('content', theme === 'dark' ? '#0B1215' : '#CACBCD');
     }
   }, [theme]);
 

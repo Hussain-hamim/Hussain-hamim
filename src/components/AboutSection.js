@@ -40,7 +40,7 @@ export default function AboutSection({ locale = 'en' }) {
   return (
     <section
       id='about-section'
-      className='bg-black py-20 sm:py-24 md:py-28'
+      className='section-sep-dark bg-black py-20 sm:py-24 md:py-28'
     >
       <div className='mx-auto max-w-4xl px-6 text-center sm:px-8'>
         <motion.h2
@@ -63,7 +63,7 @@ export default function AboutSection({ locale = 'en' }) {
           className='relative mx-auto mt-12 w-[min(100%,18rem)] sm:mt-14 sm:w-72 md:w-80'
         >
           <div className='relative overflow-hidden rounded-[1.75rem] border-4 border-white bg-black shadow-[0_24px_60px_rgba(0,0,0,0.45)]'>
-            <div className='absolute left-4 top-4 z-10 flex items-center gap-1.5 rounded-full bg-accent px-2 py-1.5'>
+            <div className='absolute right-4 top-4 z-10 flex items-center gap-1.5 rounded-full bg-accent px-2 py-1.5'>
               {cardSocials.map(({ href, icon: Icon, label }) => (
                 <a
                   key={href}
@@ -79,9 +79,9 @@ export default function AboutSection({ locale = 'en' }) {
             </div>
 
             <img
-              src={require('../asset/hsn3.jpg')}
+              src={require('../asset/hsn3-hero.jpg')}
               alt='Hussain Hamim'
-              className='aspect-[4/5] w-full object-cover object-top'
+              className='aspect-[5/5] max-h-[20rem] w-full object-cover object-top sm:max-h-[22rem]'
             />
 
             <div className='absolute bottom-4 left-4 right-4 flex flex-wrap items-center justify-center gap-2'>

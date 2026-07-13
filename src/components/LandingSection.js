@@ -1,13 +1,14 @@
-import React, { useLayoutEffect, useRef, useState } from 'react';
+import React, { useLayoutEffect, useRef, useState, useEffect, lazy, Suspense } from 'react';
 import { motion } from 'framer-motion';
 import { Calendar, ArrowRight, MessageSquare } from 'lucide-react';
 import Button from './Button';
 import MeshText from './MeshText';
 import TextMorph from './TextMorph';
 import ScrambleText from './ScrambleText';
-import ParticleLetter from './ParticleLetter';
 import { useTheme } from '../context/themeContext';
-import heroPortrait from '../asset/hsn3.jpg';
+import heroPortrait from '../asset/hsn3-hero.jpg';
+
+const ParticleLetter = lazy(() => import('./ParticleLetter'));
 
 const scrollToSection = (anchor) => {
   const el = document.getElementById(`${anchor}-section`);
@@ -16,6 +17,48 @@ const scrollToSection = (anchor) => {
 
 /** Default 30 min Cal.com booking — override with REACT_APP_BOOKING_URL if needed */
 const DEFAULT_CAL_BOOKING_URL = 'https://cal.com/hussain-hamim-fp9qc6/30min';
+
+/** Irregular ink/paint accent behind text (same mark as HAMIM). */
+function PaintStroke({ className = '' }) {
+  return (
+    <svg
+      className={`pointer-events-none absolute left-[-4%] top-1/2 h-[92%] w-[108%] -translate-y-1/2 -rotate-[0.8deg] ${className}`}
+      viewBox='0 0 320 72'
+      preserveAspectRatio='none'
+      aria-hidden='true'
+    >
+      <path
+        fill='#D7FF00'
+        d='M3.5 34.2
+           C16 12.4, 34 18.6, 52 10.8
+           C78 1.2, 98 16.4, 126 8.2
+           C152 0.6, 172 14.8, 200 6.4
+           C226 -1.2, 250 12.6, 278 5.8
+           C294 2.2, 308 10.4, 317 6.1
+           L315.6 58.4
+           C298 68.2, 276 60.4, 252 66.8
+           C224 74.2, 200 61.6, 172 69.4
+           C144 76.8, 118 63.2, 90 70.6
+           C62 77.4, 38 64.8, 18 71.2
+           C10 73.8, 4.8 64.2, 3.5 34.2 Z'
+      />
+    </svg>
+  );
+}
+
+function PaintedTextMorph({ words, color, transition }) {
+  return (
+    <span className='relative inline-flex items-center px-1.5 py-0.5 align-baseline'>
+      <PaintStroke />
+      <TextMorph
+        words={words}
+        color={color}
+        className='relative z-10'
+        transition={transition}
+      />
+    </span>
+  );
+}
 
 /** Painted accent stroke behind the name — inked highlight, not a solid box. */
 function HighlightedMeshText({ text, color = '#0a0a0a' }) {
@@ -68,29 +111,17 @@ function HighlightedMeshText({ text, color = '#0a0a0a' }) {
           maxWidth: '100%',
         }}
       >
-        {/* Brush / ink stroke — roughly text-height, irregular painted edges */}
-        <svg
-          className='pointer-events-none absolute left-[-3%] top-1/2 h-[88%] w-[106%] -translate-y-1/2 -rotate-[0.8deg]'
-          viewBox='0 0 320 72'
-          preserveAspectRatio='none'
-          aria-hidden='true'
-        >
-          <path
-            fill='#D7FF00'
-            d='M3.5 34.2
-               C16 12.4, 34 18.6, 52 10.8
-               C78 1.2, 98 16.4, 126 8.2
-               C152 0.6, 172 14.8, 200 6.4
-               C226 -1.2, 250 12.6, 278 5.8
-               C294 2.2, 308 10.4, 317 6.1
-               L315.6 58.4
-               C298 68.2, 276 60.4, 252 66.8
-               C224 74.2, 200 61.6, 172 69.4
-               C144 76.8, 118 63.2, 90 70.6
-               C62 77.4, 38 64.8, 18 71.2
-               C10 73.8, 4.8 64.2, 3.5 34.2 Z'
-          />
-        </svg>
+        {scrambleDone ? (
+          <motion.div
+            className='pointer-events-none absolute inset-0 z-0 overflow-hidden'
+            initial={{ clipPath: 'inset(0 100% 0 0)' }}
+            animate={{ clipPath: 'inset(0 0% 0 0)' }}
+            transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
+            aria-hidden='true'
+          >
+            <PaintStroke />
+          </motion.div>
+        ) : null}
 
         <div className='relative z-10 h-full w-full'>
           {!scrambleDone ? (
@@ -137,6 +168,24 @@ const LandingSection = ({ locale = 'en' }) => {
     process.env.REACT_APP_BOOKING_URL || DEFAULT_CAL_BOOKING_URL
   ).trim();
   const [heroHovered, setHeroHovered] = useState(false);
+  const [showParticles, setShowParticles] = useState(false);
+
+  useEffect(() => {
+    let idleId;
+    let timeoutId;
+    const enable = () => setShowParticles(true);
+    if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
+      idleId = window.requestIdleCallback(enable, { timeout: 1200 });
+    } else {
+      timeoutId = window.setTimeout(enable, 400);
+    }
+    return () => {
+      if (idleId != null && window.cancelIdleCallback) {
+        window.cancelIdleCallback(idleId);
+      }
+      if (timeoutId != null) window.clearTimeout(timeoutId);
+    };
+  }, []);
 
   const copy = {
     greeting: isPashto ? 'سلام، زه یم' : "Hey, I'm",
@@ -158,7 +207,7 @@ const LandingSection = ({ locale = 'en' }) => {
 
   return (
     <section
-      className='relative w-full min-h-screen overflow-hidden bg-surface transition-colors duration-300'
+      className='section-sep relative w-full min-h-screen overflow-hidden bg-hero transition-colors duration-300'
       onMouseEnter={() => setHeroHovered(true)}
       onMouseLeave={() => setHeroHovered(false)}
     >
@@ -212,10 +261,9 @@ const LandingSection = ({ locale = 'en' }) => {
             {isPashto ? (
               <>
                 زه د سټارټ اپونو لپاره{' '}
-                <TextMorph
+                <PaintedTextMorph
                   words={copy.morphWords}
                   color='#0a0a0a'
-                  className='bg-accent px-1.5'
                   transition={{ duration: 0.85, delay: 1.4, ease: 'easeInOut' }}
                 />{' '}
                 وېب او موبايل پروډکټونه جوړوم.
@@ -223,10 +271,9 @@ const LandingSection = ({ locale = 'en' }) => {
             ) : (
               <>
                 I build{' '}
-                <TextMorph
+                <PaintedTextMorph
                   words={copy.morphWords}
                   color='#0a0a0a'
-                  className='bg-accent px-1.5'
                   transition={{ duration: 0.85, delay: 1.4, ease: 'easeInOut' }}
                 />{' '}
                 products for{' '}
@@ -289,32 +336,43 @@ const LandingSection = ({ locale = 'en' }) => {
           transition={{ delay: 0.25, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
           className='relative flex h-[min(38vw,14rem)] w-full max-w-[14rem] shrink-0 items-center justify-center md:h-[min(42vh,20rem)] md:max-w-[20rem] lg:h-[min(46vh,22rem)] lg:max-w-[22rem]'
         >
-          <ParticleLetter
-            letter='H'
-            src={heroPortrait}
-            objectPosition='center top'
-            imageFillLetter
-            particleCount={70}
-            particleSize={4}
-            particleShape='square'
-            particleColor='original'
-            assembled={heroHovered}
-            hoverEnabled
-            hoverConfig={{
-              hoverType: 'roam',
-              transition: { duration: 0.8, ease: 'easeInOut' },
-              roamOpacity: 0.55,
-              roamShape: 'rectangle',
-            }}
-            repulsionEnabled
-            repulsionConfig={{
-              repulsionMode: 'outside',
-              repulsionForce: 10,
-              repulsionRadius: 55,
-            }}
-            onClick={() => scrollToSection('about')}
-            className='h-full w-full'
-          />
+          {showParticles ? (
+            <Suspense
+              fallback={
+                <div className='h-full w-full rounded-lg bg-panel/60' aria-hidden />
+              }
+            >
+              <ParticleLetter
+                letter='H'
+                src={heroPortrait}
+                objectPosition='center top'
+                imageFillLetter
+                colorBrightness={isDark ? 1.18 : 0.82}
+                particleCount={70}
+                particleSize={4}
+                particleShape='square'
+                particleColor='original'
+                assembled={heroHovered}
+                hoverEnabled
+                hoverConfig={{
+                  hoverType: 'roam',
+                  transition: { duration: 0.8, ease: 'easeInOut' },
+                  roamOpacity: 0.55,
+                  roamShape: 'rectangle',
+                }}
+                repulsionEnabled
+                repulsionConfig={{
+                  repulsionMode: 'outside',
+                  repulsionForce: 10,
+                  repulsionRadius: 55,
+                }}
+                onClick={() => scrollToSection('about')}
+                className='h-full w-full'
+              />
+            </Suspense>
+          ) : (
+            <div className='h-full w-full rounded-lg bg-panel/60' aria-hidden />
+          )}
         </motion.div>
       </div>
     </section>

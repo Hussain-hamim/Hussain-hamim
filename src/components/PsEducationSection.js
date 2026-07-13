@@ -17,7 +17,7 @@ const educationEntries = [
 
 const PsEducationSection = () => {
   return (
-    <section className="relative bg-surface-alt py-32 overflow-hidden">
+    <section className="section-sep relative bg-surface-alt py-32 overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

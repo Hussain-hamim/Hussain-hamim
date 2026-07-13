@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, lazy, Suspense } from 'react';
 import { motion } from 'framer-motion';
 import {
   FaGithub,
@@ -6,13 +6,15 @@ import {
   FaBook,
 } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import GitHubContributions from './GitHubContributions';
 import ExperienceSection from './ExperienceSection';
-import InfiniteGallery from './InfiniteGallery';
-import Globe from './Globe';
 import { featuredProjects, isPlaceholder } from '../data/featuredProjects';
 import Button from './Button';
 import AboutSection from './AboutSection';
+import LazyWhenVisible from './LazyWhenVisible';
+
+const GitHubContributions = lazy(() => import('./GitHubContributions'));
+const InfiniteGallery = lazy(() => import('./InfiniteGallery'));
+const Globe = lazy(() => import('./Globe'));
 
 const sectionAccent = '#D7FF00'; // single accent for whole section so cards match bg
 
@@ -678,9 +680,9 @@ const ProjectsSection = ({ locale = 'en' }) => {
   }, {});
 
   return (
-    <section id='projects-section' className='relative overflow-hidden bg-surface-alt transition-colors duration-300'>
+    <section id='projects-section' className='section-sep relative overflow-hidden bg-surface-alt transition-colors duration-300'>
       {/* Featured Work */}
-      <div className='relative min-h-screen bg-surface-alt'>
+      <div className='section-sep relative min-h-screen bg-surface-alt'>
         <div className='relative z-10 py-32 overflow-hidden min-h-screen flex items-center'>
           <div className='max-w-7xl mx-auto w-full px-6 md:px-8 relative z-10'>
             <SectionHeader
@@ -727,7 +729,7 @@ const ProjectsSection = ({ locale = 'en' }) => {
       <div className='relative bg-surface-alt py-32 overflow-visible'>
         <div className='max-w-7xl mx-auto w-full px-6 md:px-8 relative z-10'>
           {/* Activity */}
-          <div id='activity-section'>
+          <div id='activity-section' className='section-sep pb-32'>
             <SectionHeader
               title={isPashto ? 'فعاليت' : 'ACTIVITY'}
               light
@@ -740,7 +742,22 @@ const ProjectsSection = ({ locale = 'en' }) => {
                 viewport={{ once: true }}
                 className='relative h-full min-h-[520px] w-full overflow-hidden md:min-h-[560px]'
               >
-                <Globe style={{ width: '100%', height: '100%' }} />
+                <LazyWhenVisible
+                  rootMargin='300px 0px'
+                  minHeight='520px'
+                  className='h-full w-full'
+                  fallback={
+                    <div className='h-full min-h-[520px] w-full bg-panel' aria-hidden />
+                  }
+                >
+                  <Suspense
+                    fallback={
+                      <div className='h-full min-h-[520px] w-full bg-panel' aria-hidden />
+                    }
+                  >
+                    <Globe style={{ width: '100%', height: '100%' }} />
+                  </Suspense>
+                </LazyWhenVisible>
               </motion.div>
 
               <motion.div
@@ -769,7 +786,9 @@ const ProjectsSection = ({ locale = 'en' }) => {
                       className='w-full overflow-x-auto'
                       style={{ scrollbarWidth: 'thin', scrollbarColor: '#444 transparent' }}
                     >
-                      <GitHubContributions username='Hussain-hamim' dark />
+                      <Suspense fallback={<div className='h-32' aria-hidden />}>
+                        <GitHubContributions username='Hussain-hamim' dark />
+                      </Suspense>
                     </div>
                   </div>
                   <Button
@@ -793,7 +812,7 @@ const ProjectsSection = ({ locale = 'en' }) => {
           </div>
 
           {/* Blogs & Photos */}
-          <div className='mt-36 overflow-visible px-2 sm:px-4 md:px-8'>
+          <div className='section-sep mt-36 overflow-visible px-2 pb-32 sm:px-4 md:px-8'>
             <SectionHeader
               title={isPashto ? 'بلاګونه او عکسونه' : 'Blogs & Photos'}
               light
@@ -841,19 +860,22 @@ const PhotosCard = () => (
     viewport={{ once: true }}
     className='relative h-[21rem] w-full overflow-hidden sm:h-[23rem] rounded-2xl'
   >
-    <InfiniteGallery
-      images={PHOTO_IMAGES}
-      density={5}
-      imageWidth={120}
-      imageHeight={150}
-      rounded={6}
-      dragSpeed={20}
-      driftAmount={14}
-      friction={10}
-      backgroundColor='var(--panel)'
-      width='100%'
-      height='100%'
-    />
+    <Suspense fallback={<div className='h-full w-full bg-panel' aria-hidden />}>
+      <InfiniteGallery
+        images={PHOTO_IMAGES}
+        density={7}
+        imageWidth={105}
+        imageHeight={130}
+        rounded={6}
+        dragSpeed={20}
+        driftAmount={14}
+        friction={10}
+        backgroundColor='var(--panel)'
+        width='100%'
+        height='100%'
+        initialZoom={-0.5}
+      />
+    </Suspense>
   </motion.div>
 );
 

@@ -72,6 +72,9 @@ export default function InfiniteGallery(props) {
     friction,
     backgroundColor,
     style,
+    initialX,
+    initialY,
+    initialZoom,
   } = merged;
 
   const containerRef = useRef(null);
@@ -88,15 +91,30 @@ export default function InfiniteGallery(props) {
   const safeFriction =
     1 - (Math.max(1, Math.min(20, friction ?? 10)) / 20) * 0.3;
 
-  const targetX = useMotionValue(0);
-  const targetY = useMotionValue(0);
-  const camX = useMotionValue(0);
-  const camY = useMotionValue(0);
+  // Start mid-cell + slightly zoomed out so several tiles fill the frame
+  // (camera 0,0 sits on a cell corner and often shows one image in a corner).
+  const startX =
+    typeof initialX === 'number' && Number.isFinite(initialX)
+      ? initialX
+      : CELL_SIZE * 0.55;
+  const startY =
+    typeof initialY === 'number' && Number.isFinite(initialY)
+      ? initialY
+      : CELL_SIZE * 0.45;
+  const startZoom =
+    typeof initialZoom === 'number' && Number.isFinite(initialZoom)
+      ? initialZoom
+      : -0.42;
+
+  const targetX = useMotionValue(startX);
+  const targetY = useMotionValue(startY);
+  const camX = useMotionValue(startX);
+  const camY = useMotionValue(startY);
   const velX = useMotionValue(0);
   const velY = useMotionValue(0);
 
-  const targetLogZoom = useMotionValue(0);
-  const logZoom = useMotionValue(0);
+  const targetLogZoom = useMotionValue(startZoom);
+  const logZoom = useMotionValue(startZoom);
   const velLogZoom = useMotionValue(0);
 
   const driftTX = useMotionValue(0);
@@ -580,4 +598,7 @@ const COMPONENT_DEFAULTS = {
   driftAmount: 20,
   friction: 10,
   backgroundColor: '#000000',
+  initialX: CELL_SIZE * 0.55,
+  initialY: CELL_SIZE * 0.45,
+  initialZoom: -0.42,
 };

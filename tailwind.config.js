@@ -15,6 +15,7 @@ module.exports = {
         'accent-hover': '#c4ec00',
         darkbg: '#0B1215',
         surface: 'var(--surface)',
+        hero: 'var(--hero)',
         'surface-alt': 'var(--surface-alt)',
         panel: 'var(--panel)',
         'panel-hover': 'var(--panel-hover)',

@@ -337,6 +337,8 @@ export default function MeshText(props) {
     );
 
     let cancelled = false;
+    let texReady = false;
+    let painted = false;
 
     const rebuildTex = async () => {
       const w = Math.max(2, canvas.width);
@@ -372,9 +374,9 @@ export default function MeshText(props) {
       gl.bindTexture(gl.TEXTURE_2D, tex);
       gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
       gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, c2);
-      if (!cancelled) {
-        setReady(true);
-      }
+      // Don't flip ready yet — wait until the first WebGL frame paints
+      // so the canvas never flashes as an opaque white slab.
+      texReady = true;
     };
 
     const resize = () => {
@@ -386,6 +388,8 @@ export default function MeshText(props) {
         canvas.width = w;
         canvas.height = h;
         gl.viewport(0, 0, w, h);
+        // Keep previous frame hidden if we resize before first paint
+        if (!painted) setReady(false);
         rebuildTex();
       }
     };
@@ -426,6 +430,10 @@ export default function MeshText(props) {
     };
     wrapper.addEventListener('pointermove', onMove);
     wrapper.addEventListener('pointerleave', onLeave);
+
+    // Clear immediately so the buffer never shows the browser's default opaque fill
+    gl.clearColor(0, 0, 0, 0);
+    gl.clear(gl.COLOR_BUFFER_BIT);
 
     let rafId = 0;
     const tick = () => {
@@ -511,6 +519,11 @@ export default function MeshText(props) {
       gl.bindVertexArray(vao);
       gl.drawElements(gl.TRIANGLES, indexCount, gl.UNSIGNED_INT, 0);
 
+      if (texReady && !painted && !cancelled) {
+        painted = true;
+        setReady(true);
+      }
+
       rafId = requestAnimationFrame(tick);
     };
     rafId = requestAnimationFrame(tick);
@@ -577,11 +590,13 @@ export default function MeshText(props) {
         height: '100%',
         overflow: 'hidden',
         userSelect: 'none',
+        backgroundColor: 'transparent',
         ...style,
       }}
     >
       <span
         aria-hidden='true'
+        className='font-sans1'
         style={{
           position: 'absolute',
           inset: 0,
@@ -593,16 +608,16 @@ export default function MeshText(props) {
               : textAlign === 'right'
                 ? 'flex-end'
                 : 'flex-start',
-          color: color ?? '#ffffff',
-          fontFamily: `${fontFamily}, sans-serif`,
+          color: color && color !== '#ffffff' ? color : 'var(--ink)',
           fontWeight,
           fontStyle,
           fontSize: 'clamp(1.75rem, 9vw, 6rem)',
           lineHeight: 1.05,
           letterSpacing: '-0.02em',
           opacity: ready ? 0 : 1,
-          transition: 'opacity 0.2s ease',
+          transition: 'opacity 0.15s ease',
           pointerEvents: 'none',
+          backgroundColor: 'transparent',
         }}
       >
         {text}
@@ -614,8 +629,9 @@ export default function MeshText(props) {
           width: '100%',
           height: '100%',
           opacity: ready ? 1 : 0,
-          transition: 'opacity 0.2s ease',
+          transition: 'opacity 0.15s ease',
           pointerEvents: ready ? 'auto' : 'none',
+          backgroundColor: 'transparent',
         }}
       />
     </div>
