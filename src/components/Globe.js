@@ -993,6 +993,7 @@ export default function Globe(__props) {
   }, [
     speed,
     smoothing,
+    smoothingN,
     dots,
     fill,
     fillColor,
