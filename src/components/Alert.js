@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { useAlertContext } from '../context/alertContext';
+import Button from './Button';
 
 function Alert() {
   const { isOpen, type, message, onClose } = useAlertContext();
@@ -15,7 +16,8 @@ function Alert() {
     document.addEventListener('keydown', onKey);
     const prev = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
-    closeRef.current?.focus();
+    // Focus the dialog panel; Button may not forward refs
+    closeRef.current?.focus?.();
     return () => {
       document.removeEventListener('keydown', onKey);
       document.body.style.overflow = prev;
@@ -36,11 +38,13 @@ function Alert() {
         onClick={onClose}
       />
       <div
+        ref={closeRef}
+        tabIndex={-1}
         role='alertdialog'
         aria-modal='true'
         aria-labelledby='alert-dialog-title'
         aria-describedby='alert-dialog-desc'
-        className={`relative z-10 w-full max-w-md rounded-2xl border border-white/10 shadow-2xl ${
+        className={`relative z-10 w-full max-w-md rounded-2xl border-2 border-black shadow-brutal ${
           isSuccess ? 'bg-[#81C784]' : 'bg-[#FF8A65]'
         } px-6 py-5 text-gray-900`}
       >
@@ -51,16 +55,9 @@ function Alert() {
           {message}
         </p>
         <div className='mt-6 flex justify-end'>
-          <button
-            ref={closeRef}
-            type='button'
-            onClick={onClose}
-            className={`rounded-full px-5 py-2 text-sm font-semibold text-white shadow-md transition hover:opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-gray-900/40 ${
-              isSuccess ? 'bg-emerald-800' : 'bg-orange-900'
-            }`}
-          >
+          <Button type='button' onClick={onClose} size='sm'>
             Close
-          </button>
+          </Button>
         </div>
       </div>
     </div>

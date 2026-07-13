@@ -2,18 +2,25 @@ import React, { useEffect, lazy, Suspense } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { motion } from "framer-motion";
+import { Calendar } from "lucide-react";
 import { useAlertContext } from "../context/alertContext";
 import useSubmit from "../hooks/useSubmit";
 import { FaPaperPlane } from "react-icons/fa";
 import { PEEL_VARIATIONS } from "./peelDirections";
+import Button from "./Button";
 
 const StickerPeeling = lazy(() => import("./StickerPeeling"));
 
+/** Default 30 min Cal.com booking — override with REACT_APP_BOOKING_URL if needed */
+const DEFAULT_CAL_BOOKING_URL = "https://cal.com/hussain-hamim-fp9qc6/30min";
 
 const ContactMeSection = ({ locale = "en" }) => {
   const isPashto = locale === "ps";
   const { isLoading, response, submit, clearResponse } = useSubmit();
   const { onOpen } = useAlertContext();
+  const bookingUrl = (
+    process.env.REACT_APP_BOOKING_URL || DEFAULT_CAL_BOOKING_URL
+  ).trim();
 
   const socials = [
     {
@@ -36,6 +43,15 @@ const ContactMeSection = ({ locale = "en" }) => {
       url: "https://x.com/hussainim_",
       label: "Twitter",
     },
+    ...(bookingUrl
+      ? [
+          {
+            Icon: Calendar,
+            url: bookingUrl,
+            label: isPashto ? "د لیدنې وخت وټاکئ" : "Book a call",
+          },
+        ]
+      : []),
   ];
 
   const formik = useFormik({
@@ -97,34 +113,55 @@ const ContactMeSection = ({ locale = "en" }) => {
             <div className="grid grid-cols-2 gap-x-6 gap-y-8">
               {socials.map((social, index) => (
                 <a
-                  key={index}
+                  key={social.label}
                   href={social.url}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-3 text-gray-300 hover:text-[#D7FF00] transition-colors duration-300 group"
                 >
-                  <Suspense
-                    fallback={
-                      <img
-                        src={social.img}
-                        alt=""
-                        className="h-9 w-9 shrink-0 rounded-lg object-contain"
+                  <span className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-lg opacity-90 transition-[filter,opacity,color] duration-300 group-hover:opacity-100 [filter:grayscale(1)_brightness(1.15)] group-hover:[filter:grayscale(1)_brightness(1.35)]">
+                    {social.Icon ? (
+                      <social.Icon
+                        className="h-[22px] w-[22px] text-current sm:h-6 sm:w-6"
+                        strokeWidth={1.75}
+                        aria-hidden
                       />
-                    }
-                  >
-                    <StickerPeeling
-                      image={social.img}
-                      imageWidth={36}
-                      imageHeight={36}
-                      hoverPeel={48}
-                      pressPeel={70}
-                      curlRotation={PEEL_VARIATIONS[index % PEEL_VARIATIONS.length]}
-                      backColor="#0a0a0a"
-                      shadowEnabled
-                      shadow={{ opacity: 28, color: "#000000", x: -220, y: 120 }}
-                      transition={{ type: "tween", duration: 0.28, ease: "easeOut" }}
-                    />
-                  </Suspense>
+                    ) : (
+                      <Suspense
+                        fallback={
+                          <img
+                            src={social.img}
+                            alt=""
+                            className="h-6 w-6 rounded-lg object-contain sm:h-7 sm:w-7"
+                          />
+                        }
+                      >
+                        <StickerPeeling
+                          image={social.img}
+                          imageWidth={28}
+                          imageHeight={28}
+                          hoverPeel={48}
+                          pressPeel={70}
+                          curlRotation={
+                            PEEL_VARIATIONS[index % PEEL_VARIATIONS.length]
+                          }
+                          backColor="#0a0a0a"
+                          shadowEnabled
+                          shadow={{
+                            opacity: 28,
+                            color: "#000000",
+                            x: -220,
+                            y: 120,
+                          }}
+                          transition={{
+                            type: "tween",
+                            duration: 0.28,
+                            ease: "easeOut",
+                          }}
+                        />
+                      </Suspense>
+                    )}
+                  </span>
                   <span className="font-mono text-sm tracking-wider">
                     {social.label}
                   </span>
@@ -270,36 +307,21 @@ const ContactMeSection = ({ locale = "en" }) => {
                 </div>
               </div>
 
-              <button
+              <Button
                 type="submit"
                 disabled={isLoading}
-                className="w-full text-[#D7FF00] font-bold py-4 rounded-full transition-all hover:bg-[#D7FF00]/10 hover:shadow-lg hover:shadow-[#D7FF00]/20 flex items-center justify-center gap-2 group disabled:opacity-50 disabled:cursor-not-allowed"
-                style={{
-                  borderWidth: "0.5px",
-                  borderColor: "rgba(215, 255, 0, 0.5)",
-                }}
-                onMouseEnter={(e) => {
-                  if (!isLoading) {
-                    e.currentTarget.style.borderColor = "rgba(215, 255, 0, 1)";
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  if (!isLoading) {
-                    e.currentTarget.style.borderColor = "rgba(215, 255, 0, 0.5)";
-                  }
-                }}
+                fullWidth
+                size="md"
+                icon={!isLoading ? <FaPaperPlane /> : undefined}
               >
-                {isLoading ? (
-                  <span className="animate-pulse">
-                    {isPashto ? "پيغام لېږل کېږي..." : "Sending..."}
-                  </span>
-                ) : (
-                  <>
-                    <span>{isPashto ? "پيغام ولېږه" : "Send Message"}</span>
-                    <FaPaperPlane className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-                  </>
-                )}
-              </button>
+                {isLoading
+                  ? isPashto
+                    ? "پيغام لېږل کېږي..."
+                    : "Sending..."
+                  : isPashto
+                  ? "پيغام ولېږه"
+                  : "Send Message"}
+              </Button>
             </form>
           </motion.div>
         </div>

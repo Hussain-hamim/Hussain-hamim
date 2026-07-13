@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faXmark, faCalendar } from "@fortawesome/free-solid-svg-icons";
-import ShinyPill from "./ShinyPill";
+import { faBars, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { Calendar } from "lucide-react";
+import Button from "./Button";
 
 const DEFAULT_CAL_BOOKING_URL = "https://cal.com/hussain-hamim-fp9qc6/30min";
 
@@ -118,8 +119,10 @@ const Header = ({ locale = "en" }) => {
     return activeSection === item.id;
   };
 
-  /** Solid bar when scrolled or mobile drawer open — matches panel below */
+  /** Solid dark bar when scrolled or mobile drawer open */
   const headerBarSolid = scrolled || isMenuOpen;
+  /** Light cream hero at top — dark nav text until user scrolls */
+  const onLightHero = !headerBarSolid;
 
   return (
     <header
@@ -142,13 +145,15 @@ const Header = ({ locale = "en" }) => {
             className={`text-lg sm:text-xl font-bold font-sans1 tracking-tight transition-all duration-300 relative group min-w-0 shrink ${
               headerBarSolid
                 ? "text-[#D7FF00] hover:text-white"
+                : onLightHero
+                ? "text-[#0a0a0a] hover:text-[#0a0a0a]/70"
                 : "text-white drop-shadow-[0_1px_8px_rgba(0,0,0,0.65)] hover:text-white/85"
             }`}
           >
             <span className="relative z-10">Hussain Hamim.</span>
             <span
               className={`absolute -bottom-1 left-0 w-0 h-0.5 group-hover:w-full transition-all duration-300 ${
-                headerBarSolid ? "bg-[#D7FF00]" : "bg-white"
+                headerBarSolid ? "bg-[#D7FF00]" : onLightHero ? "bg-[#0a0a0a]" : "bg-white"
               }`}
             ></span>
           </a>
@@ -162,6 +167,10 @@ const Header = ({ locale = "en" }) => {
                   ? active
                     ? "text-white"
                     : "text-gray-400 hover:text-white"
+                  : onLightHero
+                  ? active
+                    ? "text-[#0a0a0a]"
+                    : "text-gray-600 hover:text-[#0a0a0a]"
                   : active
                   ? "text-white drop-shadow-[0_1px_6px_rgba(0,0,0,0.5)]"
                   : "text-white/80 hover:text-white drop-shadow-[0_1px_6px_rgba(0,0,0,0.45)]"
@@ -171,12 +180,20 @@ const Header = ({ locale = "en" }) => {
                   <span className="relative z-10">{item.label}</span>
                   <span
                     className={`absolute inset-0 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${
-                      headerBarSolid ? "bg-white/5" : "bg-white/10"
+                      headerBarSolid
+                        ? "bg-white/5"
+                        : onLightHero
+                        ? "bg-black/[0.04]"
+                        : "bg-white/10"
                     }`}
                   ></span>
                   <span
                     className={`absolute bottom-0 left-1/2 transform -translate-x-1/2 h-[2px] transition-all duration-300 ${
-                      headerBarSolid ? "bg-[#D7FF00]" : "bg-white"
+                      headerBarSolid
+                        ? "bg-[#D7FF00]"
+                        : onLightHero
+                        ? "bg-[#0a0a0a]"
+                        : "bg-white"
                     } ${active ? "w-3/4" : "w-0 group-hover:w-3/4"}`}
                   ></span>
                 </>
@@ -196,27 +213,16 @@ const Header = ({ locale = "en" }) => {
               );
             })}
 
-            {/* Book a call — outline, keeps hero CTA as primary */}
-            <ShinyPill
-              as="a"
+            <Button
               href={bookingUrl}
               target="_blank"
               rel="noopener noreferrer"
-              shineColor="#C1E311"
-              speed={1.8}
-              className={`ml-4 inline-flex items-center gap-1.5 rounded-full border-[0.5px] px-4 py-1.5 text-xs font-semibold transition-all ${
-                headerBarSolid
-                  ? "border-[#D7FF00]/50 text-[#D7FF00] hover:border-[#D7FF00] hover:bg-[#D7FF00]/10 hover:shadow-lg hover:shadow-[#D7FF00]/20"
-                  : "border-white/35 text-white hover:border-white/60 hover:bg-white/10"
-              }`}
+              size="sm"
+              className="ml-4"
+              icon={<Calendar />}
             >
-              <FontAwesomeIcon
-                icon={faCalendar}
-                className="text-[11px] opacity-90"
-                aria-hidden
-              />
               {isPashto ? "د لیدنې وخت وټاکئ" : "Book a call"}
-            </ShinyPill>
+            </Button>
           </nav>
 
           {/* Mobile Menu Button */}
@@ -225,6 +231,8 @@ const Header = ({ locale = "en" }) => {
             className={`md:hidden -mr-1 flex h-11 w-11 shrink-0 items-center justify-center rounded-lg transition-colors relative z-50 ${
               headerBarSolid
                 ? "text-gray-400 hover:text-white"
+                : onLightHero
+                ? "text-[#0a0a0a] hover:text-[#0a0a0a]/70"
                 : "text-white drop-shadow-[0_1px_6px_rgba(0,0,0,0.6)] hover:text-white/85"
             }`}
             aria-label="Toggle menu"
@@ -287,25 +295,16 @@ const Header = ({ locale = "en" }) => {
           </nav>
 
           <div className="pt-6 mt-4 border-t border-white/10">
-            {/* Primary CTA on mobile — filled lime */}
-            <ShinyPill
-              as="a"
+            <Button
               href={bookingUrl}
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => setIsMenuOpen(false)}
-              shineColor="#FFFFFF"
-              shineOpacity={0.55}
-              speed={1.8}
-              className="flex w-full items-center justify-center gap-2 rounded-full bg-[#D7FF00] px-6 py-3 text-center text-sm font-semibold text-black transition-all hover:bg-[#c4ec00] hover:shadow-lg hover:shadow-[#D7FF00]/30"
+              fullWidth
+              icon={<Calendar />}
             >
-              <FontAwesomeIcon
-                icon={faCalendar}
-                className="text-sm opacity-90"
-                aria-hidden
-              />
               {isPashto ? "د لیدنې وخت وټاکئ" : "Book a call"}
-            </ShinyPill>
+            </Button>
 
             <div className="mt-6 flex items-center justify-center gap-6">
               {socials.map((social, index) => (

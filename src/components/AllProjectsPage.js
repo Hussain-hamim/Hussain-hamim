@@ -10,6 +10,7 @@ import {
   ProjectCard,
   SectionHeader,
 } from './ProjectsSection';
+import Button from './Button';
 
 const AllProjectsPage = () => {
   // Simple locale detection — honour /ps prefix if ever deep-linked
@@ -127,9 +128,9 @@ const AllProjectsPage = () => {
             </div>
             {webProjects.length > initialCount && (
               <div className='flex justify-center mt-12'>
-                <button
+                <Button
                   onClick={() => setShowAllWeb(!showAllWeb)}
-                  className='px-8 py-3 text-sm font-bold uppercase tracking-wider text-[#D7FF00] rounded-full transition-all hover:bg-[#D7FF00]/10 hover:shadow-lg hover:shadow-[#D7FF00]/20 border-[0.5px] border-[#D7FF00]/50 hover:border-[#D7FF00]'
+                  variant='outline'
                 >
                   {showAllWeb
                     ? isPashto
@@ -138,7 +139,7 @@ const AllProjectsPage = () => {
                     : isPashto
                     ? 'نور وښيه'
                     : 'Show More'}
-                </button>
+                </Button>
               </div>
             )}
           </div>
@@ -162,9 +163,9 @@ const AllProjectsPage = () => {
             </div>
             {mobileProjectsLocalized.length > initialCount && (
               <div className='flex justify-center mt-12'>
-                <button
+                <Button
                   onClick={() => setShowAllMobile(!showAllMobile)}
-                  className='px-8 py-3 text-sm font-bold uppercase tracking-wider text-[#D7FF00] rounded-full transition-all hover:bg-[#D7FF00]/10 hover:shadow-lg hover:shadow-[#D7FF00]/20 border-[0.5px] border-[#D7FF00]/50 hover:border-[#D7FF00]'
+                  variant='outline'
                 >
                   {showAllMobile
                     ? isPashto
@@ -173,20 +174,22 @@ const AllProjectsPage = () => {
                     : isPashto
                     ? 'نور وښيه'
                     : 'Show More'}
-                </button>
+                </Button>
               </div>
             )}
           </div>
 
           {/* Bottom back-to-home */}
           <div className='mt-24 flex justify-center'>
-            <Link
+            <Button
+              as={Link}
               to='/'
-              className='group inline-flex items-center gap-2 rounded-full border-[0.5px] border-white/20 bg-white/[0.04] px-6 py-3 text-sm font-semibold text-white/80 transition-all hover:border-white/40 hover:bg-white/[0.08] hover:text-white'
+              variant='secondary'
+              icon={<ArrowLeft />}
+              iconPosition='left'
             >
-              <ArrowLeft className='h-4 w-4 transition-transform duration-300 group-hover:-translate-x-0.5' />
-              <span>{isPashto ? 'کور ته ورګرځه' : 'Back to home'}</span>
-            </Link>
+              {isPashto ? 'کور ته ورګرځه' : 'Back to home'}
+            </Button>
           </div>
         </div>
       </div>

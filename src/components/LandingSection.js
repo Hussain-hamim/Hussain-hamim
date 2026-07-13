@@ -1,13 +1,8 @@
-import React, { lazy, Suspense } from 'react';
+import React, { useLayoutEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
-import { FaWhatsapp } from 'react-icons/fa';
-import { Calendar, MessageSquare } from 'lucide-react';
+import { Calendar, ArrowRight, MessageSquare } from 'lucide-react';
+import Button from './Button';
 import MeshText from './MeshText';
-import { PEEL_VARIATIONS } from './peelDirections';
-import PixelDriftImage from './PixelDriftImage';
-
-const StickerPeeling = lazy(() => import('./StickerPeeling'));
-
 
 const scrollToSection = (anchor) => {
   const el = document.getElementById(`${anchor}-section`);
@@ -17,295 +12,224 @@ const scrollToSection = (anchor) => {
 /** Default 30 min Cal.com booking — override with REACT_APP_BOOKING_URL if needed */
 const DEFAULT_CAL_BOOKING_URL = 'https://cal.com/hussain-hamim-fp9qc6/30min';
 
+/** Painted accent stroke behind the name — inked highlight, not a solid box. */
+function HighlightedMeshText({ text, color = '#0a0a0a' }) {
+  const shellRef = useRef(null);
+  const [widthPx, setWidthPx] = useState(null);
+
+  useLayoutEffect(() => {
+    let cancelled = false;
+    const measure = async () => {
+      const shell = shellRef.current;
+      if (!shell) return;
+      const height = shell.clientHeight || 80;
+      const fontSize = Math.max(12, height * 0.78);
+      const fontStr = `normal 700 ${fontSize}px Daisyogre, sans-serif`;
+      try {
+        if (document.fonts?.load) await document.fonts.load(fontStr);
+        if (document.fonts?.ready) await document.fonts.ready;
+      } catch {
+        /* ignore */
+      }
+      if (cancelled) return;
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
+      ctx.font = fontStr;
+      const metrics = ctx.measureText(String(text ?? ''));
+      const pad = Math.max(10, fontSize * 0.12);
+      setWidthPx(Math.ceil(metrics.width + pad * 2));
+    };
+    measure();
+    const ro = new ResizeObserver(measure);
+    if (shellRef.current) ro.observe(shellRef.current);
+    return () => {
+      cancelled = true;
+      ro.disconnect();
+    };
+  }, [text]);
+
+  return (
+    <div
+      ref={shellRef}
+      className='relative flex h-[clamp(2.75rem,10vw,4.5rem)] w-full items-center justify-start sm:h-16 md:h-20'
+      aria-hidden='true'
+    >
+      <div
+        className='relative h-full'
+        style={{
+          width: widthPx ? `${widthPx}px` : 'min(100%, 16rem)',
+          maxWidth: '100%',
+        }}
+      >
+        {/* Brush / ink stroke — roughly text-height, irregular painted edges */}
+        <svg
+          className='pointer-events-none absolute left-[-3%] top-1/2 h-[88%] w-[106%] -translate-y-1/2 -rotate-[0.8deg]'
+          viewBox='0 0 320 72'
+          preserveAspectRatio='none'
+          aria-hidden='true'
+        >
+          <path
+            fill='#D7FF00'
+            d='M3.5 34.2
+               C16 12.4, 34 18.6, 52 10.8
+               C78 1.2, 98 16.4, 126 8.2
+               C152 0.6, 172 14.8, 200 6.4
+               C226 -1.2, 250 12.6, 278 5.8
+               C294 2.2, 308 10.4, 317 6.1
+               L315.6 58.4
+               C298 68.2, 276 60.4, 252 66.8
+               C224 74.2, 200 61.6, 172 69.4
+               C144 76.8, 118 63.2, 90 70.6
+               C62 77.4, 38 64.8, 18 71.2
+               C10 73.8, 4.8 64.2, 3.5 34.2 Z'
+          />
+        </svg>
+
+        <div className='relative z-10 h-full w-full'>
+          <MeshText
+            text={text}
+            color={color}
+            font={{
+              fontFamily: 'Daisyogre',
+              variant: 'Bold',
+              fontSize: 160,
+            }}
+            colorSplit
+            customColors={['#D7FF00', '#2DD4BF']}
+            force={18}
+            textAlign='left'
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 const LandingSection = ({ locale = 'en' }) => {
   const isPashto = locale === 'ps';
   const bookingUrl = (
     process.env.REACT_APP_BOOKING_URL || DEFAULT_CAL_BOOKING_URL
   ).trim();
+
   const copy = {
-    greeting: isPashto ? 'سلام، زه' : "hey i'm",
+    greeting: isPashto ? 'سلام، زه یم' : "Hey, I'm",
     firstName: isPashto ? 'محمد حسین' : 'HUSSAIN',
     lastName: isPashto ? 'حمیم' : 'HAMIM',
     headline: isPashto
       ? 'زه د سټارټ اپونو لپاره د AI پر بنسټ وېب او موبايل پروډکټونه جوړوم، له MVP څخه تر لانچ پورې.'
-      : 'I build AI-powered web and mobile products for startups, from MVP to launch.',
-    description: isPashto
+      : 'I build AI-powered products for startups that need to ship.',
+    subline: isPashto
       ? 'Full-Stack، موبايل پروګرامونه، او د AI اېجنټ سيستمونه چې په ژر وخت کې رښتينې پايلې راوړي.'
       : 'Full-stack web, mobile apps, and AI agent systems that ship fast and drive real results.',
     ctaSeeWork: isPashto ? 'زما کار وګورئ' : 'See my work',
     ctaBook: isPashto ? 'د لیدنې وخت وټاکئ' : 'Book a call',
     ctaDropMessage: isPashto ? 'پیغام پریږدئ' : 'Drop a message',
   };
-  const socialLinks = [
-    {
-      img: require('../images/socials/github.png'),
-      url: 'https://github.com/Hussain-hamim',
-      color: 'hover:text-white',
-    },
-    {
-      img: require('../images/socials/linkedin.png'),
-      url: 'https://www.linkedin.com/in/hussain-hamim/',
-      color: 'hover:text-blue-400',
-    },
-    {
-      img: require('../images/socials/instagram.png'),
-      url: 'https://www.instagram.com/hussainhamim_',
-      color: 'hover:text-pink-500',
-    },
-    {
-      img: require('../images/socials/twitter.png'),
-      url: 'https://x.com/hussainim_',
-      color: 'hover:text-gray-400',
-    },
-    {
-      img: require('../images/socials/email.png'),
-      url: 'mailto:mohammadhussainafghan83@gmail.com',
-      color: 'hover:text-red-400',
-    },
-    {
-      icon: FaWhatsapp,
-      url: 'https://wa.me/93780338261?text=' + encodeURIComponent("Hi Hussain — saw your portfolio, got a quick question."),
-      color: 'hover:text-green-400',
-      primary: true,
-      label: isPashto ? 'چټ وکړئ' : 'Chat',
-    },
-  ];
 
   return (
-    <section className='relative w-full min-h-screen overflow-hidden'>
-      {/* Overlay Content */}
-      <div className='absolute inset-0 z-20 flex max-w-7xl mx-auto pointer-events-none flex-col justify-start pb-16 pt-[max(5.5rem,calc(env(safe-area-inset-top)+3.75rem))] sm:pb-20 sm:pt-24 md:justify-center md:pb-0 md:pt-24 md:min-h-full pl-[max(1.25rem,env(safe-area-inset-left))] pr-[max(1.25rem,env(safe-area-inset-right))] sm:pl-6 sm:pr-6 md:px-12'>
-        <div className='w-full min-w-0 grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-12 items-start md:items-center'>
-          {/* Left Column - Text */}
-          <div className='pointer-events-auto w-full min-w-0 max-w-full'>
-            {/* Greeting */}
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1, duration: 0.8 }}
-              className='font-sans1 text-xs font-bold text-white/75 sm:text-sm mb-3 sm:mb-4'
-            >
-              {copy.greeting}
-            </motion.p>
+    <section className='relative w-full min-h-screen overflow-hidden bg-[#EFEFEF]'>
+      <div className='relative z-10 mx-auto flex min-h-screen max-w-4xl flex-col items-start justify-center px-6 pb-20 pt-[max(6rem,calc(env(safe-area-inset-top)+4.5rem))] text-left sm:px-8 md:px-10'>
+        <motion.p
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.05, duration: 0.5 }}
+          className='mb-2 font-sans3 text-sm text-gray-600 sm:mb-3 sm:text-base'
+        >
+          {copy.greeting}
+        </motion.p>
 
-            {/* Name Title — MeshText hover (Originkit) */}
-            <motion.h1
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2, duration: 0.8 }}
-              className='w-full min-w-0 max-w-xl'
-            >
-              <span className='sr-only'>
-                {copy.firstName} {copy.lastName}
-              </span>
-              <div
-                className='h-[clamp(2.75rem,11vw,3.25rem)] sm:h-14 md:h-[4.5rem] lg:h-24 w-full'
-                aria-hidden='true'
-              >
-                <MeshText
-                  text={copy.firstName}
-                  color='#ffffff'
-                  font={{
-                    fontFamily: 'Daisyogre',
-                    variant: 'Bold',
-                    fontSize: 160,
-                  }}
-                  colorSplit
-                  customColors={['#D7FF00', '#2DD4BF']}
-                  force={18}
-                  textAlign='left'
-                />
-              </div>
-              <div
-                className='h-[clamp(2.75rem,11vw,3.25rem)] sm:h-14 md:h-[4.5rem] lg:h-24 w-full'
-                aria-hidden='true'
-              >
-                <MeshText
-                  text={copy.lastName}
-                  color='#D7FF00'
-                  font={{
-                    fontFamily: 'Daisyogre',
-                    variant: 'Bold',
-                    fontSize: 160,
-                  }}
-                  colorSplit
-                  customColors={['#D7FF00', '#2DD4BF']}
-                  force={18}
-                  textAlign='left'
-                />
-              </div>
-            </motion.h1>
-
-            {/* Role & Description */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.4, duration: 0.8 }}
-              className='mt-6 sm:mt-8 md:mt-12 flex w-full max-w-xl flex-col border-t border-white/10 pt-5 md:border-t-0 md:pt-0 md:border-s-2 md:border-s-white/10 md:ps-6'
-            >
-              <p className='text-white font-sans3 text-base sm:text-xl md:text-2xl leading-snug w-full font-medium'>
-                {isPashto ? (
-                  copy.headline
-                ) : (
-                  <>
-                    I build{' '}
-                    <span className='text-[#D7FF00]'>AI-powered</span> web
-                    and mobile products for{' '}
-                    <span className='text-[#D7FF00]'>startups</span>, from
-                    MVP to launch.
-                  </>
-                )}
-              </p>
-              <p className='mt-4 text-gray-400 font-sans3 text-sm sm:text-base leading-relaxed w-full max-w-xl'>
-                {copy.description}
-              </p>
-              <motion.div
-                initial={{ opacity: 0, y: 14 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5, duration: 0.55 }}
-                className='mt-4 sm:mt-6 flex w-full max-w-xl flex-col gap-2 sm:gap-3 sm:flex-row sm:flex-wrap sm:items-center'
-              >
-                <button
-                  type='button'
-                  onClick={() => scrollToSection('projects')}
-                  className='inline-flex w-full min-h-[40px] items-center justify-center rounded-full bg-[#D7FF00] px-4 py-2 text-xs font-semibold text-black transition-all duration-300 hover:bg-[#c4ec00] hover:shadow-lg hover:shadow-[#D7FF00]/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D7FF00]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0a] sm:w-auto sm:min-h-[44px] sm:px-6 sm:py-3 sm:text-sm'
-                >
-                  {copy.ctaSeeWork}
-                </button>
-                {bookingUrl ? (
-                  <a
-                    href={bookingUrl}
-                    target='_blank'
-                    rel='noopener noreferrer'
-                    className='inline-flex w-full min-h-[40px] items-center justify-center gap-1.5 rounded-full border-[0.5px] border-white/15 bg-white/[0.04] px-4 py-2 text-xs font-semibold text-white transition-all duration-300 hover:border-[#D7FF00]/50 hover:bg-[#D7FF00]/10 hover:shadow-lg hover:shadow-[#D7FF00]/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D7FF00]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0a] sm:w-auto sm:min-h-[44px] sm:gap-2 sm:px-6 sm:py-3 sm:text-sm'
-                  >
-                    <Calendar className='h-3.5 w-3.5 shrink-0 opacity-90 sm:h-4 sm:w-4' aria-hidden />
-                    {copy.ctaBook}
-                  </a>
-                ) : null}
-                <button
-                  type='button'
-                  onClick={() => scrollToSection('contactme')}
-                  className='inline-flex w-full min-h-[40px] items-center justify-center gap-1.5 rounded-full border-[0.5px] border-white/15 bg-white/[0.04] px-4 py-2 text-xs font-semibold text-white transition-all duration-300 hover:border-[#D7FF00]/50 hover:bg-[#D7FF00]/10 hover:shadow-lg hover:shadow-[#D7FF00]/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D7FF00]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0a] sm:w-auto sm:min-h-[44px] sm:gap-2 sm:px-6 sm:py-3 sm:text-sm'
-                >
-                  <MessageSquare className='h-3.5 w-3.5 shrink-0 opacity-90 sm:h-4 sm:w-4' aria-hidden />
-                  {copy.ctaDropMessage}
-                </button>
-              </motion.div>
-            </motion.div>
+        <motion.h1
+          initial={{ opacity: 0, y: 28 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1, duration: 0.7 }}
+          className='w-full max-w-2xl'
+        >
+          <span className='sr-only'>
+            {copy.greeting} {copy.firstName} {copy.lastName}
+          </span>
+          <div
+            className='h-[clamp(2.75rem,10vw,4.5rem)] w-full sm:h-16 md:h-20'
+            aria-hidden='true'
+          >
+            <MeshText
+              text={copy.firstName}
+              color='#0a0a0a'
+              font={{
+                fontFamily: 'Daisyogre',
+                variant: 'Bold',
+                fontSize: 160,
+              }}
+              colorSplit
+              customColors={['#D7FF00', '#2DD4BF']}
+              force={18}
+              textAlign='left'
+            />
           </div>
+          <HighlightedMeshText text={copy.lastName} />
+        </motion.h1>
 
-          {/* Right column: photo first, socials below (mobile + desktop) */}
-          <div className='pointer-events-auto relative z-20 mt-3 flex w-full min-w-0 flex-col items-center sm:mt-5 md:mt-0'>
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.5, duration: 0.8 }}
-              className='group relative mb-6 h-44 w-44 cursor-pointer sm:mb-8 sm:h-56 sm:w-56 md:mb-10 md:h-64 md:w-64 lg:h-72 lg:w-72'
-            >
-              <div className='relative h-full w-full rounded-full overflow-hidden transition-all duration-300'>
-                <div className='absolute -inset-1 bg-black/30 rounded-full blur-xl z-0'></div>
-                {/* Sharp original photo — stays full color */}
-                <img
-                  src={require('../asset/hsn3.jpg')}
-                  alt='Hussain Hamim'
-                  className='relative z-10 h-full w-full object-cover object-center rounded-full'
-                />
-                {/* Drift overlay: only displaced pixels; photo shows through */}
-                <div className='absolute inset-0 z-20 rounded-full overflow-hidden'>
-                  <PixelDriftImage
-                    src={require('../asset/hsn3.jpg')}
-                    alt=''
-                    particleSize={3}
-                    particleCount={90}
-                    mouseEnabled
-                    mouseRadius={28}
-                    mouseForce={24}
-                    activeOnlyOnHover
-                    drawBaseImage={false}
-                    onlyDisplaced
-                    transition={{ type: 'tween', duration: 0.35, ease: 'easeOut' }}
-                  />
-                </div>
-              </div>
-            </motion.div>
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.28, duration: 0.6 }}
+          className='mt-6 max-w-3xl font-sans1 text-[clamp(1.15rem,3.2vw,1.65rem)] font-bold uppercase leading-[1.15] tracking-tight text-[#0a0a0a] sm:mt-8'
+        >
+          {isPashto ? (
+            copy.headline
+          ) : (
+            <>
+              I build{' '}
+              <span className='bg-accent px-1.5 text-[#0a0a0a]'>AI-powered</span>{' '}
+              products for{' '}
+              <span className='text-[#0a0a0a]/55'>startups that need to</span>{' '}
+              ship.
+            </>
+          )}
+        </motion.p>
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.7, duration: 0.8 }}
-              className='flex flex-wrap items-center justify-center gap-5 sm:gap-6 md:gap-7'
+        <motion.p
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4, duration: 0.6 }}
+          className='mt-4 max-w-xl font-sans3 text-sm leading-relaxed text-gray-600 sm:mt-5 sm:text-base'
+        >
+          {copy.subline}
+        </motion.p>
+
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5, duration: 0.55 }}
+          className='mt-8 flex w-full max-w-md flex-col items-stretch gap-3 sm:mt-10 sm:max-w-none sm:flex-row sm:items-center sm:justify-start'
+        >
+          {bookingUrl ? (
+            <Button
+              href={bookingUrl}
+              target='_blank'
+              rel='noopener noreferrer'
+              icon={<Calendar />}
             >
-              {socialLinks.map((social, index) => {
-                if (social.primary) {
-                  return (
-                    <a
-                      key={index}
-                      href={social.url}
-                      target='_blank'
-                      rel='noopener noreferrer'
-                      aria-label={social.label || 'WhatsApp'}
-                      className='group relative z-40 inline-flex items-center gap-1.5 rounded-full bg-[#25D366] px-3 py-1.5 text-xs font-semibold text-white shadow-[0_8px_24px_rgba(37,211,102,0.45)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#1ebe5a] hover:shadow-[0_10px_28px_rgba(37,211,102,0.6)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#25D366]/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0a] sm:gap-2 sm:px-3.5 sm:text-sm'
-                    >
-                      <span className='relative flex h-5 w-5 items-center justify-center rounded-full bg-white/15 sm:h-6 sm:w-6'>
-                        <social.icon size={16} />
-                      </span>
-                      <span className='relative hidden sm:inline'>{social.label}</span>
-                    </a>
-                  );
-                }
-                return (
-                  <a
-                    key={index}
-                    href={social.url}
-                    target='_blank'
-                    rel='noopener noreferrer'
-                    className='relative z-40 inline-flex items-center justify-center focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D7FF00]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0a] rounded-lg'
-                    aria-label={`Visit ${social.url}`}
-                  >
-                    {social.img ? (
-                      <Suspense
-                        fallback={
-                          <img
-                            src={social.img}
-                            alt=''
-                            className='h-8 w-8 rounded-lg object-contain sm:h-9 sm:w-9'
-                          />
-                        }
-                      >
-                        <StickerPeeling
-                          image={social.img}
-                          imageWidth={36}
-                          imageHeight={36}
-                          hoverPeel={48}
-                          pressPeel={70}
-                          curlRotation={PEEL_VARIATIONS[index % PEEL_VARIATIONS.length]}
-                          backColor='#0a0a0a'
-                          shadowEnabled
-                          shadow={{ opacity: 28, color: '#000000', x: -220, y: 120 }}
-                          transition={{ type: 'tween', duration: 0.28, ease: 'easeOut' }}
-                        />
-                      </Suspense>
-                    ) : (
-                      <social.icon className='h-6 w-6 sm:h-7 sm:w-7 md:h-6 md:w-6 text-gray-300' />
-                    )}
-                  </a>
-                );
-              })}
-            </motion.div>
-          </div>
-        </div>
+              {copy.ctaBook}
+            </Button>
+          ) : null}
+          <Button
+            variant='secondary'
+            onClick={() => scrollToSection('projects')}
+            icon={<ArrowRight />}
+          >
+            {copy.ctaSeeWork}
+          </Button>
+          <Button
+            variant='outline'
+            onClick={() => scrollToSection('contactme')}
+            icon={<MessageSquare />}
+            className='!text-[#0a0a0a]'
+          >
+            {copy.ctaDropMessage}
+          </Button>
+        </motion.div>
       </div>
-
-      {/* Scroll Indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1, duration: 1 }}
-        className='absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2 z-20 pointer-events-none'
-      >
-        <div className='w-[1px] h-12 bg-gradient-to-b from-teal-400 to-transparent'></div>
-      </motion.div>
     </section>
   );
 };

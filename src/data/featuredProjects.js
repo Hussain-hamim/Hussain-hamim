@@ -18,6 +18,7 @@ export const featuredProjects = [
   {
     slug: 'ideahunt',
     title: 'IdeaHunt',
+    cardHeadline: 'Stop guessing. Validate startup ideas from real demand.',
     tagline:
       'Stop building what nobody wants. IdeaHunt scans real conversations across the internet to surface validated startup ideas with real demand.',
     live: 'https://www.ideahunt.pro/',
@@ -65,6 +66,7 @@ export const featuredProjects = [
   {
     slug: 'aegnis-ai',
     title: 'Aegnis AI',
+    cardHeadline: 'An AI chief of staff that helps you execute, not just plan.',
     tagline:
       'An AI Chief of Staff that doesn’t just plan your day — it actively helps execute it.',
     live: 'https://aegnis.life',
@@ -110,6 +112,7 @@ export const featuredProjects = [
   {
     slug: 'liquidglass',
     title: 'LiquidGlass',
+    cardHeadline: 'Copy-ready WebGL glass effects for modern React apps.',
     tagline:
       'WebGL glass effects for the modern web — browse, preview, and copy beautiful liquid glass into any React project.',
     live: 'https://liquidglass-sigma.vercel.app/',
@@ -139,6 +142,7 @@ export const featuredProjects = [
     title: 'Goal Tracking App',
     /** Optional: friendlier “Open …” label on the case study CTA (avoids long demo URLs). */
     openLinkLabel: 'Goal Tracking App',
+    cardHeadline: 'Couple Connect — shared goals, timeline, and chat for two.',
     tagline:
       'Couple Connect — build your future together. One place for you both: shared timeline, goals, and chat, designed for couples.',
     live: 'https://goals-tracking-cc.vercel.app/#app-screenshots',

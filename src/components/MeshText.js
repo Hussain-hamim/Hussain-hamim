@@ -192,6 +192,7 @@ export default function MeshText(props) {
   } = merged;
 
   const [webglOk, setWebglOk] = useState(true);
+  const [ready, setReady] = useState(false);
 
   const colorSplitRef = useRef(!!colorSplit);
   colorSplitRef.current = !!colorSplit;
@@ -219,6 +220,8 @@ export default function MeshText(props) {
   const wrapperRef = useRef(null);
 
   useEffect(() => {
+    setReady(false);
+
     const canvas = canvasRef.current;
     const wrapper = wrapperRef.current;
     if (!canvas || !wrapper) return;
@@ -320,6 +323,18 @@ export default function MeshText(props) {
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+    gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
+    gl.texImage2D(
+      gl.TEXTURE_2D,
+      0,
+      gl.RGBA,
+      1,
+      1,
+      0,
+      gl.RGBA,
+      gl.UNSIGNED_BYTE,
+      new Uint8Array([0, 0, 0, 0])
+    );
 
     let cancelled = false;
 
@@ -357,6 +372,9 @@ export default function MeshText(props) {
       gl.bindTexture(gl.TEXTURE_2D, tex);
       gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
       gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, c2);
+      if (!cancelled) {
+        setReady(true);
+      }
     };
 
     const resize = () => {
@@ -499,6 +517,7 @@ export default function MeshText(props) {
 
     return () => {
       cancelled = true;
+      setReady(false);
       cancelAnimationFrame(rafId);
       ro.disconnect();
       wrapper.removeEventListener('pointermove', onMove);
@@ -561,12 +580,42 @@ export default function MeshText(props) {
         ...style,
       }}
     >
+      <span
+        aria-hidden='true'
+        style={{
+          position: 'absolute',
+          inset: 0,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent:
+            textAlign === 'center'
+              ? 'center'
+              : textAlign === 'right'
+                ? 'flex-end'
+                : 'flex-start',
+          color: color ?? '#ffffff',
+          fontFamily: `${fontFamily}, sans-serif`,
+          fontWeight,
+          fontStyle,
+          fontSize: 'clamp(1.75rem, 9vw, 6rem)',
+          lineHeight: 1.05,
+          letterSpacing: '-0.02em',
+          opacity: ready ? 0 : 1,
+          transition: 'opacity 0.2s ease',
+          pointerEvents: 'none',
+        }}
+      >
+        {text}
+      </span>
       <canvas
         ref={canvasRef}
         style={{
           display: 'block',
           width: '100%',
           height: '100%',
+          opacity: ready ? 1 : 0,
+          transition: 'opacity 0.2s ease',
+          pointerEvents: ready ? 'auto' : 'none',
         }}
       />
     </div>

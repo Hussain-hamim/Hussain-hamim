@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
+import Button from './Button';
+
 const ExperienceCard = ({ exp, index, isPashto, isRtl }) => (
   <motion.article
     initial={{ opacity: 0, x: isRtl ? 20 : -20 }}
@@ -9,41 +12,34 @@ const ExperienceCard = ({ exp, index, isPashto, isRtl }) => (
     className='relative flex gap-4 md:gap-5 group'
   >
     <div className='relative z-10 flex-shrink-0 mt-1'>
-      <div className='w-4 h-4 md:w-5 md:h-5 rounded-full bg-[#0f0f0f] border-2 border-[#D7FF00] flex items-center justify-center'>
+      <div className='w-4 h-4 md:w-5 md:h-5 rounded-full bg-[#F3F1E6] border-2 border-black flex items-center justify-center'>
         {exp.isCurrent && (
-          <div className='w-2 h-2 md:w-2.5 md:h-2.5 rounded-full bg-[#D7FF00]' />
+          <div className='w-2 h-2 md:w-2.5 md:h-2.5 rounded-full bg-[#D7FF00] border border-black' />
         )}
       </div>
     </div>
     <div className='flex-1 min-w-0'>
-      <div className='absolute -inset-0.5 bg-gradient-to-r from-[#D7FF00] to-teal-400 rounded-xl opacity-0 group-hover:opacity-20 transition duration-500 blur-xl' />
       <div
-        className='relative rounded-xl p-4 md:p-5 transition-all duration-300'
-        style={{
-          backgroundColor: '#0a0a0a',
-          backgroundImage:
-            'radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px)',
-          backgroundSize: '24px 24px',
-        }}
+        className='relative rounded-xl p-4 md:p-5 bg-[#EDEBE0] transition-[box-shadow,background-color] duration-300 group-hover:bg-[#E9E7DB] group-hover:shadow-[0_0_0_0.5px_rgba(0,0,0,0.22)]'
       >
         <div className='flex flex-wrap items-center gap-2 mb-1.5'>
-          <span className='text-[10px] font-mono text-[#D7FF00] uppercase tracking-wider'>
+          <span className='text-[10px] font-mono text-gray-600 uppercase tracking-wider'>
             {exp.duration}
           </span>
           {exp.isCurrent && (
             <span
-              className='text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full text-white bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.45)]'
+              className='text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full text-black bg-[#D7FF00] border border-black'
               aria-label={isPashto ? 'اوسنۍ دنده' : 'Current role'}
             >
               {isPashto ? 'اوس' : 'Present'}
             </span>
           )}
         </div>
-        <h3 className='text-lg md:text-xl font-bold font-sans1 text-white mb-0.5 tracking-tight'>
+        <h3 className='text-lg md:text-xl font-bold font-sans1 text-[#0a0a0a] mb-0.5 tracking-tight'>
           {exp.role}
         </h3>
-        <p className='text-gray-400 text-sm font-medium mb-2'>{exp.company}</p>
-        <p className='text-gray-300 text-sm leading-relaxed font-sans3'>
+        <p className='text-gray-600 text-sm font-medium mb-2'>{exp.company}</p>
+        <p className='text-gray-700 text-sm leading-relaxed font-sans3'>
           {exp.description}
         </p>
       </div>
@@ -102,18 +98,17 @@ const ExperienceSection = ({ locale = 'en' }) => {
   return (
     <section
       id='experience-section'
-      className='relative z-10 py-32 px-4 md:px-8 overflow-hidden min-h-screen flex items-center'
+      className='relative z-10 py-32 px-4 md:px-8 overflow-hidden min-h-screen flex items-center bg-[#F3F1E6]'
     >
       <div className='max-w-4xl mx-auto relative z-10 w-full'>
-        {/* Section header - matches ProjectsSection style */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className='flex flex-col items-center mb-20'
+          className='flex flex-col items-center mb-16'
         >
-          <h2 className='text-center text-4xl md:text-5xl font-bold font-sans1 text-white tracking-tight'>
+          <h2 className='text-center text-4xl md:text-5xl font-bold font-sans1 text-[#0a0a0a] tracking-tight uppercase'>
             {isPashto ? 'تجربه' : 'EXPERIENCE'}
           </h2>
         </motion.div>
@@ -122,7 +117,7 @@ const ExperienceSection = ({ locale = 'en' }) => {
         <div className='relative'>
           {/* Vertical line */}
           <div
-            className='absolute left-6 md:left-8 top-0 bottom-0 w-px bg-gradient-to-b from-[#D7FF00]/50 via-teal-400/30 to-transparent'
+            className='absolute left-6 md:left-8 top-0 bottom-0 w-px bg-gradient-to-b from-black/40 via-black/15 to-transparent'
             aria-hidden
           />
 
@@ -141,10 +136,12 @@ const ExperienceSection = ({ locale = 'en' }) => {
             <div className='flex gap-4 md:gap-5'>
               <div className='w-4 md:w-5 flex-shrink-0' />
               <div className='flex-1 flex justify-center py-2'>
-                <button
+                <Button
                   type='button'
+                  size='sm'
+                  variant='primary'
+                  icon={showThird ? <FaChevronUp /> : <FaChevronDown />}
                   onClick={() => setShowThird((v) => !v)}
-                  className='px-5 py-2 text-xs font-bold uppercase tracking-wider text-[#D7FF00] rounded-full border-0 transition-all hover:bg-[#D7FF00]/10'
                 >
                   {showThird
                     ? isPashto
@@ -153,7 +150,7 @@ const ExperienceSection = ({ locale = 'en' }) => {
                     : isPashto
                     ? 'نور تجربه وښيه'
                     : 'Show more experience'}
-                </button>
+                </Button>
               </div>
             </div>
 

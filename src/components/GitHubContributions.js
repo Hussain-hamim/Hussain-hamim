@@ -228,29 +228,43 @@ const GitHubContributions = ({ username, dark = false }) => {
   }, [username]);
 
   const getIntensity = (count) => {
-    // GitHub's exact color scheme
-    if (count === 0) return "bg-[#161b22]";
-    if (count === 1) return "bg-[#0e4429]";
-    if (count <= 3) return "bg-[#006d32]";
-    if (count <= 5) return "bg-[#26a641]";
-    return "bg-[#39d353]";
+    if (dark) {
+      if (count === 0) return 'bg-[#161b22]';
+      if (count === 1) return 'bg-[#0e4429]';
+      if (count <= 3) return 'bg-[#006d32]';
+      if (count <= 5) return 'bg-[#26a641]';
+      return 'bg-[#39d353]';
+    }
+    // Light theme (GitHub contribution greens on cream)
+    if (count === 0) return 'bg-[#d8d6cb]';
+    if (count === 1) return 'bg-[#9be9a8]';
+    if (count <= 3) return 'bg-[#40c463]';
+    if (count <= 5) return 'bg-[#30a14e]';
+    return 'bg-[#216e39]';
   };
 
-  const dayLabels = ["", "Mon", "", "Wed", "", "Fri", ""];
+  const titleClass = dark
+    ? 'text-sm font-semibold text-white'
+    : 'text-sm font-semibold text-[#0a0a0a]';
+  const mutedClass = dark ? 'text-gray-400' : 'text-gray-600';
+  const emptyCell = dark ? 'bg-[#161b22]' : 'bg-[#d8d6cb]';
+  const pulseClass = dark ? 'bg-gray-700' : 'bg-black/10';
+
+  const dayLabels = ['', 'Mon', '', 'Wed', '', 'Fri', ''];
 
   if (loading) {
     return (
-      <div className="space-y-3">
-        <div className="h-4 bg-gray-700 rounded w-48 animate-pulse"></div>
-        <div className="flex gap-1">
-          <div className="w-12"></div>
-          <div className="flex gap-1 flex-1">
+      <div className='space-y-3'>
+        <div className={`h-4 rounded w-48 animate-pulse ${pulseClass}`}></div>
+        <div className='flex gap-1'>
+          <div className='w-12'></div>
+          <div className='flex gap-1 flex-1'>
             {Array.from({ length: 53 }).map((_, i) => (
-              <div key={i} className="flex flex-col gap-1">
+              <div key={i} className='flex flex-col gap-1'>
                 {Array.from({ length: 7 }).map((_, j) => (
                   <div
                     key={j}
-                    className="w-3 h-3 rounded bg-[#161b22] animate-pulse"
+                    className={`w-3 h-3 rounded animate-pulse ${emptyCell}`}
                   />
                 ))}
               </div>
@@ -264,25 +278,27 @@ const GitHubContributions = ({ username, dark = false }) => {
   if (!contributions) return null;
 
   return (
-    <div className="space-y-3 w-full">
+    <div className='space-y-3 w-full'>
       {/* Title */}
-      <div className="flex items-center justify-between">
-        <h4 className="text-sm font-semibold text-white">
+      <div className='flex items-center justify-between'>
+        <h4 className={titleClass}>
           {totalContributions.toLocaleString()} contributions in the last year
         </h4>
       </div>
 
       {/* Graph Container */}
-      <div className="flex gap-2" style={{ minWidth: 'max-content' }}>
+      <div className='flex gap-2' style={{ minWidth: 'max-content' }}>
         {/* Day Labels */}
-        <div className="flex flex-col gap-1 pt-3 flex-shrink-0">
+        <div className='flex flex-col gap-1 pt-3 flex-shrink-0'>
           {dayLabels.map((label, idx) => (
             <div
               key={idx}
-              className="h-3 flex items-center justify-end pr-2"
+              className='h-3 flex items-center justify-end pr-2'
             >
               {label && (
-                <span className="text-[10px] text-gray-400 leading-none whitespace-nowrap">
+                <span
+                  className={`text-[10px] leading-none whitespace-nowrap ${mutedClass}`}
+                >
                   {label}
                 </span>
               )}
@@ -291,12 +307,14 @@ const GitHubContributions = ({ username, dark = false }) => {
         </div>
 
         {/* Main Graph */}
-        <div className="flex-shrink-0">
+        <div className='flex-shrink-0'>
           {/* Month Labels */}
-          <div className="flex gap-1 mb-1 relative h-4" style={{ width: `${53 * 16}px` }}>
+          <div
+            className='flex gap-1 mb-1 relative h-4'
+            style={{ width: `${53 * 16}px` }}
+          >
             {contributions.monthPositions.map((month, idx) => {
               const nextMonth = contributions.monthPositions[idx + 1];
-              // Each week: w-3 (12px) + gap-1 (4px) = 16px total
               const weekWidth = 16;
               const leftPosition = month.weekIndex * weekWidth;
               const width = nextMonth
@@ -305,13 +323,15 @@ const GitHubContributions = ({ username, dark = false }) => {
               return (
                 <div
                   key={idx}
-                  className="absolute"
+                  className='absolute'
                   style={{
                     left: `${leftPosition}px`,
                     minWidth: `${width}px`,
                   }}
                 >
-                  <span className="text-[10px] text-gray-400 leading-none whitespace-nowrap">
+                  <span
+                    className={`text-[10px] leading-none whitespace-nowrap ${mutedClass}`}
+                  >
                     {month.name}
                   </span>
                 </div>
@@ -320,24 +340,26 @@ const GitHubContributions = ({ username, dark = false }) => {
           </div>
 
           {/* Contribution Grid */}
-          <div className="flex gap-1" style={{ width: `${53 * 16}px` }}>
+          <div className='flex gap-1' style={{ width: `${53 * 16}px` }}>
             {contributions.weeks.map((week, weekIndex) => (
-              <div key={weekIndex} className="flex flex-col gap-1">
+              <div key={weekIndex} className='flex flex-col gap-1'>
                 {week.map((day, dayIndex) => (
                   <div
                     key={dayIndex}
                     className={`w-3 h-3 rounded ${
-                      day.date ? getIntensity(day.count) : "bg-transparent"
+                      day.date ? getIntensity(day.count) : 'bg-transparent'
                     }`}
                     title={
                       day.date
-                        ? `${day.date.toLocaleDateString("en-US", {
-                            weekday: "long",
-                            year: "numeric",
-                            month: "long",
-                            day: "numeric",
-                          })}: ${day.count} contribution${day.count !== 1 ? "s" : ""}`
-                        : ""
+                        ? `${day.date.toLocaleDateString('en-US', {
+                            weekday: 'long',
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric',
+                          })}: ${day.count} contribution${
+                            day.count !== 1 ? 's' : ''
+                          }`
+                        : ''
                     }
                   />
                 ))}
@@ -348,14 +370,32 @@ const GitHubContributions = ({ username, dark = false }) => {
       </div>
 
       {/* Legend */}
-      <div className="flex items-center justify-end gap-2 text-[10px] text-gray-400">
+      <div
+        className={`flex items-center justify-end gap-2 text-[10px] ${mutedClass}`}
+      >
         <span>Less</span>
-        <div className="flex gap-0.5">
-          <div className="w-3 h-3 rounded bg-[#161b22]"></div>
-          <div className="w-3 h-3 rounded bg-[#0e4429]"></div>
-          <div className="w-3 h-3 rounded bg-[#006d32]"></div>
-          <div className="w-3 h-3 rounded bg-[#26a641]"></div>
-          <div className="w-3 h-3 rounded bg-[#39d353]"></div>
+        <div className='flex gap-0.5'>
+          <div className={`w-3 h-3 rounded ${emptyCell}`}></div>
+          <div
+            className={`w-3 h-3 rounded ${
+              dark ? 'bg-[#0e4429]' : 'bg-[#9be9a8]'
+            }`}
+          ></div>
+          <div
+            className={`w-3 h-3 rounded ${
+              dark ? 'bg-[#006d32]' : 'bg-[#40c463]'
+            }`}
+          ></div>
+          <div
+            className={`w-3 h-3 rounded ${
+              dark ? 'bg-[#26a641]' : 'bg-[#30a14e]'
+            }`}
+          ></div>
+          <div
+            className={`w-3 h-3 rounded ${
+              dark ? 'bg-[#39d353]' : 'bg-[#216e39]'
+            }`}
+          ></div>
         </div>
         <span>More</span>
       </div>

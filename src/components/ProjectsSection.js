@@ -4,16 +4,15 @@ import {
   FaGithub,
   FaExternalLinkAlt,
   FaBook,
-  FaChevronDown,
 } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import SpaceGame from './SpaceGame';
 import GitHubContributions from './GitHubContributions';
 import ExperienceSection from './ExperienceSection';
-import ProximityHover from './ProximityHover';
 import InfiniteGallery from './InfiniteGallery';
 import Globe from './Globe';
 import { featuredProjects, isPlaceholder } from '../data/featuredProjects';
+import Button from './Button';
+import AboutSection from './AboutSection';
 
 const sectionAccent = '#D7FF00'; // single accent for whole section so cards match bg
 
@@ -261,19 +260,35 @@ export const certificates = [
   },
 ];
 
-export const SectionHeader = ({ title }) => (
-  <motion.div
-    initial={{ opacity: 0, y: 20 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.6 }}
-    viewport={{ once: true }}
-    className='flex flex-col items-center mb-16'
-  >
-    <h2 className='text-center text-4xl md:text-5xl font-bold font-sans1 text-white tracking-tight'>
-      {title}
-    </h2>
-  </motion.div>
-);
+export const SectionHeader = ({ title, light = false }) => {
+  const words = typeof title === 'string' ? title.trim().split(/\s+/) : [];
+  const showSplit = light && words.length >= 2;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6 }}
+      viewport={{ once: true }}
+      className='flex flex-col items-center mb-16'
+    >
+      <h2
+        className={`text-center text-4xl md:text-5xl font-bold font-sans1 tracking-tight uppercase ${
+          light ? 'text-[#0a0a0a]' : 'text-white'
+        }`}
+      >
+        {showSplit ? (
+          <>
+            <span className='text-[#0a0a0a]'>{words[0]}</span>{' '}
+            <span className='text-[#0a0a0a]/55'>{words.slice(1).join(' ')}</span>
+          </>
+        ) : (
+          title
+        )}
+      </h2>
+    </motion.div>
+  );
+};
 
 const hexToRgba = (hex, a) => {
   const [r, g, b] = hex.replace(/^#/, '').match(/.{2}/g).map((x) => parseInt(x, 16));
@@ -289,175 +304,106 @@ const FeaturedPlaceholder = ({ children }) => (
   </span>
 );
 
-export const ProjectCard = ({ project, index, isPashto, featured = false, featuredMeta = null, isCertificate = false }) => {
+export const ProjectCard = ({
+  project,
+  index,
+  isPashto,
+  featured = false,
+  featuredMeta = null,
+  isCertificate = false,
+  light = false,
+}) => {
   const [hovered, setHovered] = useState(false);
-  const [descriptionExpanded, setDescriptionExpanded] = useState(false);
   const tags = project.tags || [];
   const accent = sectionAccent;
+  const useLight = light || isCertificate;
 
-  // ——— Showcase style: only for the 3 current side projects ——— 
+  // ——— Showcase style: cream-section featured cards (image + headline + pills) ———
   if (featured) {
-    const summary = featuredMeta?.result || featuredMeta?.built || project.description;
+    const headline =
+      featuredMeta?.cardHeadline ||
+      featuredMeta?.tagline ||
+      featuredMeta?.result ||
+      featuredMeta?.built ||
+      project.description;
+    const serviceTags = (project.tags || featuredMeta?.stack || []).slice(0, 4);
+    const href = featuredMeta?.slug
+      ? `/case-study/${featuredMeta.slug}`
+      : project.live || project.link || '#';
+    const isInternal = Boolean(featuredMeta?.slug);
+
+    const media = (
+      <div className='relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-black bg-[#e8e6db] sm:rounded-3xl'>
+        {project.embedUrl ? (
+          <iframe
+            src={project.embedUrl}
+            title={`${project.title} preview`}
+            className='absolute inset-0 h-full w-full border-0 scale-[0.35] origin-top-left pointer-events-none transition-transform duration-700 ease-out group-hover:scale-[0.37]'
+            style={{ width: '286%', height: '286%' }}
+            loading='lazy'
+            sandbox='allow-scripts allow-same-origin'
+          />
+        ) : (
+          <img
+            src={project.getImageSrc()}
+            alt={project.title}
+            className='absolute inset-0 h-full w-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.03]'
+          />
+        )}
+      </div>
+    );
+
+    const body = (
+      <>
+        {media}
+        <h3 className='mt-3 line-clamp-2 text-left text-xs font-bold uppercase leading-snug tracking-wide text-[#0a0a0a] font-sans3 sm:mt-4 sm:text-[13px]'>
+          {isPlaceholder(headline) ? (
+            <FeaturedPlaceholder>{headline}</FeaturedPlaceholder>
+          ) : (
+            headline
+          )}
+        </h3>
+        <div className='mt-3 flex flex-wrap items-center gap-1.5 sm:mt-3.5 sm:gap-2'>
+          <span className='inline-flex items-center rounded-full bg-accent px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-black sm:px-3 sm:text-[11px]'>
+            {project.title}
+          </span>
+          {serviceTags.map((tag) => (
+            <span
+              key={tag}
+              className='inline-flex items-center rounded-full bg-black px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-white sm:px-3 sm:text-[11px]'
+            >
+              {tag}
+            </span>
+          ))}
+        </div>
+      </>
+    );
+
+    const cardShell =
+      'block h-full rounded-2xl bg-[#EDEBE0] p-3 sm:rounded-3xl sm:p-4 shadow-[0_0_0_0_transparent] transition-[box-shadow,background-color] duration-300 group-hover:bg-[#E9E7DB] group-hover:shadow-[0_0_0_0.5px_rgba(0,0,0,0.22)] focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 focus-visible:ring-offset-[#F3F1E6]';
+
     return (
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: index * 0.08, ease: [0.22, 1, 0.36, 1] }}
         viewport={{ once: true, margin: '-40px' }}
-        whileHover={{ y: -6, transition: { duration: 0.35, ease: [0.22, 1, 0.36, 1] } }}
         className='group relative h-full'
       >
-        {/* Soft lime shadow — same pattern as other sections */}
-        <div
-          className='pointer-events-none absolute inset-0 rounded-3xl bg-[#D7FF00] blur-xl opacity-0 transition-opacity duration-500 group-hover:opacity-20'
-          aria-hidden
-        />
-
-        <div
-          className='relative h-full rounded-3xl overflow-hidden flex flex-col shadow-2xl transition-all duration-300 group-hover:shadow-[0_0_40px_rgba(215,255,0,0.1)]'
-          style={{
-            background: '#0d0d0d',
-            boxShadow: '0 0 0 1px rgba(255,255,255,0.06), 0 4px 24px rgba(0,0,0,0.3)',
-          }}
-        >
-          {/* Image — taller so screenshots read; anchor top so hero UI stays in frame */}
-          <div className='relative h-52 sm:h-56 md:h-60 overflow-hidden bg-[#0a0a0a]'>
-            {project.embedUrl ? (
-              <iframe
-                src={project.embedUrl}
-                title={`${project.title} preview`}
-                className='absolute inset-0 w-full h-full border-0 scale-[0.35] origin-top-left pointer-events-none transition-transform duration-700 ease-out group-hover:scale-[0.37]'
-                style={{ width: '286%', height: '286%' }}
-                loading='lazy'
-                sandbox='allow-scripts allow-same-origin'
-              />
-            ) : (
-              <img
-                src={project.getImageSrc()}
-                alt={project.title}
-                className='absolute inset-0 h-full w-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.04]'
-              />
-            )}
-            {/* Subtle top-edge wash on hover */}
-            <div
-              className='pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0d0d0d]/80 via-transparent to-transparent opacity-60 transition-opacity duration-500 group-hover:opacity-40'
-              aria-hidden
-            />
-            <div
-              className='pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100'
-              style={{
-                background: `linear-gradient(180deg, ${hexToRgba(accent, 0.08)} 0%, transparent 40%)`,
-              }}
-              aria-hidden
-            />
-          </div>
-
-          {/* Content */}
-          <div className='relative flex-1 flex flex-col p-5 sm:p-6'>
-            {featuredMeta ? (
-              <>
-                <h3 className='text-xl sm:text-2xl font-bold font-sans1 text-white tracking-tight mb-3 transition-colors duration-300 group-hover:text-[#D7FF00]'>
-                  {project.title}
-                </h3>
-
-                {/* Single summary line (uses Result, falls back to Built) */}
-                <p className='text-[13px] leading-relaxed text-white/75 font-sans3 mb-5 flex-grow line-clamp-3 transition-colors duration-300 group-hover:text-white/85'>
-                  {isPlaceholder(summary) ? (
-                    <FeaturedPlaceholder>{summary}</FeaturedPlaceholder>
-                  ) : (
-                    summary
-                  )}
-                </p>
-
-                {/* Footer actions */}
-                <div className='mt-auto flex flex-wrap items-center gap-3 pt-4 border-t border-white/10'>
-                  {project.live ? (
-                    <a
-                      href={project.live}
-                      target='_blank'
-                      rel='noopener noreferrer'
-                      className='inline-flex items-center justify-center gap-1 rounded-full border-[0.5px] border-white/15 bg-white/[0.04] px-4 py-2 text-xs font-semibold tracking-wide text-white/90 transition-all hover:border-[#D7FF00]/50 hover:bg-[#D7FF00]/10'
-                    >
-                      {isPashto ? (
-                        <>
-                          <span>وګورئ</span>
-                          <span className='font-sans1'>{project.title}</span>
-                        </>
-                      ) : (
-                        <>
-                          <span className='uppercase tracking-wider'>View</span>
-                          <span className='font-sans1 tracking-tight'>{project.title}</span>
-                        </>
-                      )}
-                    </a>
-                  ) : (
-                    <a
-                      href={project.link}
-                      target='_blank'
-                      rel='noopener noreferrer'
-                      className='inline-flex items-center justify-center rounded-full border-[0.5px] border-white/15 bg-white/[0.04] px-4 py-2 text-xs font-semibold tracking-wide text-white/90 transition-all hover:border-[#D7FF00]/50 hover:bg-[#D7FF00]/10'
-                    >
-                      {isPashto ? 'کوډ وګورئ' : 'View repo'}
-                    </a>
-                  )}
-                  <Link
-                    to={`/case-study/${featuredMeta.slug}`}
-                    className='ml-auto inline-flex items-center justify-center px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-full transition-all duration-300 text-black group-hover:-translate-y-0.5'
-                    style={{ backgroundColor: accent }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.boxShadow = `0 8px 24px ${hexToRgba(accent, 0.45)}`;
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.boxShadow = '';
-                    }}
-                  >
-                    {isPashto ? 'تفصيل' : 'Case study'}
-                  </Link>
-                </div>
-              </>
-            ) : (
-              <>
-                <h3 className='text-xl sm:text-2xl font-bold font-sans1 text-white tracking-tight mb-3 transition-colors duration-300 group-hover:text-[#D7FF00]'>
-                  {project.title}
-                </h3>
-                <p className='text-[13px] leading-relaxed text-white/75 font-sans3 mb-5 flex-grow line-clamp-3 transition-colors duration-300 group-hover:text-white/85'>
-                  {project.description}
-                </p>
-                <div className='mt-auto flex flex-wrap items-center gap-3 pt-4 border-t border-white/10'>
-                  {project.live ? (
-                    <a
-                      href={project.live}
-                      target='_blank'
-                      rel='noopener noreferrer'
-                      className='inline-flex items-center justify-center gap-1 rounded-full border-[0.5px] border-white/15 bg-white/[0.04] px-4 py-2 text-xs font-semibold tracking-wide text-white/90 transition-all hover:border-[#D7FF00]/50 hover:bg-[#D7FF00]/10'
-                    >
-                      {isPashto ? (
-                        <>
-                          <span>وګورئ</span>
-                          <span className='font-sans1'>{project.title}</span>
-                        </>
-                      ) : (
-                        <>
-                          <span className='uppercase tracking-wider'>View</span>
-                          <span className='font-sans1 tracking-tight'>{project.title}</span>
-                        </>
-                      )}
-                    </a>
-                  ) : (
-                    <a
-                      href={project.link}
-                      target='_blank'
-                      rel='noopener noreferrer'
-                      className='inline-flex items-center justify-center rounded-full border-[0.5px] border-white/15 bg-white/[0.04] px-4 py-2 text-xs font-semibold tracking-wide text-white/90 transition-all hover:border-[#D7FF00]/50 hover:bg-[#D7FF00]/10'
-                    >
-                      {isPashto ? 'کوډ وګورئ' : 'View repo'}
-                    </a>
-                  )}
-                </div>
-              </>
-            )}
-          </div>
-        </div>
+        {isInternal ? (
+          <Link to={href} className={cardShell}>
+            {body}
+          </Link>
+        ) : (
+          <a
+            href={href}
+            target='_blank'
+            rel='noopener noreferrer'
+            className={cardShell}
+          >
+            {body}
+          </a>
+        )}
       </motion.div>
     );
   }
@@ -473,26 +419,47 @@ export const ProjectCard = ({ project, index, isPashto, featured = false, featur
       viewport={{ once: true }}
       className='group relative h-full'
     >
+      {!useLight && (
+        <div
+          className='absolute -inset-0.5 rounded-2xl blur-xl opacity-0 group-hover:opacity-25 transition duration-500'
+          style={{ background: accent }}
+        />
+      )}
       <div
-        className='absolute -inset-0.5 rounded-2xl blur-xl opacity-0 group-hover:opacity-25 transition duration-500'
-        style={{ background: accent }}
-      />
-      <div
-        className='relative h-full rounded-2xl overflow-hidden transition-all duration-300 flex flex-col'
-        style={{
-          backgroundColor: '#141414',
-          backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px)',
-          backgroundSize: '20px 20px',
-          boxShadow: '0 0 0 1px rgba(255,255,255,0.06)',
-        }}
+        className={`relative h-full rounded-2xl overflow-hidden flex flex-col transition-[box-shadow,background-color] duration-300 ${
+          useLight
+            ? 'bg-[#EDEBE0] group-hover:bg-[#E9E7DB] group-hover:shadow-[0_0_0_0.5px_rgba(0,0,0,0.22)]'
+            : ''
+        }`}
+        style={
+          useLight
+            ? undefined
+            : {
+                backgroundColor: '#141414',
+                backgroundImage:
+                  'radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px)',
+                backgroundSize: '20px 20px',
+                boxShadow: '0 0 0 1px rgba(255,255,255,0.06)',
+              }
+        }
         onMouseEnter={(e) => {
-          e.currentTarget.style.boxShadow = '0 20px 40px -12px rgba(0,0,0,0.4)';
+          if (!useLight) {
+            e.currentTarget.style.boxShadow = '0 20px 40px -12px rgba(0,0,0,0.4)';
+          }
         }}
         onMouseLeave={(e) => {
-          e.currentTarget.style.boxShadow = '0 0 0 1px rgba(255,255,255,0.06)';
+          if (!useLight) {
+            e.currentTarget.style.boxShadow = '0 0 0 1px rgba(255,255,255,0.06)';
+          }
         }}
       >
-        <div className='relative h-60 overflow-hidden bg-[#1a1a1a]'>
+        <div
+          className={`relative overflow-hidden ${
+            isCertificate ? 'h-44 sm:h-48' : 'h-60'
+          } ${
+            useLight ? 'bg-[#e8e6db] border-b border-black/10' : 'bg-[#1a1a1a]'
+          }`}
+        >
           {project.embedUrl ? (
             <iframe
               src={project.embedUrl}
@@ -507,99 +474,104 @@ export const ProjectCard = ({ project, index, isPashto, featured = false, featur
               src={project.getImageSrc()}
               alt={project.title}
               className={`w-full h-full transition-transform duration-500 group-hover:scale-105 ${isCertificate ? 'object-cover object-top' : 'object-contain'}`}
-              style={isCertificate ? { filter: 'invert(0.92) hue-rotate(180deg) brightness(1.05) contrast(0.95)' } : undefined}
+              style={
+                isCertificate && !useLight
+                  ? {
+                      filter:
+                        'invert(0.92) hue-rotate(180deg) brightness(1.05) contrast(0.95)',
+                    }
+                  : undefined
+              }
             />
           )}
         </div>
-        <div className='p-6 flex flex-col flex-grow relative z-20'>
-          <div className='flex flex-wrap gap-2 mb-4'>
+        <div
+          className={`flex flex-col flex-grow relative z-20 ${
+            isCertificate ? 'p-4' : 'p-6'
+          }`}
+        >
+          <div className={`flex flex-wrap gap-2 ${isCertificate ? 'mb-2' : 'mb-4'}`}>
             {tags.map((tag, i) => (
               <span
                 key={i}
-                className='px-2 py-1 text-[10px] uppercase tracking-wider font-bold rounded-md'
-                style={{ backgroundColor: hexToRgba(accent, 0.15), color: accent }}
+                className={`px-2 py-1 text-[10px] uppercase tracking-wider font-bold rounded-md ${
+                  useLight ? 'bg-black text-white' : ''
+                }`}
+                style={
+                  useLight
+                    ? undefined
+                    : { backgroundColor: hexToRgba(accent, 0.15), color: accent }
+                }
               >
                 {tag}
               </span>
             ))}
           </div>
-          <div className={`flex items-start justify-between gap-3 ${isCertificate && !descriptionExpanded ? 'mb-0' : 'mb-3'}`}>
+          <div className={`flex items-start justify-between gap-3 ${isCertificate ? 'mb-0' : 'mb-3'}`}>
             <h3
-              className='text-xl font-bold font-sans3 tracking-tight text-white'
-              style={{ color: hovered ? accent : undefined }}
+              className={`font-bold font-sans3 tracking-tight ${
+                isCertificate ? 'text-base sm:text-lg' : 'text-xl'
+              } ${useLight ? 'text-[#0a0a0a]' : 'text-white'}`}
+              style={
+                !useLight && hovered ? { color: accent } : undefined
+              }
             >
               {project.title}
             </h3>
-            {isCertificate && (
-              <button
-                type='button'
-                onClick={() => setDescriptionExpanded((prev) => !prev)}
-                className='mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/[0.04] text-gray-400 transition-colors hover:border-white/20 hover:bg-white/[0.06] hover:text-white'
-                aria-expanded={descriptionExpanded}
-                aria-label={
-                  descriptionExpanded
-                    ? isPashto
-                      ? 'تفصیل پټ کړئ'
-                      : 'Hide description'
-                    : isPashto
-                    ? 'تفصیل وښایئ'
-                    : 'Show description'
-                }
-              >
-                <FaChevronDown
-                  className={`text-xs transition-transform duration-200 ${descriptionExpanded ? 'rotate-180' : ''}`}
-                />
-              </button>
-            )}
-          </div>
-          {(!isCertificate || descriptionExpanded) && (
-            <p className='text-gray-400 text-sm leading-relaxed mb-6 flex-grow font-sans3'>
-              {project.description}
-            </p>
-          )}
-          <div className='flex items-center gap-4 mt-auto pt-4 border-t border-white/10'>
-            {!isCertificate && (
-              <a
-                href={project.link}
-                target='_blank'
-                rel='noopener noreferrer'
-                className='flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-gray-400 hover:text-white transition-colors'
-              >
-                <FaGithub className='text-lg' />
-                <span>{isPashto ? 'کوډ' : 'Code'}</span>
-              </a>
-            )}
-            {project.live && (
-              <a
+            {isCertificate && project.live ? (
+              <Button
                 href={project.live}
                 target='_blank'
                 rel='noopener noreferrer'
-                className={
-                  isCertificate
-                    ? 'flex items-center px-3 py-2 text-xs font-bold uppercase tracking-wider rounded-full border border-white/10 bg-white/[0.04] text-gray-400 transition-colors hover:text-white hover:border-white/20 hover:bg-white/[0.06]'
-                    : 'flex items-center gap-2 px-3 py-2 text-xs font-bold tracking-wider rounded-full ml-auto transition-all text-black'
-                }
-                style={isCertificate ? undefined : { backgroundColor: accent }}
-                onMouseEnter={
-                  isCertificate
-                    ? undefined
-                    : (e) => {
-                        e.currentTarget.style.boxShadow = `0 4px 16px ${hexToRgba(accent, 0.4)}`;
-                      }
-                }
-                onMouseLeave={
-                  isCertificate
-                    ? undefined
-                    : (e) => {
-                        e.currentTarget.style.boxShadow = '';
-                      }
-                }
+                size='sm'
+                variant='primary'
+                icon={<FaExternalLinkAlt />}
+                className='shrink-0'
               >
-                <span>{isCertificate ? (isPashto ? 'وګورئ' : 'View') : (isPashto ? 'ژوندۍ نسخه' : 'Live Demo')}</span>
-                {!isCertificate && <FaExternalLinkAlt className='text-sm' />}
-              </a>
-            )}
+                {isPashto ? 'وګورئ' : 'View'}
+              </Button>
+            ) : null}
           </div>
+          {!isCertificate && (
+            <p
+              className={`text-sm leading-relaxed mb-6 flex-grow font-sans3 ${
+                useLight ? 'text-gray-700' : 'text-gray-400'
+              }`}
+            >
+              {project.description}
+            </p>
+          )}
+          {!isCertificate && (
+            <div
+              className={`flex flex-wrap items-center gap-3 mt-auto pt-4 border-t ${
+                useLight ? 'border-black/10' : 'border-white/10'
+              }`}
+            >
+              <Button
+                href={project.link}
+                target='_blank'
+                rel='noopener noreferrer'
+                size='sm'
+                variant='outline'
+                icon={<FaGithub />}
+              >
+                {isPashto ? 'کوډ' : 'Code'}
+              </Button>
+              {project.live && (
+                <Button
+                  href={project.live}
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  size='sm'
+                  variant='primary'
+                  icon={<FaExternalLinkAlt />}
+                  className='ml-auto'
+                >
+                  {isPashto ? 'ژوندۍ نسخه' : 'Live Demo'}
+                </Button>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </motion.div>
@@ -706,24 +678,16 @@ const ProjectsSection = ({ locale = 'en' }) => {
   }, {});
 
   return (
-    <section id='projects-section' className='relative overflow-hidden'>
-      {/* Selected Work — Originkit Reactive Grid + overlay */}
-      <ProximityHover
-        className='min-h-screen'
-        shape='rounded'
-        fill='solid'
-        particleColor='rgba(215, 255, 0, 0.2)'
-        backgroundColor='#050505'
-        maxSize={14}
-        minSize={4}
-        gap={4}
-        influence={280}
-        overlay
-      >
+    <section id='projects-section' className='relative overflow-hidden bg-[#F3F1E6]'>
+      {/* Featured Work */}
+      <div className='relative min-h-screen bg-[#F3F1E6]'>
         <div className='relative z-10 py-32 overflow-hidden min-h-screen flex items-center'>
-          <div className='max-w-7xl mx-auto px-6 md:px-8 relative z-10 w-full'>
-            <SectionHeader title={isPashto ? 'غوره کارونه' : 'SELECTED WORK'} />
-            <div className='grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto'>
+          <div className='max-w-7xl mx-auto w-full px-6 md:px-8 relative z-10'>
+            <SectionHeader
+              title={isPashto ? 'غوره کارونه' : 'FEATURED WORK'}
+              light
+            />
+            <div className='grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10 max-w-5xl mx-auto'>
               {currentSideProjects.map((project, index) => (
                 <ProjectCard
                   key={project.title}
@@ -744,42 +708,30 @@ const ProjectsSection = ({ locale = 'en' }) => {
               viewport={{ once: true }}
               className='mt-14 flex justify-center'
             >
-              <Link
+              <Button
+                as={Link}
                 to='/projects'
-                className='group inline-flex items-center gap-2 rounded-full bg-transparent px-7 py-3 text-sm font-bold uppercase tracking-wider text-[#D7FF00] transition-all hover:bg-[#D7FF00]/10 hover:shadow-lg hover:shadow-[#D7FF00]/20'
+                icon={<FaExternalLinkAlt />}
               >
-                <span>{isPashto ? 'ټولې پروژې وګورئ' : 'See all projects'}</span>
-                <FaExternalLinkAlt className='text-[10px] transition-transform duration-300 group-hover:translate-x-0.5' />
-              </Link>
+                {isPashto ? 'ټولې پروژې وګورئ' : 'See all projects'}
+              </Button>
             </motion.div>
           </div>
         </div>
-      </ProximityHover>
-
-      {/* Experience — original SpaceGame starfield */}
-      <div className='relative'>
-        <div
-          className='absolute inset-0 z-0 pointer-events-none min-h-full'
-          aria-hidden
-        >
-          <SpaceGame />
-        </div>
-        <div className='relative z-10'>
-          <ExperienceSection locale={locale} />
-        </div>
       </div>
 
-      {/* Tools & Activity · Blogs & Photos · Certificates */}
-      <div className='relative bg-[#0f0f0f] py-32 overflow-visible'>
-        <div className='absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none'>
-          <div className='absolute top-20 left-0 w-96 h-96 bg-[#D7FF00]/[0.07] rounded-full blur-[120px]' />
-          <div className='absolute bottom-20 right-0 w-96 h-96 bg-[#D7FF00]/[0.05] rounded-full blur-[120px]' />
-        </div>
+      {/* Experience */}
+      <ExperienceSection locale={locale} />
 
-        <div className='max-w-7xl mx-auto px-6 md:px-8 relative z-10'>
+      {/* Tools & Activity · About · Blogs & Photos · Certificates */}
+      <div className='relative bg-[#F3F1E6] py-32 overflow-visible'>
+        <div className='max-w-7xl mx-auto w-full px-6 md:px-8 relative z-10'>
           {/* Tools & Activity */}
           <div id='tools-section'>
-            <SectionHeader title={isPashto ? 'وسايل او فعاليت' : 'TOOLS & ACTIVITY'} />
+            <SectionHeader
+              title={isPashto ? 'وسايل او فعاليت' : 'TOOLS & ACTIVITY'}
+              light
+            />
             <div className='grid grid-cols-1 md:grid-cols-2 gap-8'>
               <motion.div
                 initial={{ opacity: 0, y: 50 }}
@@ -798,56 +750,64 @@ const ProjectsSection = ({ locale = 'en' }) => {
                 viewport={{ once: true }}
                 className='relative group'
               >
-                <div className='absolute inset-0 bg-[#D7FF00] rounded-2xl blur-xl opacity-0 group-hover:opacity-20 transition-opacity duration-500' />
-                <div className='relative bg-[#111] rounded-2xl p-8 shadow-2xl hover:shadow-[0_0_40px_rgba(215,255,0,0.1)] transition-all duration-300 h-full flex flex-col'>
+                <div className='relative rounded-2xl p-8 bg-[#EDEBE0] transition-[box-shadow,background-color] duration-300 h-full flex flex-col group-hover:bg-[#E9E7DB] group-hover:shadow-[0_0_0_0.5px_rgba(0,0,0,0.22)]'>
                   <div className='flex items-center gap-3 mb-6'>
-                    <FaGithub className='text-2xl text-[#D7FF00]' />
+                    <FaGithub className='text-2xl text-[#0a0a0a]' />
                     <div>
-                      <h3 className='text-2xl font-bold text-white mb-1'>
+                      <h3 className='text-2xl font-bold text-[#0a0a0a] mb-1'>
                         {isPashto ? 'د ونډو فعاليت' : 'Contribution Activity'}
                       </h3>
-                      <p className='text-sm text-gray-400'>
+                      <p className='text-sm text-gray-600'>
                         {isPashto
                           ? 'په تېرو ۱۲ مياشتو کې د GitHub ونډې'
                           : 'GitHub contributions over the last year'}
                       </p>
                     </div>
                   </div>
-                  <div className='bg-[#0d1117] rounded-lg p-6 flex-grow min-h-0'>
+                  <div className='bg-[#0a0a0a] rounded-lg p-6 flex-grow min-h-0 border border-white/10'>
                     <div
                       className='w-full overflow-x-auto'
-                      style={{ scrollbarWidth: 'thin', scrollbarColor: '#333 transparent' }}
+                      style={{ scrollbarWidth: 'thin', scrollbarColor: '#444 transparent' }}
                     >
-                      <GitHubContributions username='Hussain-hamim' dark={true} />
+                      <GitHubContributions username='Hussain-hamim' dark />
                     </div>
                   </div>
-                  <a
+                  <Button
                     href='https://github.com/Hussain-hamim'
                     target='_blank'
                     rel='noopener noreferrer'
-                    className='flex items-center justify-center gap-2 mt-6 px-6 py-2 text-xs font-bold uppercase tracking-wider text-[#D7FF00] rounded-full transition-all hover:bg-[#D7FF00]/10 hover:shadow-lg hover:shadow-[#D7FF00]/20'
+                    size='sm'
+                    className='mt-6'
+                    icon={<FaExternalLinkAlt />}
                   >
-                    <span>{isPashto ? 'پروفایل وګورئ' : 'View Profile'}</span>
-                    <FaExternalLinkAlt className='text-sm' />
-                  </a>
+                    {isPashto ? 'پروفایل وګورئ' : 'View Profile'}
+                  </Button>
                 </div>
               </motion.div>
             </div>
           </div>
 
+          {/* About — full-bleed black band between tools and blogs */}
+          <div className='relative left-1/2 w-screen max-w-[100vw] -translate-x-1/2'>
+            <AboutSection locale={locale} />
+          </div>
+
           {/* Blogs & Photos */}
-          <div className='mt-36 mb-0 overflow-visible'>
-            <SectionHeader title={isPashto ? 'بلاګونه او عکسونه' : 'Blogs & Photos'} />
-            <div className='grid grid-cols-1 md:grid-cols-2 gap-8 overflow-visible'>
+          <div className='mt-36 overflow-visible px-2 sm:px-4 md:px-8'>
+            <SectionHeader
+              title={isPashto ? 'بلاګونه او عکسونه' : 'Blogs & Photos'}
+              light
+            />
+            <div className='mx-auto grid max-w-5xl grid-cols-1 gap-8 overflow-visible md:grid-cols-2 md:gap-10'>
               <BlogsCard isPashto={isPashto} />
               <PhotosCard />
             </div>
           </div>
 
           {/* Certificates — after Blogs & Photos */}
-          <div className='mt-36'>
-            <SectionHeader title={isPashto ? 'سندونه' : 'CERTIFICATES'} />
-            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
+          <div className='mt-36 px-2 sm:px-4 md:px-8'>
+            <SectionHeader title={isPashto ? 'سندونه' : 'CERTIFICATES'} light />
+            <div className='mx-auto grid max-w-5xl grid-cols-1 gap-8 md:grid-cols-2 md:gap-10 lg:grid-cols-3'>
               {certificatesLocalized.map((project, index) => (
                 <ProjectCard
                   key={index}
@@ -855,6 +815,7 @@ const ProjectsSection = ({ locale = 'en' }) => {
                   index={index}
                   isPashto={isPashto}
                   isCertificate
+                  light
                 />
               ))}
             </div>
@@ -878,7 +839,7 @@ const PhotosCard = () => (
     whileInView={{ opacity: 1, y: 0 }}
     transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
     viewport={{ once: true }}
-    className='relative h-[21rem] w-full overflow-hidden sm:h-[23rem]'
+    className='relative h-[21rem] w-full overflow-hidden sm:h-[23rem] rounded-2xl'
   >
     <InfiniteGallery
       images={PHOTO_IMAGES}
@@ -889,7 +850,7 @@ const PhotosCard = () => (
       dragSpeed={20}
       driftAmount={14}
       friction={10}
-      backgroundColor='#0a0a0a'
+      backgroundColor='#EDEBE0'
       width='100%'
       height='100%'
     />
@@ -917,17 +878,16 @@ const BlogsCard = ({ isPashto }) => (
     viewport={{ once: true }}
     className='relative group'
   >
-    <div className='absolute inset-0 bg-[#D7FF00] rounded-2xl blur-xl opacity-0 group-hover:opacity-20 transition-opacity duration-500' />
-    <div className='relative flex h-full flex-col rounded-2xl bg-[#111] p-6 shadow-2xl transition-all duration-300 hover:shadow-[0_0_40px_rgba(215,255,0,0.1)] sm:p-8'>
+    <div className='relative flex h-full flex-col rounded-2xl bg-[#EDEBE0] p-6 transition-[box-shadow,background-color] duration-300 group-hover:bg-[#E9E7DB] group-hover:shadow-[0_0_0_0.5px_rgba(0,0,0,0.22)] sm:p-8'>
       <div className='mb-5 flex items-center gap-3'>
-        <div className='flex h-10 w-10 items-center justify-center rounded-full bg-[#D7FF00]/10 transition-colors group-hover:bg-[#D7FF00]/20'>
-          <FaBook className='text-base text-[#D7FF00]' />
+        <div className='flex h-10 w-10 items-center justify-center rounded-full bg-[#D7FF00] border border-black'>
+          <FaBook className='text-base text-black' />
         </div>
         <div>
-          <h3 className='text-xl font-bold text-white'>
+          <h3 className='text-xl font-bold text-[#0a0a0a]'>
             {isPashto ? 'بلاګونه' : 'Blogs'}
           </h3>
-          <p className='text-xs text-gray-500'>
+          <p className='text-xs text-gray-600'>
             {isPashto ? 'تخنيکي ليکنې' : 'Technical writing'}
           </p>
         </div>
@@ -935,28 +895,32 @@ const BlogsCard = ({ isPashto }) => (
 
       <div className='flex flex-1 items-start'>
         {BLOG_POSTS.map((post) => (
-          <a
+          <div
             key={post.url}
-            href={post.url}
-            target='_blank'
-            rel='noopener noreferrer'
-            className='group/post relative flex w-full max-w-[200px] flex-col overflow-hidden rounded-xl border border-white/[0.08] bg-gradient-to-b from-white/[0.05] to-transparent px-3.5 py-4 transition-all duration-300 hover:border-[#D7FF00]/35 hover:from-[#D7FF00]/10'
+            className='group/post relative flex w-full max-w-[220px] flex-col overflow-hidden rounded-xl border border-black/10 bg-[#F3F1E6] px-3.5 py-4 transition-all duration-300 hover:border-black/25 hover:shadow-[0_0_0_0.5px_rgba(0,0,0,0.22)]'
           >
             <div className='min-w-0'>
-              <span className='mb-2 inline-block text-[9px] font-mono uppercase tracking-[0.18em] text-[#D7FF00]/80'>
+              <span className='mb-2 inline-block text-[9px] font-mono uppercase tracking-[0.18em] text-gray-600'>
                 {post.source}
               </span>
-              <h4 className='mb-2 text-sm font-semibold leading-snug text-white transition-colors group-hover/post:text-[#D7FF00]'>
+              <h4 className='mb-2 text-sm font-semibold leading-snug text-[#0a0a0a]'>
                 {isPashto ? post.titlePs : post.title}
               </h4>
-              <p className='text-xs leading-relaxed text-gray-500'>
+              <p className='text-xs leading-relaxed text-gray-600'>
                 {isPashto ? post.descriptionPs : post.description}
               </p>
             </div>
-            <span className='mt-4 inline-flex h-7 w-7 items-center justify-center rounded-full border border-white/10 text-[#D7FF00] transition-all duration-300 group-hover/post:border-[#D7FF00]/40 group-hover/post:bg-[#D7FF00]/10'>
-              <FaExternalLinkAlt className='text-[9px]' />
-            </span>
-          </a>
+            <Button
+              href={post.url}
+              target='_blank'
+              rel='noopener noreferrer'
+              size='sm'
+              className='mt-4 self-start'
+              icon={<FaExternalLinkAlt />}
+            >
+              {isPashto ? 'ولولئ' : 'Read'}
+            </Button>
+          </div>
         ))}
       </div>
     </div>

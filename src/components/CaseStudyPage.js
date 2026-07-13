@@ -14,6 +14,7 @@ import {
   isPlaceholder,
 } from '../data/featuredProjects';
 import { projects as webProjects, mobileProjects } from './ProjectsSection';
+import Button from './Button';
 
 const DEFAULT_CAL_BOOKING_URL = 'https://cal.com/hussain-hamim-fp9qc6/30min';
 
@@ -191,12 +192,9 @@ const CaseStudyPage = () => {
           <p className='mt-3 text-white/60'>
             The project you’re looking for isn’t listed as a featured case study.
           </p>
-          <Link
-            to='/'
-            className='mt-6 inline-flex items-center gap-2 rounded-full border border-[#D7FF00]/50 px-5 py-2 text-sm font-semibold text-[#D7FF00] transition hover:bg-[#D7FF00]/10'
-          >
-            <ArrowLeft className='h-4 w-4' /> Back to portfolio
-          </Link>
+          <Button as={Link} to='/' icon={<ArrowLeft />} iconPosition='left'>
+            Back to portfolio
+          </Button>
           <div className='mt-10 text-xs text-white/40'>
             Available case studies:{' '}
             {featuredProjects.map((p, i) => (
@@ -283,15 +281,15 @@ const CaseStudyPage = () => {
                 </div>
               )}
               {project.live && (
-                <a
+                <Button
                   href={project.live}
                   target='_blank'
                   rel='noopener noreferrer'
-                  className='group sm:ml-auto inline-flex items-center gap-2 rounded-full bg-[#D7FF00] px-5 py-2.5 text-sm font-semibold text-black transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#c4ec00] hover:shadow-lg hover:shadow-[#D7FF00]/20'
+                  className='sm:ml-auto'
+                  icon={<ExternalLink />}
                 >
                   {openLinkAs ? `Open ${openLinkAs}` : 'Open product'}
-                  <ExternalLink className='h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5' />
-                </a>
+                </Button>
               )}
             </div>
           )}
@@ -355,23 +353,22 @@ const CaseStudyPage = () => {
               </h3>
             </div>
             <div className='flex flex-wrap justify-end gap-3 sm:ml-auto sm:flex-nowrap sm:shrink-0'>
-              <a
+              <Button
                 href={bookingUrl}
                 target='_blank'
                 rel='noopener noreferrer'
-                className='inline-flex items-center gap-2 rounded-full bg-[#D7FF00] px-5 py-2.5 text-sm font-semibold text-black transition-all duration-300 hover:bg-[#c4ec00] hover:shadow-lg hover:shadow-[#D7FF00]/20'
+                icon={<Calendar />}
               >
-                <Calendar className='h-4 w-4' />
                 Book a call
-              </a>
-              <a
+              </Button>
+              <Button
                 href='/#contactme-section'
                 onClick={goToContact}
-                className='inline-flex items-center gap-2 rounded-full border-[0.5px] border-white/25 bg-white/[0.05] px-5 py-2.5 text-sm font-semibold text-white transition-all duration-300 hover:border-[#D7FF00]/40 hover:bg-[#D7FF00]/10 hover:shadow-lg hover:shadow-[#D7FF00]/20'
+                variant='secondary'
+                icon={<MessageSquare />}
               >
-                <MessageSquare className='h-4 w-4' />
                 Drop a message
-              </a>
+              </Button>
             </div>
           </div>
         </section>
@@ -385,14 +382,16 @@ const CaseStudyPage = () => {
             {featuredProjects
               .filter((p) => p.slug !== project.slug)
               .map((p) => (
-                <Link
+                <Button
                   key={p.slug}
+                  as={Link}
                   to={`/case-study/${p.slug}`}
-                  className='inline-flex items-center gap-2 rounded-full border-[0.5px] border-white/10 bg-white/[0.04] px-4 py-2 text-sm font-medium text-white/80 transition hover:border-[#D7FF00]/40 hover:bg-[#D7FF00]/10 hover:text-white'
+                  size='sm'
+                  variant='secondary'
+                  icon={<ArrowLeft className='rotate-180' />}
                 >
                   {p.title}
-                  <ArrowLeft className='h-3.5 w-3.5 rotate-180' />
-                </Link>
+                </Button>
               ))}
           </div>
         </section>

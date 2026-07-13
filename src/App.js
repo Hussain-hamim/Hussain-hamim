@@ -10,7 +10,6 @@ import ProjectsSection from './components/ProjectsSection';
 import { AlertProvider } from './context/alertContext';
 import PsEducationSection from './components/PsEducationSection';
 
-const StarsBackdrop = lazy(() => import('./components/StarsBackdrop'));
 const ProjectDetails = lazy(() => import('./components/ProjectDetails'));
 const ProjectsList = lazy(() => import('./components/ProjectsList'));
 const AllProjectsPage = lazy(() => import('./components/AllProjectsPage'));
@@ -33,10 +32,6 @@ function PortfolioPage({ locale }) {
 
   return (
     <main dir={isPashto ? 'rtl' : 'ltr'}>
-      <Suspense fallback={null}>
-        <StarsBackdrop />
-      </Suspense>
-
       <Header locale={locale} />
       <LandingSection locale={locale} />
       <ProjectsSection locale={locale} />
