@@ -10,6 +10,9 @@ import { Link } from 'react-router-dom';
 import SpaceGame from './SpaceGame';
 import GitHubContributions from './GitHubContributions';
 import ExperienceSection from './ExperienceSection';
+import ProximityHover from './ProximityHover';
+import InfiniteGallery from './InfiniteGallery';
+import Globe from './Globe';
 import { featuredProjects, isPlaceholder } from '../data/featuredProjects';
 
 const sectionAccent = '#D7FF00'; // single accent for whole section so cards match bg
@@ -301,10 +304,17 @@ export const ProjectCard = ({ project, index, isPashto, featured = false, featur
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: index * 0.08, ease: [0.22, 1, 0.36, 1] }}
         viewport={{ once: true, margin: '-40px' }}
+        whileHover={{ y: -6, transition: { duration: 0.35, ease: [0.22, 1, 0.36, 1] } }}
         className='group relative h-full'
       >
+        {/* Soft lime shadow — same pattern as other sections */}
         <div
-          className='relative h-full rounded-3xl overflow-hidden flex flex-col'
+          className='pointer-events-none absolute inset-0 rounded-3xl bg-[#D7FF00] blur-xl opacity-0 transition-opacity duration-500 group-hover:opacity-20'
+          aria-hidden
+        />
+
+        <div
+          className='relative h-full rounded-3xl overflow-hidden flex flex-col shadow-2xl transition-all duration-300 group-hover:shadow-[0_0_40px_rgba(215,255,0,0.1)]'
           style={{
             background: '#0d0d0d',
             boxShadow: '0 0 0 1px rgba(255,255,255,0.06), 0 4px 24px rgba(0,0,0,0.3)',
@@ -316,7 +326,7 @@ export const ProjectCard = ({ project, index, isPashto, featured = false, featur
               <iframe
                 src={project.embedUrl}
                 title={`${project.title} preview`}
-                className='absolute inset-0 w-full h-full border-0 scale-[0.35] origin-top-left pointer-events-none'
+                className='absolute inset-0 w-full h-full border-0 scale-[0.35] origin-top-left pointer-events-none transition-transform duration-700 ease-out group-hover:scale-[0.37]'
                 style={{ width: '286%', height: '286%' }}
                 loading='lazy'
                 sandbox='allow-scripts allow-same-origin'
@@ -325,21 +335,33 @@ export const ProjectCard = ({ project, index, isPashto, featured = false, featur
               <img
                 src={project.getImageSrc()}
                 alt={project.title}
-                className='absolute inset-0 h-full w-full object-cover object-top'
+                className='absolute inset-0 h-full w-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.04]'
               />
             )}
+            {/* Subtle top-edge wash on hover */}
+            <div
+              className='pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0d0d0d]/80 via-transparent to-transparent opacity-60 transition-opacity duration-500 group-hover:opacity-40'
+              aria-hidden
+            />
+            <div
+              className='pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100'
+              style={{
+                background: `linear-gradient(180deg, ${hexToRgba(accent, 0.08)} 0%, transparent 40%)`,
+              }}
+              aria-hidden
+            />
           </div>
 
           {/* Content */}
           <div className='relative flex-1 flex flex-col p-5 sm:p-6'>
             {featuredMeta ? (
               <>
-                <h3 className='text-xl sm:text-2xl font-bold font-sans1 text-white tracking-tight mb-3'>
+                <h3 className='text-xl sm:text-2xl font-bold font-sans1 text-white tracking-tight mb-3 transition-colors duration-300 group-hover:text-[#D7FF00]'>
                   {project.title}
                 </h3>
 
                 {/* Single summary line (uses Result, falls back to Built) */}
-                <p className='text-[13px] leading-relaxed text-white/75 font-sans3 mb-5 flex-grow line-clamp-3'>
+                <p className='text-[13px] leading-relaxed text-white/75 font-sans3 mb-5 flex-grow line-clamp-3 transition-colors duration-300 group-hover:text-white/85'>
                   {isPlaceholder(summary) ? (
                     <FeaturedPlaceholder>{summary}</FeaturedPlaceholder>
                   ) : (
@@ -380,14 +402,12 @@ export const ProjectCard = ({ project, index, isPashto, featured = false, featur
                   )}
                   <Link
                     to={`/case-study/${featuredMeta.slug}`}
-                    className='ml-auto inline-flex items-center justify-center px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-full transition-all text-black'
+                    className='ml-auto inline-flex items-center justify-center px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-full transition-all duration-300 text-black group-hover:-translate-y-0.5'
                     style={{ backgroundColor: accent }}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.transform = 'translateY(-1px)';
                       e.currentTarget.style.boxShadow = `0 8px 24px ${hexToRgba(accent, 0.45)}`;
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.transform = '';
                       e.currentTarget.style.boxShadow = '';
                     }}
                   >
@@ -397,10 +417,10 @@ export const ProjectCard = ({ project, index, isPashto, featured = false, featur
               </>
             ) : (
               <>
-                <h3 className='text-xl sm:text-2xl font-bold font-sans1 text-white tracking-tight mb-3'>
+                <h3 className='text-xl sm:text-2xl font-bold font-sans1 text-white tracking-tight mb-3 transition-colors duration-300 group-hover:text-[#D7FF00]'>
                   {project.title}
                 </h3>
-                <p className='text-[13px] leading-relaxed text-white/75 font-sans3 mb-5 flex-grow line-clamp-3'>
+                <p className='text-[13px] leading-relaxed text-white/75 font-sans3 mb-5 flex-grow line-clamp-3 transition-colors duration-300 group-hover:text-white/85'>
                   {project.description}
                 </p>
                 <div className='mt-auto flex flex-wrap items-center gap-3 pt-4 border-t border-white/10'>
@@ -687,15 +707,19 @@ const ProjectsSection = ({ locale = 'en' }) => {
 
   return (
     <section id='projects-section' className='relative overflow-hidden'>
-      {/* One WebGL starfield behind Selected Work + Experience (avoids two canvases). */}
-      <div className='relative'>
-        <div
-          className='absolute inset-0 z-0 pointer-events-none min-h-full'
-          aria-hidden
-        >
-          <SpaceGame />
-        </div>
-
+      {/* Selected Work — Originkit Reactive Grid + overlay */}
+      <ProximityHover
+        className='min-h-screen'
+        shape='rounded'
+        fill='solid'
+        particleColor='rgba(215, 255, 0, 0.2)'
+        backgroundColor='#050505'
+        maxSize={14}
+        minSize={4}
+        gap={4}
+        influence={280}
+        overlay
+      >
         <div className='relative z-10 py-32 overflow-hidden min-h-screen flex items-center'>
           <div className='max-w-7xl mx-auto px-6 md:px-8 relative z-10 w-full'>
             <SectionHeader title={isPashto ? 'غوره کارونه' : 'SELECTED WORK'} />
@@ -730,8 +754,19 @@ const ProjectsSection = ({ locale = 'en' }) => {
             </motion.div>
           </div>
         </div>
+      </ProximityHover>
 
-        <ExperienceSection locale={locale} />
+      {/* Experience — original SpaceGame starfield */}
+      <div className='relative'>
+        <div
+          className='absolute inset-0 z-0 pointer-events-none min-h-full'
+          aria-hidden
+        >
+          <SpaceGame />
+        </div>
+        <div className='relative z-10'>
+          <ExperienceSection locale={locale} />
+        </div>
       </div>
 
       {/* Tools & Activity · Blogs & Photos · Certificates */}
@@ -751,50 +786,9 @@ const ProjectsSection = ({ locale = 'en' }) => {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.1 }}
                 viewport={{ once: true }}
-                className='relative group'
+                className='relative h-full min-h-[520px] w-full overflow-hidden md:min-h-[560px]'
               >
-                <div className='absolute inset-0 bg-[#D7FF00] rounded-2xl blur-xl opacity-0 group-hover:opacity-20 transition-opacity duration-500' />
-                <div className='relative bg-[#111] rounded-2xl p-8 shadow-2xl hover:shadow-[0_0_40px_rgba(215,255,0,0.1)] transition-all duration-300 h-full'>
-                  <div className='flex items-center gap-3 mb-8'>
-                    <div className='w-12 h-12 rounded-xl bg-[#D7FF00]/10 flex items-center justify-center'>
-                      <svg width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='2' className='text-[#D7FF00]'>
-                        <rect x='2' y='3' width='20' height='14' rx='2' />
-                        <line x1='8' y1='21' x2='16' y2='21' />
-                        <line x1='12' y1='17' x2='12' y2='21' />
-                      </svg>
-                    </div>
-                    <div>
-                      <h3 className='text-2xl font-bold text-white mb-1'>
-                        {isPashto ? 'زه څه کاروم' : 'What I Use'}
-                      </h3>
-                      <p className='text-sm text-gray-400'>
-                        {isPashto ? 'هارډوېیر او سافټوېیر' : 'Hardware & Software'}
-                      </p>
-                    </div>
-                  </div>
-                  <div className='grid grid-cols-2 gap-8'>
-                    <div>
-                      <h4 className='text-[10px] uppercase tracking-wider text-gray-500 font-semibold mb-5'>
-                        {isPashto ? 'هارډوېیر' : 'Hardware'}
-                      </h4>
-                      <ul className='space-y-4 text-sm text-gray-300 font-medium'>
-                        <li>MacBook Air M3</li>
-                        <li>iPhone 13 Pro Max</li>
-                        <li>Dell Precision 5540</li>
-                      </ul>
-                    </div>
-                    <div>
-                      <h4 className='text-[10px] uppercase tracking-wider text-gray-500 font-semibold mb-5'>
-                        {isPashto ? 'سافټوېیر' : 'Software'}
-                      </h4>
-                      <ul className='space-y-4 text-sm text-gray-300 font-medium'>
-                        <li>Cursor</li>
-                        <li>Figma</li>
-                        <li>Xcode</li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
+                <Globe style={{ width: '100%', height: '100%' }} />
               </motion.div>
 
               <motion.div
@@ -845,17 +839,8 @@ const ProjectsSection = ({ locale = 'en' }) => {
           <div className='mt-36 mb-0 overflow-visible'>
             <SectionHeader title={isPashto ? 'بلاګونه او عکسونه' : 'Blogs & Photos'} />
             <div className='grid grid-cols-1 md:grid-cols-2 gap-8 overflow-visible'>
-              <ComingSoonCard
-                icon={FaBook}
-                title={isPashto ? 'بلاګونه' : 'Blogs'}
-                description={
-                  isPashto
-                    ? 'تخنيکي ليکنې، ټيوټوريالونه، او د پراختيا، AI او ټکنالوژۍ په اړه نظرونه.'
-                    : 'Technical insights, tutorials, and thoughts on development, AI, and technology.'
-                }
-                isPashto={isPashto}
-              />
-              <PhotosCard isPashto={isPashto} />
+              <BlogsCard isPashto={isPashto} />
+              <PhotosCard />
             </div>
           </div>
 
@@ -880,91 +865,51 @@ const ProjectsSection = ({ locale = 'en' }) => {
   );
 };
 
-const PHOTO_STACK = [
-  {
-    src: require('../images/photos-stack-4.png'),
-    zIndex: 10,
-    defaultClass:
-      '-rotate-[16deg] -translate-x-9 translate-y-3.5 scale-[0.84] opacity-78',
-    hoverClass:
-      'group-hover:-rotate-[30deg] group-hover:-translate-x-[9.5rem] group-hover:-translate-y-3 group-hover:scale-[0.95] group-hover:opacity-100',
-  },
-  {
-    src: require('../images/photos-stack-3.png'),
-    zIndex: 20,
-    defaultClass:
-      '-rotate-[10deg] -translate-x-6 translate-y-2 scale-[0.9] opacity-85',
-    hoverClass:
-      'group-hover:-rotate-[22deg] group-hover:-translate-x-[7rem] group-hover:-translate-y-2 group-hover:scale-[0.97] group-hover:opacity-100',
-  },
-  {
-    src: require('../images/photos-stack-2.png'),
-    zIndex: 30,
-    defaultClass:
-      '-rotate-[4deg] -translate-x-3 translate-y-1 scale-[0.95] opacity-90',
-    hoverClass:
-      'group-hover:-rotate-[14deg] group-hover:-translate-x-[3.5rem] group-hover:-translate-y-1 group-hover:scale-[0.99] group-hover:opacity-100',
-  },
-  {
-    src: require('../images/photos-stack-1.png'),
-    zIndex: 40,
-    defaultClass: 'rotate-[4deg] translate-x-1',
-    hoverClass:
-      'group-hover:rotate-[7deg] group-hover:translate-x-4 group-hover:-translate-y-1',
-  },
+const PHOTO_IMAGES = [
+  { src: require('../images/photos-stack-1.png'), alt: 'Photo 1' },
+  { src: require('../images/photos-stack-2.png'), alt: 'Photo 2' },
+  { src: require('../images/photos-stack-3.png'), alt: 'Photo 3' },
+  { src: require('../images/photos-stack-4.png'), alt: 'Photo 4' },
 ];
 
-const PhotosCard = ({ isPashto }) => {
-  const [hoveredPhoto, setHoveredPhoto] = useState(null);
-
-  return (
+const PhotosCard = () => (
   <motion.div
     initial={{ opacity: 0, y: 30 }}
     whileInView={{ opacity: 1, y: 0 }}
     transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
     viewport={{ once: true }}
-    className='relative group overflow-visible'
+    className='relative h-[21rem] w-full overflow-hidden sm:h-[23rem]'
   >
-    <div className='relative overflow-visible rounded-2xl bg-[#111] shadow-2xl transition-all duration-500 ease-out hover:shadow-[0_0_45px_rgba(215,255,0,0.12)]'>
-      <div className='relative flex h-[21rem] items-center justify-center overflow-visible px-6 py-4 sm:h-[23rem]'>
-        <div className='relative h-[14.5rem] w-[11.5rem] sm:h-[16.5rem] sm:w-[13rem]'>
-          {PHOTO_STACK.map((photo, index) => {
-            const isActive = hoveredPhoto === index;
-            return (
-              <div
-                key={index}
-                style={{
-                  zIndex: isActive ? 50 : photo.zIndex,
-                  transitionTimingFunction: 'cubic-bezier(0.22, 1, 0.36, 1)',
-                  transitionDuration: '700ms',
-                  transitionDelay: `${(PHOTO_STACK.length - 1 - index) * 45}ms`,
-                }}
-                onMouseEnter={() => setHoveredPhoto(index)}
-                onMouseLeave={() => setHoveredPhoto(null)}
-                className={`absolute inset-0 origin-center cursor-pointer transition-all will-change-transform ${photo.defaultClass} ${photo.hoverClass} ${isActive ? 'scale-[1.06]' : ''}`}
-              >
-                <img
-                  src={photo.src}
-                  alt=''
-                  className={`h-full w-full rounded-2xl border-[3px] border-white object-cover transition-shadow duration-500 ${isActive ? 'shadow-[0_22px_55px_rgba(0,0,0,0.6)]' : 'shadow-[0_12px_32px_rgba(0,0,0,0.45)]'}`}
-                />
-              </div>
-            );
-          })}
-        </div>
-      </div>
-
-      <div className='flex items-center justify-center border-t border-white/10 px-6 py-4'>
-        <span className='text-xs font-bold uppercase tracking-[0.28em] text-gray-300'>
-          {isPashto ? 'عکسونه' : 'Photos'}
-        </span>
-      </div>
-    </div>
+    <InfiniteGallery
+      images={PHOTO_IMAGES}
+      density={5}
+      imageWidth={120}
+      imageHeight={150}
+      rounded={6}
+      dragSpeed={20}
+      driftAmount={14}
+      friction={10}
+      backgroundColor='#0a0a0a'
+      width='100%'
+      height='100%'
+    />
   </motion.div>
-  );
-};
+);
 
-const ComingSoonCard = ({ icon: Icon, title, description, isPashto }) => (
+const BLOG_POSTS = [
+  {
+    title: 'AI Workflows vs AI Agents',
+    titlePs: 'AI ورک فلو vs AI ایجنټان',
+    description:
+      'An LLM in the pipeline does not make it an agent. The architecture does.',
+    descriptionPs:
+      'په پایپ لاین کې LLM درلودل دا ایجنټ نه جوړوي — جوړښت یې کوي.',
+    url: 'https://chamoylabs.com/article/ai-workflows-vs-ai-agents/',
+    source: 'Chamoy Labs',
+  },
+];
+
+const BlogsCard = ({ isPashto }) => (
   <motion.div
     initial={{ opacity: 0, y: 30 }}
     whileInView={{ opacity: 1, y: 0 }}
@@ -973,20 +918,46 @@ const ComingSoonCard = ({ icon: Icon, title, description, isPashto }) => (
     className='relative group'
   >
     <div className='absolute inset-0 bg-[#D7FF00] rounded-2xl blur-xl opacity-0 group-hover:opacity-20 transition-opacity duration-500' />
-    <div className='relative bg-[#111] rounded-2xl p-8 shadow-2xl hover:shadow-[0_0_40px_rgba(215,255,0,0.1)] transition-all duration-300 h-full'>
-      <div className='flex flex-col items-center text-center'>
-        <div className='w-16 h-16 rounded-full bg-[#D7FF00]/10 flex items-center justify-center mb-6 group-hover:bg-[#D7FF00]/20 transition-colors'>
-          <Icon className='text-3xl text-[#D7FF00]' />
+    <div className='relative flex h-full flex-col rounded-2xl bg-[#111] p-6 shadow-2xl transition-all duration-300 hover:shadow-[0_0_40px_rgba(215,255,0,0.1)] sm:p-8'>
+      <div className='mb-5 flex items-center gap-3'>
+        <div className='flex h-10 w-10 items-center justify-center rounded-full bg-[#D7FF00]/10 transition-colors group-hover:bg-[#D7FF00]/20'>
+          <FaBook className='text-base text-[#D7FF00]' />
         </div>
-        <h3 className='text-2xl font-bold text-white mb-3'>{title}</h3>
-        <p className='text-gray-400 mb-4'>{description}</p>
-        <div className='flex items-center gap-2 text-sm text-[#D7FF00] font-semibold'>
-          <span>{isPashto ? 'ژر راځي' : 'Coming Soon'}</span>
-          <svg width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='2' className='animate-pulse'>
-            <circle cx='12' cy='12' r='10' />
-            <path d='M12 6v6l4 2' />
-          </svg>
+        <div>
+          <h3 className='text-xl font-bold text-white'>
+            {isPashto ? 'بلاګونه' : 'Blogs'}
+          </h3>
+          <p className='text-xs text-gray-500'>
+            {isPashto ? 'تخنيکي ليکنې' : 'Technical writing'}
+          </p>
         </div>
+      </div>
+
+      <div className='flex flex-1 items-start'>
+        {BLOG_POSTS.map((post) => (
+          <a
+            key={post.url}
+            href={post.url}
+            target='_blank'
+            rel='noopener noreferrer'
+            className='group/post relative flex w-full max-w-[200px] flex-col overflow-hidden rounded-xl border border-white/[0.08] bg-gradient-to-b from-white/[0.05] to-transparent px-3.5 py-4 transition-all duration-300 hover:border-[#D7FF00]/35 hover:from-[#D7FF00]/10'
+          >
+            <div className='min-w-0'>
+              <span className='mb-2 inline-block text-[9px] font-mono uppercase tracking-[0.18em] text-[#D7FF00]/80'>
+                {post.source}
+              </span>
+              <h4 className='mb-2 text-sm font-semibold leading-snug text-white transition-colors group-hover/post:text-[#D7FF00]'>
+                {isPashto ? post.titlePs : post.title}
+              </h4>
+              <p className='text-xs leading-relaxed text-gray-500'>
+                {isPashto ? post.descriptionPs : post.description}
+              </p>
+            </div>
+            <span className='mt-4 inline-flex h-7 w-7 items-center justify-center rounded-full border border-white/10 text-[#D7FF00] transition-all duration-300 group-hover/post:border-[#D7FF00]/40 group-hover/post:bg-[#D7FF00]/10'>
+              <FaExternalLinkAlt className='text-[9px]' />
+            </span>
+          </a>
+        ))}
       </div>
     </div>
   </motion.div>

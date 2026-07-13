@@ -1,10 +1,14 @@
-import React, { useEffect } from "react";
+import React, { useEffect, lazy, Suspense } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { motion } from "framer-motion";
 import { useAlertContext } from "../context/alertContext";
 import useSubmit from "../hooks/useSubmit";
 import { FaPaperPlane } from "react-icons/fa";
+import { PEEL_VARIATIONS } from "./peelDirections";
+
+const StickerPeeling = lazy(() => import("./StickerPeeling"));
+
 
 const ContactMeSection = ({ locale = "en" }) => {
   const isPashto = locale === "ps";
@@ -90,20 +94,37 @@ const ContactMeSection = ({ locale = "en" }) => {
                 : "Have a project in mind or just want to chat? Feel free to reach out. I'm always open to discussing new projects, creative ideas or opportunities to be part of your visions."}
             </p>
 
-            <div className="grid grid-cols-2 gap-x-6 gap-y-6">
+            <div className="grid grid-cols-2 gap-x-6 gap-y-8">
               {socials.map((social, index) => (
                 <a
                   key={index}
                   href={social.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-3 text-gray-300 hover:text-[#D7FF00] transition-all duration-300 group"
+                  className="flex items-center gap-3 text-gray-300 hover:text-[#D7FF00] transition-colors duration-300 group"
                 >
-                  <img
-                    src={social.img}
-                    alt=""
-                    className="h-9 w-9 shrink-0 rounded-lg object-contain transition-transform duration-300 group-hover:scale-105"
-                  />
+                  <Suspense
+                    fallback={
+                      <img
+                        src={social.img}
+                        alt=""
+                        className="h-9 w-9 shrink-0 rounded-lg object-contain"
+                      />
+                    }
+                  >
+                    <StickerPeeling
+                      image={social.img}
+                      imageWidth={36}
+                      imageHeight={36}
+                      hoverPeel={48}
+                      pressPeel={70}
+                      curlRotation={PEEL_VARIATIONS[index % PEEL_VARIATIONS.length]}
+                      backColor="#0a0a0a"
+                      shadowEnabled
+                      shadow={{ opacity: 28, color: "#000000", x: -220, y: 120 }}
+                      transition={{ type: "tween", duration: 0.28, ease: "easeOut" }}
+                    />
+                  </Suspense>
                   <span className="font-mono text-sm tracking-wider">
                     {social.label}
                   </span>
@@ -254,22 +275,24 @@ const ContactMeSection = ({ locale = "en" }) => {
                 disabled={isLoading}
                 className="w-full text-[#D7FF00] font-bold py-4 rounded-full transition-all hover:bg-[#D7FF00]/10 hover:shadow-lg hover:shadow-[#D7FF00]/20 flex items-center justify-center gap-2 group disabled:opacity-50 disabled:cursor-not-allowed"
                 style={{
-                  borderWidth: '0.5px',
-                  borderColor: 'rgba(215, 255, 0, 0.5)',
+                  borderWidth: "0.5px",
+                  borderColor: "rgba(215, 255, 0, 0.5)",
                 }}
                 onMouseEnter={(e) => {
                   if (!isLoading) {
-                    e.currentTarget.style.borderColor = 'rgba(215, 255, 0, 1)';
+                    e.currentTarget.style.borderColor = "rgba(215, 255, 0, 1)";
                   }
                 }}
                 onMouseLeave={(e) => {
                   if (!isLoading) {
-                    e.currentTarget.style.borderColor = 'rgba(215, 255, 0, 0.5)';
+                    e.currentTarget.style.borderColor = "rgba(215, 255, 0, 0.5)";
                   }
                 }}
               >
                 {isLoading ? (
-                  <span className="animate-pulse">{isPashto ? "پيغام لېږل کېږي..." : "Sending..."}</span>
+                  <span className="animate-pulse">
+                    {isPashto ? "پيغام لېږل کېږي..." : "Sending..."}
+                  </span>
                 ) : (
                   <>
                     <span>{isPashto ? "پيغام ولېږه" : "Send Message"}</span>

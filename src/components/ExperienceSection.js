@@ -60,15 +60,25 @@ const ExperienceSection = ({ locale = 'en' }) => {
     {
       id: 1,
       role: isPashto ? 'سافټوېیر انجينر' : 'Software Engineer',
+      company: 'Chamoy Labs',
+      duration: 'Jul 2026',
+      isCurrent: true,
+      description: isPashto
+        ? 'د محصول ایډیو په دوامداره او فکر شوي سافټوېیر بدلول — له مفهوم څخه تر سپارلو پورې پاک تطبیق او عملي قضاوت.'
+        : 'Turning product ideas into durable, thoughtful software — clean implementation and practical judgment from concept to shipped product.',
+    },
+    {
+      id: 2,
+      role: isPashto ? 'سافټوېیر انجينر' : 'Software Engineer',
       company: 'Zapp studios',
       duration: 'Sept 2025',
-      isCurrent: true,
+      isCurrent: false,
       description: isPashto
         ? 'د Next.js او Supabase په مرسته د Full-Stack وېب پروګرامونو پراختيا.'
         : 'Full-stack web applications and Mobile applications using Next.js, Swift & Supabase.',
     },
     {
-      id: 2,
+      id: 3,
       role: isPashto ? 'سافټوېیر انجينر' : 'Software Engineer',
       company: 'EvolvFit',
       duration: 'Aug 2025 - Oct 2025',
@@ -78,7 +88,7 @@ const ExperienceSection = ({ locale = 'en' }) => {
         : 'Developing mobile apps with React Native & Node.js backend.',
     },
     {
-      id: 3,
+      id: 4,
       role: isPashto ? 'د موبايل پروګرامونو انجينر' : 'Mobile App Developer',
       company: 'Himalbyte',
       duration: 'May 2025 - Jul 2025',
@@ -156,12 +166,15 @@ const ExperienceSection = ({ locale = 'en' }) => {
                   transition={{ duration: 0.3 }}
                   className='overflow-hidden space-y-5'
                 >
-                  <ExperienceCard
-                    exp={experiences[2]}
-                    index={0}
-                    isPashto={isPashto}
-                    isRtl={isRtl}
-                  />
+                  {experiences.slice(2).map((exp, index) => (
+                    <ExperienceCard
+                      key={exp.id}
+                      exp={exp}
+                      index={index}
+                      isPashto={isPashto}
+                      isRtl={isRtl}
+                    />
+                  ))}
                 </motion.div>
               )}
             </AnimatePresence>

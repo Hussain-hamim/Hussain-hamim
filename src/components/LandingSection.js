@@ -2,8 +2,12 @@ import React, { lazy, Suspense } from 'react';
 import { motion } from 'framer-motion';
 import { FaWhatsapp } from 'react-icons/fa';
 import { Calendar, MessageSquare } from 'lucide-react';
+import MeshText from './MeshText';
+import { PEEL_VARIATIONS } from './peelDirections';
+import PixelDriftImage from './PixelDriftImage';
 
-const ProfileAvatarCanvas = lazy(() => import('./ProfileAvatarCanvas'));
+const StickerPeeling = lazy(() => import('./StickerPeeling'));
+
 
 const scrollToSection = (anchor) => {
   const el = document.getElementById(`${anchor}-section`);
@@ -84,17 +88,52 @@ const LandingSection = ({ locale = 'en' }) => {
               {copy.greeting}
             </motion.p>
 
-            {/* Name Title */}
+            {/* Name Title — MeshText hover (Originkit) */}
             <motion.h1
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.8 }}
-              className='text-[clamp(1.75rem,9vw,2.5rem)] sm:text-5xl md:text-7xl lg:text-8xl font-bold font-sans1 text-white leading-[1.05] sm:leading-tight tracking-tight sm:tracking-tighter break-words'
+              className='w-full min-w-0 max-w-xl'
             >
-              {copy.firstName} <br />
-              <span className='text-transparent bg-clip-text bg-gradient-to-r from-[#D7FF00] to-teal-400'>
-                {copy.lastName}
+              <span className='sr-only'>
+                {copy.firstName} {copy.lastName}
               </span>
+              <div
+                className='h-[clamp(2.75rem,11vw,3.25rem)] sm:h-14 md:h-[4.5rem] lg:h-24 w-full'
+                aria-hidden='true'
+              >
+                <MeshText
+                  text={copy.firstName}
+                  color='#ffffff'
+                  font={{
+                    fontFamily: 'Daisyogre',
+                    variant: 'Bold',
+                    fontSize: 160,
+                  }}
+                  colorSplit
+                  customColors={['#D7FF00', '#2DD4BF']}
+                  force={18}
+                  textAlign='left'
+                />
+              </div>
+              <div
+                className='h-[clamp(2.75rem,11vw,3.25rem)] sm:h-14 md:h-[4.5rem] lg:h-24 w-full'
+                aria-hidden='true'
+              >
+                <MeshText
+                  text={copy.lastName}
+                  color='#D7FF00'
+                  font={{
+                    fontFamily: 'Daisyogre',
+                    variant: 'Bold',
+                    fontSize: 160,
+                  }}
+                  colorSplit
+                  customColors={['#D7FF00', '#2DD4BF']}
+                  force={18}
+                  textAlign='left'
+                />
+              </div>
             </motion.h1>
 
             {/* Role & Description */}
@@ -162,22 +201,31 @@ const LandingSection = ({ locale = 'en' }) => {
               initial={{ opacity: 0, x: 50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.5, duration: 0.8 }}
-              whileHover={{ scale: 1.05 }}
               className='group relative mb-6 h-44 w-44 cursor-pointer sm:mb-8 sm:h-56 sm:w-56 md:mb-10 md:h-64 md:w-64 lg:h-72 lg:w-72'
             >
-              <div className='relative h-full w-full rounded-full overflow-hidden transition-all duration-300 group-hover:shadow-2xl group-hover:shadow-[#D7FF00]/20'>
-                <div className='absolute -inset-1 bg-black/30 rounded-full blur-xl group-hover:bg-black/40 transition-all duration-300 z-0'></div>
+              <div className='relative h-full w-full rounded-full overflow-hidden transition-all duration-300'>
+                <div className='absolute -inset-1 bg-black/30 rounded-full blur-xl z-0'></div>
+                {/* Sharp original photo — stays full color */}
                 <img
                   src={require('../asset/hsn3.jpg')}
                   alt='Hussain Hamim'
-                  className='relative h-full w-full object-cover object-center rounded-full transition-all duration-300 group-hover:brightness-110 z-10'
+                  className='relative z-10 h-full w-full object-cover object-center rounded-full'
                 />
-
-                {/* Particle Overlay */}
-                <div className='absolute inset-0 rounded-full overflow-hidden z-30 pointer-events-none mix-blend-screen'>
-                  <Suspense fallback={null}>
-                    <ProfileAvatarCanvas />
-                  </Suspense>
+                {/* Drift overlay: only displaced pixels; photo shows through */}
+                <div className='absolute inset-0 z-20 rounded-full overflow-hidden'>
+                  <PixelDriftImage
+                    src={require('../asset/hsn3.jpg')}
+                    alt=''
+                    particleSize={3}
+                    particleCount={90}
+                    mouseEnabled
+                    mouseRadius={28}
+                    mouseForce={24}
+                    activeOnlyOnHover
+                    drawBaseImage={false}
+                    onlyDisplaced
+                    transition={{ type: 'tween', duration: 0.35, ease: 'easeOut' }}
+                  />
                 </div>
               </div>
             </motion.div>
@@ -186,7 +234,7 @@ const LandingSection = ({ locale = 'en' }) => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.7, duration: 0.8 }}
-              className='flex flex-wrap items-center justify-center gap-3 sm:gap-4 md:gap-5'
+              className='flex flex-wrap items-center justify-center gap-5 sm:gap-6 md:gap-7'
             >
               {socialLinks.map((social, index) => {
                 if (social.primary) {
@@ -212,17 +260,34 @@ const LandingSection = ({ locale = 'en' }) => {
                     href={social.url}
                     target='_blank'
                     rel='noopener noreferrer'
-                    className={`z-40 relative text-gray-300 transition-all duration-300 hover:-translate-y-1 md:text-gray-500 ${social.color}`}
+                    className='relative z-40 inline-flex items-center justify-center focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D7FF00]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0a] rounded-lg'
                     aria-label={`Visit ${social.url}`}
                   >
                     {social.img ? (
-                      <img
-                        src={social.img}
-                        alt=''
-                        className='h-7 w-7 rounded-lg object-contain sm:h-8 sm:w-8 md:h-7 md:w-7'
-                      />
+                      <Suspense
+                        fallback={
+                          <img
+                            src={social.img}
+                            alt=''
+                            className='h-8 w-8 rounded-lg object-contain sm:h-9 sm:w-9'
+                          />
+                        }
+                      >
+                        <StickerPeeling
+                          image={social.img}
+                          imageWidth={36}
+                          imageHeight={36}
+                          hoverPeel={48}
+                          pressPeel={70}
+                          curlRotation={PEEL_VARIATIONS[index % PEEL_VARIATIONS.length]}
+                          backColor='#0a0a0a'
+                          shadowEnabled
+                          shadow={{ opacity: 28, color: '#000000', x: -220, y: 120 }}
+                          transition={{ type: 'tween', duration: 0.28, ease: 'easeOut' }}
+                        />
+                      </Suspense>
                     ) : (
-                      <social.icon className='h-6 w-6 sm:h-7 sm:w-7 md:h-6 md:w-6' />
+                      <social.icon className='h-6 w-6 sm:h-7 sm:w-7 md:h-6 md:w-6 text-gray-300' />
                     )}
                   </a>
                 );

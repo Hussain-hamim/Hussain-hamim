@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faXmark, faCalendar } from "@fortawesome/free-solid-svg-icons";
+import ShinyPill from "./ShinyPill";
 
 const DEFAULT_CAL_BOOKING_URL = "https://cal.com/hussain-hamim-fp9qc6/30min";
 
@@ -196,10 +197,13 @@ const Header = ({ locale = "en" }) => {
             })}
 
             {/* Book a call — outline, keeps hero CTA as primary */}
-            <a
+            <ShinyPill
+              as="a"
               href={bookingUrl}
               target="_blank"
               rel="noopener noreferrer"
+              shineColor="#C1E311"
+              speed={1.8}
               className={`ml-4 inline-flex items-center gap-1.5 rounded-full border-[0.5px] px-4 py-1.5 text-xs font-semibold transition-all ${
                 headerBarSolid
                   ? "border-[#D7FF00]/50 text-[#D7FF00] hover:border-[#D7FF00] hover:bg-[#D7FF00]/10 hover:shadow-lg hover:shadow-[#D7FF00]/20"
@@ -212,7 +216,7 @@ const Header = ({ locale = "en" }) => {
                 aria-hidden
               />
               {isPashto ? "د لیدنې وخت وټاکئ" : "Book a call"}
-            </a>
+            </ShinyPill>
           </nav>
 
           {/* Mobile Menu Button */}
@@ -284,11 +288,15 @@ const Header = ({ locale = "en" }) => {
 
           <div className="pt-6 mt-4 border-t border-white/10">
             {/* Primary CTA on mobile — filled lime */}
-            <a
+            <ShinyPill
+              as="a"
               href={bookingUrl}
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => setIsMenuOpen(false)}
+              shineColor="#FFFFFF"
+              shineOpacity={0.55}
+              speed={1.8}
               className="flex w-full items-center justify-center gap-2 rounded-full bg-[#D7FF00] px-6 py-3 text-center text-sm font-semibold text-black transition-all hover:bg-[#c4ec00] hover:shadow-lg hover:shadow-[#D7FF00]/30"
             >
               <FontAwesomeIcon
@@ -297,7 +305,7 @@ const Header = ({ locale = "en" }) => {
                 aria-hidden
               />
               {isPashto ? "د لیدنې وخت وټاکئ" : "Book a call"}
-            </a>
+            </ShinyPill>
 
             <div className="mt-6 flex items-center justify-center gap-6">
               {socials.map((social, index) => (
