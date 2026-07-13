@@ -144,10 +144,10 @@ const Header = ({ locale = "en" }) => {
     return activeSection === item.id;
   };
 
-  /** Solid dark bar when scrolled or mobile drawer open */
+  /** Scrolled or mobile drawer open */
   const headerBarSolid = scrolled || isMenuOpen;
-  /** Cream hero at top — dark nav text until scroll; dark theme uses light text */
-  const onLightHero = !headerBarSolid && !isDark;
+  /** Light theme always uses dark nav text on the glass bar */
+  const useLightNav = !isDark;
 
   const themeToggleBtn = (
     <button
@@ -156,10 +156,10 @@ const Header = ({ locale = "en" }) => {
       aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
       title={isDark ? "Light mode" : "Dark mode"}
       className={`inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border transition-colors duration-300 ${
-        headerBarSolid
-          ? "border-white/15 text-gray-300 hover:border-white/30 hover:text-white hover:bg-white/5"
-          : onLightHero
+        useLightNav
           ? "border-black/15 text-[#0a0a0a] hover:border-black/30 hover:bg-black/[0.04]"
+          : headerBarSolid
+          ? "border-white/15 text-gray-300 hover:border-white/30 hover:text-white hover:bg-white/5"
           : "border-white/25 text-white hover:border-white/45 hover:bg-white/10"
       }`}
     >
@@ -173,11 +173,13 @@ const Header = ({ locale = "en" }) => {
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-in-out
         ${
           isMenuOpen
-            ? "border-b border-white/15 bg-black/45 backdrop-blur-2xl backdrop-saturate-150 supports-[backdrop-filter]:bg-black/35"
+            ? useLightNav
+              ? "border-b border-black/10 bg-white/55 backdrop-blur-2xl backdrop-saturate-150 supports-[backdrop-filter]:bg-white/40"
+              : "border-b border-white/15 bg-black/45 backdrop-blur-2xl backdrop-saturate-150 supports-[backdrop-filter]:bg-black/35"
             : scrolled
-            ? "border-b border-white/10 bg-black/40 shadow-[0_8px_32px_rgba(0,0,0,0.18)] backdrop-blur-2xl backdrop-saturate-150 supports-[backdrop-filter]:bg-black/25"
-            : onLightHero
-            ? "border-b border-transparent bg-white/25 backdrop-blur-xl backdrop-saturate-150 supports-[backdrop-filter]:bg-white/15"
+            ? useLightNav
+              ? "border-b border-black/10 bg-white/50 shadow-[0_8px_32px_rgba(0,0,0,0.08)] backdrop-blur-2xl backdrop-saturate-150 supports-[backdrop-filter]:bg-white/35"
+              : "border-b border-white/10 bg-black/40 shadow-[0_8px_32px_rgba(0,0,0,0.18)] backdrop-blur-2xl backdrop-saturate-150 supports-[backdrop-filter]:bg-black/25"
             : "border-b border-transparent bg-transparent"
         }`}
     >
@@ -188,17 +190,17 @@ const Header = ({ locale = "en" }) => {
             href={isPashto ? "/ps" : "/"}
             onClick={handleLogoClick}
             className={`text-lg sm:text-xl font-bold font-sans1 tracking-tight transition-all duration-300 relative group min-w-0 shrink ${
-              headerBarSolid
-                ? "text-[#D7FF00] hover:text-white"
-                : onLightHero
+              useLightNav
                 ? "text-[#0a0a0a] hover:text-[#0a0a0a]/70"
+                : headerBarSolid
+                ? "text-[#D7FF00] hover:text-white"
                 : "text-white drop-shadow-[0_1px_8px_rgba(0,0,0,0.65)] hover:text-white/85"
             }`}
           >
             <span className="relative z-10">HSN.</span>
             <span
               className={`absolute -bottom-1 left-0 w-0 h-0.5 group-hover:w-full transition-all duration-300 ${
-                headerBarSolid ? "bg-[#D7FF00]" : onLightHero ? "bg-[#0a0a0a]" : "bg-white"
+                useLightNav ? "bg-[#0a0a0a]" : headerBarSolid ? "bg-[#D7FF00]" : "bg-white"
               }`}
             ></span>
           </a>
@@ -208,14 +210,14 @@ const Header = ({ locale = "en" }) => {
             {navItems.map((item) => {
               const active = isActive(item);
               const cls = `relative px-3 py-1.5 text-sm font-medium transition-all duration-300 uppercase tracking-wider group ${
-                headerBarSolid
-                  ? active
-                    ? "text-white"
-                    : "text-gray-400 hover:text-white"
-                  : onLightHero
+                useLightNav
                   ? active
                     ? "text-[#0a0a0a]"
                     : "text-gray-600 hover:text-[#0a0a0a]"
+                  : headerBarSolid
+                  ? active
+                    ? "text-white"
+                    : "text-gray-400 hover:text-white"
                   : active
                   ? "text-white drop-shadow-[0_1px_6px_rgba(0,0,0,0.5)]"
                   : "text-white/80 hover:text-white drop-shadow-[0_1px_6px_rgba(0,0,0,0.45)]"
@@ -225,19 +227,19 @@ const Header = ({ locale = "en" }) => {
                   <span className="relative z-10">{item.label}</span>
                   <span
                     className={`absolute inset-0 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${
-                      headerBarSolid
-                        ? "bg-white/5"
-                        : onLightHero
+                      useLightNav
                         ? "bg-black/[0.04]"
+                        : headerBarSolid
+                        ? "bg-white/5"
                         : "bg-white/10"
                     }`}
                   ></span>
                   <span
                     className={`absolute bottom-0 left-1/2 transform -translate-x-1/2 h-[2px] transition-all duration-300 ${
-                      headerBarSolid
-                        ? "bg-[#D7FF00]"
-                        : onLightHero
+                      useLightNav
                         ? "bg-[#0a0a0a]"
+                        : headerBarSolid
+                        ? "bg-[#D7FF00]"
                         : "bg-white"
                     } ${active ? "w-3/4" : "w-0 group-hover:w-3/4"}`}
                   ></span>
@@ -278,10 +280,10 @@ const Header = ({ locale = "en" }) => {
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className={`-mr-1 flex h-11 w-11 shrink-0 items-center justify-center rounded-lg transition-colors relative z-50 ${
-                headerBarSolid
-                  ? "text-gray-400 hover:text-white"
-                  : onLightHero
+                useLightNav
                   ? "text-[#0a0a0a] hover:text-[#0a0a0a]/70"
+                  : headerBarSolid
+                  ? "text-gray-400 hover:text-white"
                   : "text-white drop-shadow-[0_1px_6px_rgba(0,0,0,0.6)] hover:text-white/85"
               }`}
               aria-label="Toggle menu"
@@ -294,10 +296,11 @@ const Header = ({ locale = "en" }) => {
 
       {/* Mobile Menu */}
       <div
-        className={`md:hidden absolute top-full left-0 right-0 bg-black border-b border-white/10 
-          transition-all duration-500 ease-in-out overflow-hidden ${
-            isMenuOpen ? "max-h-[640px] opacity-100" : "max-h-0 opacity-0"
-          }`}
+        className={`md:hidden absolute top-full left-0 right-0 border-b transition-all duration-500 ease-in-out overflow-hidden ${
+          useLightNav
+            ? "border-black/10 bg-white/70 backdrop-blur-2xl supports-[backdrop-filter]:bg-white/55"
+            : "border-white/10 bg-black"
+        } ${isMenuOpen ? "max-h-[640px] opacity-100" : "max-h-0 opacity-0"}`}
       >
         <div className="px-6 py-6">
           <nav className="space-y-1">
@@ -306,7 +309,11 @@ const Header = ({ locale = "en" }) => {
               const cls = `relative flex w-full items-center ${
                 isPashto ? "justify-end" : "justify-start"
               } text-lg font-medium py-3 px-2 rounded-lg transition-all duration-300 ${
-                active
+                useLightNav
+                  ? active
+                    ? "text-[#0a0a0a] bg-black/[0.05]"
+                    : "text-gray-600 hover:text-[#0a0a0a] hover:bg-black/[0.03]"
+                  : active
                   ? "text-[#D7FF00] bg-[#D7FF00]/5"
                   : "text-gray-300 hover:text-[#D7FF00] hover:bg-white/[0.03]"
               }`;
@@ -315,9 +322,9 @@ const Header = ({ locale = "en" }) => {
                   {active && (
                     <span
                       aria-hidden
-                      className={`absolute top-1/2 -translate-y-1/2 h-5 w-0.5 rounded-full bg-[#D7FF00] ${
-                        isPashto ? "right-0" : "left-0"
-                      }`}
+                      className={`absolute top-1/2 -translate-y-1/2 h-5 w-0.5 rounded-full ${
+                        useLightNav ? "bg-[#0a0a0a]" : "bg-[#D7FF00]"
+                      } ${isPashto ? "right-0" : "left-0"}`}
                     />
                   )}
                   <span className="relative z-10">{item.label}</span>
@@ -344,7 +351,11 @@ const Header = ({ locale = "en" }) => {
             })}
           </nav>
 
-          <div className="pt-6 mt-4 border-t border-white/10">
+          <div
+            className={`pt-6 mt-4 border-t ${
+              useLightNav ? "border-black/10" : "border-white/10"
+            }`}
+          >
             <Button
               href={bookingUrl}
               target="_blank"
