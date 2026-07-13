@@ -155,7 +155,7 @@ const Header = ({ locale = "en" }) => {
       onClick={toggleTheme}
       aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
       title={isDark ? "Light mode" : "Dark mode"}
-      className={`inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border transition-colors duration-300 ${
+      className={`group/theme inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border transition-colors duration-300 ${
         useLightNav
           ? "border-black/15 text-[#0a0a0a] hover:border-black/30 hover:bg-black/[0.04]"
           : headerBarSolid
@@ -163,7 +163,11 @@ const Header = ({ locale = "en" }) => {
           : "border-white/25 text-white hover:border-white/45 hover:bg-white/10"
       }`}
     >
-      {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+      {isDark ? (
+        <Sun className="h-4 w-4 transition-transform duration-500 ease-out group-hover/theme:rotate-[360deg]" />
+      ) : (
+        <Moon className="h-4 w-4 transition-transform duration-500 ease-out group-hover/theme:rotate-[360deg]" />
+      )}
     </button>
   );
 
@@ -174,7 +178,7 @@ const Header = ({ locale = "en" }) => {
         ${
           isMenuOpen
             ? useLightNav
-              ? "border-b border-black/10 bg-white/55 backdrop-blur-2xl backdrop-saturate-150 supports-[backdrop-filter]:bg-white/40"
+              ? "border-b border-black/10 bg-white/95 backdrop-blur-2xl backdrop-saturate-150 supports-[backdrop-filter]:bg-white/90"
               : "border-b border-white/15 bg-black/45 backdrop-blur-2xl backdrop-saturate-150 supports-[backdrop-filter]:bg-black/35"
             : scrolled
             ? useLightNav
@@ -298,8 +302,8 @@ const Header = ({ locale = "en" }) => {
       <div
         className={`md:hidden absolute top-full left-0 right-0 border-b transition-all duration-500 ease-in-out overflow-hidden ${
           useLightNav
-            ? "border-black/10 bg-white/70 backdrop-blur-2xl supports-[backdrop-filter]:bg-white/55"
-            : "border-white/10 bg-black"
+            ? "border-black/10 bg-white/95 backdrop-blur-2xl supports-[backdrop-filter]:bg-white/90"
+            : "border-white/10 bg-black/95 backdrop-blur-2xl supports-[backdrop-filter]:bg-black/90"
         } ${isMenuOpen ? "max-h-[640px] opacity-100" : "max-h-0 opacity-0"}`}
       >
         <div className="px-6 py-6">
