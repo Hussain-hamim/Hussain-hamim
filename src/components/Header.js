@@ -1,17 +1,41 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, lazy, Suspense } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { Calendar } from "lucide-react";
 import Button from "./Button";
+import { PEEL_VARIATIONS } from "./peelDirections";
+
+const StickerPeeling = lazy(() => import("./StickerPeeling"));
 
 const DEFAULT_CAL_BOOKING_URL = "https://cal.com/hussain-hamim-fp9qc6/30min";
 
 const socials = [
-  { img: require("../images/socials/github.png"), url: "https://github.com/Hussain-hamim" },
-  { img: require("../images/socials/linkedin.png"), url: "https://www.linkedin.com/in/hussain-hamim/" },
-  { img: require("../images/socials/twitter.png"), url: "https://x.com/hussainim_" },
-  { img: require("../images/socials/instagram.png"), url: "https://www.instagram.com/hussainhamim_" },
-  { img: require("../images/socials/email.png"), url: "mailto:mohammadhussainafghan83@gmail.com" },
+  {
+    img: require("../images/socials/email.png"),
+    url: "mailto:mohammadhussainafghan83@gmail.com",
+    label: "Email Me",
+    labelPs: "ايمېل راولېږئ",
+  },
+  {
+    img: require("../images/socials/github.png"),
+    url: "https://github.com/Hussain-hamim",
+    label: "GitHub",
+  },
+  {
+    img: require("../images/socials/linkedin.png"),
+    url: "https://www.linkedin.com/in/hussain-hamim/",
+    label: "LinkedIn",
+  },
+  {
+    img: require("../images/socials/twitter.png"),
+    url: "https://x.com/hussainim_",
+    label: "Twitter",
+  },
+  {
+    img: require("../images/socials/instagram.png"),
+    url: "https://www.instagram.com/hussainhamim_",
+    label: "Instagram",
+  },
 ];
 
 const Header = ({ locale = "en" }) => {
@@ -52,7 +76,7 @@ const Header = ({ locale = "en" }) => {
       window.location.pathname === "/" || window.location.pathname === "/ps";
     if (!onHome) return;
 
-    const ids = ["experience", "projects", "tools", "contactme"];
+    const ids = ["experience", "projects", "contactme"];
     const nodes = ids
       .map((id) => document.getElementById(`${id}-section`))
       .filter(Boolean);
@@ -107,7 +131,6 @@ const Header = ({ locale = "en" }) => {
 
   const navItems = [
     { id: "projects", label: isPashto ? "زما کار" : "see my work", type: "scroll" },
-    { id: "tools", label: isPashto ? "وسايل" : "tools", type: "scroll" },
     { id: "all-projects", label: isPashto ? "ټولې پروژې" : "projects", type: "link", href: "/projects" },
     { id: "contactme", label: isPashto ? "اړيکه" : "contact", type: "scroll" },
   ];
@@ -150,7 +173,7 @@ const Header = ({ locale = "en" }) => {
                 : "text-white drop-shadow-[0_1px_8px_rgba(0,0,0,0.65)] hover:text-white/85"
             }`}
           >
-            <span className="relative z-10">Hussain Hamim.</span>
+            <span className="relative z-10">HSN.</span>
             <span
               className={`absolute -bottom-1 left-0 w-0 h-0.5 group-hover:w-full transition-all duration-300 ${
                 headerBarSolid ? "bg-[#D7FF00]" : onLightHero ? "bg-[#0a0a0a]" : "bg-white"
@@ -309,21 +332,47 @@ const Header = ({ locale = "en" }) => {
             <div className="mt-6 flex items-center justify-center gap-6">
               {socials.map((social, index) => (
                 <a
-                  key={index}
+                  key={social.label}
                   href={social.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-gray-400 hover:text-[#D7FF00] transition-colors duration-300"
+                  onClick={() => setIsMenuOpen(false)}
+                  aria-label={social.label}
+                  className="inline-flex h-7 w-7 items-center justify-center rounded-lg opacity-90 transition-[filter,opacity] duration-300 hover:opacity-100 [filter:grayscale(1)_brightness(1.15)] hover:[filter:grayscale(1)_brightness(1.35)]"
                 >
-                  {social.img ? (
-                    <img
-                      src={social.img}
-                      alt=""
-                      className="h-7 w-7 rounded-lg object-contain"
+                  <Suspense
+                    fallback={
+                      <img
+                        src={social.img}
+                        alt=""
+                        className="h-6 w-6 rounded-lg object-contain sm:h-7 sm:w-7"
+                      />
+                    }
+                  >
+                    <StickerPeeling
+                      image={social.img}
+                      imageWidth={28}
+                      imageHeight={28}
+                      hoverPeel={48}
+                      pressPeel={70}
+                      curlRotation={
+                        PEEL_VARIATIONS[index % PEEL_VARIATIONS.length]
+                      }
+                      backColor="#0a0a0a"
+                      shadowEnabled
+                      shadow={{
+                        opacity: 28,
+                        color: "#000000",
+                        x: -220,
+                        y: 120,
+                      }}
+                      transition={{
+                        type: "tween",
+                        duration: 0.28,
+                        ease: "easeOut",
+                      }}
                     />
-                  ) : (
-                    <FontAwesomeIcon icon={social.icon} size="lg" />
-                  )}
+                  </Suspense>
                 </a>
               ))}
             </div>

@@ -723,13 +723,13 @@ const ProjectsSection = ({ locale = 'en' }) => {
       {/* Experience */}
       <ExperienceSection locale={locale} />
 
-      {/* Tools & Activity · About · Blogs & Photos · Certificates */}
+      {/* Activity · About · Blogs & Photos · Certificates */}
       <div className='relative bg-[#F3F1E6] py-32 overflow-visible'>
         <div className='max-w-7xl mx-auto w-full px-6 md:px-8 relative z-10'>
-          {/* Tools & Activity */}
-          <div id='tools-section'>
+          {/* Activity */}
+          <div id='activity-section'>
             <SectionHeader
-              title={isPashto ? 'وسايل او فعاليت' : 'TOOLS & ACTIVITY'}
+              title={isPashto ? 'فعاليت' : 'ACTIVITY'}
               light
             />
             <div className='grid grid-cols-1 md:grid-cols-2 gap-8'>
