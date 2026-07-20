@@ -891,6 +891,16 @@ const PhotosCard = () => (
 
 const BLOG_POSTS = [
   {
+    title: 'Designing AI Loading States That Feel Instant',
+    titlePs: 'د AI لوډینګ حالتونه چې فوري ښکاري',
+    description:
+      'How to design loading states for AI products that feel fast — even when the model is still thinking.',
+    descriptionPs:
+      'د AI محصولاتو لپاره د لوډینګ حالتونو ډیزاین چې چټک ښکاري — حتی کله چې ماډل لا فکر کوي.',
+    url: 'https://chamoylabs.com/article/designing-ai-loading-states-that-feel-instant/',
+    source: 'Chamoy Labs',
+  },
+  {
     title: 'AI Workflows vs AI Agents',
     titlePs: 'AI ورک فلو vs AI ایجنټان',
     description:
@@ -925,11 +935,11 @@ const BlogsCard = ({ isPashto }) => (
         </div>
       </div>
 
-      <div className='flex flex-1 items-start'>
+      <div className='flex flex-1 flex-row flex-nowrap items-stretch gap-3 overflow-x-auto pb-1'>
         {BLOG_POSTS.map((post) => (
           <div
             key={post.url}
-            className='group/post relative flex w-full max-w-[220px] flex-col overflow-hidden rounded-xl border border-line/10 bg-surface-alt px-3.5 py-4 transition-all duration-300 hover:border-black/25 hover:shadow-[0_0_0_0.5px_rgba(0,0,0,0.22)]'
+            className='group/post relative flex w-[200px] shrink-0 flex-col overflow-hidden rounded-xl border border-line/10 bg-surface-alt px-3.5 py-4 transition-all duration-300 hover:border-black/25 hover:shadow-[0_0_0_0.5px_rgba(0,0,0,0.22)] sm:w-[220px]'
           >
             <div className='min-w-0'>
               <span className='mb-2 inline-block text-[9px] font-mono uppercase tracking-[0.18em] text-gray-600 dark:text-white/55'>
