@@ -167,6 +167,7 @@ export default function StickerPeeling(__props) {
     backColor = '#000000',
     shadowEnabled = true,
     shadow,
+    hovered,
     style,
     boneGridX = 16,
     boneGridY = 16,
@@ -873,6 +874,20 @@ export default function StickerPeeling(__props) {
       animateCurlTo(0);
     }
   }, [hoverPeel, animateCurlTo]);
+
+  // Parent-driven hover (e.g. label text) — same peel as pointer on the sticker
+  useEffect(() => {
+    if (typeof hovered !== 'boolean') return;
+    if (hovered) {
+      if (isHoveringRef.current) return;
+      isHoveringRef.current = true;
+      if (!isPressedRef.current) animateCurlTo(hoverPeel / 100);
+    } else {
+      isHoveringRef.current = false;
+      isPressedRef.current = false;
+      animateCurlTo(0);
+    }
+  }, [hovered, hoverPeel, animateCurlTo]);
 
   const cleanupScene = useCallback(() => {
     stopRenderLoop();

@@ -1,10 +1,11 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FaGithub } from 'react-icons/fa';
+import { FaGithub, FaLinkedinIn, FaWhatsapp } from 'react-icons/fa';
 import { FaXTwitter } from 'react-icons/fa6';
-import { FaLinkedinIn } from 'react-icons/fa';
 import BlobReveal from './BlobReveal';
 import aboutPortrait from '../asset/hsn3-hero.jpg';
+
+const WHATSAPP_URL = 'https://wa.me/93780338261';
 
 export default function AboutSection({ locale = 'en' }) {
   const isPashto = locale === 'ps';
@@ -36,6 +37,11 @@ export default function AboutSection({ locale = 'en' }) {
       href: 'https://www.linkedin.com/in/hussain-hamim/',
       icon: FaLinkedinIn,
       label: 'LinkedIn',
+    },
+    {
+      href: WHATSAPP_URL,
+      icon: FaWhatsapp,
+      label: 'WhatsApp',
     },
   ];
 

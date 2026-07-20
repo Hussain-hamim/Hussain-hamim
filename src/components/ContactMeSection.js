@@ -1,8 +1,9 @@
-import React, { useEffect, lazy, Suspense } from "react";
+import React, { useEffect, useState, lazy, Suspense } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { motion } from "framer-motion";
 import { Calendar } from "lucide-react";
+import { FaWhatsapp } from "react-icons/fa";
 import { useAlertContext } from "../context/alertContext";
 import useSubmit from "../hooks/useSubmit";
 import { FaPaperPlane } from "react-icons/fa";
@@ -13,11 +14,13 @@ const StickerPeeling = lazy(() => import("./StickerPeeling"));
 
 /** Default 30 min Cal.com booking — override with REACT_APP_BOOKING_URL if needed */
 const DEFAULT_CAL_BOOKING_URL = "https://cal.com/hussain-hamim-fp9qc6/30min";
+const WHATSAPP_URL = "https://wa.me/93780338261";
 
 const ContactMeSection = ({ locale = "en" }) => {
   const isPashto = locale === "ps";
   const { isLoading, response, submit, clearResponse } = useSubmit();
   const { onOpen } = useAlertContext();
+  const [hoveredSocial, setHoveredSocial] = useState(null);
   const bookingUrl = (
     process.env.REACT_APP_BOOKING_URL || DEFAULT_CAL_BOOKING_URL
   ).trim();
@@ -43,16 +46,14 @@ const ContactMeSection = ({ locale = "en" }) => {
       url: "https://x.com/hussainim_",
       label: "Twitter",
     },
-    ...(bookingUrl
-      ? [
-          {
-            Icon: Calendar,
-            url: bookingUrl,
-            label: isPashto ? "د لیدنې وخت وټاکئ" : "Book a call",
-          },
-        ]
-      : []),
+    {
+      Icon: FaWhatsapp,
+      url: WHATSAPP_URL,
+      label: "WhatsApp",
+    },
   ];
+
+  const bookLabel = isPashto ? "د لیدنې وخت وټاکئ" : "Book a call";
 
   const formik = useFormik({
     initialValues: {
@@ -117,13 +118,14 @@ const ContactMeSection = ({ locale = "en" }) => {
                   href={social.url}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onMouseEnter={() => setHoveredSocial(social.label)}
+                  onMouseLeave={() => setHoveredSocial(null)}
                   className="flex items-center gap-3 text-gray-300 hover:text-[#D7FF00] transition-colors duration-300 group"
                 >
                   <span className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-lg opacity-90 transition-[filter,opacity,color] duration-300 group-hover:opacity-100 [filter:grayscale(1)_brightness(1.15)] group-hover:[filter:grayscale(1)_brightness(1.35)]">
                     {social.Icon ? (
                       <social.Icon
                         className="h-[22px] w-[22px] text-current sm:h-6 sm:w-6"
-                        strokeWidth={1.75}
                         aria-hidden
                       />
                     ) : (
@@ -142,6 +144,7 @@ const ContactMeSection = ({ locale = "en" }) => {
                           imageHeight={28}
                           hoverPeel={48}
                           pressPeel={70}
+                          hovered={hoveredSocial === social.label}
                           curlRotation={
                             PEEL_VARIATIONS[index % PEEL_VARIATIONS.length]
                           }
@@ -168,6 +171,20 @@ const ContactMeSection = ({ locale = "en" }) => {
                 </a>
               ))}
             </div>
+
+            {bookingUrl ? (
+              <div className="mt-8">
+                <Button
+                  href={bookingUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  size="sm"
+                  icon={<Calendar />}
+                >
+                  {bookLabel}
+                </Button>
+              </div>
+            ) : null}
           </motion.div>
 
           {/* Right Column - Form */}
