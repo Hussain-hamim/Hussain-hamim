@@ -1,6 +1,6 @@
-import React, { useLayoutEffect, useRef, useState, useEffect, lazy, Suspense } from 'react';
+import React, { useLayoutEffect, useRef, useState, useEffect, useCallback, lazy, Suspense } from 'react';
 import { motion } from 'framer-motion';
-import { Calendar, ArrowRight, MessageSquare } from 'lucide-react';
+import { Calendar, ArrowRight, MessageSquare, Eye } from 'lucide-react';
 import Button from './Button';
 import MeshText from './MeshText';
 import TextMorph from './TextMorph';
@@ -169,6 +169,76 @@ const LandingSection = ({ locale = 'en' }) => {
   ).trim();
   const [heroHovered, setHeroHovered] = useState(false);
   const [showParticles, setShowParticles] = useState(false);
+  const [visitors, setVisitors] = useState(null);
+  const [online, setOnline] = useState(null);
+  const [visitorScrambleDone, setVisitorScrambleDone] = useState(false);
+  const [visitorScrambleText, setVisitorScrambleText] = useState(null);
+  const onVisitorScrambleComplete = useCallback(() => {
+    setVisitorScrambleDone(true);
+  }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch('/api/visitors')
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data) => {
+        if (!cancelled && data?.visitors != null) {
+          setVisitors(Number(data.visitors));
+        }
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+    let id = '';
+    try {
+      id = sessionStorage.getItem('presence_id') || '';
+      if (!id) {
+        id =
+          typeof crypto !== 'undefined' && crypto.randomUUID
+            ? crypto.randomUUID()
+            : `p_${Date.now()}_${Math.random().toString(36).slice(2, 10)}`;
+        sessionStorage.setItem('presence_id', id);
+      }
+    } catch {
+      id = `p_${Date.now()}`;
+    }
+
+    const beat = () => {
+      const url = `/api/presence?id=${encodeURIComponent(id)}`;
+      fetch(url, { method: 'GET', cache: 'no-store' })
+        .then((r) => (r.ok ? r.json() : null))
+        .then((data) => {
+          if (cancelled) return;
+          if (data?.online != null) {
+            setOnline(Math.max(1, Number(data.online)));
+          } else {
+            // Local/API miss — still show yourself as online
+            setOnline(1);
+          }
+        })
+        .catch(() => {
+          if (!cancelled) setOnline(1);
+        });
+    };
+
+    beat();
+    const interval = window.setInterval(beat, 20000);
+    const onVis = () => {
+      if (document.visibilityState === 'visible') beat();
+    };
+    document.addEventListener('visibilitychange', onVis);
+
+    return () => {
+      cancelled = true;
+      window.clearInterval(interval);
+      document.removeEventListener('visibilitychange', onVis);
+    };
+  }, []);
 
   useEffect(() => {
     let idleId;
@@ -186,6 +256,24 @@ const LandingSection = ({ locale = 'en' }) => {
       if (timeoutId != null) window.clearTimeout(timeoutId);
     };
   }, []);
+
+  const visitorLabel =
+    visitors != null && Number.isFinite(visitors)
+      ? new Intl.NumberFormat(isPashto ? 'ps' : 'en', {
+          notation: visitors >= 1000 ? 'compact' : 'standard',
+          maximumFractionDigits: 1,
+        }).format(visitors)
+      : null;
+
+  useEffect(() => {
+    if (visitorLabel && visitorScrambleText == null) {
+      setVisitorScrambleText(visitorLabel);
+    }
+  }, [visitorLabel, visitorScrambleText]);
+
+  const onlineCount =
+    online != null && Number.isFinite(online) ? Math.max(0, online) : null;
+  const someoneOnline = onlineCount != null && onlineCount > 0;
 
   const copy = {
     greeting: isPashto ? 'سلام، زه یم' : "Hey, I'm",
@@ -211,6 +299,70 @@ const LandingSection = ({ locale = 'en' }) => {
       onMouseEnter={() => setHeroHovered(true)}
       onMouseLeave={() => setHeroHovered(false)}
     >
+      {(visitorLabel || onlineCount != null) ? (
+        <motion.div
+          initial={{ opacity: 0, y: -6 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.15, duration: 0.45 }}
+          className='pointer-events-none absolute right-4 top-[max(4.75rem,calc(env(safe-area-inset-top)+3.5rem))] z-20 flex flex-col items-end gap-1.5 font-sans3 text-xs text-ink sm:right-6 sm:text-sm md:right-8 lg:right-10'
+        >
+          {visitorScrambleText ? (
+            <div
+              className='flex items-center gap-1.5'
+              aria-label={`${visitorLabel || visitorScrambleText} visitors`}
+            >
+              <Eye
+                className='h-3.5 w-3.5 shrink-0 text-ink-muted sm:h-4 sm:w-4'
+                aria-hidden
+              />
+              {visitorScrambleDone ? (
+                <span className='tabular-nums'>
+                  {visitorLabel || visitorScrambleText}
+                </span>
+              ) : (
+                <ScrambleText
+                  words={visitorScrambleText}
+                  color={ink}
+                  fontFamily='inherit'
+                  fontSize='inherit'
+                  fontWeight={500}
+                  className='!h-auto !w-auto tabular-nums'
+                  style={{ width: 'auto', height: 'auto', overflow: 'visible' }}
+                  enterAnimation={{
+                    mode: 'oneLine',
+                    scrambleIntensity: 90,
+                    ease: { type: 'tween', duration: 0.85, ease: 'linear' },
+                    flickerEnabled: true,
+                    flickerColor: isDark ? '#888888' : '#555555',
+                    flickerIntensity: 65,
+                    flickerSpeed: 12,
+                  }}
+                  onComplete={onVisitorScrambleComplete}
+                />
+              )}
+            </div>
+          ) : null}
+          {onlineCount != null ? (
+            <div
+              className='flex items-center gap-1.5 text-ink'
+              aria-label={`${onlineCount} online`}
+            >
+              <span
+                className={`inline-block h-2 w-2 shrink-0 rounded-full ${
+                  someoneOnline
+                    ? isDark
+                      ? 'bg-[#7CFF6B] shadow-[0_0_8px_rgba(124,255,107,0.55)]'
+                      : 'bg-[#2F9E44] shadow-[0_0_6px_rgba(47,158,68,0.35)]'
+                    : 'bg-ink/35'
+                }`}
+                aria-hidden
+              />
+              <span className='tabular-nums'>{onlineCount}</span>
+              <span className='text-ink-muted'>online</span>
+            </div>
+          ) : null}
+        </motion.div>
+      ) : null}
       <div className='relative z-10 mx-auto flex min-h-screen w-full max-w-6xl flex-col items-center justify-center gap-10 px-6 pb-20 pt-[max(6rem,calc(env(safe-area-inset-top)+4.5rem))] text-center sm:px-8 md:flex-row md:items-center md:justify-center md:gap-12 md:px-10 lg:gap-16'>
         <div className='relative z-10 flex w-full min-w-0 max-w-xl flex-col items-start justify-center text-left'>
           <motion.p

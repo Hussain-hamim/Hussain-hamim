@@ -77,6 +77,13 @@ module.exports = {
         errors: true,
       },
     },
+    // Ensure /api/* local handlers load (setupProxy alone needs a full restart)
+    setupMiddlewares: (middlewares, devServer) => {
+      if (devServer?.app) {
+        require('./src/setupProxy')(devServer.app);
+      }
+      return middlewares;
+    },
   },
 };
 

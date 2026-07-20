@@ -73,6 +73,9 @@ const DEFAULTS = {
   className: '',
   style: undefined,
   onComplete: undefined,
+  fontFamily: 'Daisyogre, sans-serif',
+  fontSize: 'clamp(2rem, 9vw, 4.5rem)',
+  fontWeight: 700,
 };
 
 /**
@@ -101,6 +104,9 @@ export default function ScrambleText(props) {
     className = '',
     style,
     onComplete,
+    fontFamily = 'Daisyogre, sans-serif',
+    fontSize = 'clamp(2rem, 9vw, 4.5rem)',
+    fontWeight = 700,
   } = merged;
 
   const enterMode = enterAnimation?.mode ?? 'oneLine';
@@ -152,6 +158,9 @@ export default function ScrambleText(props) {
   const containerRef = useRef(null);
   const ghostRefs = useRef([]);
   const hasPlayedRef = useRef(false);
+  const enterAnimStartedRef = useRef(false);
+  const onCompleteRef = useRef(onComplete);
+  onCompleteRef.current = onComplete;
 
   const [lineGroups, setLineGroups] = useState([]);
   const [displays, setDisplays] = useState({});
@@ -199,6 +208,7 @@ export default function ScrambleText(props) {
   // Play once when visible
   useEffect(() => {
     if (enterMode === 'none') return;
+    if (hasPlayedRef.current) return;
     const el = containerRef.current;
     if (!el) return;
     const obs = new IntersectionObserver(
@@ -213,12 +223,15 @@ export default function ScrambleText(props) {
     );
     obs.observe(el);
     return () => obs.disconnect();
-  }, [enterMode, lineGroups]);
+  }, [enterMode]);
 
   useEffect(() => {
     if (enterMode === 'none' || !shouldAnimate || lineGroups.length === 0) {
       return undefined;
     }
+    // One-shot only — resize / prop identity changes must not restart
+    if (enterAnimStartedRef.current) return undefined;
+    enterAnimStartedRef.current = true;
 
     let cancelled = false;
     setDisplays({});
@@ -257,6 +270,9 @@ export default function ScrambleText(props) {
       new Promise((r) => setTimeout(r, Math.max(0, ms)));
 
     const nextGlitchChar = (char) => {
+      if (/\d/.test(char)) {
+        return String(Math.floor(Math.random() * 10));
+      }
       const isLower =
         char === char.toLowerCase() && char !== char.toUpperCase();
       const pool = isLower ? GLITCH_CHARS_LOWER : GLITCH_CHARS_UPPER;
@@ -418,26 +434,16 @@ export default function ScrambleText(props) {
       await run();
       if (!cancelled) {
         setEnterAnimComplete(true);
-        onComplete?.();
+        onCompleteRef.current?.();
       }
     })();
 
     return () => {
       cancelled = true;
     };
-  }, [
-    allWords,
-    lineGroups,
-    enterMode,
-    enterFlickerEnabled,
-    enterFlickerIntensity,
-    enterFlickerSpeed,
-    enterScrambleIntensity,
-    enterDuration,
-    enterEaseCurve,
-    shouldAnimate,
-    onComplete,
-  ]);
+    // lineGroups.length (not identity) — start once measured; ref blocks replays
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [shouldAnimate, enterMode, words, lineGroups.length]);
 
   const isInsertEnter = enterMode === 'oneLine' || enterMode === 'multiLine';
 
@@ -469,9 +475,9 @@ export default function ScrambleText(props) {
               width: '100%',
               margin: 0,
               padding: 0,
-              fontFamily: 'Daisyogre, sans-serif',
-              fontWeight: 700,
-              fontSize: 'clamp(2rem, 9vw, 4.5rem)',
+              fontFamily,
+              fontWeight,
+              fontSize,
               lineHeight: 1,
               letterSpacing: '0.02em',
             }}

@@ -11,6 +11,7 @@ import { featuredProjects, isPlaceholder } from '../data/featuredProjects';
 import Button from './Button';
 import AboutSection from './AboutSection';
 import LazyWhenVisible from './LazyWhenVisible';
+import BlobReveal from './BlobReveal';
 
 const GitHubContributions = lazy(() => import('./GitHubContributions'));
 const InfiniteGallery = lazy(() => import('./InfiniteGallery'));
@@ -346,11 +347,18 @@ export const ProjectCard = ({
             sandbox='allow-scripts allow-same-origin'
           />
         ) : (
-          <img
-            src={project.getImageSrc()}
-            alt={project.title}
-            className='absolute inset-0 h-full w-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.03]'
-          />
+          <div className='absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-[1.03]'>
+            <BlobReveal
+              image={project.getImageSrc()}
+              fit='cover'
+              blobCount={14}
+              startAlign='center'
+              replay={false}
+              alt={project.title}
+              transition={{ duration: 1.8, ease: 'easeOut' }}
+              className='h-full w-full'
+            />
+          </div>
         )}
       </div>
     );
@@ -358,7 +366,12 @@ export const ProjectCard = ({
     const body = (
       <>
         {media}
-        <h3 className='mt-3 line-clamp-2 text-left text-xs font-bold uppercase leading-snug tracking-wide text-ink font-sans3 sm:mt-4 sm:text-[13px]'>
+        <div className='mt-3 sm:mt-4'>
+          <span className='inline-flex items-center rounded-full bg-accent px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-black sm:px-3 sm:text-[11px]'>
+            {project.title}
+          </span>
+        </div>
+        <h3 className='mt-2 line-clamp-2 text-left text-xs font-normal uppercase leading-snug tracking-wide text-ink font-sans3 sm:mt-2.5 sm:text-[13px]'>
           {isPlaceholder(headline) ? (
             <FeaturedPlaceholder>{headline}</FeaturedPlaceholder>
           ) : (
@@ -366,13 +379,10 @@ export const ProjectCard = ({
           )}
         </h3>
         <div className='mt-3 flex flex-wrap items-center gap-1.5 sm:mt-3.5 sm:gap-2'>
-          <span className='inline-flex items-center rounded-full bg-accent px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-black sm:px-3 sm:text-[11px]'>
-            {project.title}
-          </span>
           {serviceTags.map((tag) => (
             <span
               key={tag}
-              className='inline-flex items-center rounded-full bg-black px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-white sm:px-3 sm:text-[11px]'
+              className='inline-flex items-center rounded-full border border-ink/25 bg-transparent px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-ink sm:px-3 sm:text-[11px]'
             >
               {tag}
             </span>

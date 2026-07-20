@@ -3,6 +3,8 @@ import { motion } from 'framer-motion';
 import { FaGithub } from 'react-icons/fa';
 import { FaXTwitter } from 'react-icons/fa6';
 import { FaLinkedinIn } from 'react-icons/fa';
+import BlobReveal from './BlobReveal';
+import aboutPortrait from '../asset/hsn3-hero.jpg';
 
 export default function AboutSection({ locale = 'en' }) {
   const isPashto = locale === 'ps';
@@ -78,13 +80,20 @@ export default function AboutSection({ locale = 'en' }) {
               ))}
             </div>
 
-            <img
-              src={require('../asset/hsn3-hero.jpg')}
-              alt='Hussain Hamim'
-              className='aspect-[5/5] max-h-[20rem] w-full object-cover object-top sm:max-h-[22rem]'
-            />
+            <div className='aspect-[5/5] max-h-[20rem] w-full sm:max-h-[22rem]'>
+              <BlobReveal
+                image={aboutPortrait}
+                fit='cover'
+                blobCount={18}
+                startAlign='center'
+                replay={false}
+                alt='Hussain Hamim'
+                transition={{ duration: 2.1, ease: 'easeOut' }}
+                className='h-full w-full'
+              />
+            </div>
 
-            <div className='absolute bottom-4 left-4 right-4 flex flex-wrap items-center justify-center gap-2'>
+            <div className='absolute bottom-4 left-4 right-4 z-10 flex flex-wrap items-center justify-center gap-2'>
               <span className='rounded-full border border-white/20 bg-black px-3 py-1.5 text-[10px] font-bold uppercase tracking-wide text-white sm:text-[11px]'>
                 {copy.name}
               </span>

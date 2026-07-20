@@ -41,7 +41,7 @@ const socials = [
 
 const Header = ({ locale = "en" }) => {
   const isPashto = locale === "ps";
-  const { isDark, toggleTheme } = useTheme();
+  const { isDark, toggleTheme, isThemeAnimating } = useTheme();
   const bookingUrl = (
     process.env.REACT_APP_BOOKING_URL || DEFAULT_CAL_BOOKING_URL
   ).trim();
@@ -152,10 +152,12 @@ const Header = ({ locale = "en" }) => {
   const themeToggleBtn = (
     <button
       type="button"
-      onClick={toggleTheme}
+      data-theme-toggle
+      onClick={(event) => toggleTheme(event.currentTarget)}
+      disabled={isThemeAnimating}
       aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
       title={isDark ? "Light mode" : "Dark mode"}
-      className={`group/theme inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border transition-colors duration-300 ${
+      className={`group/theme inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border transition-colors duration-300 disabled:cursor-wait ${
         useLightNav
           ? "border-black/15 text-[#0a0a0a] hover:border-black/30 hover:bg-black/[0.04]"
           : headerBarSolid
