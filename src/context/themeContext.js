@@ -54,44 +54,18 @@ function supportsViewTransition() {
 }
 
 /**
- * Dark expands from the top-right toggle.
- * Light expands from the bottom-left corner.
+ * Fixed viewport corners only — no button measurement (avoids Chrome drift).
+ * Dark: top-right. Light: bottom-left.
+ * Percentages stay stable across View Transition snapshot coordinate spaces.
  */
-function getWipeOrigin(next, trigger) {
-  const vw = window.innerWidth;
-  const vh = window.innerHeight;
-
+function getWipeOrigin(next) {
   if (next === 'light') {
-    return { x: 0, y: vh, r: Math.hypot(vw, vh) };
+    return { x: '0%', y: '100%', at: '0% 100%' };
   }
-
-  const triggerRect = trigger?.getBoundingClientRect?.();
-  const buttons = Array.from(
-    document.querySelectorAll('[data-theme-toggle]')
-  );
-  const btn =
-    (triggerRect?.width > 0 && triggerRect?.height > 0 ? trigger : null) ||
-    buttons.find((el) => {
-      const r = el.getBoundingClientRect();
-      return r.width > 0 && r.height > 0;
-    }) || buttons[0];
-
-  if (!btn) {
-    return {
-      x: vw - 40,
-      y: 40,
-      r: Math.hypot(vw, vh),
-    };
-  }
-
-  const rect = btn.getBoundingClientRect();
-  const x = rect.left + rect.width / 2;
-  const y = rect.top + rect.height / 2;
-  const r = Math.hypot(Math.max(x, vw - x), Math.max(y, vh - y));
-  return { x, y, r };
+  return { x: '100%', y: '0%', at: '100% 0%' };
 }
 
-/** Fallback: circular paint from the toggle, then removed. */
+/** Fallback: circular paint from a fixed corner, then removed. */
 function ThemeWipe({ color, origin }) {
   if (typeof document === 'undefined') return null;
   return createPortal(
@@ -99,9 +73,8 @@ function ThemeWipe({ color, origin }) {
       className='theme-wipe theme-wipe--circle'
       style={{
         backgroundColor: color,
-        '--theme-wipe-x': `${origin.x}px`,
-        '--theme-wipe-y': `${origin.y}px`,
-        '--theme-wipe-r': `${Math.ceil(origin.r)}px`,
+        '--theme-wipe-x': origin.x,
+        '--theme-wipe-y': origin.y,
       }}
       aria-hidden='true'
     />,
@@ -137,7 +110,7 @@ export function ThemeProvider({ children }) {
   }, []);
 
   const runWipe = useCallback(
-    async (next, trigger) => {
+    async (next) => {
       if (busyRef.current) return;
       busyRef.current = true;
       setIsThemeAnimating(true);
@@ -151,7 +124,9 @@ export function ThemeProvider({ children }) {
         return;
       }
 
-      const origin = getWipeOrigin(next, trigger);
+      const origin = getWipeOrigin(next);
+      const from = `circle(0% at ${origin.at})`;
+      const to = `circle(150% at ${origin.at})`;
 
       if (supportsViewTransition()) {
         root.dataset.themeWipe = 'circle';
@@ -163,12 +138,7 @@ export function ThemeProvider({ children }) {
           });
           await transition.ready;
           const animation = root.animate(
-            {
-              clipPath: [
-                `circle(0px at ${origin.x}px ${origin.y}px)`,
-                `circle(${Math.ceil(origin.r)}px at ${origin.x}px ${origin.y}px)`,
-              ],
-            },
+            { clipPath: [from, to] },
             {
               duration: WIPE_MS,
               easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
@@ -209,9 +179,9 @@ export function ThemeProvider({ children }) {
     [theme, runWipe]
   );
 
-  const toggleTheme = useCallback((trigger) => {
+  const toggleTheme = useCallback(() => {
     if (busyRef.current) return;
-    runWipe(theme === 'dark' ? 'light' : 'dark', trigger);
+    runWipe(theme === 'dark' ? 'light' : 'dark');
   }, [theme, runWipe]);
 
   const value = useMemo(

@@ -153,7 +153,7 @@ const Header = ({ locale = "en" }) => {
     <button
       type="button"
       data-theme-toggle
-      onClick={(event) => toggleTheme(event.currentTarget)}
+      onClick={toggleTheme}
       disabled={isThemeAnimating}
       aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
       title={isDark ? "Light mode" : "Dark mode"}
