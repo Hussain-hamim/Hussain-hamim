@@ -1,0 +1,37 @@
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;800;900&display=swap');
+
+html:has(.new-portfolio),
+html:has(.new-portfolio) body,
+html:has(.new-portfolio) #root {
+  background: #0c0c0c;
+  margin: 0;
+  padding: 0;
+}
+
+/* Do NOT put overflow-x: clip on this wrapper — in Chrome it forces
+   overflow-y to auto and breaks position:sticky for project cards. */
+.new-portfolio {
+  box-sizing: border-box;
+  background: #0c0c0c;
+  font-family: 'Kanit', sans-serif;
+  color: #d7e2ea;
+  min-height: 100vh;
+}
+
+.new-portfolio *,
+.new-portfolio *::before,
+.new-portfolio *::after {
+  box-sizing: border-box;
+}
+
+.new-portfolio .hero-heading {
+  background: linear-gradient(180deg, #646973 0%, #bbccd7 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Soften sticky stacking so scaled cards sit cleanly behind the next one */
+.new-portfolio #projects [data-project-card] {
+  will-change: transform;
+}

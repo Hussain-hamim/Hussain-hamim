@@ -18,6 +18,7 @@ const ProposalDeckAgentPage = lazy(() =>
   import('./components/ProposalDeckAgentPage')
 );
 const CaseStudyPage = lazy(() => import('./components/CaseStudyPage'));
+const NewPortfolioPage = lazy(() => import('./new-portfolio/NewPortfolioPage'));
 
 const RouteFallback = () => (
   <div className='min-h-screen bg-surface' aria-hidden />
@@ -100,6 +101,7 @@ function App() {
               />
               <Route path='/case-study/:slug' element={<CaseStudyPage />} />
               <Route path='/ps' element={<PortfolioPage locale='ps' />} />
+              <Route path='/new' element={<NewPortfolioPage />} />
               <Route path='/*' element={<PortfolioPage locale='en' />} />
             </Routes>
           </Suspense>
