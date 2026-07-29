@@ -1,0 +1,114 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+html:has(.vortx-portfolio),
+html:has(.vortx-portfolio) body,
+html:has(.vortx-portfolio) #root {
+  background: #000;
+  margin: 0;
+  padding: 0;
+}
+
+.vortx-portfolio {
+  background: #000;
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+}
+
+.vortx-portfolio .font-inter {
+  font-family: 'Inter', sans-serif;
+}
+
+.vortx-portfolio .btn-cut {
+  clip-path: polygon(
+    12px 0%,
+    calc(100% - 12px) 0%,
+    100% 12px,
+    100% calc(100% - 12px),
+    calc(100% - 12px) 100%,
+    12px 100%,
+    0% calc(100% - 12px),
+    0% 12px
+  );
+}
+
+.vortx-portfolio .btn-cut-border {
+  position: relative;
+  background: white;
+  clip-path: polygon(
+    12px 0%,
+    calc(100% - 12px) 0%,
+    100% 12px,
+    100% calc(100% - 12px),
+    calc(100% - 12px) 100%,
+    12px 100%,
+    0% calc(100% - 12px),
+    0% 12px
+  );
+}
+
+.vortx-portfolio .btn-cut-border::before {
+  content: '';
+  position: absolute;
+  inset: 1px;
+  background: black;
+  z-index: 0;
+  clip-path: polygon(
+    11px 0%,
+    calc(100% - 11px) 0%,
+    100% 11px,
+    100% calc(100% - 11px),
+    calc(100% - 11px) 100%,
+    11px 100%,
+    0% calc(100% - 11px),
+    0% 11px
+  );
+}
+
+.vortx-portfolio .btn-cut-border > * {
+  position: relative;
+  z-index: 1;
+}
+
+.vortx-portfolio .btn-cut-sm {
+  clip-path: polygon(
+    8px 0%,
+    calc(100% - 8px) 0%,
+    100% 8px,
+    100% calc(100% - 8px),
+    calc(100% - 8px) 100%,
+    8px 100%,
+    0% calc(100% - 8px),
+    0% 8px
+  );
+}
+
+@keyframes vortx-fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes vortx-fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.vortx-portfolio .anim-stagger {
+  opacity: 0;
+  animation: vortx-fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.vortx-portfolio .anim-fade {
+  opacity: 0;
+  animation: vortx-fadeIn 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
