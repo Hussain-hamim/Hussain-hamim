@@ -25,6 +25,9 @@ const SpacePortfolioPage = lazy(() =>
 const VortxPortfolioPage = lazy(() =>
   import('./vortx-portfolio/VortxPortfolioPage')
 );
+const StudioPortfolioPage = lazy(() =>
+  import('./studio-portfolio/StudioPortfolioPage')
+);
 
 const RouteFallback = () => (
   <div className='min-h-screen bg-surface' aria-hidden />
@@ -110,6 +113,7 @@ function App() {
               <Route path='/new' element={<NewPortfolioPage />} />
               <Route path='/new2' element={<SpacePortfolioPage />} />
               <Route path='/new3' element={<VortxPortfolioPage />} />
+              <Route path='/new4' element={<StudioPortfolioPage />} />
               <Route path='/*' element={<PortfolioPage locale='en' />} />
             </Routes>
           </Suspense>

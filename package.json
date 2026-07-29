@@ -21,6 +21,7 @@
     "framer-motion": "^11.1.1",
     "gh-pages": "^6.1.1",
     "gsap": "^3.15.0",
+    "hls.js": "^1.6.16",
     "leaflet": "^1.9.4",
     "lottie-react": "^2.4.1",
     "lucide-react": "^0.506.0",

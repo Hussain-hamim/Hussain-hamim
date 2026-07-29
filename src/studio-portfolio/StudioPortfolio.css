@@ -1,0 +1,114 @@
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&display=swap');
+
+.studio-portfolio {
+  --studio-bg: 0 0% 4%;
+  --studio-surface: 0 0% 8%;
+  --studio-text: 0 0% 96%;
+  --studio-muted: 0 0% 53%;
+  --studio-stroke: 0 0% 12%;
+  --studio-accent: 0 0% 96%;
+
+  background: hsl(var(--studio-bg));
+  color: hsl(var(--studio-text));
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+}
+
+html:has(.studio-portfolio),
+html:has(.studio-portfolio) body,
+html:has(.studio-portfolio) #root {
+  background: hsl(0 0% 4%);
+  margin: 0;
+  padding: 0;
+}
+
+.studio-portfolio .font-body {
+  font-family: 'Inter', sans-serif;
+}
+
+.studio-portfolio .font-display {
+  font-family: 'Instrument Serif', serif;
+}
+
+.studio-portfolio .bg-studio {
+  background-color: hsl(var(--studio-bg));
+}
+
+.studio-portfolio .bg-studio-surface {
+  background-color: hsl(var(--studio-surface));
+}
+
+.studio-portfolio .text-studio {
+  color: hsl(var(--studio-text));
+}
+
+.studio-portfolio .text-studio-muted {
+  color: hsl(var(--studio-muted));
+}
+
+.studio-portfolio .border-studio-stroke {
+  border-color: hsl(var(--studio-stroke));
+}
+
+.studio-portfolio .bg-studio-stroke {
+  background-color: hsl(var(--studio-stroke));
+}
+
+.studio-portfolio .accent-gradient {
+  background: linear-gradient(90deg, #89aacc 0%, #4e85bf 100%);
+}
+
+.studio-portfolio .accent-border {
+  background: linear-gradient(90deg, #89aacc 0%, #4e85bf 100%);
+}
+
+@keyframes studio-scroll-down {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(200%);
+  }
+}
+
+@keyframes studio-role-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes studio-gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.studio-portfolio .animate-scroll-down {
+  animation: studio-scroll-down 1.5s ease-in-out infinite;
+}
+
+.studio-portfolio .animate-role-fade-in {
+  animation: studio-role-fade-in 0.4s ease-out;
+}
+
+.studio-portfolio .gradient-border-ring {
+  background: linear-gradient(90deg, #89aacc, #4e85bf, #89aacc);
+  background-size: 200% 200%;
+  animation: studio-gradient-shift 6s ease infinite;
+}
+
+.studio-portfolio .halftone {
+  background-image: radial-gradient(circle, #000 1px, transparent 1px);
+  background-size: 4px 4px;
+}
