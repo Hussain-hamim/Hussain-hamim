@@ -193,6 +193,8 @@ export default function MeshText(props) {
 
   const [webglOk, setWebglOk] = useState(true);
   const [ready, setReady] = useState(false);
+  /** CSS px height of the text — keep HTML fallback in sync with WebGL (0.78 × box). */
+  const [fitFontPx, setFitFontPx] = useState(null);
 
   const colorSplitRef = useRef(!!colorSplit);
   colorSplitRef.current = !!colorSplit;
@@ -218,6 +220,20 @@ export default function MeshText(props) {
 
   const canvasRef = useRef(null);
   const wrapperRef = useRef(null);
+
+  // Match placeholder type size to the final WebGL glyph size ASAP (avoids big→small flash).
+  useEffect(() => {
+    const wrapper = wrapperRef.current;
+    if (!wrapper) return;
+    const syncFit = () => {
+      const h = wrapper.getBoundingClientRect().height;
+      if (h > 0) setFitFontPx(Math.max(12, h * 0.78));
+    };
+    syncFit();
+    const ro = new ResizeObserver(syncFit);
+    ro.observe(wrapper);
+    return () => ro.disconnect();
+  }, []);
 
   useEffect(() => {
     setReady(false);
@@ -555,9 +571,15 @@ export default function MeshText(props) {
     textAlign,
   ]);
 
+  // Same formula as WebGL: glyph ≈ 78% of the line box height.
+  const fallbackFontSize = fitFontPx
+    ? `${fitFontPx}px`
+    : 'clamp(2.145rem, 7.8vw, 3.51rem)';
+
   if (!webglOk) {
     return (
       <div
+        ref={wrapperRef}
         className={className}
         style={{
           width: '100%',
@@ -568,8 +590,8 @@ export default function MeshText(props) {
           fontFamily: `${fontFamily}, sans-serif`,
           fontWeight,
           fontStyle,
-          fontSize: 'clamp(1.75rem, 9vw, 6rem)',
-          lineHeight: 1.05,
+          fontSize: fallbackFontSize,
+          lineHeight: 1,
           letterSpacing: '-0.02em',
           userSelect: 'none',
           ...style,
@@ -611,13 +633,13 @@ export default function MeshText(props) {
           color: color && color !== '#ffffff' ? color : 'var(--ink)',
           fontWeight,
           fontStyle,
-          fontSize: 'clamp(1.75rem, 9vw, 6rem)',
-          lineHeight: 1.05,
+          fontSize: fallbackFontSize,
+          lineHeight: 1,
           letterSpacing: '-0.02em',
           opacity: ready ? 0 : 1,
-          transition: 'opacity 0.15s ease',
           pointerEvents: 'none',
           backgroundColor: 'transparent',
+          whiteSpace: 'nowrap',
         }}
       >
         {text}
@@ -629,7 +651,6 @@ export default function MeshText(props) {
           width: '100%',
           height: '100%',
           opacity: ready ? 1 : 0,
-          transition: 'opacity 0.15s ease',
           pointerEvents: ready ? 'auto' : 'none',
           backgroundColor: 'transparent',
         }}

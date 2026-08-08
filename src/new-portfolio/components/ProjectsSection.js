@@ -3,7 +3,7 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import LiveProjectButton from './LiveProjectButton';
 import FadeIn from './FadeIn';
 
-import ideahunt from '../../images/ideahunt2.png';
+import ideahunt from '../../images/ideahunt3.png';
 import aegnis from '../../images/aegnisai.png';
 import liquidglass from '../../images/liquidglass.png';
 import photo1 from '../../images/photos-stack-1.png';

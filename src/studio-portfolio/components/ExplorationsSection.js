@@ -3,7 +3,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ArrowRight, X } from 'lucide-react';
 
-import ideahunt from '../../images/ideahunt2.png';
+import ideahunt from '../../images/ideahunt3.png';
 import aegnis from '../../images/aegnisai.png';
 import liquidglass from '../../images/liquidglass.png';
 import goaltracking from '../../images/goaltracking.png';

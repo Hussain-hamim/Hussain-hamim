@@ -110,25 +110,26 @@ export const featuredProjects = [
     ],
   },
   {
-    slug: 'liquidglass',
-    title: 'LiquidGlass',
-    cardHeadline: 'Copy-ready WebGL glass effects for modern React apps.',
+    slug: 'proveit-ai',
+    title: 'ProveIt AI',
+    openLinkLabel: 'ProveIt AI',
+    cardHeadline: 'Finally get things done — with photo proof and AI pressure.',
     tagline:
-      'WebGL glass effects for the modern web — browse, preview, and copy beautiful liquid glass into any React project.',
-    live: 'https://liquidglass-sigma.vercel.app/',
+      'ProveIt AI forces accountability with live picture proof, deadlines, and alarms until you prove it — or give up.',
+    live: 'https://aura-ai-ivory.vercel.app/',
     code: 'https://github.com/Hussain-hamim',
-    role: 'Solo full-stack engineer',
-    stack: ['React', 'WebGL', 'TypeScript'],
+    role: 'Solo founder & mobile engineer',
+    stack: ['Swift', 'SwiftUI', 'AI', 'iOS'],
     problem:
-      'Glassmorphism looks great in design tools, but recreating realistic refraction, blur, and chromatic aberration on the web is slow and inconsistent across projects.',
+      'Most habit apps rely on soft reminders. People lie to themselves, skip tasks, and nothing forces real proof that the work got done.',
     built:
-      'A library and live gallery with 54 copy-ready glass effects powered by WebGL — browse, preview, and drop them straight into React apps.',
+      'An iOS accountability app with photo proof + AI verification, escalating deadline alarms, discipline stats, pressure levels, and Coach Aura — a relentless AI coach from tough mentor to full roast mode.',
     result:
-      'LiquidGlass helps developers add polished glass UI fast: browse 54 effects, preview them live, and copy what you need into React projects powered by WebGL.',
+      'ProveIt AI turns goals into a pressure loop: set a deadline, upload real photo proof, survive AI scan and alarms, and let Coach Aura hold you accountable until you finish or quit.',
     metrics: [
-      { value: '54', label: 'Glass effects' },
-      { value: 'WebGL', label: 'Powered by' },
-      { value: 'MIT', label: 'License' },
+      { value: 'Photo', label: 'Proof required' },
+      { value: 'AI', label: 'Scan & reject fakes' },
+      { value: 'iOS', label: 'App Store ready' },
     ],
     beforeAfter: {
       before: null,

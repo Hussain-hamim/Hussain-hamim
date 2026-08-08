@@ -10,12 +10,14 @@ import ExperienceSection from './ExperienceSection';
 import { featuredProjects, isPlaceholder } from '../data/featuredProjects';
 import Button from './Button';
 import AboutSection from './AboutSection';
-import LazyWhenVisible from './LazyWhenVisible';
 import BlobReveal from './BlobReveal';
+import { PEEL_VARIATIONS } from './peelDirections';
 
 const GitHubContributions = lazy(() => import('./GitHubContributions'));
 const InfiniteGallery = lazy(() => import('./InfiniteGallery'));
-const Globe = lazy(() => import('./Globe'));
+const StickerPeeling = lazy(() => import('./StickerPeeling'));
+
+const githubSocialImg = require('../images/socials/github.png');
 
 const sectionAccent = '#D7FF00'; // single accent for whole section so cards match bg
 
@@ -24,7 +26,7 @@ export const projects = [
     title: 'IdeaHunt',
     description:
       'Discover & validate your next big idea. We scan millions of conversations, reviews, and complaints across the web to find real problems people are struggling with. then help you turn them into validated business ideas that actually have demand.',
-    getImageSrc: () => require('../images/ideahunt2.png'),
+    getImageSrc: () => require('../images/ideahunt3.png'),
     link: 'https://github.com/Hussain-hamim',
     live: 'https://www.ideahunt.pro/',
     tags: ['AI', 'Business', 'Validation', 'SaaS'],
@@ -133,6 +135,16 @@ export const projects = [
 ];
 
 export const mobileProjects = [
+  {
+    title: 'ProveIt AI',
+    description:
+      'Finally get things done. ProveIt AI forces accountability with live picture proof, AI scanning, deadlines, and alarms until you prove it — or give up. Includes Coach Aura for relentless pressure coaching.',
+    getImageSrc: () => require('../images/proveit-ai.png'),
+    link: 'https://github.com/Hussain-hamim',
+    live: 'https://aura-ai-ivory.vercel.app/',
+    tags: ['iOS', 'AI', 'Swift', 'Accountability'],
+    theme: { primary: '#0A0A0A', secondary: '#FF5A2D' },
+  },
   {
     title: 'Goal Tracking App',
     description:
@@ -348,28 +360,38 @@ export const ProjectCard = ({
           />
         ) : (
           <div className='absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-[1.03]'>
-            <BlobReveal
-              image={project.getImageSrc()}
-              fit='cover'
-              blobCount={14}
-              startAlign='center'
-              replay={false}
+            <img
+              src={project.getImageSrc()}
               alt={project.title}
-              transition={{ duration: 1.8, ease: 'easeOut' }}
-              className='h-full w-full'
+              className='h-full w-full object-cover'
+              loading='eager'
             />
           </div>
         )}
       </div>
     );
 
+    const liveUrl = project.live || null;
+    const showLive = Boolean(liveUrl && isInternal);
+
     const body = (
       <>
         {media}
-        <div className='mt-3 sm:mt-4'>
+        <div className='mt-3 flex flex-wrap items-center justify-between gap-2 sm:mt-4'>
           <span className='inline-flex items-center rounded-full bg-accent px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-black sm:px-3 sm:text-[11px]'>
             {project.title}
           </span>
+          {showLive ? (
+            <a
+              href={liveUrl}
+              target='_blank'
+              rel='noopener noreferrer'
+              onClick={(e) => e.stopPropagation()}
+              className='ml-auto inline-flex items-center rounded-full border border-ink/25 bg-transparent px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-ink transition-colors hover:bg-ink hover:text-surface sm:px-3 sm:text-[11px]'
+            >
+              Live ↗
+            </a>
+          ) : null}
         </div>
         <h3 className='mt-2 line-clamp-2 text-left text-xs font-normal uppercase leading-snug tracking-wide text-ink font-sans3 sm:mt-2.5 sm:text-[13px]'>
           {isPlaceholder(headline) ? (
@@ -392,16 +414,29 @@ export const ProjectCard = ({
     );
 
     const cardShell =
-      'block h-full rounded-2xl bg-panel p-3 sm:rounded-3xl sm:p-4 shadow-[0_0_0_0_transparent] transition-[box-shadow,background-color] duration-300 group-hover:bg-panel-hover group-hover:shadow-[0_0_0_0.5px_rgba(0,0,0,0.22)] focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 focus-visible:ring-offset-surface-alt';
+      'relative block h-full rounded-2xl bg-panel p-3 sm:rounded-3xl sm:p-4 shadow-[0_0_0_0_transparent] transition-[box-shadow,background-color] duration-300 group-hover:bg-panel-hover group-hover:shadow-[0_0_0_0.5px_rgba(0,0,0,0.22)] focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 focus-visible:ring-offset-surface-alt';
+
+    // When we also show a Live link, the card shell can't be an <a>/<Link>
+    // (nested interactive content). Use a div + stretch-link for the case study.
+    if (showLive) {
+      return (
+        <div className='group relative h-full'>
+          <div className={cardShell}>
+            <Link
+              to={href}
+              className='absolute inset-0 z-0 rounded-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 focus-visible:ring-offset-surface-alt sm:rounded-3xl'
+              aria-label={`${project.title} case study`}
+            />
+            <div className='relative z-[1] pointer-events-none [&_a]:pointer-events-auto'>
+              {body}
+            </div>
+          </div>
+        </div>
+      );
+    }
 
     return (
-      <motion.div
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: index * 0.08, ease: [0.22, 1, 0.36, 1] }}
-        viewport={{ once: true, margin: '-40px' }}
-        className='group relative h-full'
-      >
+      <div className='group relative h-full'>
         {isInternal ? (
           <Link to={href} className={cardShell}>
             {body}
@@ -416,7 +451,7 @@ export const ProjectCard = ({
             {body}
           </a>
         )}
-      </motion.div>
+      </div>
     );
   }
 
@@ -624,6 +659,8 @@ export const mobileDescriptionsPs = {
       'Threads Clone: يو کراس پلېټفارم پروګرام چې د Threads تجربه بيا رغوي. پکې د real-time اپډېټونو لپاره Convex او د authentication لپاره Clerk کارول شوي.',
     'Himal Beauty':
       'Barber Booking App: يو Full-Stack موبايل پروګرام د admin او client جلا پينلونو سره، چې د Supabase او Expo په مرسته جوړ شوی.',
+    'ProveIt AI':
+      'ProveIt AI تاسو مجبوروي چې کارونه ثابت کړئ: ژوندی عکس proof، AI سکین، ضرب‌الاجلونه او الارمونه تر څو ثابت يې کړئ — يا تسليم شئ. Coach Aura هم پکې دی.',
     'Brick Blitz':
       'Brick Breaker لوبه: يو کراس پلېټفارم موبايل ګېم چې د React Native او Reanimated په مرسته ډېر نرم انيميشنونه وړاندې کوي.',
     'Airbnb Clone':
@@ -649,6 +686,7 @@ export const certificateDescriptionsPs = {
 
 const ProjectsSection = ({ locale = 'en' }) => {
   const isPashto = locale === 'ps';
+  const [hoveredGithub, setHoveredGithub] = useState(false);
 
   const webProjects = isPashto
     ? projects.map((project) => ({
@@ -672,12 +710,19 @@ const ProjectsSection = ({ locale = 'en' }) => {
       }))
     : certificates;
 
-  const currentSideProjectTitles = ['IdeaHunt', 'Aegnis AI', 'LiquidGlass', 'Goal Tracking App'];
+  const currentSideProjectTitles = [
+    'IdeaHunt',
+    'Aegnis AI',
+    'ProveIt AI',
+    'Goal Tracking App',
+  ];
   const currentSideProjects = [
     ...webProjects.filter(
-      (p) => p.title === 'IdeaHunt' || p.title === 'Aegnis AI' || p.title === 'LiquidGlass'
+      (p) => p.title === 'IdeaHunt' || p.title === 'Aegnis AI'
     ),
-    ...mobileProjectsLocalized.filter((p) => p.title === 'Goal Tracking App'),
+    ...mobileProjectsLocalized.filter(
+      (p) => p.title === 'ProveIt AI' || p.title === 'Goal Tracking App'
+    ),
   ].sort(
     (a, b) =>
       currentSideProjectTitles.indexOf(a.title) -
@@ -738,36 +783,21 @@ const ProjectsSection = ({ locale = 'en' }) => {
       {/* Activity · About · Blogs & Photos · Certificates */}
       <div className='relative bg-surface-alt py-32 overflow-visible'>
         <div className='max-w-7xl mx-auto w-full px-6 md:px-8 relative z-10'>
-          {/* Activity */}
+          {/* About + Activity */}
           <div id='activity-section' className='section-sep pb-32'>
             <SectionHeader
-              title={isPashto ? 'فعاليت' : 'ACTIVITY'}
+              title={isPashto ? 'په اړه او فعاليت' : 'ABOUT & ACTIVITY'}
               light
             />
-            <div className='grid grid-cols-1 md:grid-cols-2 gap-8'>
+            <div className='grid grid-cols-1 items-stretch gap-8 md:grid-cols-2'>
               <motion.div
                 initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.1 }}
                 viewport={{ once: true }}
-                className='relative h-full min-h-[520px] w-full overflow-hidden md:min-h-[560px]'
+                className='relative h-full min-h-[420px] w-full overflow-hidden md:min-h-[460px]'
               >
-                <LazyWhenVisible
-                  rootMargin='300px 0px'
-                  minHeight='520px'
-                  className='h-full w-full'
-                  fallback={
-                    <div className='h-full min-h-[520px] w-full bg-panel' aria-hidden />
-                  }
-                >
-                  <Suspense
-                    fallback={
-                      <div className='h-full min-h-[520px] w-full bg-panel' aria-hidden />
-                    }
-                  >
-                    <Globe style={{ width: '100%', height: '100%' }} />
-                  </Suspense>
-                </LazyWhenVisible>
+                <AboutSection locale={locale} embedded />
               </motion.div>
 
               <motion.div
@@ -775,13 +805,13 @@ const ProjectsSection = ({ locale = 'en' }) => {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
                 viewport={{ once: true }}
-                className='relative group'
+                className='group relative h-full min-h-[420px] md:min-h-[460px]'
               >
-                <div className='relative rounded-2xl p-8 bg-panel transition-[box-shadow,background-color] duration-300 h-full flex flex-col group-hover:bg-panel-hover group-hover:shadow-[0_0_0_0.5px_rgba(0,0,0,0.22)]'>
-                  <div className='flex items-center gap-3 mb-6'>
+                <div className='relative flex h-full flex-col rounded-2xl bg-panel p-6 transition-[box-shadow,background-color] duration-300 group-hover:bg-panel-hover group-hover:shadow-[0_0_0_0.5px_rgba(0,0,0,0.22)] sm:p-7'>
+                  <div className='mb-5 flex items-center gap-3'>
                     <FaGithub className='text-2xl text-ink' />
                     <div>
-                      <h3 className='text-2xl font-bold text-ink mb-1'>
+                      <h3 className='mb-0.5 text-xl font-bold text-ink sm:text-2xl'>
                         {isPashto ? 'د ونډو فعاليت' : 'Contribution Activity'}
                       </h3>
                       <p className='text-sm text-gray-600 dark:text-white/55'>
@@ -791,34 +821,68 @@ const ProjectsSection = ({ locale = 'en' }) => {
                       </p>
                     </div>
                   </div>
-                  <div className='bg-[#0a0a0a] rounded-lg p-6 flex-grow min-h-0 border border-white/10'>
+                  <div className='min-h-0 flex-1 rounded-lg border border-white/10 bg-[#0a0a0a] p-5'>
                     <div
                       className='w-full overflow-x-auto'
-                      style={{ scrollbarWidth: 'thin', scrollbarColor: '#444 transparent' }}
+                      style={{
+                        scrollbarWidth: 'thin',
+                        scrollbarColor: '#444 transparent',
+                      }}
                     >
-                      <Suspense fallback={<div className='h-32' aria-hidden />}>
+                      <Suspense fallback={<div className='h-28' aria-hidden />}>
                         <GitHubContributions username='Hussain-hamim' dark />
                       </Suspense>
                     </div>
                   </div>
-                  <Button
+                  <a
                     href='https://github.com/Hussain-hamim'
                     target='_blank'
                     rel='noopener noreferrer'
-                    size='sm'
-                    className='mt-6'
-                    icon={<FaExternalLinkAlt />}
+                    onMouseEnter={() => setHoveredGithub(true)}
+                    onMouseLeave={() => setHoveredGithub(false)}
+                    className='mt-5 flex items-center justify-center gap-3 self-center text-ink/70 transition-colors duration-300 hover:text-accent group'
                   >
-                    {isPashto ? 'پروفایل وګورئ' : 'View Profile'}
-                  </Button>
+                    <span className='inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-lg opacity-90 transition-[filter,opacity,color] duration-300 group-hover:opacity-100 [filter:grayscale(1)_brightness(1.15)] group-hover:[filter:grayscale(1)_brightness(1.35)]'>
+                      <Suspense
+                        fallback={
+                          <img
+                            src={githubSocialImg}
+                            alt=''
+                            className='h-6 w-6 rounded-lg object-contain sm:h-7 sm:w-7'
+                          />
+                        }
+                      >
+                        <StickerPeeling
+                          image={githubSocialImg}
+                          imageWidth={28}
+                          imageHeight={28}
+                          hoverPeel={48}
+                          pressPeel={70}
+                          hovered={hoveredGithub}
+                          curlRotation={PEEL_VARIATIONS[1]}
+                          backColor='#0a0a0a'
+                          shadowEnabled
+                          shadow={{
+                            opacity: 28,
+                            color: '#000000',
+                            x: -220,
+                            y: 120,
+                          }}
+                          transition={{
+                            type: 'tween',
+                            duration: 0.28,
+                            ease: 'easeOut',
+                          }}
+                        />
+                      </Suspense>
+                    </span>
+                    <span className='font-mono text-sm tracking-wider'>
+                      GitHub
+                    </span>
+                  </a>
                 </div>
               </motion.div>
             </div>
-          </div>
-
-          {/* About — full-bleed black band between tools and blogs */}
-          <div className='relative left-1/2 w-screen max-w-[100vw] -translate-x-1/2'>
-            <AboutSection locale={locale} />
           </div>
 
           {/* Blogs & Photos */}

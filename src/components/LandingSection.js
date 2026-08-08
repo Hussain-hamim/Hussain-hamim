@@ -64,7 +64,6 @@ function PaintedTextMorph({ words, color, transition }) {
 function HighlightedMeshText({ text, color = '#0a0a0a' }) {
   const shellRef = useRef(null);
   const [widthPx, setWidthPx] = useState(null);
-  const [scrambleDone, setScrambleDone] = useState(false);
 
   useLayoutEffect(() => {
     let cancelled = false;
@@ -111,49 +110,27 @@ function HighlightedMeshText({ text, color = '#0a0a0a' }) {
           maxWidth: '100%',
         }}
       >
-        {scrambleDone ? (
-          <motion.div
-            className='pointer-events-none absolute inset-0 z-0 overflow-hidden'
-            initial={{ clipPath: 'inset(0 100% 0 0)' }}
-            animate={{ clipPath: 'inset(0 0% 0 0)' }}
-            transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
-            aria-hidden='true'
-          >
-            <PaintStroke />
-          </motion.div>
-        ) : null}
+        <div
+          className='pointer-events-none absolute inset-0 z-0 overflow-hidden'
+          aria-hidden='true'
+        >
+          <PaintStroke />
+        </div>
 
         <div className='relative z-10 h-full w-full'>
-          {!scrambleDone ? (
-            <ScrambleText
-              words={text}
-              color={color}
-              enterAnimation={{
-                mode: 'oneLine',
-                scrambleIntensity: 100,
-                ease: { type: 'tween', duration: 1.4, ease: 'linear' },
-                flickerEnabled: true,
-                flickerColor: '#333333',
-                flickerIntensity: 70,
-                flickerSpeed: 10,
-              }}
-              onComplete={() => setScrambleDone(true)}
-            />
-          ) : (
-            <MeshText
-              text={text}
-              color={color}
-              font={{
-                fontFamily: 'Daisyogre',
-                variant: 'Bold',
-                fontSize: 160,
-              }}
-              colorSplit
-              customColors={['#D7FF00', '#2DD4BF']}
-              force={18}
-              textAlign='left'
-            />
-          )}
+          <MeshText
+            text={text}
+            color={color}
+            font={{
+              fontFamily: 'Daisyogre',
+              variant: 'Bold',
+              fontSize: 160,
+            }}
+            colorSplit
+            customColors={['#D7FF00', '#2DD4BF']}
+            force={18}
+            textAlign='left'
+          />
         </div>
       </div>
     </div>
@@ -374,12 +351,7 @@ const LandingSection = ({ locale = 'en' }) => {
             {copy.greeting}
           </motion.p>
 
-          <motion.h1
-            initial={{ opacity: 0, y: 28 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1, duration: 0.7 }}
-            className='w-full'
-          >
+          <h1 className='w-full'>
             <span className='sr-only'>
               {copy.greeting} {copy.firstName} {copy.lastName}
             </span>
@@ -402,7 +374,7 @@ const LandingSection = ({ locale = 'en' }) => {
               />
             </div>
             <HighlightedMeshText text={copy.lastName} color='#0a0a0a' />
-          </motion.h1>
+          </h1>
 
           <motion.p
             initial={{ opacity: 0, y: 20 }}
