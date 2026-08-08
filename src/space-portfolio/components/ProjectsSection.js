@@ -73,7 +73,7 @@ export default function ProjectsSection() {
           transition={{ duration: 0.6, ease: 'easeOut' }}
           className='mb-14'
         >
-          <p className='font-body mb-4 text-sm text-white/80'>// Selected work</p>
+          <p className='font-body mb-4 text-sm text-white/80'>{'// Selected work'}</p>
           <h2 className='font-heading text-5xl italic leading-[0.9] tracking-[-2px] text-white md:text-6xl lg:text-7xl'>
             Projects
             <br />

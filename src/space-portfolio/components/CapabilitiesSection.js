@@ -54,7 +54,7 @@ export default function CapabilitiesSection() {
 
       <div className='relative z-10 flex min-h-screen flex-col px-8 pb-10 pt-24 md:px-16 lg:px-20'>
         <header className='mb-auto'>
-          <p className='font-body mb-6 text-sm text-white/80'>// What I do</p>
+          <p className='font-body mb-6 text-sm text-white/80'>{'// What I do'}</p>
           <h2 className='font-heading text-6xl italic leading-[0.9] tracking-[-3px] text-white md:text-7xl lg:text-[6rem]'>
             Product
             <br />

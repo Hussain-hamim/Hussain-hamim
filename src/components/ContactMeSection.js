@@ -43,7 +43,7 @@ const ContactMeSection = ({ locale = "en" }) => {
     },
     {
       img: require("../images/socials/twitter.png"),
-      url: "https://x.com/hussainim_",
+      url: "https://x.com/erencode",
       label: "Twitter",
     },
     {

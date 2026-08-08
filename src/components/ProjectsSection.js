@@ -10,11 +10,10 @@ import ExperienceSection from './ExperienceSection';
 import { featuredProjects, isPlaceholder } from '../data/featuredProjects';
 import Button from './Button';
 import AboutSection from './AboutSection';
-import BlobReveal from './BlobReveal';
 import { PEEL_VARIATIONS } from './peelDirections';
 
 const GitHubContributions = lazy(() => import('./GitHubContributions'));
-const InfiniteGallery = lazy(() => import('./InfiniteGallery'));
+const CardStack = lazy(() => import('./CardStack'));
 const StickerPeeling = lazy(() => import('./StickerPeeling'));
 
 const githubSocialImg = require('../images/socials/github.png');
@@ -821,7 +820,7 @@ const ProjectsSection = ({ locale = 'en' }) => {
                       </p>
                     </div>
                   </div>
-                  <div className='min-h-0 flex-1 rounded-lg border border-white/10 bg-[#0a0a0a] p-5'>
+                  <div className='min-h-0 flex-1 rounded-lg border border-white/10 bg-[linear-gradient(to_bottom,#4c4e51,#1e1f22)] p-5'>
                     <div
                       className='w-full overflow-x-auto'
                       style={{
@@ -840,7 +839,7 @@ const ProjectsSection = ({ locale = 'en' }) => {
                     rel='noopener noreferrer'
                     onMouseEnter={() => setHoveredGithub(true)}
                     onMouseLeave={() => setHoveredGithub(false)}
-                    className='mt-5 flex items-center justify-center gap-3 self-center text-ink/70 transition-colors duration-300 hover:text-accent group'
+                    className='mt-5 flex items-center justify-center gap-3 self-center text-ink transition-colors duration-300 hover:text-accent group'
                   >
                     <span className='inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-lg opacity-90 transition-[filter,opacity,color] duration-300 group-hover:opacity-100 [filter:grayscale(1)_brightness(1.15)] group-hover:[filter:grayscale(1)_brightness(1.35)]'>
                       <Suspense
@@ -860,7 +859,7 @@ const ProjectsSection = ({ locale = 'en' }) => {
                           pressPeel={70}
                           hovered={hoveredGithub}
                           curlRotation={PEEL_VARIATIONS[1]}
-                          backColor='#0a0a0a'
+                          backColor='#1e1f22'
                           shadowEnabled
                           shadow={{
                             opacity: 28,
@@ -886,7 +885,10 @@ const ProjectsSection = ({ locale = 'en' }) => {
           </div>
 
           {/* Blogs & Photos */}
-          <div className='section-sep mt-36 overflow-visible px-2 pb-32 sm:px-4 md:px-8'>
+          <div
+            id='blogs-section'
+            className='section-sep mt-36 overflow-visible px-2 pb-32 sm:px-4 md:px-8 scroll-mt-24'
+          >
             <SectionHeader
               title={isPashto ? 'بلاګونه او عکسونه' : 'Blogs & Photos'}
               light
@@ -932,22 +934,16 @@ const PhotosCard = () => (
     whileInView={{ opacity: 1, y: 0 }}
     transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
     viewport={{ once: true }}
-    className='relative h-[21rem] w-full overflow-hidden sm:h-[23rem] rounded-2xl'
+    className='relative h-[21rem] w-full overflow-visible sm:h-[23rem]'
   >
-    <Suspense fallback={<div className='h-full w-full bg-panel' aria-hidden />}>
-      <InfiniteGallery
+    <Suspense fallback={<div className='h-full w-full rounded-2xl bg-panel' aria-hidden />}>
+      <CardStack
         images={PHOTO_IMAGES}
-        density={7}
-        imageWidth={105}
-        imageHeight={130}
-        rounded={6}
-        dragSpeed={20}
-        driftAmount={14}
-        friction={10}
-        backgroundColor='var(--panel)'
-        width='100%'
-        height='100%'
-        initialZoom={-0.5}
+        cardWidth={220}
+        cardHeight={280}
+        cardRadius={8}
+        xOffset={100}
+        tiltAngle={-40}
       />
     </Suspense>
   </motion.div>
@@ -1005,7 +1001,7 @@ const BlogsCard = ({ isPashto }) => (
             key={post.url}
             className='group/post relative flex w-[200px] shrink-0 flex-col overflow-hidden rounded-xl border border-line/10 bg-surface-alt px-3.5 py-4 transition-all duration-300 hover:border-black/25 hover:shadow-[0_0_0_0.5px_rgba(0,0,0,0.22)] sm:w-[220px]'
           >
-            <div className='min-w-0'>
+            <div className='min-w-0 flex-1'>
               <span className='mb-2 inline-block text-[9px] font-mono uppercase tracking-[0.18em] text-gray-600 dark:text-white/55'>
                 {post.source}
               </span>
@@ -1021,7 +1017,8 @@ const BlogsCard = ({ isPashto }) => (
               target='_blank'
               rel='noopener noreferrer'
               size='sm'
-              className='mt-4 self-start'
+              fullWidth
+              className='mt-4 shrink-0'
               icon={<FaExternalLinkAlt />}
             >
               {isPashto ? 'ولولئ' : 'Read'}

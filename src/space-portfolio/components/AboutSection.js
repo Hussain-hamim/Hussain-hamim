@@ -25,7 +25,7 @@ export default function AboutSection() {
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.7, delay: 0.1, ease: 'easeOut' }}
         >
-          <p className='font-body mb-4 text-sm text-white/80'>// About</p>
+          <p className='font-body mb-4 text-sm text-white/80'>{'// About'}</p>
           <h2 className='font-heading text-5xl italic leading-[0.9] tracking-[-2px] text-white md:text-6xl lg:text-7xl'>
             Builder.
             <br />

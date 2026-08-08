@@ -29,7 +29,7 @@ const socials = [
   },
   {
     img: require("../images/socials/twitter.png"),
-    url: "https://x.com/hussainim_",
+    url: "https://x.com/erencode",
     label: "Twitter",
   },
   {
@@ -78,7 +78,7 @@ const Header = ({ locale = "en" }) => {
       window.location.pathname === "/" || window.location.pathname === "/ps";
     if (!onHome) return;
 
-    const ids = ["experience", "projects", "contactme"];
+    const ids = ["experience", "projects", "blogs", "contactme"];
     const nodes = ids
       .map((id) => document.getElementById(`${id}-section`))
       .filter(Boolean);
@@ -134,6 +134,7 @@ const Header = ({ locale = "en" }) => {
   const navItems = [
     { id: "projects", label: isPashto ? "زما کار" : "see my work", type: "scroll" },
     { id: "all-projects", label: isPashto ? "ټولې پروژې" : "projects", type: "link", href: "/projects" },
+    { id: "blogs", label: isPashto ? "بلاګونه" : "blogs", type: "scroll" },
     { id: "contactme", label: isPashto ? "اړيکه" : "contact", type: "scroll" },
   ];
 

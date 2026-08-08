@@ -147,7 +147,7 @@ export default function HeroSection() {
               style={{ animationDelay: '1s' }}
             >
               <a
-                href='https://x.com/hussainim_'
+                href='https://x.com/erencode'
                 target='_blank'
                 rel='noopener noreferrer'
                 className='btn-cut-sm flex h-10 w-10 items-center justify-center bg-white text-black transition-colors hover:bg-white/90'

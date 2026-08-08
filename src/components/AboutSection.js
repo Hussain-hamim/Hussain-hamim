@@ -19,7 +19,7 @@ export default function AboutSection({ locale = 'en', embedded = false }) {
 
   const cardSocials = [
     {
-      href: 'https://x.com/hussainim_',
+      href: 'https://x.com/erencode',
       icon: FaXTwitter,
       label: 'X',
     },
@@ -111,7 +111,7 @@ export default function AboutSection({ locale = 'en', embedded = false }) {
     return (
       <section
         id='about-section'
-        className='flex h-full flex-col justify-center rounded-2xl bg-black px-5 py-8 sm:px-6 sm:py-9'
+        className='flex h-full flex-col justify-center rounded-2xl bg-[linear-gradient(to_bottom,#4c4e51,#1e1f22)] px-5 py-8 sm:px-6 sm:py-9'
       >
         <div className='mx-auto w-full max-w-lg'>
           <motion.h2

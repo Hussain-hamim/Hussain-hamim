@@ -34,7 +34,7 @@ export default function ContactSection() {
           viewport={{ once: true }}
           className='font-body mb-6 text-sm text-white/80'
         >
-          // Let&apos;s build
+          {"// Let's build"}
         </motion.p>
 
         <motion.h2

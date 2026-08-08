@@ -3,7 +3,7 @@ import gsap from 'gsap';
 import HlsVideo from './HlsVideo';
 
 const SOCIALS = [
-  { label: 'Twitter', href: 'https://x.com/hussainim_' },
+  { label: 'Twitter', href: 'https://x.com/erencode' },
   { label: 'LinkedIn', href: 'https://www.linkedin.com/in/hussain-hamim/' },
   { label: 'GitHub', href: 'https://github.com/Hussain-hamim' },
 ];
