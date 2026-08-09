@@ -6,7 +6,7 @@ import {
   SiGooglegemini,
 } from 'react-icons/si';
 
-const SITE_URL = 'https://www.hussainhamim.me/';
+const SITE_URL = 'https://www.hussainhamim.xyz/';
 
 const PROMPT = `I want to chat with Hussain Hamim. Use this website as context: ${SITE_URL}
 Act as a member of his team (or someone familiar with his work). Keep responses concise and direct. Start with a short overview of who he is and what he builds, then ask what I'd like to explore.`;
@@ -79,9 +79,12 @@ export default function AiChatBar({ className = '' }) {
             rel='noopener noreferrer'
             aria-label={`Chat about this portfolio in ${label}`}
             title={label}
-            className='inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-white text-black transition-transform duration-200 hover:scale-105 sm:h-9 sm:w-9'
+            className='group/ai inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-white text-black transition-transform duration-200 hover:scale-105 sm:h-9 sm:w-9'
           >
-            <Icon className='h-4 w-4' aria-hidden />
+            <Icon
+              className='h-4 w-4 transition-transform duration-500 ease-out group-hover/ai:rotate-[360deg]'
+              aria-hidden
+            />
           </a>
         ))}
       </div>
