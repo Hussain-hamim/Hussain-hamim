@@ -9,6 +9,7 @@ import useSubmit from "../hooks/useSubmit";
 import { FaPaperPlane } from "react-icons/fa";
 import { PEEL_VARIATIONS } from "./peelDirections";
 import Button from "./Button";
+import AiChatBar from "./AiChatBar";
 
 const StickerPeeling = lazy(() => import("./StickerPeeling"));
 
@@ -185,6 +186,8 @@ const ContactMeSection = ({ locale = "en" }) => {
                 </Button>
               </div>
             ) : null}
+
+            <AiChatBar className="mt-8" />
           </motion.div>
 
           {/* Right Column - Form */}
