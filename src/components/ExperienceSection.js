@@ -96,7 +96,7 @@ const ExperienceSection = ({ locale = 'en' }) => {
       isCurrent: true,
       description: isPashto
         ? 'د محصول ایډیو په دوامداره او فکر شوي سافټوېیر بدلول — له مفهوم څخه تر سپارلو پورې پاک تطبیق او عملي قضاوت.'
-        : 'Turning product ideas into durable, thoughtful software — clean implementation and practical judgment from concept to shipped product.',
+        : 'Turning product ideas into durable, thoughtful software, clean implementation and practical judgment from concept to shipped product.',
     },
     {
       id: 2,

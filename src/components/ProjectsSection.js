@@ -8,6 +8,7 @@ import {
 import { Link } from 'react-router-dom';
 import ExperienceSection from './ExperienceSection';
 import { featuredProjects, isPlaceholder } from '../data/featuredProjects';
+import { BLOG_POSTS } from '../data/blogs';
 import Button from './Button';
 import AboutSection from './AboutSection';
 import { PEEL_VARIATIONS } from './peelDirections';
@@ -19,6 +20,34 @@ const StickerPeeling = lazy(() => import('./StickerPeeling'));
 const githubSocialImg = require('../images/socials/github.png');
 
 const sectionAccent = '#D7FF00'; // single accent for whole section so cards match bg
+
+/** Irregular lime paint mark (same as hero MeshText highlight). */
+function PaintStroke({ className = '' }) {
+  return (
+    <svg
+      className={`pointer-events-none absolute left-[-6%] top-1/2 h-[110%] w-[112%] -translate-y-1/2 -rotate-[0.8deg] ${className}`}
+      viewBox='0 0 320 72'
+      preserveAspectRatio='none'
+      aria-hidden='true'
+    >
+      <path
+        fill='#D7FF00'
+        d='M3.5 34.2
+           C16 12.4, 34 18.6, 52 10.8
+           C78 1.2, 98 16.4, 126 8.2
+           C152 0.6, 172 14.8, 200 6.4
+           C226 -1.2, 250 12.6, 278 5.8
+           C294 2.2, 308 10.4, 317 6.1
+           L315.6 58.4
+           C298 68.2, 276 60.4, 252 66.8
+           C224 74.2, 200 61.6, 172 69.4
+           C144 76.8, 118 63.2, 90 70.6
+           C62 77.4, 38 64.8, 18 71.2
+           C10 73.8, 4.8 64.2, 3.5 34.2 Z'
+      />
+    </svg>
+  );
+}
 
 export const projects = [
   {
@@ -377,8 +406,9 @@ export const ProjectCard = ({
       <>
         {media}
         <div className='mt-3 flex flex-wrap items-center justify-between gap-2 sm:mt-4'>
-          <span className='inline-flex items-center rounded-full bg-accent px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-black sm:px-3 sm:text-[11px]'>
-            {project.title}
+          <span className='relative inline-flex items-center px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-black sm:px-3 sm:text-[11px]'>
+            <PaintStroke />
+            <span className='relative z-10'>{project.title}</span>
           </span>
           {showLive ? (
             <a
@@ -386,9 +416,15 @@ export const ProjectCard = ({
               target='_blank'
               rel='noopener noreferrer'
               onClick={(e) => e.stopPropagation()}
-              className='ml-auto inline-flex items-center rounded-full border border-ink/25 bg-transparent px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-ink transition-colors hover:bg-ink hover:text-surface sm:px-3 sm:text-[11px]'
+              className='group/btn ml-auto inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-[linear-gradient(to_bottom,#4c4e51,#1e1f22)] px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-white transition-opacity hover:opacity-90 sm:px-3 sm:text-[11px]'
             >
-              Live ↗
+              Live
+              <span
+                className='inline-flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-black text-accent transition-transform duration-500 ease-out group-hover/btn:rotate-[360deg]'
+                aria-hidden
+              >
+                <FaExternalLinkAlt className='h-2 w-2' />
+              </span>
             </a>
           ) : null}
         </div>
@@ -839,7 +875,7 @@ const ProjectsSection = ({ locale = 'en' }) => {
                     rel='noopener noreferrer'
                     onMouseEnter={() => setHoveredGithub(true)}
                     onMouseLeave={() => setHoveredGithub(false)}
-                    className='mt-5 flex items-center justify-center gap-3 self-center text-ink transition-colors duration-300 hover:text-accent group'
+                    className='mt-5 flex items-center justify-center gap-3 self-center text-ink transition-colors duration-300 hover:text-black dark:hover:text-[#D7FF00] group'
                   >
                     <span className='inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-lg opacity-90 transition-[filter,opacity,color] duration-300 group-hover:opacity-100 [filter:grayscale(1)_brightness(1.15)] group-hover:[filter:grayscale(1)_brightness(1.35)]'>
                       <Suspense
@@ -895,7 +931,7 @@ const ProjectsSection = ({ locale = 'en' }) => {
             />
             <div className='mx-auto grid max-w-5xl grid-cols-1 gap-8 overflow-visible md:grid-cols-2 md:gap-10'>
               <BlogsCard isPashto={isPashto} />
-              <PhotosCard />
+              <PhotosCard isPashto={isPashto} />
             </div>
           </div>
 
@@ -928,49 +964,35 @@ const PHOTO_IMAGES = [
   { src: require('../images/photos-stack-4.png'), alt: 'Photo 4' },
 ];
 
-const PhotosCard = () => (
+const PhotosCard = ({ isPashto }) => (
   <motion.div
     initial={{ opacity: 0, y: 30 }}
     whileInView={{ opacity: 1, y: 0 }}
     transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
     viewport={{ once: true }}
-    className='relative h-[21rem] w-full overflow-visible sm:h-[23rem]'
+    className='relative flex w-full flex-col'
   >
-    <Suspense fallback={<div className='h-full w-full rounded-2xl bg-panel' aria-hidden />}>
-      <CardStack
-        images={PHOTO_IMAGES}
-        cardWidth={220}
-        cardHeight={280}
-        cardRadius={8}
-        xOffset={100}
-        tiltAngle={-40}
-      />
-    </Suspense>
+    <div className='relative h-[21rem] w-full overflow-visible sm:h-[23rem]'>
+      <Suspense
+        fallback={<div className='h-full w-full rounded-2xl bg-panel' aria-hidden />}
+      >
+        <CardStack
+          images={PHOTO_IMAGES}
+          cardWidth={220}
+          cardHeight={280}
+          cardRadius={8}
+          xOffset={100}
+          tiltAngle={-40}
+        />
+      </Suspense>
+    </div>
+    <p className='mt-3 text-center font-mono text-[11px] tracking-wide text-gray-600 dark:text-white/50'>
+      {isPashto
+        ? 'پورته کارت راښکئ ترڅو نور عکسونه وګورئ'
+        : 'Drag the top card to browse photos'}
+    </p>
   </motion.div>
 );
-
-const BLOG_POSTS = [
-  {
-    title: 'Designing AI Loading States That Feel Instant',
-    titlePs: 'د AI لوډینګ حالتونه چې فوري ښکاري',
-    description:
-      'How to design loading states for AI products that feel fast — even when the model is still thinking.',
-    descriptionPs:
-      'د AI محصولاتو لپاره د لوډینګ حالتونو ډیزاین چې چټک ښکاري — حتی کله چې ماډل لا فکر کوي.',
-    url: 'https://chamoylabs.com/article/designing-ai-loading-states-that-feel-instant/',
-    source: 'Chamoy Labs',
-  },
-  {
-    title: 'AI Workflows vs AI Agents',
-    titlePs: 'AI ورک فلو vs AI ایجنټان',
-    description:
-      'An LLM in the pipeline does not make it an agent. The architecture does.',
-    descriptionPs:
-      'په پایپ لاین کې LLM درلودل دا ایجنټ نه جوړوي — جوړښت یې کوي.',
-    url: 'https://chamoylabs.com/article/ai-workflows-vs-ai-agents/',
-    source: 'Chamoy Labs',
-  },
-];
 
 const BlogsCard = ({ isPashto }) => (
   <motion.div
@@ -981,18 +1003,23 @@ const BlogsCard = ({ isPashto }) => (
     className='relative group'
   >
     <div className='relative flex h-full flex-col rounded-2xl bg-panel p-6 transition-[box-shadow,background-color] duration-300 group-hover:bg-panel-hover group-hover:shadow-[0_0_0_0.5px_rgba(0,0,0,0.22)] sm:p-8'>
-      <div className='mb-5 flex items-center gap-3'>
-        <div className='flex h-10 w-10 items-center justify-center rounded-full bg-[#D7FF00] border border-line'>
-          <FaBook className='text-base text-black' />
+      <div className='mb-5 flex items-start justify-between gap-3'>
+        <div className='flex items-center gap-3'>
+          <div className='flex h-10 w-10 items-center justify-center rounded-full border border-line bg-[#D7FF00]'>
+            <FaBook className='text-base text-black' />
+          </div>
+          <div>
+            <h3 className='text-xl font-bold text-ink'>
+              {isPashto ? 'بلاګونه' : 'Blogs'}
+            </h3>
+            <p className='text-xs text-gray-600 dark:text-white/55'>
+              {isPashto ? 'تخنيکي ليکنې' : 'Technical writing'}
+            </p>
+          </div>
         </div>
-        <div>
-          <h3 className='text-xl font-bold text-ink'>
-            {isPashto ? 'بلاګونه' : 'Blogs'}
-          </h3>
-          <p className='text-xs text-gray-600 dark:text-white/55'>
-            {isPashto ? 'تخنيکي ليکنې' : 'Technical writing'}
-          </p>
-        </div>
+        <Button as={Link} to='/blogs' size='sm' variant='primary'>
+          {isPashto ? 'ټول وګورئ' : 'View all'}
+        </Button>
       </div>
 
       <div className='flex flex-1 flex-row flex-nowrap items-stretch gap-3 overflow-x-auto pb-1'>

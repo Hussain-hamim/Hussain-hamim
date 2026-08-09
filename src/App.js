@@ -14,6 +14,7 @@ const PsEducationSection = lazy(() => import('./components/PsEducationSection'))
 const ProjectDetails = lazy(() => import('./components/ProjectDetails'));
 const ProjectsList = lazy(() => import('./components/ProjectsList'));
 const AllProjectsPage = lazy(() => import('./components/AllProjectsPage'));
+const AllBlogsPage = lazy(() => import('./components/AllBlogsPage'));
 const ProposalDeckAgentPage = lazy(() =>
   import('./components/ProposalDeckAgentPage')
 );
@@ -102,6 +103,7 @@ function App() {
           <Suspense fallback={<RouteFallback />}>
             <Routes>
               <Route path='/projects' element={<AllProjectsPage />} />
+              <Route path='/blogs' element={<AllBlogsPage />} />
               <Route path='/projects-legacy' element={<ProjectsList />} />
               <Route path='/projects/:slug' element={<ProjectDetails />} />
               <Route

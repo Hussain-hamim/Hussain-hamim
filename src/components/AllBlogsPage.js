@@ -1,0 +1,132 @@
+import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { ArrowLeft, ArrowUpRight } from 'lucide-react';
+import { FaExternalLinkAlt } from 'react-icons/fa';
+import { BLOG_POSTS } from '../data/blogs';
+import Button from './Button';
+
+const AllBlogsPage = () => {
+  const isPashto =
+    typeof window !== 'undefined' && window.location.pathname.startsWith('/ps');
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
+    document.documentElement.lang = isPashto ? 'ps' : 'en';
+    document.documentElement.dir = isPashto ? 'rtl' : 'ltr';
+  }, [isPashto]);
+
+  return (
+    <main
+      dir={isPashto ? 'rtl' : 'ltr'}
+      className='min-h-screen bg-surface-alt text-ink transition-colors duration-300'
+    >
+      <div className='sticky top-0 z-30 border-b border-line/40 bg-surface-alt/85 backdrop-blur-md'>
+        <div className='mx-auto flex max-w-5xl items-center justify-between px-6 py-4 md:px-8'>
+          <Link
+            to={isPashto ? '/ps' : '/'}
+            className='group inline-flex items-center gap-2 text-sm text-ink/70 transition-colors hover:text-ink'
+          >
+            <ArrowLeft
+              className={`h-4 w-4 transition-transform duration-300 ${
+                isPashto
+                  ? 'group-hover:translate-x-0.5 rotate-180'
+                  : 'group-hover:-translate-x-0.5'
+              }`}
+            />
+            <span>{isPashto ? 'کور ته ورګرځه' : 'Back to home'}</span>
+          </Link>
+          <span className='text-[10px] font-mono uppercase tracking-[0.25em] text-ink/40'>
+            {isPashto ? 'ټول بلاګونه' : 'All blogs'}
+          </span>
+        </div>
+      </div>
+
+      <section className='relative overflow-hidden pb-8 pt-16 md:pt-20'>
+        <div className='pointer-events-none absolute inset-0 overflow-hidden'>
+          <div className='absolute left-0 top-16 h-72 w-72 rounded-full bg-accent/[0.12] blur-[100px]' />
+          <div className='absolute bottom-0 right-0 h-72 w-72 rounded-full bg-accent/[0.08] blur-[100px]' />
+        </div>
+        <div className='relative mx-auto max-w-5xl px-6 text-center md:px-8'>
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+            className='mb-3 text-[10px] font-mono uppercase tracking-[0.25em] text-ink/50'
+          >
+            {isPashto ? 'لیکنې' : 'Writing'}
+          </motion.p>
+          <motion.h1
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.05 }}
+            className='font-sans1 text-4xl font-bold tracking-tight text-ink md:text-6xl'
+          >
+            {isPashto ? 'بلاګونه' : 'Blogs'}
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className='mx-auto mt-4 max-w-xl font-sans3 text-sm text-ink/60 md:text-base'
+          >
+            {isPashto
+              ? 'د AI محصولاتو، UX او جوړښت په اړه تخنيکي ليکنې.'
+              : 'Technical writing on AI products, UX, and systems that ship.'}
+          </motion.p>
+        </div>
+      </section>
+
+      <section className='relative mx-auto max-w-5xl px-6 pb-24 md:px-8'>
+        <ul className='flex flex-col gap-4'>
+          {BLOG_POSTS.map((post, index) => (
+            <motion.li
+              key={post.url}
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.05 * index }}
+            >
+              <a
+                href={post.url}
+                target='_blank'
+                rel='noopener noreferrer'
+                className='group flex flex-col gap-4 rounded-2xl bg-panel p-5 transition-[box-shadow,background-color] duration-300 hover:bg-panel-hover hover:shadow-[0_0_0_0.5px_rgba(0,0,0,0.22)] sm:flex-row sm:items-center sm:justify-between sm:gap-8 sm:p-6'
+              >
+                <div className='min-w-0 flex-1'>
+                  <span className='mb-2 inline-block text-[10px] font-mono uppercase tracking-[0.18em] text-ink/45'>
+                    {post.source}
+                  </span>
+                  <h2 className='font-sans1 text-lg font-bold tracking-tight text-ink sm:text-xl'>
+                    {isPashto ? post.titlePs : post.title}
+                  </h2>
+                  <p className='mt-2 max-w-2xl font-sans3 text-sm leading-relaxed text-ink/60'>
+                    {isPashto ? post.descriptionPs : post.description}
+                  </p>
+                </div>
+                <span className='inline-flex shrink-0 items-center gap-2 self-start rounded-full border border-line bg-accent px-3 py-1.5 text-[11px] font-bold uppercase tracking-wide text-black shadow-brutal-sm transition-transform duration-300 group-hover:translate-x-0.5 sm:self-center'>
+                  {isPashto ? 'ولولئ' : 'Read'}
+                  <ArrowUpRight className='h-3.5 w-3.5 transition-transform duration-500 group-hover:rotate-45' />
+                </span>
+              </a>
+            </motion.li>
+          ))}
+        </ul>
+
+        <div className='mt-12 flex justify-center'>
+          <Button
+            href='https://chamoylabs.com'
+            target='_blank'
+            rel='noopener noreferrer'
+            size='sm'
+            variant='primary'
+            icon={<FaExternalLinkAlt />}
+          >
+            {isPashto ? 'Chamoy Labs وګورئ' : 'Visit Chamoy Labs'}
+          </Button>
+        </div>
+      </section>
+    </main>
+  );
+};
+
+export default AllBlogsPage;

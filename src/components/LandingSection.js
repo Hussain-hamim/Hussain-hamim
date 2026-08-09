@@ -380,7 +380,7 @@ const LandingSection = ({ locale = 'en' }) => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.28, duration: 0.6 }}
-            className='mt-6 max-w-xl font-sans1 text-[clamp(1.15rem,3.2vw,1.65rem)] font-bold uppercase leading-[1.15] tracking-tight text-ink sm:mt-8'
+            className='mt-12 max-w-xl font-sans1 text-[clamp(1.15rem,3.2vw,1.65rem)] font-bold uppercase leading-[1.15] tracking-tight text-ink sm:mt-14'
           >
             {isPashto ? (
               <>

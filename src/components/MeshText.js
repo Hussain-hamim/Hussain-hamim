@@ -189,6 +189,7 @@ export default function MeshText(props) {
     className = '',
     style,
     textAlign = 'left',
+    interactive = true,
   } = merged;
 
   const [webglOk, setWebglOk] = useState(true);
@@ -651,7 +652,7 @@ export default function MeshText(props) {
           width: '100%',
           height: '100%',
           opacity: ready ? 1 : 0,
-          pointerEvents: ready ? 'auto' : 'none',
+          pointerEvents: interactive && ready ? 'auto' : 'none',
           backgroundColor: 'transparent',
         }}
       />
@@ -672,4 +673,5 @@ const COMPONENT_DEFAULTS = {
   customColors: ['#D7FF00', '#2DD4BF'],
   force: 18,
   textAlign: 'left',
+  interactive: true,
 };
