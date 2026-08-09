@@ -140,9 +140,9 @@ export const featuredProjects = [
   },
   {
     slug: 'goal-tracking-app',
-    title: 'Goal Tracking App',
+    title: 'Couple Connect',
     /** Optional: friendlier “Open …” label on the case study CTA (avoids long demo URLs). */
-    openLinkLabel: 'Goal Tracking App',
+    openLinkLabel: 'Couple Connect',
     cardHeadline: 'Couple Connect — shared goals, timeline, and chat for two.',
     tagline:
       'Couple Connect — build your future together. One place for you both: shared timeline, goals, and chat, designed for couples.',

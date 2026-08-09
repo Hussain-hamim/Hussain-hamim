@@ -174,7 +174,7 @@ export const mobileProjects = [
     theme: { primary: '#0A0A0A', secondary: '#FF5A2D' },
   },
   {
-    title: 'Goal Tracking App',
+    title: 'Couple Connect',
     description:
       'Couple Connect — one place for you both: shared timeline, goals, and private chat for couples. Track savings, travel, home, or fitness together, add contributions, celebrate milestones, and save unlimited moments on your timeline.',
     getImageSrc: () => require('../images/goaltracking.png'),
@@ -636,7 +636,7 @@ export const ProjectCard = ({
                 target='_blank'
                 rel='noopener noreferrer'
                 size='sm'
-                variant='outline'
+                variant={useLight ? 'secondary' : 'outline'}
                 icon={<FaGithub />}
               >
                 {isPashto ? 'کوډ' : 'Code'}
@@ -751,14 +751,14 @@ const ProjectsSection = ({ locale = 'en' }) => {
     'IdeaHunt',
     'Aegnis AI',
     'ProveIt AI',
-    'Goal Tracking App',
+    'Couple Connect',
   ];
   const currentSideProjects = [
     ...webProjects.filter(
       (p) => p.title === 'IdeaHunt' || p.title === 'Aegnis AI'
     ),
     ...mobileProjectsLocalized.filter(
-      (p) => p.title === 'ProveIt AI' || p.title === 'Goal Tracking App'
+      (p) => p.title === 'ProveIt AI' || p.title === 'Couple Connect'
     ),
   ].sort(
     (a, b) =>

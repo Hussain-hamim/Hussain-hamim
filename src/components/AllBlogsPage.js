@@ -44,12 +44,8 @@ const AllBlogsPage = () => {
         </div>
       </div>
 
-      <section className='relative overflow-hidden pb-8 pt-16 md:pt-20'>
-        <div className='pointer-events-none absolute inset-0 overflow-hidden'>
-          <div className='absolute left-0 top-16 h-72 w-72 rounded-full bg-accent/[0.12] blur-[100px]' />
-          <div className='absolute bottom-0 right-0 h-72 w-72 rounded-full bg-accent/[0.08] blur-[100px]' />
-        </div>
-        <div className='relative mx-auto max-w-5xl px-6 text-center md:px-8'>
+      <section className='pb-8 pt-16 md:pt-20'>
+        <div className='mx-auto max-w-5xl px-6 text-center md:px-8'>
           <motion.p
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}

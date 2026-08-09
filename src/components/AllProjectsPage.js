@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Calendar, MessageSquare, Moon, Sun } from 'lucide-react';
 import {
   projects,
   mobileProjects,
@@ -11,14 +11,33 @@ import {
   SectionHeader,
 } from './ProjectsSection';
 import Button from './Button';
+import { useTheme } from '../context/themeContext';
+
+const DEFAULT_CAL_BOOKING_URL = 'https://cal.com/hussain-hamim-fp9qc6/30min';
 
 const AllProjectsPage = () => {
-  // Simple locale detection — honour /ps prefix if ever deep-linked
+  const navigate = useNavigate();
   const isPashto =
     typeof window !== 'undefined' && window.location.pathname.startsWith('/ps');
+  const { isDark, toggleTheme, isThemeAnimating } = useTheme();
+  const bookingUrl = (
+    process.env.REACT_APP_BOOKING_URL || DEFAULT_CAL_BOOKING_URL
+  ).trim();
 
   const [showAllWeb, setShowAllWeb] = useState(false);
   const [showAllMobile, setShowAllMobile] = useState(false);
+
+  const goToContact = (e) => {
+    e.preventDefault();
+    navigate(isPashto ? '/ps' : '/');
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        document
+          .getElementById('contactme-section')
+          ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 50);
+    });
+  };
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
@@ -51,36 +70,52 @@ const AllProjectsPage = () => {
   return (
     <main
       dir={isPashto ? 'rtl' : 'ltr'}
-      className='min-h-screen bg-[#0a0a0a] text-white'
+      className='min-h-screen bg-surface-alt text-ink transition-colors duration-300'
     >
-      {/* Top bar with back link */}
-      <div className='sticky top-0 z-30 bg-[#0a0a0a]/80 backdrop-blur-md border-b border-white/5'>
-        <div className='max-w-7xl mx-auto px-6 md:px-8 py-4 flex items-center justify-between'>
+      <div className='sticky top-0 z-30 border-b border-line/40 bg-surface-alt/85 backdrop-blur-md'>
+        <div className='mx-auto flex max-w-7xl items-center justify-between px-6 py-4 md:px-8'>
           <Link
-            to='/'
-            className='group inline-flex items-center gap-2 text-sm text-white/70 hover:text-white transition-colors'
+            to={isPashto ? '/ps' : '/'}
+            className='group inline-flex items-center gap-2 text-sm text-ink/70 transition-colors hover:text-ink'
           >
-            <ArrowLeft className='h-4 w-4 transition-transform duration-300 group-hover:-translate-x-0.5' />
+            <ArrowLeft
+              className={`h-4 w-4 transition-transform duration-300 ${
+                isPashto
+                  ? 'rotate-180 group-hover:translate-x-0.5'
+                  : 'group-hover:-translate-x-0.5'
+              }`}
+            />
             <span>{isPashto ? 'کور ته ورګرځه' : 'Back to home'}</span>
           </Link>
-          <span className='text-[10px] font-mono uppercase tracking-[0.25em] text-white/40'>
-            {isPashto ? 'ټولې پروژې' : 'All projects'}
-          </span>
+          <div className='flex items-center gap-3'>
+            <span className='hidden text-[10px] font-mono uppercase tracking-[0.25em] text-ink/40 sm:inline'>
+              {isPashto ? 'ټولې پروژې' : 'All projects'}
+            </span>
+            <button
+              type='button'
+              data-theme-toggle
+              onClick={toggleTheme}
+              disabled={isThemeAnimating}
+              aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+              className='inline-flex h-9 w-9 items-center justify-center rounded-full border border-line text-ink transition-colors hover:bg-panel disabled:cursor-wait'
+            >
+              {isDark ? (
+                <Sun className='h-4 w-4' />
+              ) : (
+                <Moon className='h-4 w-4' />
+              )}
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* Page header */}
-      <section className='relative overflow-hidden pt-20 pb-10'>
-        <div className='absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none'>
-          <div className='absolute top-20 left-0 w-96 h-96 bg-[#D7FF00]/[0.07] rounded-full blur-[120px]' />
-          <div className='absolute bottom-20 right-0 w-96 h-96 bg-[#D7FF00]/[0.05] rounded-full blur-[120px]' />
-        </div>
-        <div className='relative max-w-7xl mx-auto px-6 md:px-8 text-center'>
+      <section className='pb-8 pt-16 md:pt-20'>
+        <div className='mx-auto max-w-7xl px-6 text-center md:px-8'>
           <motion.p
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4 }}
-            className='text-[10px] font-mono uppercase tracking-[0.25em] text-[#D7FF00]/80 mb-3'
+            className='mb-3 text-[10px] font-mono uppercase tracking-[0.25em] text-ink/50'
           >
             {isPashto ? 'ټولګه' : 'Archive'}
           </motion.p>
@@ -88,7 +123,7 @@ const AllProjectsPage = () => {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.05 }}
-            className='text-4xl md:text-6xl font-bold font-sans1 tracking-tight text-white'
+            className='font-sans1 text-4xl font-bold tracking-tight text-ink md:text-6xl'
           >
             {isPashto ? 'ټولې پروژې' : 'All Projects'}
           </motion.h1>
@@ -96,7 +131,7 @@ const AllProjectsPage = () => {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className='mt-4 max-w-2xl mx-auto text-white/60 text-sm md:text-base font-sans3'
+            className='mx-auto mt-4 max-w-2xl font-sans3 text-sm text-ink/60 md:text-base'
           >
             {isPashto
               ? 'وېب او موبايل پروژې — بشپړ لیست په یوه ځای کې.'
@@ -105,93 +140,113 @@ const AllProjectsPage = () => {
         </div>
       </section>
 
-      {/* Content */}
-      <div className='relative bg-[#0f0f0f] py-20 overflow-hidden'>
-        <div className='absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none'>
-          <div className='absolute top-20 left-0 w-96 h-96 bg-[#D7FF00]/[0.07] rounded-full blur-[120px]' />
-          <div className='absolute bottom-20 right-0 w-96 h-96 bg-[#D7FF00]/[0.05] rounded-full blur-[120px]' />
+      <div className='mx-auto max-w-7xl px-6 pb-24 pt-6 md:px-8'>
+        <div className='mb-28'>
+          <SectionHeader
+            title={isPashto ? 'وېب پروژې' : 'WEB PROJECTS'}
+            light
+          />
+          <div className='grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3'>
+            {webProjectsToShow.map((project, index) => (
+              <ProjectCard
+                key={project.title}
+                project={project}
+                index={index}
+                isPashto={isPashto}
+                light
+              />
+            ))}
+          </div>
+          {webProjects.length > initialCount ? (
+            <div className='mt-12 flex justify-center'>
+              <Button
+                onClick={() => setShowAllWeb(!showAllWeb)}
+                variant='primary'
+                size='sm'
+              >
+                {showAllWeb
+                  ? isPashto
+                    ? 'لږ وښيه'
+                    : 'Show less'
+                  : isPashto
+                    ? 'نور وښيه'
+                    : 'Show more'}
+              </Button>
+            </div>
+          ) : null}
         </div>
 
-        <div className='max-w-7xl mx-auto px-6 md:px-8 relative z-10'>
-          {/* Web Projects */}
-          <div className='mb-32'>
-            <SectionHeader title={isPashto ? 'وېب پروژې' : 'WEB PROJECTS'} />
-            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
-              {webProjectsToShow.map((project, index) => (
-                <ProjectCard
-                  key={index}
-                  project={project}
-                  index={index}
-                  isPashto={isPashto}
-                />
-              ))}
-            </div>
-            {webProjects.length > initialCount && (
-              <div className='flex justify-center mt-12'>
-                <Button
-                  onClick={() => setShowAllWeb(!showAllWeb)}
-                  variant='outline'
-                >
-                  {showAllWeb
-                    ? isPashto
-                      ? 'لږ وښيه'
-                      : 'Show Less'
-                    : isPashto
+        <div id='mobileapps-section' className='mb-20'>
+          <SectionHeader
+            title={isPashto ? 'موبايل پروګرامونه' : 'MOBILE APPS'}
+            light
+          />
+          <div className='grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3'>
+            {mobileProjectsToShow.map((project, index) => (
+              <ProjectCard
+                key={project.title}
+                project={
+                  project.title === 'Couple Connect'
+                    ? { ...project, embedUrl: undefined }
+                    : project
+                }
+                index={index}
+                isPashto={isPashto}
+                light
+              />
+            ))}
+          </div>
+          {mobileProjectsLocalized.length > initialCount ? (
+            <div className='mt-12 flex justify-center'>
+              <Button
+                onClick={() => setShowAllMobile(!showAllMobile)}
+                variant='primary'
+                size='sm'
+              >
+                {showAllMobile
+                  ? isPashto
+                    ? 'لږ وښيه'
+                    : 'Show less'
+                  : isPashto
                     ? 'نور وښيه'
-                    : 'Show More'}
-                </Button>
-              </div>
-            )}
-          </div>
-
-          {/* Mobile Projects */}
-          <div id='mobileapps-section' className='mb-32'>
-            <SectionHeader title={isPashto ? 'موبايل پروګرامونه' : 'MOBILE APPS'} />
-            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
-              {mobileProjectsToShow.map((project, index) => (
-                <ProjectCard
-                  key={index}
-                  project={
-                    project.title === 'Goal Tracking App'
-                      ? { ...project, embedUrl: undefined }
-                      : project
-                  }
-                  index={index}
-                  isPashto={isPashto}
-                />
-              ))}
+                    : 'Show more'}
+              </Button>
             </div>
-            {mobileProjectsLocalized.length > initialCount && (
-              <div className='flex justify-center mt-12'>
-                <Button
-                  onClick={() => setShowAllMobile(!showAllMobile)}
-                  variant='outline'
-                >
-                  {showAllMobile
-                    ? isPashto
-                      ? 'لږ وښيه'
-                      : 'Show Less'
-                    : isPashto
-                    ? 'نور وښيه'
-                    : 'Show More'}
-                </Button>
-              </div>
-            )}
-          </div>
-
-          {/* Bottom back-to-home */}
-          <div className='mt-24 flex justify-center'>
-            <Button
-              as={Link}
-              to='/'
-              variant='secondary'
-              icon={<ArrowLeft />}
-              iconPosition='left'
-            >
-              {isPashto ? 'کور ته ورګرځه' : 'Back to home'}
-            </Button>
-          </div>
+          ) : null}
         </div>
+
+        <section className='mt-16 rounded-2xl bg-panel p-6 sm:p-8'>
+          <div className='flex flex-col items-start gap-5 sm:flex-row sm:items-center sm:justify-between'>
+            <div>
+              <p className='text-[10px] font-mono uppercase tracking-[0.22em] text-ink/45'>
+                {isPashto ? 'راتلونکی ګام' : 'Next step'}
+              </p>
+              <h3 className='mt-2 font-sans1 text-2xl font-bold tracking-tight text-ink'>
+                {isPashto
+                  ? 'راځئ ستاسو پروژې په اړه خبرې وکړو.'
+                  : 'Let’s talk about your project.'}
+              </h3>
+            </div>
+            <div className='flex flex-wrap gap-3'>
+              <Button
+                href={bookingUrl}
+                target='_blank'
+                rel='noopener noreferrer'
+                icon={<Calendar />}
+              >
+                {isPashto ? 'د لیدنې وخت وټاکئ' : 'Book a call'}
+              </Button>
+              <Button
+                href={isPashto ? '/ps#contactme-section' : '/#contactme-section'}
+                onClick={goToContact}
+                variant='secondary'
+                icon={<MessageSquare />}
+              >
+                {isPashto ? 'پیغام پرېږدئ' : 'Drop a message'}
+              </Button>
+            </div>
+          </div>
+        </section>
       </div>
     </main>
   );

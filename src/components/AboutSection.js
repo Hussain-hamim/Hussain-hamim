@@ -87,6 +87,31 @@ export default function AboutSection({ locale = 'en', embedded = false }) {
             className='h-full w-full'
           />
         </div>
+
+        <div
+          className={`pointer-events-none absolute inset-x-0 bottom-0 z-10 flex justify-center gap-1.5 ${
+            embedded ? 'bottom-1.5 px-1' : 'bottom-3 gap-2 px-3 sm:bottom-4'
+          }`}
+        >
+          <span
+            className={`rounded-full border border-white/80 bg-black font-sans3 font-medium uppercase tracking-wide text-white ${
+              embedded
+                ? 'px-1.5 py-0.5 text-[7px] sm:text-[8px]'
+                : 'px-3 py-1 text-[10px] sm:px-3.5 sm:text-xs'
+            }`}
+          >
+            Hussain
+          </span>
+          <span
+            className={`rounded-full border border-white/80 bg-black font-sans3 font-medium uppercase tracking-wide text-white ${
+              embedded
+                ? 'px-1.5 py-0.5 text-[7px] sm:text-[8px]'
+                : 'px-3 py-1 text-[10px] sm:px-3.5 sm:text-xs'
+            }`}
+          >
+            {isPashto ? 'انجينر' : 'Engineer'}
+          </span>
+        </div>
       </div>
     </motion.div>
   );
