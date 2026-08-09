@@ -2,13 +2,15 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft, ArrowUpRight } from 'lucide-react';
-import { FaExternalLinkAlt } from 'react-icons/fa';
 import { BLOG_POSTS } from '../data/blogs';
-import Button from './Button';
 
 const AllBlogsPage = () => {
   const isPashto =
     typeof window !== 'undefined' && window.location.pathname.startsWith('/ps');
+
+  const posts = [...BLOG_POSTS].sort((a, b) =>
+    (b.date || '').localeCompare(a.date || '')
+  );
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
@@ -30,7 +32,7 @@ const AllBlogsPage = () => {
             <ArrowLeft
               className={`h-4 w-4 transition-transform duration-300 ${
                 isPashto
-                  ? 'group-hover:translate-x-0.5 rotate-180'
+                  ? 'rotate-180 group-hover:translate-x-0.5'
                   : 'group-hover:-translate-x-0.5'
               }`}
             />
@@ -79,7 +81,7 @@ const AllBlogsPage = () => {
 
       <section className='relative mx-auto max-w-5xl px-6 pb-24 md:px-8'>
         <ul className='flex flex-col gap-4'>
-          {BLOG_POSTS.map((post, index) => (
+          {posts.map((post, index) => (
             <motion.li
               key={post.url}
               initial={{ opacity: 0, y: 16 }}
@@ -90,18 +92,33 @@ const AllBlogsPage = () => {
                 href={post.url}
                 target='_blank'
                 rel='noopener noreferrer'
-                className='group flex flex-col gap-4 rounded-2xl bg-panel p-5 transition-[box-shadow,background-color] duration-300 hover:bg-panel-hover hover:shadow-[0_0_0_0.5px_rgba(0,0,0,0.22)] sm:flex-row sm:items-center sm:justify-between sm:gap-8 sm:p-6'
+                className='group flex flex-col gap-4 rounded-2xl bg-panel p-5 transition-[box-shadow,background-color] duration-300 hover:bg-panel-hover hover:shadow-[0_0_0_0.5px_rgba(0,0,0,0.22)] sm:flex-row sm:items-center sm:justify-between sm:gap-6 sm:p-6'
               >
-                <div className='min-w-0 flex-1'>
-                  <span className='mb-2 inline-block text-[10px] font-mono uppercase tracking-[0.18em] text-ink/45'>
-                    {post.source}
-                  </span>
-                  <h2 className='font-sans1 text-lg font-bold tracking-tight text-ink sm:text-xl'>
-                    {isPashto ? post.titlePs : post.title}
-                  </h2>
-                  <p className='mt-2 max-w-2xl font-sans3 text-sm leading-relaxed text-ink/60'>
-                    {isPashto ? post.descriptionPs : post.description}
-                  </p>
+                <div className='flex min-w-0 flex-1 flex-col gap-4 sm:flex-row sm:items-center sm:gap-5'>
+                  {post.image ? (
+                    <div className='relative aspect-[16/10] w-full shrink-0 overflow-hidden rounded-xl bg-media-bg sm:aspect-[4/3] sm:w-36 md:w-44'>
+                      <img
+                        src={post.image}
+                        alt=''
+                        loading='lazy'
+                        className='h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]'
+                        style={{
+                          objectPosition: post.imageObjectPosition || 'center',
+                        }}
+                      />
+                    </div>
+                  ) : null}
+                  <div className='min-w-0 flex-1'>
+                    <span className='mb-2 inline-block text-[10px] font-mono uppercase tracking-[0.18em] text-ink/45'>
+                      {post.source}
+                    </span>
+                    <h2 className='font-sans3 text-lg font-semibold tracking-normal text-ink sm:text-xl'>
+                      {isPashto ? post.titlePs : post.title}
+                    </h2>
+                    <p className='mt-2 max-w-2xl font-sans3 text-sm leading-relaxed text-ink/60'>
+                      {isPashto ? post.descriptionPs : post.description}
+                    </p>
+                  </div>
                 </div>
                 <span className='inline-flex shrink-0 items-center gap-2 self-start rounded-full border border-line bg-accent px-3 py-1.5 text-[11px] font-bold uppercase tracking-wide text-black shadow-brutal-sm transition-transform duration-300 group-hover:translate-x-0.5 sm:self-center'>
                   {isPashto ? 'ولولئ' : 'Read'}
@@ -111,19 +128,6 @@ const AllBlogsPage = () => {
             </motion.li>
           ))}
         </ul>
-
-        <div className='mt-12 flex justify-center'>
-          <Button
-            href='https://chamoylabs.com'
-            target='_blank'
-            rel='noopener noreferrer'
-            size='sm'
-            variant='primary'
-            icon={<FaExternalLinkAlt />}
-          >
-            {isPashto ? 'Chamoy Labs وګورئ' : 'Visit Chamoy Labs'}
-          </Button>
-        </div>
       </section>
     </main>
   );

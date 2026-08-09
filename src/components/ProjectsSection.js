@@ -591,8 +591,10 @@ export const ProjectCard = ({
           </div>
           <div className={`flex items-start justify-between gap-3 ${isCertificate ? 'mb-0' : 'mb-3'}`}>
             <h3
-              className={`font-bold font-sans3 tracking-tight ${
-                isCertificate ? 'text-base sm:text-lg' : 'text-xl'
+              className={`font-sans3 tracking-tight ${
+                isCertificate
+                  ? 'text-sm font-semibold sm:text-[15px]'
+                  : 'text-xl font-bold'
               } ${useLight ? 'text-ink' : 'text-white'}`}
               style={
                 !useLight && hovered ? { color: accent } : undefined
@@ -962,6 +964,9 @@ const PHOTO_IMAGES = [
   { src: require('../images/photos-stack-2.png'), alt: 'Photo 2' },
   { src: require('../images/photos-stack-3.png'), alt: 'Photo 3' },
   { src: require('../images/photos-stack-4.png'), alt: 'Photo 4' },
+  { src: require('../images/photos-stack-5.png'), alt: 'Photo 5' },
+  { src: require('../images/photos-stack-6.png'), alt: 'Photo 6' },
+  { src: require('../images/photos-stack-7.png'), alt: 'Photo 7' },
 ];
 
 const PhotosCard = ({ isPashto }) => (

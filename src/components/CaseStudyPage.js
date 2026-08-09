@@ -6,7 +6,8 @@ import {
   ExternalLink,
   Calendar,
   MessageSquare,
-  Quote,
+  Moon,
+  Sun,
 } from 'lucide-react';
 import {
   featuredProjects,
@@ -15,6 +16,7 @@ import {
 } from '../data/featuredProjects';
 import { projects as webProjects, mobileProjects } from './ProjectsSection';
 import Button from './Button';
+import { useTheme } from '../context/themeContext';
 
 const DEFAULT_CAL_BOOKING_URL = 'https://cal.com/hussain-hamim-fp9qc6/30min';
 
@@ -31,120 +33,31 @@ const findHeroImage = (title) => {
   return null;
 };
 
-const Placeholder = ({ children, className = '' }) => (
+const Placeholder = ({ children }) => (
   <span
-    className={`inline-block rounded-md border-[0.5px] border-dashed border-[#D7FF00]/40 bg-[#D7FF00]/5 px-2 py-0.5 text-[#D7FF00]/80 ${className}`}
+    className='inline-block rounded-md border border-dashed border-accent/40 bg-accent/10 px-2 py-0.5 text-ink/70'
     title='Placeholder — replace with real content'
   >
     {children}
   </span>
 );
 
-const MaybePlaceholder = ({ value, className = '' }) => {
+const MaybeText = ({ value }) => {
   if (!value) return null;
-  if (isPlaceholder(value)) {
-    return <Placeholder className={className}>{value}</Placeholder>;
-  }
-  return <span className={className}>{value}</span>;
-};
-
-const SectionTitle = ({ kicker, title }) => (
-  <div className='mb-8'>
-    {kicker && (
-      <p className='text-[11px] font-mono uppercase tracking-[0.22em] text-[#D7FF00]/80'>
-        {kicker}
-      </p>
-    )}
-    <h2 className='mt-2 text-3xl md:text-4xl font-bold font-sans1 text-white tracking-tight'>
-      {title}
-    </h2>
-  </div>
-);
-
-const STORY_GRADIENTS = {
-  Problem:
-    'bg-[radial-gradient(circle_at_top_left,rgba(45,212,191,0.10),transparent_55%)]',
-  Built:
-    'bg-[radial-gradient(circle_at_top_left,rgba(215,255,0,0.10),transparent_55%)]',
-  Result:
-    'bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.06),transparent_55%)]',
+  if (isPlaceholder(value)) return <Placeholder>{value}</Placeholder>;
+  return value;
 };
 
 const StoryCard = ({ label, value }) => (
-  <div
-    className={`relative overflow-hidden rounded-2xl border-[0.5px] border-white/10 bg-white/[0.03] p-5 ${
-      STORY_GRADIENTS[label] || ''
-    }`}
-  >
-    <p className='relative text-[11px] font-mono uppercase tracking-[0.22em] text-[#D7FF00]/80'>
+  <div className='rounded-2xl bg-panel p-5 transition-[box-shadow,background-color] duration-300 hover:bg-panel-hover hover:shadow-[0_0_0_0.5px_rgba(0,0,0,0.22)] sm:p-6'>
+    <p className='text-[10px] font-mono uppercase tracking-[0.2em] text-ink/45'>
       {label}
     </p>
-    <p className='relative mt-3 text-[15px] leading-relaxed text-white/85'>
-      <MaybePlaceholder value={value} />
+    <p className='mt-3 font-sans3 text-sm leading-relaxed text-ink/80 sm:text-[15px]'>
+      <MaybeText value={value} />
     </p>
   </div>
 );
-
-const MetricTile = ({ value, label }) => {
-  const missing = !value || isPlaceholder(value);
-  return (
-    <div className='relative overflow-hidden rounded-2xl border-[0.5px] border-white/10 bg-gradient-to-b from-[#D7FF00]/[0.07] via-white/[0.02] to-transparent p-5 text-center'>
-      <p
-        className={`relative font-sans1 text-3xl font-bold tracking-tight ${
-          missing ? 'text-[#D7FF00]/80' : 'text-white'
-        }`}
-      >
-        {missing ? <Placeholder>{value || '<REPLACE>'}</Placeholder> : value}
-      </p>
-      <p className='relative mt-2 text-xs uppercase tracking-wider text-white/55'>{label}</p>
-    </div>
-  );
-};
-
-const Testimonials = ({ items = [] }) => {
-  if (!items.length) {
-    return (
-      <div className='rounded-xl border-[0.5px] border-dashed border-[#D7FF00]/30 bg-gradient-to-br from-[#D7FF00]/[0.08] via-[#D7FF00]/[0.03] to-transparent px-4 py-3'>
-        <p className='text-xs text-white/70'>
-          <Placeholder>
-            {'<REPLACE: add 1–2 client or teammate quotes>'}
-          </Placeholder>
-        </p>
-      </div>
-    );
-  }
-  return (
-    <div className='-mx-5 sm:-mx-8'>
-      <div
-        className='flex gap-3 overflow-x-auto px-5 sm:px-8 pb-2 snap-x snap-mandatory'
-        style={{ scrollbarWidth: 'thin' }}
-      >
-        {items.map((t, i) => (
-          <figure
-            key={i}
-            className='snap-start shrink-0 w-[280px] sm:w-[320px] relative overflow-hidden rounded-xl border-[0.5px] border-white/10 bg-gradient-to-br from-white/[0.05] via-white/[0.02] to-[#D7FF00]/[0.04] px-4 py-3'
-          >
-            <Quote className='h-3.5 w-3.5 text-[#D7FF00]/70 mb-2' aria-hidden />
-            <blockquote className='text-[13px] leading-snug text-white/85 line-clamp-4'>
-              <MaybePlaceholder value={t.quote} />
-            </blockquote>
-            <figcaption className='mt-2 text-[11px] text-white/55'>
-              <span className='font-semibold text-white/80'>
-                <MaybePlaceholder value={t.author} />
-              </span>
-              {t.role && (
-                <>
-                  {' · '}
-                  <MaybePlaceholder value={t.role} />
-                </>
-              )}
-            </figcaption>
-          </figure>
-        ))}
-      </div>
-    </div>
-  );
-};
 
 const prettyHost = (url) => {
   if (!url) return '';
@@ -158,6 +71,7 @@ const prettyHost = (url) => {
 const CaseStudyPage = () => {
   const { slug } = useParams();
   const navigate = useNavigate();
+  const { isDark, toggleTheme, isThemeAnimating } = useTheme();
   const project = getFeaturedBySlug(slug);
   const bookingUrl = (
     process.env.REACT_APP_BOOKING_URL || DEFAULT_CAL_BOOKING_URL
@@ -165,44 +79,47 @@ const CaseStudyPage = () => {
   const liveHost = prettyHost(project?.live);
   const openLinkAs = project?.openLinkLabel?.trim() || liveHost;
 
-  // Always open case studies from the top (SPA navigations keep prior scroll otherwise).
   useLayoutEffect(() => {
     window.scrollTo(0, 0);
   }, [slug]);
 
-  // Navigate to homepage and smooth-scroll to the contact section.
-  // React Router doesn't auto-scroll to #hash targets, so we do it manually.
   const goToContact = (e) => {
     e.preventDefault();
     navigate('/');
-    // Wait one tick for the home route to render, then scroll.
     requestAnimationFrame(() => {
       setTimeout(() => {
-        const el = document.getElementById('contactme-section');
-        el?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        document
+          .getElementById('contactme-section')
+          ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }, 50);
     });
   };
 
   if (!project) {
     return (
-      <main className='min-h-screen bg-[#0a0a0a] text-white'>
+      <main className='min-h-screen bg-surface-alt text-ink transition-colors duration-300'>
         <div className='mx-auto flex min-h-screen max-w-2xl flex-col items-center justify-center px-6 text-center'>
-          <h1 className='text-3xl font-bold font-sans1'>Case study not found</h1>
-          <p className='mt-3 text-white/60'>
+          <h1 className='font-sans1 text-3xl font-bold'>Case study not found</h1>
+          <p className='mt-3 text-ink/60'>
             The project you’re looking for isn’t listed as a featured case study.
           </p>
-          <Button as={Link} to='/' icon={<ArrowLeft />} iconPosition='left'>
+          <Button
+            as={Link}
+            to='/'
+            className='mt-6'
+            icon={<ArrowLeft />}
+            iconPosition='left'
+          >
             Back to portfolio
           </Button>
-          <div className='mt-10 text-xs text-white/40'>
-            Available case studies:{' '}
+          <div className='mt-10 text-xs text-ink/40'>
+            Available:{' '}
             {featuredProjects.map((p, i) => (
               <span key={p.slug}>
                 {i > 0 ? ', ' : ''}
                 <Link
                   to={`/case-study/${p.slug}`}
-                  className='underline decoration-[#D7FF00]/40 underline-offset-4 hover:text-white'
+                  className='underline decoration-accent/40 underline-offset-4 hover:text-ink'
                 >
                   {p.title}
                 </Link>
@@ -215,93 +132,98 @@ const CaseStudyPage = () => {
   }
 
   const heroImage = findHeroImage(project.title);
+  const metrics = (project.metrics || []).filter(
+    (m) => m?.value && !isPlaceholder(m.value)
+  );
+  const testimonials = (project.testimonials || []).filter(
+    (t) => t?.quote && !isPlaceholder(t.quote)
+  );
+  const otherStudies = featuredProjects.filter((p) => p.slug !== project.slug);
 
   return (
-    <main className='min-h-screen bg-[#0a0a0a] text-white'>
-      {/* Ambient glow */}
-      <div className='pointer-events-none absolute inset-x-0 top-0 z-0 h-[520px] overflow-hidden'>
-        <div className='absolute -top-40 left-1/2 h-[520px] w-[680px] -translate-x-1/2 rounded-full bg-[#D7FF00]/[0.09] blur-[130px]' />
-      </div>
-
-      <div className='relative z-10 mx-auto max-w-5xl px-5 sm:px-8 py-10 sm:py-14'>
-        {/* Top bar */}
-        <div className='flex items-center justify-between'>
+    <main className='min-h-screen bg-surface-alt text-ink transition-colors duration-300'>
+      <div className='sticky top-0 z-30 border-b border-line/40 bg-surface-alt/85 backdrop-blur-md'>
+        <div className='mx-auto flex max-w-5xl items-center justify-between px-5 py-4 sm:px-8'>
           <Link
             to='/'
-            className='inline-flex items-center gap-2 text-sm text-white/70 transition hover:text-white'
+            className='group inline-flex items-center gap-2 text-sm text-ink/70 transition-colors hover:text-ink'
           >
-            <ArrowLeft className='h-4 w-4' />
-            Back to portfolio
+            <ArrowLeft className='h-4 w-4 transition-transform duration-300 group-hover:-translate-x-0.5' />
+            <span>Back to portfolio</span>
           </Link>
-          <span className='text-[11px] font-mono uppercase tracking-[0.22em] text-white/40'>
-            Case study
-          </span>
+          <div className='flex items-center gap-3'>
+            <span className='hidden text-[10px] font-mono uppercase tracking-[0.25em] text-ink/40 sm:inline'>
+              Case study
+            </span>
+            <button
+              type='button'
+              data-theme-toggle
+              onClick={toggleTheme}
+              disabled={isThemeAnimating}
+              aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+              className='inline-flex h-9 w-9 items-center justify-center rounded-full border border-line text-ink transition-colors hover:bg-panel disabled:cursor-wait'
+            >
+              {isDark ? (
+                <Sun className='h-4 w-4' />
+              ) : (
+                <Moon className='h-4 w-4' />
+              )}
+            </button>
+          </div>
         </div>
+      </div>
 
-        {/* Hero */}
+      <div className='mx-auto max-w-5xl px-5 py-10 sm:px-8 sm:py-14'>
         <motion.section
-          initial={{ opacity: 0, y: 24 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className='mt-8'
+          transition={{ duration: 0.5 }}
         >
-          <div className='flex flex-wrap items-center justify-between gap-3'>
-            <p className='text-[11px] font-mono uppercase tracking-[0.22em] text-[#D7FF00]/80'>
+          {project.role ? (
+            <p className='text-[10px] font-mono uppercase tracking-[0.22em] text-ink/45'>
               {project.role}
             </p>
-            {project.partnership?.badge?.en && (
-              <span
-                className='inline-flex shrink-0 items-center rounded-full border-[0.5px] border-amber-400/45 bg-amber-500/[0.12] px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-amber-100'
-                title={project.partnership.hint?.en}
-              >
-                {project.partnership.badge.en}
-              </span>
-            )}
-          </div>
-          <h1 className='mt-3 text-4xl sm:text-5xl md:text-6xl font-bold font-sans1 tracking-tight leading-tight'>
+          ) : null}
+          <h1 className='mt-3 font-sans1 text-4xl font-bold tracking-tight text-ink sm:text-5xl md:text-6xl'>
             {project.title}
           </h1>
-          <p className='mt-4 max-w-2xl text-base sm:text-lg leading-relaxed text-white/70'>
-            <MaybePlaceholder value={project.tagline} />
+          <p className='mt-4 max-w-2xl font-sans3 text-base leading-relaxed text-ink/65 sm:text-lg'>
+            <MaybeText value={project.tagline} />
           </p>
 
-          {/* Stack + primary link on same row */}
-          {(project.stack?.length > 0 || project.live) && (
-            <div className='mt-6 flex flex-wrap items-center gap-3'>
-              {project.stack?.length > 0 && (
-                <div className='flex flex-wrap gap-2'>
-                  {project.stack.map((s) => (
-                    <span
-                      key={s}
-                      className='rounded-full border-[0.5px] border-white/10 bg-white/[0.04] px-3 py-1 text-xs font-semibold text-white/75'
-                    >
-                      {s}
-                    </span>
-                  ))}
-                </div>
-              )}
-              {project.live && (
-                <Button
-                  href={project.live}
-                  target='_blank'
-                  rel='noopener noreferrer'
-                  className='sm:ml-auto'
-                  icon={<ExternalLink />}
-                >
-                  {openLinkAs ? `Open ${openLinkAs}` : 'Open product'}
-                </Button>
-              )}
-            </div>
-          )}
+          <div className='mt-6 flex flex-wrap items-center gap-3'>
+            {project.stack?.length > 0 ? (
+              <div className='flex flex-wrap gap-2'>
+                {project.stack.map((s) => (
+                  <span
+                    key={s}
+                    className='rounded-full border border-line/60 bg-panel px-3 py-1 text-xs font-semibold text-ink/75'
+                  >
+                    {s}
+                  </span>
+                ))}
+              </div>
+            ) : null}
+            {project.live ? (
+              <Button
+                href={project.live}
+                target='_blank'
+                rel='noopener noreferrer'
+                className='sm:ml-auto'
+                icon={<ExternalLink />}
+              >
+                {openLinkAs ? `Open ${openLinkAs}` : 'Open product'}
+              </Button>
+            ) : null}
+          </div>
         </motion.section>
 
-        {/* Hero image */}
-        {heroImage && (
+        {heroImage ? (
           <motion.div
-            initial={{ opacity: 0, y: 24 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className='mt-10 overflow-hidden rounded-3xl border-[0.5px] border-white/10 bg-white/[0.03]'
+            transition={{ duration: 0.5, delay: 0.08 }}
+            className='mt-10 overflow-hidden rounded-2xl border border-line/40 bg-panel sm:rounded-3xl'
           >
             <img
               src={heroImage}
@@ -309,50 +231,93 @@ const CaseStudyPage = () => {
               className='w-full object-cover'
             />
           </motion.div>
-        )}
+        ) : null}
 
-        {/* Problem / Built / Result */}
         <section className='mt-14'>
-          <SectionTitle kicker='The story' title='Problem → Built → Result' />
-          <div className='grid gap-4 md:grid-cols-3'>
+          <p className='text-[10px] font-mono uppercase tracking-[0.22em] text-ink/45'>
+            The story
+          </p>
+          <h2 className='mt-2 font-sans1 text-2xl font-bold tracking-tight text-ink sm:text-3xl'>
+            Problem → Built → Result
+          </h2>
+          <div className='mt-6 grid gap-4 md:grid-cols-3'>
             <StoryCard label='Problem' value={project.problem} />
             <StoryCard label='Built' value={project.built} />
             <StoryCard label='Result' value={project.result} />
           </div>
         </section>
 
-        {/* Metrics */}
-        {project.metrics?.length > 0 && (
+        {metrics.length > 0 ? (
           <section className='mt-14'>
-            <SectionTitle kicker='By the numbers' title='Metrics' />
-            <div className='grid gap-4 sm:grid-cols-3'>
-              {project.metrics.map((m, i) => (
-                <MetricTile key={i} value={m.value} label={m.label} />
+            <p className='text-[10px] font-mono uppercase tracking-[0.22em] text-ink/45'>
+              By the numbers
+            </p>
+            <h2 className='mt-2 font-sans1 text-2xl font-bold tracking-tight text-ink sm:text-3xl'>
+              Metrics
+            </h2>
+            <div className='mt-6 grid gap-4 sm:grid-cols-3'>
+              {metrics.map((m, i) => (
+                <div
+                  key={i}
+                  className='rounded-2xl bg-panel px-5 py-6 text-center transition-[box-shadow,background-color] duration-300 hover:bg-panel-hover hover:shadow-[0_0_0_0.5px_rgba(0,0,0,0.22)]'
+                >
+                  <p className='font-sans1 text-3xl font-bold tracking-tight text-ink'>
+                    {m.value}
+                  </p>
+                  <p className='mt-2 text-xs uppercase tracking-wider text-ink/50'>
+                    {m.label}
+                  </p>
+                </div>
               ))}
             </div>
           </section>
-        )}
+        ) : null}
 
-        {/* Testimonials */}
-        {project.testimonials?.length > 0 && (
+        {testimonials.length > 0 ? (
           <section className='mt-14'>
-            <SectionTitle kicker='Voices' title='Testimonials' />
-            <Testimonials items={project.testimonials} />
+            <p className='text-[10px] font-mono uppercase tracking-[0.22em] text-ink/45'>
+              Voices
+            </p>
+            <h2 className='mt-2 font-sans1 text-2xl font-bold tracking-tight text-ink sm:text-3xl'>
+              Testimonials
+            </h2>
+            <div className='mt-6 grid gap-4 md:grid-cols-2'>
+              {testimonials.map((t, i) => (
+                <figure
+                  key={i}
+                  className='rounded-2xl bg-panel p-5 sm:p-6'
+                >
+                  <blockquote className='font-sans3 text-sm leading-relaxed text-ink/80'>
+                    “<MaybeText value={t.quote} />”
+                  </blockquote>
+                  <figcaption className='mt-4 text-xs text-ink/50'>
+                    <span className='font-semibold text-ink/75'>
+                      <MaybeText value={t.author} />
+                    </span>
+                    {t.role ? (
+                      <>
+                        {' · '}
+                        <MaybeText value={t.role} />
+                      </>
+                    ) : null}
+                  </figcaption>
+                </figure>
+              ))}
+            </div>
           </section>
-        )}
+        ) : null}
 
-        {/* CTA footer */}
-        <section className='mt-16 rounded-3xl border-[0.5px] border-white/10 bg-gradient-to-br from-[#D7FF00]/[0.06] via-white/[0.03] to-transparent p-6 sm:p-8'>
-          <div className='flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between'>
+        <section className='mt-16 rounded-2xl bg-panel p-6 sm:p-8'>
+          <div className='flex flex-col items-start gap-5 sm:flex-row sm:items-center sm:justify-between'>
             <div>
-              <p className='text-[11px] font-mono uppercase tracking-[0.22em] text-[#D7FF00]/80'>
-                Want something similar?
+              <p className='text-[10px] font-mono uppercase tracking-[0.22em] text-ink/45'>
+                Next step
               </p>
-              <h3 className='mt-2 text-2xl font-bold font-sans1 tracking-tight'>
+              <h3 className='mt-2 font-sans1 text-2xl font-bold tracking-tight text-ink'>
                 Let’s talk about your product.
               </h3>
             </div>
-            <div className='flex flex-wrap justify-end gap-3 sm:ml-auto sm:flex-nowrap sm:shrink-0'>
+            <div className='flex flex-wrap gap-3'>
               <Button
                 href={bookingUrl}
                 target='_blank'
@@ -373,28 +338,24 @@ const CaseStudyPage = () => {
           </div>
         </section>
 
-        {/* Other case studies */}
-        <section className='mt-14 mb-10'>
-          <p className='text-[11px] font-mono uppercase tracking-[0.22em] text-white/50'>
-            More case studies
-          </p>
-          <div className='mt-4 flex flex-wrap gap-3'>
-            {featuredProjects
-              .filter((p) => p.slug !== project.slug)
-              .map((p) => (
-                <Button
+        {otherStudies.length > 0 ? (
+          <section className='mb-6 mt-14'>
+            <p className='text-[10px] font-mono uppercase tracking-[0.22em] text-ink/45'>
+              More case studies
+            </p>
+            <div className='mt-4 flex flex-wrap gap-2'>
+              {otherStudies.map((p) => (
+                <Link
                   key={p.slug}
-                  as={Link}
                   to={`/case-study/${p.slug}`}
-                  size='sm'
-                  variant='secondary'
-                  icon={<ArrowLeft className='rotate-180' />}
+                  className='rounded-full border border-line/60 bg-panel px-3.5 py-1.5 text-xs font-semibold text-ink/75 transition-colors hover:border-ink/30 hover:text-ink'
                 >
                   {p.title}
-                </Button>
+                </Link>
               ))}
-          </div>
-        </section>
+            </div>
+          </section>
+        ) : null}
       </div>
     </main>
   );
