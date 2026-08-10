@@ -147,7 +147,6 @@ const LandingSection = ({ locale = 'en' }) => {
   const [heroHovered, setHeroHovered] = useState(false);
   const [showParticles, setShowParticles] = useState(false);
   const [visitors, setVisitors] = useState(null);
-  const [online, setOnline] = useState(null);
   const [visitorScrambleDone, setVisitorScrambleDone] = useState(false);
   const [visitorScrambleText, setVisitorScrambleText] = useState(null);
   const onVisitorScrambleComplete = useCallback(() => {
@@ -166,54 +165,6 @@ const LandingSection = ({ locale = 'en' }) => {
       .catch(() => {});
     return () => {
       cancelled = true;
-    };
-  }, []);
-
-  useEffect(() => {
-    let cancelled = false;
-    let id = '';
-    try {
-      id = sessionStorage.getItem('presence_id') || '';
-      if (!id) {
-        id =
-          typeof crypto !== 'undefined' && crypto.randomUUID
-            ? crypto.randomUUID()
-            : `p_${Date.now()}_${Math.random().toString(36).slice(2, 10)}`;
-        sessionStorage.setItem('presence_id', id);
-      }
-    } catch {
-      id = `p_${Date.now()}`;
-    }
-
-    const beat = () => {
-      const url = `/api/presence?id=${encodeURIComponent(id)}`;
-      fetch(url, { method: 'GET', cache: 'no-store' })
-        .then((r) => (r.ok ? r.json() : null))
-        .then((data) => {
-          if (cancelled) return;
-          if (data?.online != null) {
-            setOnline(Math.max(1, Number(data.online)));
-          } else {
-            // Local/API miss — still show yourself as online
-            setOnline(1);
-          }
-        })
-        .catch(() => {
-          if (!cancelled) setOnline(1);
-        });
-    };
-
-    beat();
-    const interval = window.setInterval(beat, 20000);
-    const onVis = () => {
-      if (document.visibilityState === 'visible') beat();
-    };
-    document.addEventListener('visibilitychange', onVis);
-
-    return () => {
-      cancelled = true;
-      window.clearInterval(interval);
-      document.removeEventListener('visibilitychange', onVis);
     };
   }, []);
 
@@ -248,10 +199,6 @@ const LandingSection = ({ locale = 'en' }) => {
     }
   }, [visitorLabel, visitorScrambleText]);
 
-  const onlineCount =
-    online != null && Number.isFinite(online) ? Math.max(0, online) : null;
-  const someoneOnline = onlineCount != null && onlineCount > 0;
-
   const copy = {
     greeting: isPashto ? 'سلام، زه یم' : "Hey, I'm",
     firstName: isPashto ? 'محمد حسین' : 'HUSSAIN',
@@ -276,7 +223,7 @@ const LandingSection = ({ locale = 'en' }) => {
       onMouseEnter={() => setHeroHovered(true)}
       onMouseLeave={() => setHeroHovered(false)}
     >
-      {(visitorLabel || onlineCount != null) ? (
+      {visitorLabel ? (
         <motion.div
           initial={{ opacity: 0, y: -6 }}
           animate={{ opacity: 1, y: 0 }}
@@ -317,25 +264,6 @@ const LandingSection = ({ locale = 'en' }) => {
                   onComplete={onVisitorScrambleComplete}
                 />
               )}
-            </div>
-          ) : null}
-          {onlineCount != null ? (
-            <div
-              className='flex items-center gap-1.5 text-ink'
-              aria-label={`${onlineCount} online`}
-            >
-              <span
-                className={`inline-block h-2 w-2 shrink-0 rounded-full ${
-                  someoneOnline
-                    ? isDark
-                      ? 'bg-[#7CFF6B] shadow-[0_0_8px_rgba(124,255,107,0.55)]'
-                      : 'bg-[#2F9E44] shadow-[0_0_6px_rgba(47,158,68,0.35)]'
-                    : 'bg-ink/35'
-                }`}
-                aria-hidden
-              />
-              <span className='tabular-nums'>{onlineCount}</span>
-              <span className='text-ink-muted'>online</span>
             </div>
           ) : null}
         </motion.div>
