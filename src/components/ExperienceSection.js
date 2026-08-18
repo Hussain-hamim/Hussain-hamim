@@ -147,10 +147,10 @@ const ExperienceSection = ({ locale = 'en' }) => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className='mb-16 flex flex-col items-center'
+          className='mb-8 flex flex-col items-center'
         >
-          <h2 className='text-center font-sans1 text-4xl font-bold uppercase tracking-tight text-ink md:text-5xl'>
-            {isPashto ? 'تجربه' : 'EXPERIENCE'}
+          <h2 className='text-center text-2xl font-medium tracking-tight text-ink'>
+            {isPashto ? 'تجربه' : 'Experience'}
           </h2>
         </motion.div>
 

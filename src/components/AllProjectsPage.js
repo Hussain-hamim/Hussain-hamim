@@ -123,7 +123,7 @@ const AllProjectsPage = () => {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.05 }}
-            className='font-sans1 text-4xl font-bold tracking-tight text-ink md:text-6xl'
+            className='font-sans1 text-2xl font-medium tracking-tight text-ink md:text-3xl'
           >
             {isPashto ? 'ټولې پروژې' : 'All Projects'}
           </motion.h1>
@@ -131,7 +131,7 @@ const AllProjectsPage = () => {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className='mx-auto mt-4 max-w-2xl font-sans3 text-sm text-ink/60 md:text-base'
+            className='mx-auto mt-3 max-w-xl text-[15px] font-normal leading-6 text-ink-muted'
           >
             {isPashto
               ? 'وېب او موبايل پروژې — بشپړ لیست په یوه ځای کې.'
@@ -141,12 +141,12 @@ const AllProjectsPage = () => {
       </section>
 
       <div className='mx-auto max-w-7xl px-6 pb-24 pt-6 md:px-8'>
-        <div className='mb-28'>
+        <div className='mb-16'>
           <SectionHeader
-            title={isPashto ? 'وېب پروژې' : 'WEB PROJECTS'}
+            title={isPashto ? 'وېب پروژې' : 'Web projects'}
             light
           />
-          <div className='grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3'>
+          <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3'>
             {webProjectsToShow.map((project, index) => (
               <ProjectCard
                 key={project.title}
@@ -178,10 +178,10 @@ const AllProjectsPage = () => {
 
         <div id='mobileapps-section' className='mb-20'>
           <SectionHeader
-            title={isPashto ? 'موبايل پروګرامونه' : 'MOBILE APPS'}
+            title={isPashto ? 'موبايل پروګرامونه' : 'Mobile apps'}
             light
           />
-          <div className='grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3'>
+          <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3'>
             {mobileProjectsToShow.map((project, index) => (
               <ProjectCard
                 key={project.title}
@@ -221,7 +221,7 @@ const AllProjectsPage = () => {
               <p className='text-[10px] font-mono uppercase tracking-[0.22em] text-ink/45'>
                 {isPashto ? 'راتلونکی ګام' : 'Next step'}
               </p>
-              <h3 className='mt-2 font-sans1 text-2xl font-bold tracking-tight text-ink'>
+              <h3 className='mt-2 text-xl font-medium tracking-tight text-ink'>
                 {isPashto
                   ? 'راځئ ستاسو پروژې په اړه خبرې وکړو.'
                   : 'Let’s talk about your project.'}

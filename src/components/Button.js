@@ -20,11 +20,11 @@ const SIZE = {
 
 const VARIANT = {
   primary:
-    'border border-line bg-accent text-black shadow-brutal-sm hover:bg-accent-hover',
+    'border border-line bg-accent text-black shadow-brutal-sm hover:bg-accent-hover dark:border-[#3e4a4e] dark:shadow-[2px_2px_0_0_#2c363a]',
   secondary:
-    'border border-line bg-white text-black shadow-brutal-sm hover:bg-[#f5f5f5] dark:bg-panel dark:text-ink dark:hover:bg-panel-hover',
+    'border border-line bg-white text-black shadow-brutal-sm hover:bg-[#f5f5f5] dark:border-[#3e4a4e] dark:bg-panel dark:text-ink dark:shadow-[2px_2px_0_0_#2c363a] dark:hover:bg-panel-hover',
   outline:
-    'border border-line bg-transparent text-accent shadow-brutal-sm hover:bg-accent/10',
+    'border border-line bg-transparent text-accent shadow-brutal-sm hover:bg-accent/10 dark:border-[#3e4a4e] dark:shadow-[2px_2px_0_0_#2c363a]',
 };
 
 /**

@@ -19,13 +19,10 @@ const StickerPeeling = lazy(() => import('./StickerPeeling'));
 
 const githubSocialImg = require('../images/socials/github.png');
 
-const sectionAccent = '#D7FF00'; // single accent for whole section so cards match bg
-
-/** Irregular lime paint mark (same as hero MeshText highlight). */
 function PaintStroke({ className = '' }) {
   return (
     <svg
-      className={`pointer-events-none absolute left-[-6%] top-1/2 h-[110%] w-[112%] -translate-y-1/2 -rotate-[0.8deg] ${className}`}
+      className={`pointer-events-none absolute -left-1 top-1/2 h-[1.35em] w-[calc(100%+10px)] -translate-y-1/2 -rotate-[0.7deg] ${className}`}
       viewBox='0 0 320 72'
       preserveAspectRatio='none'
       aria-hidden='true'
@@ -313,10 +310,10 @@ export const SectionHeader = ({ title, light = false }) => {
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
       viewport={{ once: true }}
-      className='flex flex-col items-center mb-16'
+      className='mb-8 flex flex-col items-center'
     >
       <h2
-        className={`text-center text-4xl md:text-5xl font-bold font-sans1 tracking-tight uppercase ${
+        className={`text-center text-2xl font-medium tracking-tight ${
           light ? 'text-ink' : 'text-white'
         }`}
       >
@@ -333,11 +330,6 @@ export const SectionHeader = ({ title, light = false }) => {
   );
 };
 
-const hexToRgba = (hex, a) => {
-  const [r, g, b] = hex.replace(/^#/, '').match(/.{2}/g).map((x) => parseInt(x, 16));
-  return `rgba(${r},${g},${b},${a})`;
-};
-
 const FeaturedPlaceholder = ({ children }) => (
   <span
     className='inline-block rounded-md border border-dashed border-[#D7FF00]/35 bg-[#D7FF00]/5 px-1.5 py-0.5 text-[#D7FF00]/80'
@@ -347,6 +339,35 @@ const FeaturedPlaceholder = ({ children }) => (
   </span>
 );
 
+const PreviewCta = ({ href, to, children, icon, className = '' }) => {
+  const classes = `project-preview-cta-secondary ${className}`.trim();
+  const content = (
+    <>
+      {icon}
+      {children}
+    </>
+  );
+
+  if (to) {
+    return (
+      <Link to={to} className={classes}>
+        {content}
+      </Link>
+    );
+  }
+
+  return (
+    <a
+      href={href}
+      target='_blank'
+      rel='noopener noreferrer'
+      className={classes}
+    >
+      {content}
+    </a>
+  );
+};
+
 export const ProjectCard = ({
   project,
   index,
@@ -354,311 +375,122 @@ export const ProjectCard = ({
   featured = false,
   featuredMeta = null,
   isCertificate = false,
-  light = false,
 }) => {
-  const [hovered, setHovered] = useState(false);
-  const tags = project.tags || [];
-  const accent = sectionAccent;
-  const useLight = light || isCertificate;
+  const tags = (project.tags || featuredMeta?.stack || []).slice(0, 3);
+  const headline =
+    featuredMeta?.cardHeadline ||
+    featuredMeta?.tagline ||
+    project.description;
+  const caseStudyHref = featuredMeta?.slug
+    ? `/case-study/${featuredMeta.slug}`
+    : null;
+  const liveUrl = project.live || featuredMeta?.live || null;
+  const repoUrl = project.link || featuredMeta?.code || null;
 
-  // ——— Showcase style: cream-section featured cards (image + headline + pills) ———
-  if (featured) {
-    const headline =
-      featuredMeta?.cardHeadline ||
-      featuredMeta?.tagline ||
-      featuredMeta?.result ||
-      featuredMeta?.built ||
-      project.description;
-    const serviceTags = (project.tags || featuredMeta?.stack || []).slice(0, 4);
-    const href = featuredMeta?.slug
-      ? `/case-study/${featuredMeta.slug}`
-      : project.live || project.link || '#';
-    const isInternal = Boolean(featuredMeta?.slug);
+  const media = (
+    <div
+      className={`project-preview-media relative w-full overflow-hidden ${
+        isCertificate ? 'aspect-[16/9]' : 'aspect-[40/21]'
+      }`}
+    >
+      {project.embedUrl ? (
+        <iframe
+          src={project.embedUrl}
+          title={`${project.title} preview`}
+          className='absolute inset-0 h-full w-full origin-top-left scale-[0.35] border-0 pointer-events-none'
+          style={{ width: '286%', height: '286%' }}
+          loading='lazy'
+          sandbox='allow-scripts allow-same-origin'
+        />
+      ) : (
+        <img
+          src={project.getImageSrc()}
+          alt={project.title}
+          className={`h-full w-full ${
+            isCertificate ? 'object-cover object-top' : 'object-cover'
+          }`}
+          loading={featured ? 'eager' : 'lazy'}
+        />
+      )}
+    </div>
+  );
 
-    const media = (
-      <div className='relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-line bg-media-bg sm:rounded-3xl'>
-        {project.embedUrl ? (
-          <iframe
-            src={project.embedUrl}
-            title={`${project.title} preview`}
-            className='absolute inset-0 h-full w-full border-0 scale-[0.35] origin-top-left pointer-events-none transition-transform duration-700 ease-out group-hover:scale-[0.37]'
-            style={{ width: '286%', height: '286%' }}
-            loading='lazy'
-            sandbox='allow-scripts allow-same-origin'
-          />
-        ) : (
-          <div className='absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-[1.03]'>
-            <img
-              src={project.getImageSrc()}
-              alt={project.title}
-              className='h-full w-full object-cover'
-              loading='eager'
-            />
-          </div>
-        )}
-      </div>
-    );
-
-    const liveUrl = project.live || null;
-    const showLive = Boolean(liveUrl && isInternal);
-
-    const body = (
-      <>
-        {media}
-        <div className='mt-3 flex flex-wrap items-center justify-between gap-2 sm:mt-4'>
-          <span className='relative inline-flex items-center px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-black sm:px-3 sm:text-[11px]'>
+  return (
+    <motion.article
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.45, delay: index * 0.06 }}
+      viewport={{ once: true }}
+      className='project-preview w-full'
+    >
+      {media}
+      <div className='p-4'>
+        <div className='flex flex-wrap items-center justify-between gap-2'>
+          <span className='relative inline-flex items-center px-1.5 py-0.5 text-xs font-extrabold uppercase tracking-wide text-black sm:px-2 sm:text-[13px]'>
             <PaintStroke />
             <span className='relative z-10'>{project.title}</span>
           </span>
-          {showLive ? (
-            <a
+          {liveUrl ? (
+            <PreviewCta
               href={liveUrl}
-              target='_blank'
-              rel='noopener noreferrer'
-              onClick={(e) => e.stopPropagation()}
-              className='group/btn ml-auto inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-[linear-gradient(to_bottom,#4c4e51,#1e1f22)] px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-white transition-opacity hover:opacity-90 sm:px-3 sm:text-[11px]'
+              className='ml-auto'
+              icon={<FaExternalLinkAlt className='h-[14px] w-[14px]' />}
             >
-              Live
-              <span
-                className='inline-flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-black text-accent transition-transform duration-500 ease-out group-hover/btn:rotate-[360deg]'
-                aria-hidden
-              >
-                <FaExternalLinkAlt className='h-2 w-2' />
-              </span>
-            </a>
+              {isCertificate
+                ? isPashto
+                  ? 'وګورئ'
+                  : 'View'
+                : isPashto
+                  ? 'سایټ'
+                  : 'View site'}
+            </PreviewCta>
           ) : null}
         </div>
-        <h3 className='mt-2 line-clamp-2 text-left text-xs font-normal uppercase leading-snug tracking-wide text-ink font-sans3 sm:mt-2.5 sm:text-[13px]'>
-          {isPlaceholder(headline) ? (
-            <FeaturedPlaceholder>{headline}</FeaturedPlaceholder>
-          ) : (
-            headline
-          )}
-        </h3>
-        <div className='mt-3 flex flex-wrap items-center gap-1.5 sm:mt-3.5 sm:gap-2'>
-          {serviceTags.map((tag) => (
-            <span
-              key={tag}
-              className='inline-flex items-center rounded-full border border-ink/25 bg-transparent px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-ink sm:px-3 sm:text-[11px]'
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
-      </>
-    );
+        {!isCertificate ? (
+          <p className='mt-2 line-clamp-3 text-[15px] font-normal leading-6 text-ink-muted'>
+            {featured && isPlaceholder(headline) ? (
+              <FeaturedPlaceholder>{headline}</FeaturedPlaceholder>
+            ) : (
+              headline
+            )}
+          </p>
+        ) : null}
 
-    const cardShell =
-      'relative block h-full rounded-2xl bg-panel p-3 sm:rounded-3xl sm:p-4 shadow-[0_0_0_0_transparent] transition-[box-shadow,background-color] duration-300 group-hover:bg-panel-hover group-hover:shadow-[0_0_0_0.5px_rgba(0,0,0,0.22)] focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 focus-visible:ring-offset-surface-alt';
-
-    // When we also show a Live link, the card shell can't be an <a>/<Link>
-    // (nested interactive content). Use a div + stretch-link for the case study.
-    if (showLive) {
-      return (
-        <div className='group relative h-full'>
-          <div className={cardShell}>
-            <Link
-              to={href}
-              className='absolute inset-0 z-0 rounded-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 focus-visible:ring-offset-surface-alt sm:rounded-3xl'
-              aria-label={`${project.title} case study`}
-            />
-            <div className='relative z-[1] pointer-events-none [&_a]:pointer-events-auto'>
-              {body}
-            </div>
-          </div>
-        </div>
-      );
-    }
-
-    return (
-      <div className='group relative h-full'>
-        {isInternal ? (
-          <Link to={href} className={cardShell}>
-            {body}
-          </Link>
-        ) : (
-          <a
-            href={href}
-            target='_blank'
-            rel='noopener noreferrer'
-            className={cardShell}
-          >
-            {body}
-          </a>
-        )}
-      </div>
-    );
-  }
-
-  // ——— Classic style: all other projects ———
-  return (
-    <motion.div
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      initial={{ opacity: 0, y: 50 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-      viewport={{ once: true }}
-      className='group relative h-full'
-    >
-      {!useLight && (
-        <div
-          className='absolute -inset-0.5 rounded-2xl blur-xl opacity-0 group-hover:opacity-25 transition duration-500'
-          style={{ background: accent }}
-        />
-      )}
-      <div
-        className={`relative h-full rounded-2xl overflow-hidden flex flex-col transition-[box-shadow,background-color] duration-300 ${
-          useLight
-            ? 'bg-panel group-hover:bg-panel-hover group-hover:shadow-[0_0_0_0.5px_rgba(0,0,0,0.22)]'
-            : ''
-        }`}
-        style={
-          useLight
-            ? undefined
-            : {
-                backgroundColor: '#141414',
-                backgroundImage:
-                  'radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px)',
-                backgroundSize: '20px 20px',
-                boxShadow: '0 0 0 1px rgba(255,255,255,0.06)',
-              }
-        }
-        onMouseEnter={(e) => {
-          if (!useLight) {
-            e.currentTarget.style.boxShadow = '0 20px 40px -12px rgba(0,0,0,0.4)';
-          }
-        }}
-        onMouseLeave={(e) => {
-          if (!useLight) {
-            e.currentTarget.style.boxShadow = '0 0 0 1px rgba(255,255,255,0.06)';
-          }
-        }}
-      >
-        <div
-          className={`relative overflow-hidden ${
-            isCertificate ? 'h-44 sm:h-48' : 'h-60'
-          } ${
-            useLight ? 'bg-media-bg border-b border-black/10' : 'bg-[#1a1a1a]'
-          }`}
-        >
-          {project.embedUrl ? (
-            <iframe
-              src={project.embedUrl}
-              title={`${project.title} preview`}
-              className='w-full h-full border-0 scale-[0.35] origin-top-left'
-              style={{ width: '286%', height: '286%' }}
-              loading='lazy'
-              sandbox='allow-scripts allow-same-origin'
-            />
-          ) : (
-            <img
-              src={project.getImageSrc()}
-              alt={project.title}
-              className={`w-full h-full transition-transform duration-500 group-hover:scale-105 ${isCertificate ? 'object-cover object-top' : 'object-contain'}`}
-              style={
-                isCertificate && !useLight
-                  ? {
-                      filter:
-                        'invert(0.92) hue-rotate(180deg) brightness(1.05) contrast(0.95)',
-                    }
-                  : undefined
-              }
-            />
-          )}
-        </div>
-        <div
-          className={`flex flex-col flex-grow relative z-20 ${
-            isCertificate ? 'p-4' : 'p-6'
-          }`}
-        >
-          <div className={`flex flex-wrap gap-2 ${isCertificate ? 'mb-2' : 'mb-4'}`}>
-            {tags.map((tag, i) => (
+        {!featured && tags.length > 0 ? (
+          <div className='mt-2 flex flex-wrap gap-1.5'>
+            {tags.map((tag) => (
               <span
-                key={i}
-                className={`px-2 py-1 text-[10px] uppercase tracking-wider font-bold rounded-md ${
-                  useLight ? 'bg-black text-white' : ''
-                }`}
-                style={
-                  useLight
-                    ? undefined
-                    : { backgroundColor: hexToRgba(accent, 0.15), color: accent }
-                }
+                key={tag}
+                className='text-[11px] font-medium leading-none text-ink-muted'
               >
                 {tag}
               </span>
             ))}
           </div>
-          <div className={`flex items-start justify-between gap-3 ${isCertificate ? 'mb-0' : 'mb-3'}`}>
-            <h3
-              className={`font-sans3 tracking-tight ${
-                isCertificate
-                  ? 'text-sm font-semibold sm:text-[15px]'
-                  : 'text-xl font-bold'
-              } ${useLight ? 'text-ink' : 'text-white'}`}
-              style={
-                !useLight && hovered ? { color: accent } : undefined
-              }
-            >
-              {project.title}
-            </h3>
-            {isCertificate && project.live ? (
-              <Button
-                href={project.live}
-                target='_blank'
-                rel='noopener noreferrer'
-                size='sm'
-                variant='primary'
-                icon={<FaExternalLinkAlt />}
-                className='shrink-0'
-              >
-                {isPashto ? 'وګورئ' : 'View'}
-              </Button>
+        ) : null}
+
+        {(featured && (repoUrl || caseStudyHref)) ||
+        (!featured && !isCertificate && repoUrl) ? (
+          <div className='mt-3 flex flex-wrap items-center gap-2'>
+            {featured && repoUrl ? (
+              <PreviewCta href={repoUrl} icon={<FaGithub className='h-[14px] w-[14px]' />}>
+                {isPashto ? 'ریپو' : 'View repo'}
+              </PreviewCta>
+            ) : null}
+            {featured && caseStudyHref ? (
+              <PreviewCta to={caseStudyHref}>
+                {isPashto ? 'کیس سټډي' : 'Case study'}
+              </PreviewCta>
+            ) : null}
+            {!featured && !isCertificate && repoUrl ? (
+              <PreviewCta href={repoUrl} icon={<FaGithub className='h-[14px] w-[14px]' />}>
+                {isPashto ? 'کوډ' : 'View repo'}
+              </PreviewCta>
             ) : null}
           </div>
-          {!isCertificate && (
-            <p
-              className={`text-sm leading-relaxed mb-6 flex-grow font-sans3 ${
-                useLight ? 'text-gray-700 dark:text-white/70' : 'text-gray-400'
-              }`}
-            >
-              {project.description}
-            </p>
-          )}
-          {!isCertificate && (
-            <div
-              className={`flex flex-wrap items-center gap-3 mt-auto pt-4 border-t ${
-                useLight ? 'border-black/10' : 'border-white/10'
-              }`}
-            >
-              <Button
-                href={project.link}
-                target='_blank'
-                rel='noopener noreferrer'
-                size='sm'
-                variant={useLight ? 'secondary' : 'outline'}
-                icon={<FaGithub />}
-              >
-                {isPashto ? 'کوډ' : 'Code'}
-              </Button>
-              {project.live && (
-                <Button
-                  href={project.live}
-                  target='_blank'
-                  rel='noopener noreferrer'
-                  size='sm'
-                  variant='primary'
-                  icon={<FaExternalLinkAlt />}
-                  className='ml-auto'
-                >
-                  {isPashto ? 'ژوندۍ نسخه' : 'Live Demo'}
-                </Button>
-              )}
-            </div>
-          )}
-        </div>
+        ) : null}
       </div>
-    </motion.div>
+    </motion.article>
   );
 };
 
@@ -739,13 +571,13 @@ const ProjectsSection = ({ locale = 'en' }) => {
       }))
     : mobileProjects;
 
-  const certificatesLocalized = isPashto
-    ? certificates.map((project) => ({
-        ...project,
-        description:
-          certificateDescriptionsPs[project.title] || project.description,
-      }))
-    : certificates;
+  // const certificatesLocalized = isPashto
+  //   ? certificates.map((project) => ({
+  //       ...project,
+  //       description:
+  //         certificateDescriptionsPs[project.title] || project.description,
+  //     }))
+  //   : certificates;
 
   const currentSideProjectTitles = [
     'IdeaHunt',
@@ -774,14 +606,14 @@ const ProjectsSection = ({ locale = 'en' }) => {
   return (
     <section id='projects-section' className='section-sep relative overflow-hidden bg-surface-alt transition-colors duration-300'>
       {/* Featured Work */}
-      <div className='section-sep relative min-h-screen bg-surface-alt'>
-        <div className='relative z-10 py-32 overflow-hidden min-h-screen flex items-center'>
-          <div className='max-w-7xl mx-auto w-full px-6 md:px-8 relative z-10'>
+      <div className='section-sep relative bg-surface-alt'>
+        <div className='relative z-10 px-4 py-16 md:px-8 md:py-20'>
+          <div className='mx-auto w-full max-w-4xl'>
             <SectionHeader
-              title={isPashto ? 'غوره کارونه' : 'FEATURED WORK'}
+              title={isPashto ? 'غوره کارونه' : 'Featured work'}
               light
             />
-            <div className='grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10 max-w-5xl mx-auto'>
+            <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5'>
               {currentSideProjects.map((project, index) => (
                 <ProjectCard
                   key={project.title}
@@ -800,7 +632,7 @@ const ProjectsSection = ({ locale = 'en' }) => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.15 }}
               viewport={{ once: true }}
-              className='mt-14 flex justify-center'
+              className='mt-10 flex justify-center'
             >
               <Button
                 as={Link}
@@ -818,21 +650,23 @@ const ProjectsSection = ({ locale = 'en' }) => {
       <ExperienceSection locale={locale} />
 
       {/* Activity · About · Blogs & Photos · Certificates */}
-      <div className='relative bg-surface-alt py-32 overflow-visible'>
-        <div className='max-w-7xl mx-auto w-full px-6 md:px-8 relative z-10'>
-          {/* About + Activity */}
-          <div id='activity-section' className='section-sep pb-32'>
+      <div className='relative overflow-visible bg-surface-alt px-4 py-16 md:px-8 md:py-20'>
+        {/* About + Activity */}
+        <div
+          id='activity-section'
+          className='section-sep mx-auto w-full max-w-4xl pb-16'
+        >
             <SectionHeader
-              title={isPashto ? 'په اړه او فعاليت' : 'ABOUT & ACTIVITY'}
+              title={isPashto ? 'په اړه او فعاليت' : 'About & activity'}
               light
             />
-            <div className='grid grid-cols-1 items-stretch gap-8 md:grid-cols-2'>
+            <div className='grid grid-cols-1 items-stretch gap-6 md:grid-cols-2'>
               <motion.div
                 initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.1 }}
                 viewport={{ once: true }}
-                className='relative h-full min-h-[420px] w-full overflow-hidden md:min-h-[460px]'
+                className='relative h-full min-h-[320px] w-full overflow-hidden'
               >
                 <AboutSection locale={locale} embedded />
               </motion.div>
@@ -842,16 +676,16 @@ const ProjectsSection = ({ locale = 'en' }) => {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
                 viewport={{ once: true }}
-                className='group relative h-full min-h-[420px] md:min-h-[460px]'
+                className='group relative h-full min-h-[320px]'
               >
-                <div className='relative flex h-full flex-col rounded-2xl bg-panel p-6 transition-[box-shadow,background-color] duration-300 group-hover:bg-panel-hover group-hover:shadow-[0_0_0_0.5px_rgba(0,0,0,0.22)] sm:p-7'>
-                  <div className='mb-5 flex items-center gap-3'>
-                    <FaGithub className='text-2xl text-ink' />
+                <div className='relative flex h-full flex-col rounded-lg bg-panel p-4 transition-[box-shadow,background-color] duration-300 group-hover:bg-panel-hover group-hover:shadow-[0_0_0_0.5px_rgba(0,0,0,0.22)] sm:p-5'>
+                  <div className='mb-4 flex items-center gap-3'>
+                    <FaGithub className='text-lg text-ink' />
                     <div>
-                      <h3 className='mb-0.5 text-xl font-bold text-ink sm:text-2xl'>
-                        {isPashto ? 'د ونډو فعاليت' : 'Contribution Activity'}
+                      <h3 className='mb-0.5 text-[17px] font-medium tracking-tight text-ink'>
+                        {isPashto ? 'د ونډو فعاليت' : 'Contribution activity'}
                       </h3>
-                      <p className='text-sm text-gray-600 dark:text-white/55'>
+                      <p className='text-[15px] leading-6 text-ink-muted'>
                         {isPashto
                           ? 'په تېرو ۱۲ مياشتو کې د GitHub ونډې'
                           : 'GitHub contributions over the last year'}
@@ -925,22 +759,22 @@ const ProjectsSection = ({ locale = 'en' }) => {
           {/* Blogs & Photos */}
           <div
             id='blogs-section'
-            className='section-sep mt-36 overflow-visible px-2 pb-32 sm:px-4 md:px-8 scroll-mt-24'
+            className='section-sep mx-auto mt-16 w-full max-w-4xl scroll-mt-24 overflow-visible pb-16'
           >
             <SectionHeader
               title={isPashto ? 'بلاګونه او عکسونه' : 'Blogs & Photos'}
               light
             />
-            <div className='mx-auto grid max-w-5xl grid-cols-1 gap-8 overflow-visible md:grid-cols-2 md:gap-10'>
+            <div className='grid grid-cols-1 gap-4 overflow-visible md:grid-cols-2'>
               <BlogsCard isPashto={isPashto} />
               <PhotosCard isPashto={isPashto} />
             </div>
           </div>
 
-          {/* Certificates — after Blogs & Photos */}
-          <div className='mt-36 px-2 sm:px-4 md:px-8'>
-            <SectionHeader title={isPashto ? 'سندونه' : 'CERTIFICATES'} light />
-            <div className='mx-auto grid max-w-5xl grid-cols-1 gap-8 md:grid-cols-2 md:gap-10 lg:grid-cols-3'>
+          {/* Certificates — after Blogs & Photos
+          <div className='mx-auto mt-16 w-full max-w-4xl px-4 md:px-8'>
+            <SectionHeader title={isPashto ? 'سندونه' : 'Certificates'} light />
+            <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3'>
               {certificatesLocalized.map((project, index) => (
                 <ProjectCard
                   key={index}
@@ -953,7 +787,7 @@ const ProjectsSection = ({ locale = 'en' }) => {
               ))}
             </div>
           </div>
-        </div>
+          */}
       </div>
     </section>
   );
@@ -1007,14 +841,14 @@ const BlogsCard = ({ isPashto }) => (
     viewport={{ once: true }}
     className='relative group'
   >
-    <div className='relative flex h-full flex-col rounded-2xl bg-panel p-6 transition-[box-shadow,background-color] duration-300 group-hover:bg-panel-hover group-hover:shadow-[0_0_0_0.5px_rgba(0,0,0,0.22)] sm:p-8'>
-      <div className='mb-5 flex items-start justify-between gap-3'>
+    <div className='relative flex h-full flex-col rounded-lg bg-panel p-4 transition-[box-shadow,background-color] duration-300 group-hover:bg-panel-hover group-hover:shadow-[0_0_0_0.5px_rgba(0,0,0,0.22)] sm:p-5'>
+      <div className='mb-4 flex items-start justify-between gap-3'>
         <div className='flex items-center gap-3'>
-          <div className='flex h-10 w-10 items-center justify-center rounded-full border border-line bg-[#D7FF00]'>
-            <FaBook className='text-base text-black' />
+          <div className='flex h-8 w-8 items-center justify-center rounded-full border border-line bg-[#D7FF00]'>
+            <FaBook className='text-sm text-black' />
           </div>
           <div>
-            <h3 className='text-xl font-bold text-ink'>
+            <h3 className='text-[17px] font-medium tracking-tight text-ink'>
               {isPashto ? 'بلاګونه' : 'Blogs'}
             </h3>
             <p className='text-xs text-gray-600 dark:text-white/55'>
