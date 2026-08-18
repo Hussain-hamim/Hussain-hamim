@@ -228,7 +228,7 @@ const LandingSection = ({ locale = 'en' }) => {
           initial={{ opacity: 0, y: -6 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15, duration: 0.45 }}
-          className='pointer-events-none absolute right-4 top-[max(4.75rem,calc(env(safe-area-inset-top)+3.5rem))] z-20 flex flex-col items-end gap-1.5 font-sans3 text-xs text-ink sm:right-6 sm:text-sm md:right-8 lg:right-10'
+          className='pointer-events-none absolute right-4 top-[max(1.25rem,calc(env(safe-area-inset-top)+0.75rem))] z-20 flex flex-col items-end gap-1.5 font-sans3 text-xs text-ink sm:right-6 sm:text-sm md:right-8 lg:right-10'
         >
           {visitorScrambleText ? (
             <div
@@ -268,7 +268,7 @@ const LandingSection = ({ locale = 'en' }) => {
           ) : null}
         </motion.div>
       ) : null}
-      <div className='relative z-10 mx-auto flex min-h-screen w-full max-w-6xl flex-col items-center justify-center gap-10 px-6 pb-20 pt-[max(6rem,calc(env(safe-area-inset-top)+4.5rem))] text-center sm:px-8 md:flex-row md:items-center md:justify-center md:gap-12 md:px-10 lg:gap-16'>
+      <div className='relative z-10 mx-auto flex min-h-screen w-full max-w-6xl flex-col items-center justify-center gap-10 px-6 pb-28 pt-[max(3.5rem,calc(env(safe-area-inset-top)+2rem))] text-center sm:px-8 md:flex-row md:items-center md:justify-center md:gap-12 md:px-10 lg:gap-16'>
         <div className='relative z-10 flex w-full min-w-0 max-w-xl flex-col items-start justify-center text-left'>
           <motion.p
             initial={{ opacity: 0, y: 12 }}

@@ -116,7 +116,7 @@ export const featuredProjects = [
     cardHeadline: 'Finally get things done — with photo proof and AI pressure.',
     tagline:
       'ProveIt AI forces accountability with live picture proof, deadlines, and alarms until you prove it — or give up.',
-    live: 'https://aura-ai-ivory.vercel.app/',
+    live: 'https://www.proveitai.app/',
     code: 'https://github.com/Hussain-hamim',
     role: 'Solo founder & mobile engineer',
     stack: ['Swift', 'SwiftUI', 'AI', 'iOS'],

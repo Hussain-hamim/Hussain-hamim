@@ -2,7 +2,7 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <footer className="relative pt-10 pb-8">
+    <footer className="relative pb-[calc(5.5rem+env(safe-area-inset-bottom))] pt-10">
       {/* Giant name watermark - centered behind footer, allowed to overflow upward */}
       <div
         className="pointer-events-none absolute inset-x-0 bottom-0 z-0 flex items-center justify-center px-4"

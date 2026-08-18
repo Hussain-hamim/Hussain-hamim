@@ -169,7 +169,7 @@ export const mobileProjects = [
       'Finally get things done. ProveIt AI forces accountability with live picture proof, AI scanning, deadlines, and alarms until you prove it — or give up. Includes Coach Aura for relentless pressure coaching.',
     getImageSrc: () => require('../images/proveit-ai.png'),
     link: 'https://github.com/Hussain-hamim',
-    live: 'https://aura-ai-ivory.vercel.app/',
+    live: 'https://www.proveitai.app/',
     tags: ['iOS', 'AI', 'Swift', 'Accountability'],
     theme: { primary: '#0A0A0A', secondary: '#FF5A2D' },
   },

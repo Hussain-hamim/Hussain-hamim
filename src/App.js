@@ -5,6 +5,7 @@ import Header from './components/Header';
 import LandingSection from './components/LandingSection';
 import { AlertProvider } from './context/alertContext';
 import { ThemeProvider } from './context/themeContext';
+import SmoothCursor from './components/SmoothCursor';
 
 const ProjectsSection = lazy(() => import('./components/ProjectsSection'));
 const ContactFooterWrap = lazy(() => import('./components/ContactFooterWrap'));
@@ -120,6 +121,7 @@ function App() {
             </Routes>
           </Suspense>
           <Alert />
+          <SmoothCursor />
         </AlertProvider>
       </ThemeProvider>
     </Router>

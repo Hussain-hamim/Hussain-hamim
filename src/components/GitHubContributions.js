@@ -1,9 +1,48 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
+
+function formatTooltip(date, count) {
+  const iso =
+    date instanceof Date ? date.toISOString().split('T')[0] : String(date);
+  const label = new Intl.DateTimeFormat('en-GB', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+    timeZone: 'UTC',
+  }).format(new Date(`${iso}T12:00:00Z`));
+  return `${label} · ${count} ${count === 1 ? 'contribution' : 'contributions'}`;
+}
+
+function levelFromCount(count) {
+  if (count <= 0) return 0;
+  if (count === 1) return 1;
+  if (count <= 3) return 2;
+  if (count <= 5) return 3;
+  return 4;
+}
+
+function positionTooltip(anchor, bubble) {
+  const anchorRect = anchor.getBoundingClientRect();
+  const gutter = 12;
+  const left = Math.min(
+    window.innerWidth - bubble.offsetWidth - gutter,
+    Math.max(
+      gutter,
+      anchorRect.left + anchorRect.width / 2 - bubble.offsetWidth / 2
+    )
+  );
+  bubble.style.left = `${left}px`;
+  bubble.style.top = `${anchorRect.top - 10}px`;
+}
 
 const GitHubContributions = ({ username, dark = false }) => {
   const [contributions, setContributions] = useState(null);
   const [loading, setLoading] = useState(true);
   const [totalContributions, setTotalContributions] = useState(0);
+  const [tooltip, setTooltip] = useState({ open: false, text: '' });
+  const bubbleRef = useRef(null);
+  const anchorRef = useRef(null);
+  const hideTimerRef = useRef(null);
 
   useEffect(() => {
     const fetchContributions = async () => {
@@ -227,6 +266,43 @@ const GitHubContributions = ({ username, dark = false }) => {
     }
   }, [username]);
 
+  useLayoutEffect(() => {
+    if (!tooltip.open || !anchorRef.current || !bubbleRef.current) return;
+    positionTooltip(anchorRef.current, bubbleRef.current);
+  }, [tooltip.open, tooltip.text]);
+
+  useEffect(() => {
+    return () => {
+      if (hideTimerRef.current) window.clearTimeout(hideTimerRef.current);
+    };
+  }, []);
+
+  const showTooltip = (anchor, text) => {
+    if (!anchor || !text) return;
+    if (hideTimerRef.current) window.clearTimeout(hideTimerRef.current);
+    anchorRef.current = anchor;
+    setTooltip({ open: true, text });
+  };
+
+  const hideTooltip = (delay = 120) => {
+    if (hideTimerRef.current) window.clearTimeout(hideTimerRef.current);
+    hideTimerRef.current = window.setTimeout(() => {
+      setTooltip((current) => ({ ...current, open: false }));
+    }, delay);
+  };
+
+  const trackTouch = (event) => {
+    if (event.pointerType !== 'touch') return;
+    const anchor = document
+      .elementFromPoint(event.clientX, event.clientY)
+      ?.closest('.activity-day');
+    if (!anchor?.dataset.tooltip) {
+      hideTooltip();
+      return;
+    }
+    showTooltip(anchor, anchor.dataset.tooltip);
+  };
+
   const getIntensity = (count) => {
     if (dark) {
       if (count === 0) return 'bg-[#161b22]';
@@ -340,34 +416,74 @@ const GitHubContributions = ({ username, dark = false }) => {
           </div>
 
           {/* Contribution Grid */}
-          <div className='flex gap-1' style={{ width: `${53 * 16}px` }}>
+          <div
+            className='flex gap-1'
+            style={{ width: `${53 * 16}px` }}
+            onPointerDown={(event) => {
+              if (event.pointerType !== 'touch') return;
+              event.currentTarget.setPointerCapture(event.pointerId);
+              trackTouch(event);
+            }}
+            onPointerMove={trackTouch}
+            onPointerUp={(event) => {
+              if (event.pointerType === 'touch') hideTooltip(400);
+            }}
+            onPointerCancel={(event) => {
+              if (event.pointerType === 'touch') hideTooltip();
+            }}
+          >
             {contributions.weeks.map((week, weekIndex) => (
               <div key={weekIndex} className='flex flex-col gap-1'>
-                {week.map((day, dayIndex) => (
-                  <div
-                    key={dayIndex}
-                    className={`w-3 h-3 rounded ${
-                      day.date ? getIntensity(day.count) : 'bg-transparent'
-                    }`}
-                    title={
-                      day.date
-                        ? `${day.date.toLocaleDateString('en-US', {
-                            weekday: 'long',
-                            year: 'numeric',
-                            month: 'long',
-                            day: 'numeric',
-                          })}: ${day.count} contribution${
-                            day.count !== 1 ? 's' : ''
-                          }`
-                        : ''
-                    }
-                  />
-                ))}
+                {week.map((day, dayIndex) => {
+                  if (!day.date) {
+                    return (
+                      <span
+                        key={dayIndex}
+                        className='block h-3 w-3 rounded bg-transparent'
+                      />
+                    );
+                  }
+
+                  const tooltipText = formatTooltip(day.date, day.count);
+                  return (
+                    <span
+                      key={dayIndex}
+                      className={`activity-day h-3 w-3 rounded ${getIntensity(
+                        day.count
+                      )}`}
+                      data-level={levelFromCount(day.count)}
+                      data-tooltip={tooltipText}
+                      aria-label={tooltipText}
+                      tabIndex={day.count > 0 ? 0 : undefined}
+                      onMouseEnter={(event) =>
+                        showTooltip(event.currentTarget, tooltipText)
+                      }
+                      onMouseLeave={() => hideTooltip()}
+                      onFocus={(event) =>
+                        showTooltip(event.currentTarget, tooltipText)
+                      }
+                      onBlur={() => hideTooltip(0)}
+                    />
+                  );
+                })}
               </div>
             ))}
           </div>
         </div>
       </div>
+
+      {typeof document !== 'undefined'
+        ? createPortal(
+            <span
+              ref={bubbleRef}
+              className={`tooltip-bubble${tooltip.open ? ' is-open' : ''}`}
+              role='tooltip'
+            >
+              {tooltip.text}
+            </span>,
+            document.body
+          )
+        : null}
 
       {/* Legend */}
       <div
