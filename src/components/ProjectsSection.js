@@ -684,7 +684,7 @@ const ProjectsSection = ({ locale = 'en' }) => {
                   </div>
                   <div className='min-h-0 min-w-0 flex-1 overflow-hidden rounded-lg border border-white/10 bg-[#0C1117] px-2 py-3 sm:px-3 sm:py-4'>
                     <div
-                      className='w-full min-w-0 overflow-x-auto'
+                      className='flex w-full min-w-0 justify-center overflow-x-auto'
                       style={{
                         scrollbarWidth: 'thin',
                         scrollbarColor: '#444 transparent',

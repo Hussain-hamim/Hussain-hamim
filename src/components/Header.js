@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { LayoutGroup, motion } from 'framer-motion';
 import {
   BookOpen,
@@ -45,6 +45,8 @@ const DockTab = ({ active, isDark, icon: Icon, label, className, ...props }) => 
 
 const Header = ({ locale = 'en' }) => {
   const isPashto = locale === 'ps';
+  const location = useLocation();
+  const onHome = location.pathname === '/' || location.pathname === '/ps';
   const { isDark, toggleTheme, isThemeAnimating } = useTheme();
   const bookingUrl = (
     process.env.REACT_APP_BOOKING_URL || DEFAULT_CAL_BOOKING_URL
@@ -55,11 +57,9 @@ const Header = ({ locale = 'en' }) => {
   const tickingRef = useRef(false);
 
   useEffect(() => {
-    const onHome =
-      window.location.pathname === '/' || window.location.pathname === '/ps';
     if (!onHome) return;
 
-    const ids = ['experience', 'projects', 'blogs', 'contactme'];
+    const ids = ['experience', 'projects', 'contactme'];
     const nodes = ids
       .map((id) => document.getElementById(`${id}-section`))
       .filter(Boolean);
@@ -83,7 +83,7 @@ const Header = ({ locale = 'en' }) => {
 
     nodes.forEach((n) => observer.observe(n));
     return () => observer.disconnect();
-  }, []);
+  }, [onHome]);
 
   useEffect(() => {
     const updateDockVisibility = () => {
@@ -120,14 +120,11 @@ const Header = ({ locale = 'en' }) => {
     };
   }, []);
 
+  const homePath = isPashto ? '/ps' : '/';
+
   const handleScrollClick = (anchor) => (e) => {
+    if (!onHome) return;
     e.preventDefault();
-    const onHome =
-      window.location.pathname === '/' || window.location.pathname === '/ps';
-    if (!onHome) {
-      window.location.href = `${isPashto ? '/ps' : '/'}#${anchor}-section`;
-      return;
-    }
     const element = document.getElementById(`${anchor}-section`);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -151,7 +148,8 @@ const Header = ({ locale = 'en' }) => {
     {
       id: 'blogs',
       label: isPashto ? 'بلاګ' : 'Blogs',
-      type: 'scroll',
+      type: 'link',
+      href: '/blogs',
       icon: BookOpen,
     },
     {
@@ -164,8 +162,9 @@ const Header = ({ locale = 'en' }) => {
 
   const isActive = (item) => {
     if (item.type === 'link') {
-      return window.location.pathname.startsWith(item.href);
+      return location.pathname.startsWith(item.href);
     }
+    if (!onHome) return false;
     return activeSection === item.id;
   };
 
@@ -231,7 +230,7 @@ const Header = ({ locale = 'en' }) => {
                 return (
                   <DockTab
                     key={item.id}
-                    type='button'
+                    to={`${homePath}#${item.id}-section`}
                     active={active}
                     isDark={isDark}
                     icon={item.icon}

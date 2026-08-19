@@ -379,7 +379,6 @@ const GitHubContributions = ({ username, dark = false }) => {
       weekIndex: month.weekIndex - startWeek,
     }));
   const weekCount = weeksToShow.length;
-  const weekWidth = 10;
 
   const renderDays = () =>
     weeksToShow.map((week, weekIndex) =>
@@ -429,7 +428,7 @@ const GitHubContributions = ({ username, dark = false }) => {
 
   return (
     <div className='w-full min-w-0 space-y-2 sm:space-y-3'>
-      <div className='flex items-center justify-between gap-2'>
+      <div className={`flex items-center gap-2 ${isCompact ? 'justify-center' : 'justify-between'}`}>
         <h4 className={`${titleClass} min-w-0 truncate text-[11px] sm:text-sm`}>
           {isCompact
             ? `${totalContributions.toLocaleString()} contributions`
@@ -437,7 +436,11 @@ const GitHubContributions = ({ username, dark = false }) => {
         </h4>
       </div>
 
-      <div className='flex min-w-0 gap-1.5 overflow-x-auto'>
+      <div
+        className={`flex min-w-0 ${
+          isCompact ? 'justify-center' : 'gap-1.5 overflow-x-auto'
+        }`}
+      >
         {!isCompact ? (
           <div className='flex flex-shrink-0 flex-col gap-[2px] pt-6'>
             {dayLabels.map((label, idx) => (
@@ -457,31 +460,29 @@ const GitHubContributions = ({ username, dark = false }) => {
           </div>
         ) : null}
 
-        <div className='min-w-0 flex-shrink-0'>
-          <div
-            className='relative mb-2 flex h-4 overflow-hidden'
-            style={{ width: `${weekCount * weekWidth - 2}px` }}
-          >
+        <div
+          className={`activity-graph min-w-0 ${
+            isCompact ? 'is-fluid' : 'flex-shrink-0'
+          }`}
+          style={{ '--activity-weeks': String(weekCount) }}
+        >
+          <div className='activity-months mb-2'>
             {monthsToShow.map((month, idx) => {
               const nextMonth = monthsToShow[idx + 1];
               const spanWeeks = nextMonth
                 ? nextMonth.weekIndex - month.weekIndex
                 : weekCount - month.weekIndex;
               if (spanWeeks < 3) return null;
-              const leftPosition = month.weekIndex * weekWidth;
-              const width = spanWeeks * weekWidth;
               return (
-                <div
+                <span
                   key={month.name + month.weekIndex}
-                  className='absolute top-0 flex h-4 items-end overflow-hidden'
-                  style={{ left: `${leftPosition}px`, width: `${width}px` }}
+                  className={`block truncate text-[9px] leading-none ${mutedClass}`}
+                  style={{
+                    gridColumn: `${month.weekIndex + 1} / span ${spanWeeks}`,
+                  }}
                 >
-                  <span
-                    className={`block truncate text-[9px] leading-none ${mutedClass}`}
-                  >
-                    {month.name}
-                  </span>
-                </div>
+                  {month.name}
+                </span>
               );
             })}
           </div>
@@ -505,7 +506,9 @@ const GitHubContributions = ({ username, dark = false }) => {
         : null}
 
       <div
-        className={`flex items-center justify-end gap-1.5 text-[9px] sm:gap-2 sm:text-[10px] ${mutedClass}`}
+        className={`flex items-center gap-1.5 text-[9px] sm:gap-2 sm:text-[10px] ${
+          isCompact ? 'justify-center' : 'justify-end'
+        } ${mutedClass}`}
       >
         <span>Less</span>
         <div className='flex gap-0.5'>

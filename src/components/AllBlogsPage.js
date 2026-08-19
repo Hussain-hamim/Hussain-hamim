@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft, ArrowUpRight } from 'lucide-react';
 import { BLOG_POSTS } from '../data/blogs';
+import Header from './Header';
 
 const AllBlogsPage = () => {
   const isPashto =
@@ -23,6 +24,7 @@ const AllBlogsPage = () => {
       dir={isPashto ? 'rtl' : 'ltr'}
       className='min-h-screen bg-surface-alt text-ink transition-colors duration-300'
     >
+      <Header locale={isPashto ? 'ps' : 'en'} />
       <div className='sticky top-0 z-30 border-b border-line/40 bg-surface-alt/85 backdrop-blur-md'>
         <div className='mx-auto flex max-w-5xl items-center justify-between px-6 py-4 md:px-8'>
           <Link
@@ -75,7 +77,7 @@ const AllBlogsPage = () => {
         </div>
       </section>
 
-      <section className='relative mx-auto max-w-5xl px-6 pb-24 md:px-8'>
+      <section className='relative mx-auto max-w-5xl px-6 pb-32 md:px-8'>
         <ul className='flex flex-col gap-4'>
           {posts.map((post, index) => (
             <motion.li

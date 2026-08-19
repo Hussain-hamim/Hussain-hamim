@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Calendar, MessageSquare, Moon, Sun } from 'lucide-react';
+import { ArrowLeft, Calendar, MessageSquare } from 'lucide-react';
 import {
   projects,
   mobileProjects,
@@ -11,7 +11,7 @@ import {
   SectionHeader,
 } from './ProjectsSection';
 import Button from './Button';
-import { useTheme } from '../context/themeContext';
+import Header from './Header';
 
 const DEFAULT_CAL_BOOKING_URL = 'https://cal.com/hussain-hamim-fp9qc6/30min';
 
@@ -19,7 +19,6 @@ const AllProjectsPage = () => {
   const navigate = useNavigate();
   const isPashto =
     typeof window !== 'undefined' && window.location.pathname.startsWith('/ps');
-  const { isDark, toggleTheme, isThemeAnimating } = useTheme();
   const bookingUrl = (
     process.env.REACT_APP_BOOKING_URL || DEFAULT_CAL_BOOKING_URL
   ).trim();
@@ -72,8 +71,9 @@ const AllProjectsPage = () => {
       dir={isPashto ? 'rtl' : 'ltr'}
       className='min-h-screen bg-surface-alt text-ink transition-colors duration-300'
     >
+      <Header locale={isPashto ? 'ps' : 'en'} />
       <div className='sticky top-0 z-30 border-b border-line/40 bg-surface-alt/85 backdrop-blur-md'>
-        <div className='mx-auto flex max-w-7xl items-center justify-between px-6 py-4 md:px-8'>
+        <div className='mx-auto flex max-w-4xl items-center justify-between px-4 py-4 md:px-8'>
           <Link
             to={isPashto ? '/ps' : '/'}
             className='group inline-flex items-center gap-2 text-sm text-ink/70 transition-colors hover:text-ink'
@@ -87,30 +87,14 @@ const AllProjectsPage = () => {
             />
             <span>{isPashto ? 'کور ته ورګرځه' : 'Back to home'}</span>
           </Link>
-          <div className='flex items-center gap-3'>
-            <span className='hidden text-[10px] font-mono uppercase tracking-[0.25em] text-ink/40 sm:inline'>
-              {isPashto ? 'ټولې پروژې' : 'All projects'}
-            </span>
-            <button
-              type='button'
-              data-theme-toggle
-              onClick={toggleTheme}
-              disabled={isThemeAnimating}
-              aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-              className='inline-flex h-9 w-9 items-center justify-center rounded-full border border-line text-ink transition-colors hover:bg-panel disabled:cursor-wait'
-            >
-              {isDark ? (
-                <Sun className='h-4 w-4' />
-              ) : (
-                <Moon className='h-4 w-4' />
-              )}
-            </button>
-          </div>
+          <span className='text-[10px] font-mono uppercase tracking-[0.25em] text-ink/40'>
+            {isPashto ? 'ټولې پروژې' : 'All projects'}
+          </span>
         </div>
       </div>
 
       <section className='pb-8 pt-16 md:pt-20'>
-        <div className='mx-auto max-w-7xl px-6 text-center md:px-8'>
+        <div className='mx-auto max-w-4xl px-4 text-center md:px-8'>
           <motion.p
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -140,13 +124,13 @@ const AllProjectsPage = () => {
         </div>
       </section>
 
-      <div className='mx-auto max-w-7xl px-6 pb-24 pt-6 md:px-8'>
+      <div className='mx-auto max-w-4xl px-4 pb-32 pt-6 md:px-8'>
         <div className='mb-16'>
           <SectionHeader
             title={isPashto ? 'وېب پروژې' : 'Web projects'}
             light
           />
-          <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3'>
+          <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
             {webProjectsToShow.map((project, index) => (
               <ProjectCard
                 key={project.title}
@@ -181,7 +165,7 @@ const AllProjectsPage = () => {
             title={isPashto ? 'موبايل پروګرامونه' : 'Mobile apps'}
             light
           />
-          <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3'>
+          <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
             {mobileProjectsToShow.map((project, index) => (
               <ProjectCard
                 key={project.title}

@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { useEffect, lazy, Suspense } from 'react';
 import Alert from './components/Alert';
 import Header from './components/Header';
@@ -43,8 +43,39 @@ const SectionFallback = ({ minHeight = '40vh' }) => (
   />
 );
 
+function useScrollToHash() {
+  const { hash } = useLocation();
+
+  useEffect(() => {
+    const id = hash.replace(/^#/, '');
+    if (!id) return undefined;
+
+    let cancelled = false;
+    let attempts = 0;
+
+    const tryScroll = () => {
+      if (cancelled) return;
+      const el = document.getElementById(id);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        return;
+      }
+      attempts += 1;
+      if (attempts < 80) {
+        window.setTimeout(tryScroll, 50);
+      }
+    };
+
+    tryScroll();
+    return () => {
+      cancelled = true;
+    };
+  }, [hash]);
+}
+
 function PortfolioPage({ locale }) {
   const isPashto = locale === 'ps';
+  useScrollToHash();
 
   useEffect(() => {
     document.documentElement.lang = isPashto ? 'ps' : 'en';
