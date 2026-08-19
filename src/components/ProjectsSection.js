@@ -674,22 +674,16 @@ const ProjectsSection = ({ locale = 'en' }) => {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
                 viewport={{ once: true }}
-                className='group relative h-full min-h-0 min-w-0'
+                className='group relative min-h-0 min-w-0 md:h-full'
               >
-                <div className='relative flex h-full flex-col rounded-lg bg-card p-4 shadow-[0_0_0_0.5px_rgba(10,10,10,0.08)] transition-[box-shadow,background-color] duration-300 group-hover:shadow-[0_0_0_0.5px_rgba(10,10,10,0.18)] dark:shadow-none dark:group-hover:shadow-[0_0_0_0.5px_rgba(0,0,0,0.22)] sm:p-5'>
+                <div className='relative flex flex-col rounded-lg bg-card p-4 shadow-[0_0_0_0.5px_rgba(10,10,10,0.08)] transition-[box-shadow,background-color] duration-300 group-hover:shadow-[0_0_0_0.5px_rgba(10,10,10,0.18)] dark:shadow-none dark:group-hover:shadow-[0_0_0_0.5px_rgba(0,0,0,0.22)] md:h-full sm:p-5'>
                   <div className='mb-4'>
                     <h3 className='text-[17px] font-medium tracking-tight text-ink'>
                       {isPashto ? 'د ونډو فعاليت' : 'Contribution activity'}
                     </h3>
                   </div>
-                  <div className='min-h-0 min-w-0 flex-1 overflow-hidden rounded-lg border border-white/10 bg-[#0C1117] px-2 py-3 sm:px-3 sm:py-4'>
-                    <div
-                      className='flex w-full min-w-0 justify-center overflow-x-auto'
-                      style={{
-                        scrollbarWidth: 'thin',
-                        scrollbarColor: '#444 transparent',
-                      }}
-                    >
+                  <div className='min-w-0 overflow-x-auto rounded-lg border border-white/10 bg-[#0C1117] px-2 py-3 md:min-h-0 md:flex-1 sm:px-3 sm:py-4'>
+                    <div className='flex w-full min-w-0 justify-center'>
                       <Suspense fallback={<div className='h-28' aria-hidden />}>
                         <GitHubContributions username='Hussain-hamim' dark />
                       </Suspense>
