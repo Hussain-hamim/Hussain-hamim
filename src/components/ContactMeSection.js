@@ -331,7 +331,7 @@ const ContactMeSection = ({ locale = "en" }) => {
                 type="submit"
                 disabled={isLoading}
                 fullWidth
-                size="md"
+                size="sm"
                 icon={!isLoading ? <FaPaperPlane /> : undefined}
               >
                 {isLoading

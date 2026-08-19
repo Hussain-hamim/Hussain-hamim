@@ -3,7 +3,6 @@ import { motion } from 'framer-motion';
 import {
   FaGithub,
   FaExternalLinkAlt,
-  FaBook,
 } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import ExperienceSection from './ExperienceSection';
@@ -406,9 +405,7 @@ export const ProjectCard = ({
         <img
           src={project.getImageSrc()}
           alt={project.title}
-          className={`h-full w-full ${
-            isCertificate ? 'object-cover object-top' : 'object-cover'
-          }`}
+          className='h-full w-full object-cover object-top'
           loading={featured ? 'eager' : 'lazy'}
         />
       )}
@@ -632,11 +629,12 @@ const ProjectsSection = ({ locale = 'en' }) => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.15 }}
               viewport={{ once: true }}
-              className='mt-10 flex justify-center'
+              className='mt-6 flex justify-center'
             >
               <Button
                 as={Link}
                 to='/projects'
+                size='xs'
                 icon={<FaExternalLinkAlt />}
               >
                 {isPashto ? 'ټولې پروژې وګورئ' : 'See all projects'}
@@ -660,7 +658,7 @@ const ProjectsSection = ({ locale = 'en' }) => {
               title={isPashto ? 'په اړه او فعاليت' : 'About & activity'}
               light
             />
-            <div className='grid grid-cols-1 items-stretch gap-6 md:grid-cols-2'>
+            <div className='grid min-w-0 grid-cols-1 items-stretch gap-6 md:grid-cols-2'>
               <motion.div
                 initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -676,25 +674,17 @@ const ProjectsSection = ({ locale = 'en' }) => {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
                 viewport={{ once: true }}
-                className='group relative h-full min-h-[320px]'
+                className='group relative h-full min-h-0 min-w-0'
               >
-                <div className='relative flex h-full flex-col rounded-lg bg-panel p-4 transition-[box-shadow,background-color] duration-300 group-hover:bg-panel-hover group-hover:shadow-[0_0_0_0.5px_rgba(0,0,0,0.22)] sm:p-5'>
-                  <div className='mb-4 flex items-center gap-3'>
-                    <FaGithub className='text-lg text-ink' />
-                    <div>
-                      <h3 className='mb-0.5 text-[17px] font-medium tracking-tight text-ink'>
-                        {isPashto ? 'د ونډو فعاليت' : 'Contribution activity'}
-                      </h3>
-                      <p className='text-[15px] leading-6 text-ink-muted'>
-                        {isPashto
-                          ? 'په تېرو ۱۲ مياشتو کې د GitHub ونډې'
-                          : 'GitHub contributions over the last year'}
-                      </p>
-                    </div>
+                <div className='relative flex h-full flex-col rounded-lg bg-card p-4 shadow-[0_0_0_0.5px_rgba(10,10,10,0.08)] transition-[box-shadow,background-color] duration-300 group-hover:shadow-[0_0_0_0.5px_rgba(10,10,10,0.18)] dark:shadow-none dark:group-hover:shadow-[0_0_0_0.5px_rgba(0,0,0,0.22)] sm:p-5'>
+                  <div className='mb-4'>
+                    <h3 className='text-[17px] font-medium tracking-tight text-ink'>
+                      {isPashto ? 'د ونډو فعاليت' : 'Contribution activity'}
+                    </h3>
                   </div>
-                  <div className='min-h-0 flex-1 rounded-lg border border-white/10 bg-[linear-gradient(to_bottom,#4c4e51,#1e1f22)] p-5'>
+                  <div className='min-h-0 min-w-0 flex-1 overflow-hidden rounded-lg border border-white/10 bg-[#0C1117] px-2 py-3 sm:px-3 sm:py-4'>
                     <div
-                      className='w-full overflow-x-auto'
+                      className='w-full min-w-0 overflow-x-auto'
                       style={{
                         scrollbarWidth: 'thin',
                         scrollbarColor: '#444 transparent',
@@ -711,7 +701,7 @@ const ProjectsSection = ({ locale = 'en' }) => {
                     rel='noopener noreferrer'
                     onMouseEnter={() => setHoveredGithub(true)}
                     onMouseLeave={() => setHoveredGithub(false)}
-                    className='mt-5 flex items-center justify-center gap-3 self-center text-ink transition-colors duration-300 hover:text-black dark:hover:text-[#D7FF00] group'
+                    className='group mt-5 flex items-center justify-center gap-3 self-center text-ink transition-colors duration-300 hover:text-[#D7FF00]'
                   >
                     <span className='inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-lg opacity-90 transition-[filter,opacity,color] duration-300 group-hover:opacity-100 [filter:grayscale(1)_brightness(1.15)] group-hover:[filter:grayscale(1)_brightness(1.35)]'>
                       <Suspense
@@ -841,22 +831,17 @@ const BlogsCard = ({ isPashto }) => (
     viewport={{ once: true }}
     className='relative group'
   >
-    <div className='relative flex h-full flex-col rounded-lg bg-panel p-4 transition-[box-shadow,background-color] duration-300 group-hover:bg-panel-hover group-hover:shadow-[0_0_0_0.5px_rgba(0,0,0,0.22)] sm:p-5'>
+    <div className='relative flex h-full flex-col rounded-lg bg-card p-4 shadow-[0_0_0_0.5px_rgba(10,10,10,0.08)] transition-[box-shadow] duration-300 group-hover:shadow-[0_0_0_0.5px_rgba(10,10,10,0.18)] dark:shadow-none dark:group-hover:shadow-[0_0_0_0.5px_rgba(0,0,0,0.22)] sm:p-5'>
       <div className='mb-4 flex items-start justify-between gap-3'>
-        <div className='flex items-center gap-3'>
-          <div className='flex h-8 w-8 items-center justify-center rounded-full border border-line bg-[#D7FF00]'>
-            <FaBook className='text-sm text-black' />
-          </div>
-          <div>
-            <h3 className='text-[17px] font-medium tracking-tight text-ink'>
-              {isPashto ? 'بلاګونه' : 'Blogs'}
-            </h3>
-            <p className='text-xs text-gray-600 dark:text-white/55'>
-              {isPashto ? 'تخنيکي ليکنې' : 'Technical writing'}
-            </p>
-          </div>
+        <div>
+          <h3 className='text-[17px] font-medium tracking-tight text-ink'>
+            {isPashto ? 'بلاګونه' : 'Blogs'}
+          </h3>
+          <p className='text-xs text-ink-muted'>
+            {isPashto ? 'تخنيکي ليکنې' : 'Technical writing'}
+          </p>
         </div>
-        <Button as={Link} to='/blogs' size='sm' variant='primary'>
+        <Button as={Link} to='/blogs' size='xs' variant='primary'>
           {isPashto ? 'ټول وګورئ' : 'View all'}
         </Button>
       </div>
@@ -865,16 +850,16 @@ const BlogsCard = ({ isPashto }) => (
         {BLOG_POSTS.map((post) => (
           <div
             key={post.url}
-            className='group/post relative flex w-[200px] shrink-0 flex-col overflow-hidden rounded-xl border border-line/10 bg-surface-alt px-3.5 py-4 transition-all duration-300 hover:border-black/25 hover:shadow-[0_0_0_0.5px_rgba(0,0,0,0.22)] sm:w-[220px]'
+            className='group/post relative flex w-[200px] shrink-0 flex-col overflow-hidden rounded-xl border border-ink/10 bg-card-inset px-3.5 py-4 transition-all duration-300 hover:border-ink/20 sm:w-[220px]'
           >
             <div className='min-w-0 flex-1'>
-              <span className='mb-2 inline-block text-[9px] font-mono uppercase tracking-[0.18em] text-gray-600 dark:text-white/55'>
+              <span className='mb-2 inline-block font-mono text-[9px] uppercase tracking-[0.18em] text-ink-muted'>
                 {post.source}
               </span>
               <h4 className='mb-2 text-sm font-semibold leading-snug text-ink'>
                 {isPashto ? post.titlePs : post.title}
               </h4>
-              <p className='text-xs leading-relaxed text-gray-600 dark:text-white/55'>
+              <p className='text-xs leading-relaxed text-ink-muted'>
                 {isPashto ? post.descriptionPs : post.description}
               </p>
             </div>
@@ -882,7 +867,7 @@ const BlogsCard = ({ isPashto }) => (
               href={post.url}
               target='_blank'
               rel='noopener noreferrer'
-              size='sm'
+              size='xs'
               fullWidth
               className='mt-4 shrink-0'
               icon={<FaExternalLinkAlt />}

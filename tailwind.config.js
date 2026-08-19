@@ -23,6 +23,8 @@ module.exports = {
         'ink-muted': 'var(--ink-muted)',
         line: 'var(--line)',
         'media-bg': 'var(--media-bg)',
+        card: 'var(--card)',
+        'card-inset': 'var(--card-inset)',
       },
 
       boxShadow: {

@@ -35,7 +35,22 @@ function positionTooltip(anchor, bubble) {
   bubble.style.top = `${anchorRect.top - 10}px`;
 }
 
+function useIsCompact() {
+  const [isCompact, setIsCompact] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 640px)');
+    const update = () => setIsCompact(mq.matches);
+    update();
+    mq.addEventListener('change', update);
+    return () => mq.removeEventListener('change', update);
+  }, []);
+
+  return isCompact;
+}
+
 const GitHubContributions = ({ username, dark = false }) => {
+  const isCompact = useIsCompact();
   const [contributions, setContributions] = useState(null);
   const [loading, setLoading] = useState(true);
   const [totalContributions, setTotalContributions] = useState(0);
@@ -340,7 +355,7 @@ const GitHubContributions = ({ username, dark = false }) => {
                 {Array.from({ length: 7 }).map((_, j) => (
                   <div
                     key={j}
-                    className={`w-3 h-3 rounded animate-pulse ${emptyCell}`}
+                    className={`h-2 w-2 rounded-[2px] animate-pulse ${emptyCell}`}
                   />
                 ))}
               </div>
@@ -353,60 +368,116 @@ const GitHubContributions = ({ username, dark = false }) => {
 
   if (!contributions) return null;
 
+  const startWeek = isCompact
+    ? Math.max(0, contributions.weeks.length - 26)
+    : 0;
+  const weeksToShow = contributions.weeks.slice(startWeek);
+  const monthsToShow = contributions.monthPositions
+    .filter((month) => month.weekIndex >= startWeek)
+    .map((month) => ({
+      ...month,
+      weekIndex: month.weekIndex - startWeek,
+    }));
+  const weekCount = weeksToShow.length;
+  const weekWidth = 10;
+
+  const renderDays = () =>
+    weeksToShow.map((week, weekIndex) =>
+      week.map((day, dayIndex) => {
+        if (!day.date) {
+          return (
+            <span
+              key={`${weekIndex}-${dayIndex}`}
+              className='activity-day bg-transparent'
+            />
+          );
+        }
+        const tooltipText = formatTooltip(day.date, day.count);
+        return (
+          <span
+            key={`${weekIndex}-${dayIndex}`}
+            className={`activity-day ${getIntensity(day.count)}`}
+            data-level={levelFromCount(day.count)}
+            data-tooltip={tooltipText}
+            aria-label={tooltipText}
+            tabIndex={!isCompact && day.count > 0 ? 0 : undefined}
+            onMouseEnter={(event) =>
+              showTooltip(event.currentTarget, tooltipText)
+            }
+            onMouseLeave={() => hideTooltip()}
+            onFocus={(event) => showTooltip(event.currentTarget, tooltipText)}
+            onBlur={() => hideTooltip(0)}
+          />
+        );
+      })
+    );
+
+  const gridPointer = {
+    onPointerDown: (event) => {
+      if (event.pointerType !== 'touch') return;
+      event.currentTarget.setPointerCapture(event.pointerId);
+      trackTouch(event);
+    },
+    onPointerMove: trackTouch,
+    onPointerUp: (event) => {
+      if (event.pointerType === 'touch') hideTooltip(400);
+    },
+    onPointerCancel: (event) => {
+      if (event.pointerType === 'touch') hideTooltip();
+    },
+  };
+
   return (
-    <div className='space-y-3 w-full'>
-      {/* Title */}
-      <div className='flex items-center justify-between'>
-        <h4 className={titleClass}>
-          {totalContributions.toLocaleString()} contributions in the last year
+    <div className='w-full min-w-0 space-y-2 sm:space-y-3'>
+      <div className='flex items-center justify-between gap-2'>
+        <h4 className={`${titleClass} min-w-0 truncate text-[11px] sm:text-sm`}>
+          {isCompact
+            ? `${totalContributions.toLocaleString()} contributions`
+            : `${totalContributions.toLocaleString()} contributions in the last year`}
         </h4>
       </div>
 
-      {/* Graph Container */}
-      <div className='flex gap-2' style={{ minWidth: 'max-content' }}>
-        {/* Day Labels */}
-        <div className='flex flex-col gap-1 pt-3 flex-shrink-0'>
-          {dayLabels.map((label, idx) => (
-            <div
-              key={idx}
-              className='h-3 flex items-center justify-end pr-2'
-            >
-              {label && (
-                <span
-                  className={`text-[10px] leading-none whitespace-nowrap ${mutedClass}`}
-                >
-                  {label}
-                </span>
-              )}
-            </div>
-          ))}
-        </div>
+      <div className='flex min-w-0 gap-1.5 overflow-x-auto'>
+        {!isCompact ? (
+          <div className='flex flex-shrink-0 flex-col gap-[2px] pt-6'>
+            {dayLabels.map((label, idx) => (
+              <div
+                key={idx}
+                className='flex h-2 items-center justify-end pr-1.5'
+              >
+                {label ? (
+                  <span
+                    className={`whitespace-nowrap text-[9px] leading-none ${mutedClass}`}
+                  >
+                    {label}
+                  </span>
+                ) : null}
+              </div>
+            ))}
+          </div>
+        ) : null}
 
-        {/* Main Graph */}
-        <div className='flex-shrink-0'>
-          {/* Month Labels */}
+        <div className='min-w-0 flex-shrink-0'>
           <div
-            className='flex gap-1 mb-1 relative h-4'
-            style={{ width: `${53 * 16}px` }}
+            className='relative mb-2 flex h-4 overflow-hidden'
+            style={{ width: `${weekCount * weekWidth - 2}px` }}
           >
-            {contributions.monthPositions.map((month, idx) => {
-              const nextMonth = contributions.monthPositions[idx + 1];
-              const weekWidth = 16;
+            {monthsToShow.map((month, idx) => {
+              const nextMonth = monthsToShow[idx + 1];
+              const spanWeeks = nextMonth
+                ? nextMonth.weekIndex - month.weekIndex
+                : weekCount - month.weekIndex;
+              if (spanWeeks < 3) return null;
               const leftPosition = month.weekIndex * weekWidth;
-              const width = nextMonth
-                ? (nextMonth.weekIndex - month.weekIndex) * weekWidth
-                : (53 - month.weekIndex) * weekWidth;
+              const width = spanWeeks * weekWidth;
               return (
                 <div
-                  key={idx}
-                  className='absolute'
-                  style={{
-                    left: `${leftPosition}px`,
-                    minWidth: `${width}px`,
-                  }}
+                  key={month.name + month.weekIndex}
+                  className='absolute top-0 flex h-4 items-end overflow-hidden'
+                  style={{ left: `${leftPosition}px`, width: `${width}px` }}
                 >
                   <span
-                    className={`text-[10px] leading-none whitespace-nowrap ${mutedClass}`}
+                    className={`block truncate text-[9px] leading-none ${mutedClass}`}
                   >
                     {month.name}
                   </span>
@@ -414,60 +485,8 @@ const GitHubContributions = ({ username, dark = false }) => {
               );
             })}
           </div>
-
-          {/* Contribution Grid */}
-          <div
-            className='flex gap-1'
-            style={{ width: `${53 * 16}px` }}
-            onPointerDown={(event) => {
-              if (event.pointerType !== 'touch') return;
-              event.currentTarget.setPointerCapture(event.pointerId);
-              trackTouch(event);
-            }}
-            onPointerMove={trackTouch}
-            onPointerUp={(event) => {
-              if (event.pointerType === 'touch') hideTooltip(400);
-            }}
-            onPointerCancel={(event) => {
-              if (event.pointerType === 'touch') hideTooltip();
-            }}
-          >
-            {contributions.weeks.map((week, weekIndex) => (
-              <div key={weekIndex} className='flex flex-col gap-1'>
-                {week.map((day, dayIndex) => {
-                  if (!day.date) {
-                    return (
-                      <span
-                        key={dayIndex}
-                        className='block h-3 w-3 rounded bg-transparent'
-                      />
-                    );
-                  }
-
-                  const tooltipText = formatTooltip(day.date, day.count);
-                  return (
-                    <span
-                      key={dayIndex}
-                      className={`activity-day h-3 w-3 rounded ${getIntensity(
-                        day.count
-                      )}`}
-                      data-level={levelFromCount(day.count)}
-                      data-tooltip={tooltipText}
-                      aria-label={tooltipText}
-                      tabIndex={day.count > 0 ? 0 : undefined}
-                      onMouseEnter={(event) =>
-                        showTooltip(event.currentTarget, tooltipText)
-                      }
-                      onMouseLeave={() => hideTooltip()}
-                      onFocus={(event) =>
-                        showTooltip(event.currentTarget, tooltipText)
-                      }
-                      onBlur={() => hideTooltip(0)}
-                    />
-                  );
-                })}
-              </div>
-            ))}
+          <div className='activity-grid' {...gridPointer}>
+            {renderDays()}
           </div>
         </div>
       </div>
@@ -485,30 +504,29 @@ const GitHubContributions = ({ username, dark = false }) => {
           )
         : null}
 
-      {/* Legend */}
       <div
-        className={`flex items-center justify-end gap-2 text-[10px] ${mutedClass}`}
+        className={`flex items-center justify-end gap-1.5 text-[9px] sm:gap-2 sm:text-[10px] ${mutedClass}`}
       >
         <span>Less</span>
         <div className='flex gap-0.5'>
-          <div className={`w-3 h-3 rounded ${emptyCell}`}></div>
+          <div className={`h-2 w-2 rounded-[2px] ${emptyCell}`}></div>
           <div
-            className={`w-3 h-3 rounded ${
+            className={`h-2 w-2 rounded-[2px] ${
               dark ? 'bg-[#0e4429]' : 'bg-[#9be9a8]'
             }`}
           ></div>
           <div
-            className={`w-3 h-3 rounded ${
+            className={`h-2 w-2 rounded-[2px] ${
               dark ? 'bg-[#006d32]' : 'bg-[#40c463]'
             }`}
           ></div>
           <div
-            className={`w-3 h-3 rounded ${
+            className={`h-2 w-2 rounded-[2px] ${
               dark ? 'bg-[#26a641]' : 'bg-[#30a14e]'
             }`}
           ></div>
           <div
-            className={`w-3 h-3 rounded ${
+            className={`h-2 w-2 rounded-[2px] ${
               dark ? 'bg-[#39d353]' : 'bg-[#216e39]'
             }`}
           ></div>

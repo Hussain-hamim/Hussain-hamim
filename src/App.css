@@ -30,6 +30,8 @@
   --cursor-fill: #f9f9f8;
   --cursor-stroke: #0a0a0a;
   --tooltip-surface: #ffffff;
+  --card: #ffffff;
+  --card-inset: #f2f2f0;
   --activity-empty: color-mix(in srgb, var(--ink) 7%, transparent);
 }
 
@@ -46,6 +48,8 @@ html.dark {
   --cursor-fill: #0b1215;
   --cursor-stroke: #f3f1e6;
   --tooltip-surface: #161615;
+  --card: #161615;
+  --card-inset: #0c1117;
 }
 
 html {
@@ -282,7 +286,19 @@ html {
 .activity-day {
   position: relative;
   display: block;
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
   outline: none;
+}
+
+.activity-grid {
+  display: grid;
+  grid-auto-columns: 8px;
+  grid-auto-flow: column;
+  grid-template-rows: repeat(7, 8px);
+  gap: 2px;
+  width: max-content;
 }
 
 .activity-day[data-level]:not([data-level='0']):hover,

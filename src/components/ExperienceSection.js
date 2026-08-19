@@ -42,7 +42,7 @@ const ExperienceCard = ({ exp, index, isPashto, isRtl, isLast }) => (
     </div>
 
     <div className='min-w-0 flex-1 pb-1'>
-      <div className='relative rounded-xl bg-panel p-4 transition-[box-shadow,background-color] duration-300 group-hover:bg-panel-hover group-hover:shadow-[0_0_0_0.5px_rgba(0,0,0,0.22)] md:p-5'>
+      <div className='relative rounded-xl bg-card p-4 shadow-[0_0_0_0.5px_rgba(10,10,10,0.08)] transition-[box-shadow] duration-300 group-hover:shadow-[0_0_0_0.5px_rgba(10,10,10,0.18)] dark:shadow-none dark:group-hover:shadow-[0_0_0_0.5px_rgba(0,0,0,0.22)] md:p-5'>
         {/* Tick from card toward the timeline node */}
         <span
           aria-hidden
@@ -52,7 +52,7 @@ const ExperienceCard = ({ exp, index, isPashto, isRtl, isLast }) => (
         />
 
         <div className={`mb-1.5 ${isRtl ? 'text-right' : ''}`}>
-          <span className='text-[10px] font-mono uppercase tracking-wider text-gray-600 dark:text-white/55'>
+          <span className='font-mono text-[10px] uppercase tracking-wider text-ink-muted'>
             {exp.duration}
           </span>
         </div>
@@ -64,14 +64,14 @@ const ExperienceCard = ({ exp, index, isPashto, isRtl, isLast }) => (
           {exp.role}
         </h3>
         <p
-          className={`mb-2 text-sm font-medium text-gray-600 dark:text-white/55 ${
+          className={`mb-2 text-sm font-medium text-ink-muted ${
             isRtl ? 'text-right' : ''
           }`}
         >
           {exp.company}
         </p>
         <p
-          className={`font-sans3 text-sm leading-relaxed text-gray-700 dark:text-white/70 ${
+          className={`font-sans3 text-sm leading-relaxed text-ink/70 ${
             isRtl ? 'text-right' : ''
           }`}
         >

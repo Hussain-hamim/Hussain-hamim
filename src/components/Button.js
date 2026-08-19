@@ -1,6 +1,11 @@
 import React from 'react';
 
 const SIZE = {
+  xs: {
+    root: 'min-h-[24px] gap-1 px-2 py-0.5 text-[10px] sm:min-h-[26px] sm:px-2.5',
+    iconWrap: 'h-4 w-4',
+    icon: 'h-2 w-2',
+  },
   sm: {
     root: 'min-h-[28px] gap-1.5 px-2.5 py-1 text-[10px] sm:min-h-[30px] sm:px-3 sm:text-[11px]',
     iconWrap: 'h-5 w-5',
