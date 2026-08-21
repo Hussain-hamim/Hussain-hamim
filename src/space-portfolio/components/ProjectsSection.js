@@ -47,7 +47,7 @@ const PROJECTS = [
     description:
       'Shared goals, timeline, and chat for couples building together.',
     image: goaltracking,
-    live: 'https://goals-tracking-cc.vercel.app/#app-screenshots',
+    live: 'https://www.coupleconnect.love/',
   },
   {
     title: 'Shan-AI',
