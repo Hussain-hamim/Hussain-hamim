@@ -9,6 +9,7 @@ import { useTheme } from '../context/themeContext';
 import heroPortrait from '../asset/hsn3-hero.jpg';
 
 const ParticleLetter = lazy(() => import('./ParticleLetter'));
+const HeroAtmosphere = lazy(() => import('./HeroAtmosphere'));
 
 const scrollToSection = (anchor) => {
   const el = document.getElementById(`${anchor}-section`);
@@ -223,6 +224,9 @@ const LandingSection = ({ locale = 'en' }) => {
       onMouseEnter={() => setHeroHovered(true)}
       onMouseLeave={() => setHeroHovered(false)}
     >
+      <Suspense fallback={null}>
+        <HeroAtmosphere />
+      </Suspense>
       {visitorLabel ? (
         <motion.div
           initial={{ opacity: 0, y: -6 }}
