@@ -59,7 +59,6 @@ export default function HeroAtmosphere() {
     let mx = -9999;
     let my = -9999;
     let lastW = 0;
-    let t = 0;
 
     const mouseMove = (e) => {
       const rect = canvas.parentElement?.getBoundingClientRect();
@@ -98,49 +97,9 @@ export default function HeroAtmosphere() {
       lastW = w;
     };
 
-    const blob = (x, y, radius, color) => {
-      const g = ctx.createRadialGradient(x, y, 0, x, y, radius);
-      g.addColorStop(0, color);
-      g.addColorStop(1, 'rgba(0,0,0,0)');
-      ctx.fillStyle = g;
-      ctx.beginPath();
-      ctx.arc(x, y, radius, 0, Math.PI * 2);
-      ctx.fill();
-    };
-
-    const drawNebula = (dark) => {
-      const lime = dark ? 0.38 : 0.18;
-      const teal = dark ? 0.28 : 0.12;
-      blob(
-        w * (0.5 + Math.sin(t * 0.31) * 0.08),
-        h * (0.02 + Math.cos(t * 0.22) * 0.04),
-        Math.max(w, h) * 0.55,
-        `rgba(215, 255, 0, ${lime})`
-      );
-      blob(
-        w * (0.28 + Math.cos(t * 0.19) * 0.06),
-        h * (0.06 + Math.sin(t * 0.27) * 0.03),
-        Math.max(w, h) * 0.32,
-        `rgba(45, 212, 191, ${teal})`
-      );
-      blob(
-        w * (0.72 + Math.sin(t * 0.17) * 0.05),
-        h * (0.0 + Math.cos(t * 0.21) * 0.03),
-        Math.max(w, h) * 0.3,
-        `rgba(215, 255, 0, ${lime * 0.55})`
-      );
-      blob(
-        w * (0.58 + Math.sin(t * 0.14) * 0.04),
-        h * (0.1 + Math.cos(t * 0.16) * 0.03),
-        Math.max(w, h) * 0.22,
-        `rgba(45, 212, 191, ${teal * 0.7})`
-      );
-    };
-
     const draw = () => {
       ctx.clearRect(0, 0, w, h);
       const dark = document.documentElement.classList.contains('dark');
-      drawNebula(dark);
       for (const p of particles) {
         if (!reduced) {
           const dx = p.x - mx;
@@ -169,9 +128,8 @@ export default function HeroAtmosphere() {
       }
     };
 
-    const loop = (now) => {
+    const loop = () => {
       if (!running) return;
-      t = now / 1000;
       draw();
       raf = requestAnimationFrame(loop);
     };

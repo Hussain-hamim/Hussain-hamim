@@ -220,7 +220,7 @@ const LandingSection = ({ locale = 'en' }) => {
 
   return (
     <section
-      className='section-sep relative w-full min-h-screen overflow-hidden bg-hero transition-colors duration-300'
+      className='section-sep relative w-full min-h-screen overflow-hidden bg-surface-alt transition-colors duration-300'
       onMouseEnter={() => setHeroHovered(true)}
       onMouseLeave={() => setHeroHovered(false)}
     >
@@ -312,7 +312,7 @@ const LandingSection = ({ locale = 'en' }) => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.28, duration: 0.6 }}
-            className='mt-12 max-w-xl font-sans1 text-[clamp(1.15rem,3.2vw,1.65rem)] font-bold uppercase leading-[1.15] tracking-tight text-ink sm:mt-14'
+            className='mt-8 max-w-xl font-sans1 text-[clamp(0.92rem,2vw,1.15rem)] font-bold uppercase leading-[1.3] tracking-tight text-ink sm:mt-10'
           >
             {isPashto ? (
               <>
