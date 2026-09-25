@@ -68,7 +68,7 @@ export default function AiChatBar({ className = '' }) {
   return (
     <div className={className}>
       <p className='mb-3 text-[10px] font-mono uppercase tracking-[0.2em] text-white/40'>
-        Or chat via AI
+        Or chat about us via AI
       </p>
       <div className='inline-flex max-w-full items-center gap-1.5 overflow-x-auto rounded-full bg-black p-1.5 shadow-[0_0_0_1px_rgba(255,255,255,0.08)]'>
         {LINKS.map(({ id, label, href, Icon }) => (

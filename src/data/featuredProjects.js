@@ -139,27 +139,26 @@ export const featuredProjects = [
     testimonials: [],
   },
   {
-    slug: 'goal-tracking-app',
-    title: 'Couple Connect',
-    /** Optional: friendlier “Open …” label on the case study CTA (avoids long demo URLs). */
-    openLinkLabel: 'Couple Connect',
-    cardHeadline: 'Couple Connect — shared goals, timeline, and chat for two.',
+    slug: 'timecircle',
+    title: 'TimeCircle',
+    openLinkLabel: 'TimeCircle',
+    cardHeadline: 'Make more time for real life — people, places, and plans.',
     tagline:
-      'Couple Connect — build your future together. One place for you both: shared timeline, goals, and chat, designed for couples.',
-    live: 'https://www.coupleconnect.love/',
+      'Good people. New places. Plans worth showing up for. TimeCircle turns “we should do something” into a real plan.',
+    live: 'https://timecircle.vercel.app/',
     code: 'https://github.com/Hussain-hamim',
-    role: 'Solo mobile engineer',
-    stack: ['Swift', 'SwiftUI', 'Supabase'],
+    role: 'Founder & engineer',
+    stack: ['Next.js', 'Supabase', 'iOS'],
     problem:
-      'Couples still bounce between notes apps, spreadsheets, and DMs — nothing ties savings, travel, home, and fitness goals into one shared space built for two.',
+      'A lot of good plans stay in the group chat. People want less scrolling and more showing up, but starting is the hard part.',
     built:
-      'Couple Connect: shared goals (track savings, travel, home, or fitness together with contributions and milestones), private couple chat, unlimited moments & memories on a shared timeline, partner invite (subscribe to Pro and your partner gets it free), plus Home, Goals, Chat, and Profile in one simple app — private & secure.',
+      'TimeCircle is a place to find a small plan, meet people through something you already enjoy, and discover places nearby or on a trip. You can join a plan or make your own.',
     result:
-      'Couple Connect is an iOS app for couples to grow together with shared goals, real-time chat, love letters, milestones, memories, and partner invites in one private space.',
+      'A waitlist for an iPhone app built around real plans — coffee, a walk, dinner with new people — instead of another feed.',
     metrics: [
-      { value: '4', label: 'Core sections (Home/Goals/Chat/Profile)' },
-      { value: '2', label: 'Users per shared space (couple)' },
-      { value: '∞', label: 'Moments & memories (timeline)' },
+      { value: 'iPhone', label: 'Coming soon' },
+      { value: 'Waitlist', label: 'Early access' },
+      { value: '3', label: 'Find, meet, show up' },
     ],
     beforeAfter: {
       before: null,
@@ -167,16 +166,6 @@ export const featuredProjects = [
       note: '<REPLACE: short caption for before/after.>',
     },
     testimonials: [],
-    partnership: {
-      badge: {
-        en: 'Open to partnership',
-        ps: 'د همکارۍ لپاره پرانیست',
-      },
-      hint: {
-        en: 'Seeking a marketing partner to help launch Couple Connect — also open to collaborators on product, distribution, and growth. Get in touch if this fits you.',
-        ps: 'د Couple Connect د پیل لپاره د بازاریابۍ شریک لټوم — د محصول او خپرونې لپاره هم غواړم چې راشئ. که سم ښکاري، راته ولیکئ.',
-      },
-    },
   },
 ];
 

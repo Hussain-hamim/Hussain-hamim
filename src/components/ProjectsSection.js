@@ -50,9 +50,10 @@ export const projects = [
     title: 'IdeaHunt',
     description:
       'Discover & validate your next big idea. We scan millions of conversations, reviews, and complaints across the web to find real problems people are struggling with. then help you turn them into validated business ideas that actually have demand.',
-    getImageSrc: () => require('../images/ideahunt3.png'),
+    getImageSrc: () => require('../images/ideahunt-cover.jpg'),
     link: 'https://github.com/Hussain-hamim',
     live: 'https://www.ideahunt.pro/',
+    embedUrl: 'https://www.ideahunt.pro/',
     tags: ['AI', 'Business', 'Validation', 'SaaS'],
     theme: { primary: '#286A64', secondary: '#2DD4BF' },
   },
@@ -63,6 +64,7 @@ export const projects = [
     getImageSrc: () => require('../images/aegnisai.png'),
     link: 'https://github.com/Hussain-hamim',
     live: 'https://aegnis.life',
+    embedUrl: 'https://aegnis.life',
     tags: ['AI', 'Productivity', 'Full-stack'],
     theme: { primary: '#1F1205', secondary: '#D97706' },
   },
@@ -166,19 +168,20 @@ export const mobileProjects = [
     getImageSrc: () => require('../images/proveit-ai.png'),
     link: 'https://github.com/Hussain-hamim',
     live: 'https://www.proveitai.app/',
+    embedUrl: 'https://www.proveitai.app/',
     tags: ['iOS', 'AI', 'Swift', 'Accountability'],
     theme: { primary: '#0A0A0A', secondary: '#FF5A2D' },
   },
   {
-    title: 'Couple Connect',
+    title: 'TimeCircle',
     description:
-      'Couple Connect — one place for you both: shared timeline, goals, and private chat for couples. Track savings, travel, home, or fitness together, add contributions, celebrate milestones, and save unlimited moments on your timeline.',
-    getImageSrc: () => require('../images/goaltracking.png'),
+      'Make more time for real life. TimeCircle turns “we should do something” into a real plan — find people, places, and small adventures nearby or on your next trip. Coming to iPhone.',
+    getImageSrc: () => require('../images/timecircle-cover.jpg'),
     link: 'https://github.com/Hussain-hamim',
-    live: 'https://www.coupleconnect.love/',
-    embedUrl: 'https://www.coupleconnect.love/#app-screenshots',
-    tags: ['Swift', 'iOS', 'Supabase'],
-    theme: { primary: '#160C1A', secondary: '#E8A598' },
+    live: 'https://timecircle.vercel.app/',
+    embedUrl: 'https://timecircle.vercel.app/',
+    tags: ['iOS', 'Social', 'Places'],
+    theme: { primary: '#3D2A22', secondary: '#E07A3D' },
   },
   {
     title: 'Shan-AI',
@@ -527,6 +530,8 @@ export const mobileDescriptionsPs = {
       'Barber Booking App: يو Full-Stack موبايل پروګرام د admin او client جلا پينلونو سره، چې د Supabase او Expo په مرسته جوړ شوی.',
     'ProveIt AI':
       'ProveIt AI تاسو مجبوروي چې کارونه ثابت کړئ: ژوندی عکس proof، AI سکین، ضرب‌الاجلونه او الارمونه تر څو ثابت يې کړئ — يا تسليم شئ. Coach Aura هم پکې دی.',
+    TimeCircle:
+      'د رښتیني ژوند لپاره ډېر وخت. TimeCircle کوچني پلانونه، ځایونه او خلک سره نښلوي — په خپل ښار کې یا په سفر کې. iPhone ته راځي.',
     'Brick Blitz':
       'Brick Breaker لوبه: يو کراس پلېټفارم موبايل ګېم چې د React Native او Reanimated په مرسته ډېر نرم انيميشنونه وړاندې کوي.',
     'Airbnb Clone':
@@ -580,14 +585,14 @@ const ProjectsSection = ({ locale = 'en' }) => {
     'IdeaHunt',
     'Aegnis AI',
     'ProveIt AI',
-    'Couple Connect',
+    'TimeCircle',
   ];
   const currentSideProjects = [
     ...webProjects.filter(
       (p) => p.title === 'IdeaHunt' || p.title === 'Aegnis AI'
     ),
     ...mobileProjectsLocalized.filter(
-      (p) => p.title === 'ProveIt AI' || p.title === 'Couple Connect'
+      (p) => p.title === 'ProveIt AI' || p.title === 'TimeCircle'
     ),
   ].sort(
     (a, b) =>
@@ -778,6 +783,7 @@ const ProjectsSection = ({ locale = 'en' }) => {
 };
 
 const PHOTO_IMAGES = [
+  { src: require('../images/photos-stack-8.jpg'), alt: 'Laptop at a late-night setup' },
   { src: require('../images/photos-stack-1.png'), alt: 'Photo 1' },
   { src: require('../images/photos-stack-2.png'), alt: 'Photo 2' },
   { src: require('../images/photos-stack-3.png'), alt: 'Photo 3' },

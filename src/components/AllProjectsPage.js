@@ -169,11 +169,7 @@ const AllProjectsPage = () => {
             {mobileProjectsToShow.map((project, index) => (
               <ProjectCard
                 key={project.title}
-                project={
-                  project.title === 'Couple Connect'
-                    ? { ...project, embedUrl: undefined }
-                    : project
-                }
+                project={project}
                 index={index}
                 isPashto={isPashto}
                 light

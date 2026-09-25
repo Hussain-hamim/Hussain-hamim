@@ -52,6 +52,11 @@ const ContactMeSection = ({ locale = "en" }) => {
       url: WHATSAPP_URL,
       label: "WhatsApp",
     },
+    {
+      img: require("../images/socials/instagram.png"),
+      url: "https://www.instagram.com/hussainhamim_/",
+      label: "Instagram",
+    },
   ];
 
   const bookLabel = isPashto ? "د لیدنې وخت وټاکئ" : "Book a call";

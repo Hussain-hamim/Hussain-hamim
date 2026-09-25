@@ -1,23 +1,18 @@
-import React, { useLayoutEffect, useRef, useState, useEffect, useCallback, lazy, Suspense } from 'react';
+import React, { useLayoutEffect, useRef, useState, useEffect, lazy, Suspense } from 'react';
 import { motion } from 'framer-motion';
-import { Calendar, ArrowRight, MessageSquare, Eye } from 'lucide-react';
+import { ArrowRight, Eye, MessageSquare } from 'lucide-react';
 import Button from './Button';
 import MeshText from './MeshText';
 import TextMorph from './TextMorph';
-import ScrambleText from './ScrambleText';
 import { useTheme } from '../context/themeContext';
 import heroPortrait from '../asset/hsn3-hero.jpg';
 
 const ParticleLetter = lazy(() => import('./ParticleLetter'));
-const HeroAtmosphere = lazy(() => import('./HeroAtmosphere'));
 
 const scrollToSection = (anchor) => {
   const el = document.getElementById(`${anchor}-section`);
   el?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 };
-
-/** Default 30 min Cal.com booking — override with REACT_APP_BOOKING_URL if needed */
-const DEFAULT_CAL_BOOKING_URL = 'https://cal.com/hussain-hamim-fp9qc6/30min';
 
 /** Irregular ink/paint accent behind text (same mark as HAMIM). */
 function PaintStroke({ className = '' }) {
@@ -101,7 +96,7 @@ function HighlightedMeshText({ text, color = '#0a0a0a' }) {
   return (
     <div
       ref={shellRef}
-      className='relative flex h-[clamp(2.75rem,10vw,4.5rem)] w-full items-center justify-start sm:h-16 md:h-20'
+      className='relative flex h-[clamp(2.15rem,5.5vw,2.75rem)] w-full items-center justify-start sm:h-12 md:h-14'
       aria-hidden='true'
     >
       <div
@@ -129,7 +124,8 @@ function HighlightedMeshText({ text, color = '#0a0a0a' }) {
             }}
             colorSplit
             customColors={['#D7FF00', '#2DD4BF']}
-            force={18}
+            force={0}
+            interactive={false}
             textAlign='left'
           />
         </div>
@@ -142,17 +138,9 @@ const LandingSection = ({ locale = 'en' }) => {
   const isPashto = locale === 'ps';
   const { isDark } = useTheme();
   const ink = isDark ? '#F3F1E6' : '#0a0a0a';
-  const bookingUrl = (
-    process.env.REACT_APP_BOOKING_URL || DEFAULT_CAL_BOOKING_URL
-  ).trim();
-  const [heroHovered, setHeroHovered] = useState(false);
   const [showParticles, setShowParticles] = useState(false);
+  const [portraitFormed, setPortraitFormed] = useState(false);
   const [visitors, setVisitors] = useState(null);
-  const [visitorScrambleDone, setVisitorScrambleDone] = useState(false);
-  const [visitorScrambleText, setVisitorScrambleText] = useState(null);
-  const onVisitorScrambleComplete = useCallback(() => {
-    setVisitorScrambleDone(true);
-  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -186,6 +174,12 @@ const LandingSection = ({ locale = 'en' }) => {
     };
   }, []);
 
+  useEffect(() => {
+    if (!showParticles || portraitFormed) return undefined;
+    const id = window.setTimeout(() => setPortraitFormed(true), 2000);
+    return () => window.clearTimeout(id);
+  }, [showParticles, portraitFormed]);
+
   const visitorLabel =
     visitors != null && Number.isFinite(visitors)
       ? new Intl.NumberFormat(isPashto ? 'ps' : 'en', {
@@ -193,12 +187,6 @@ const LandingSection = ({ locale = 'en' }) => {
           maximumFractionDigits: 1,
         }).format(visitors)
       : null;
-
-  useEffect(() => {
-    if (visitorLabel && visitorScrambleText == null) {
-      setVisitorScrambleText(visitorLabel);
-    }
-  }, [visitorLabel, visitorScrambleText]);
 
   const copy = {
     greeting: isPashto ? 'سلام، زه یم' : "Hey, I'm",
@@ -211,7 +199,6 @@ const LandingSection = ({ locale = 'en' }) => {
       ? 'Full-Stack، موبايل پروګرامونه، او د AI اېجنټ سيستمونه چې په ژر وخت کې رښتينې پايلې راوړي.'
       : 'Full-stack web, mobile apps, and AI agent systems that ship fast and drive real results.',
     ctaSeeWork: isPashto ? 'زما کار وګورئ' : 'See my work',
-    ctaBook: isPashto ? 'د لیدنې وخت وټاکئ' : 'Book a call',
     ctaDropMessage: isPashto ? 'پیغام پریږدئ' : 'Drop a message',
     morphWords: isPashto
       ? ['د AI پر بنسټ', 'Full-Stack', 'موبايل', 'Agent']
@@ -221,58 +208,16 @@ const LandingSection = ({ locale = 'en' }) => {
   return (
     <section
       className='section-sep relative w-full min-h-screen overflow-hidden bg-surface-alt transition-colors duration-300'
-      onMouseEnter={() => setHeroHovered(true)}
-      onMouseLeave={() => setHeroHovered(false)}
     >
-      <Suspense fallback={null}>
-        <HeroAtmosphere />
-      </Suspense>
       {visitorLabel ? (
-        <motion.div
-          initial={{ opacity: 0, y: -6 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.15, duration: 0.45 }}
-          className='pointer-events-none absolute right-4 top-[max(1.25rem,calc(env(safe-area-inset-top)+0.75rem))] z-20 flex flex-col items-end gap-1.5 font-sans3 text-xs text-ink sm:right-6 sm:text-sm md:right-8 lg:right-10'
-        >
-          {visitorScrambleText ? (
-            <div
-              className='flex items-center gap-1.5'
-              aria-label={`${visitorLabel || visitorScrambleText} visitors`}
-            >
-              <Eye
-                className='h-3.5 w-3.5 shrink-0 text-ink-muted sm:h-4 sm:w-4'
-                aria-hidden
-              />
-              {visitorScrambleDone ? (
-                <span className='tabular-nums'>
-                  {visitorLabel || visitorScrambleText}
-                </span>
-              ) : (
-                <ScrambleText
-                  words={visitorScrambleText}
-                  color={ink}
-                  fontFamily='inherit'
-                  fontSize='inherit'
-                  fontWeight={500}
-                  className='!h-auto !w-auto tabular-nums'
-                  style={{ width: 'auto', height: 'auto', overflow: 'visible' }}
-                  enterAnimation={{
-                    mode: 'oneLine',
-                    scrambleIntensity: 90,
-                    ease: { type: 'tween', duration: 0.85, ease: 'linear' },
-                    flickerEnabled: true,
-                    flickerColor: isDark ? '#888888' : '#555555',
-                    flickerIntensity: 65,
-                    flickerSpeed: 12,
-                  }}
-                  onComplete={onVisitorScrambleComplete}
-                />
-              )}
-            </div>
-          ) : null}
-        </motion.div>
+        <div className='pointer-events-none absolute right-4 top-[max(5.25rem,calc(env(safe-area-inset-top)+4.75rem))] z-20 flex items-center gap-1.5 font-sans3 text-xs text-ink sm:right-6 sm:text-sm md:right-8 lg:right-10'>
+          <Eye className='h-3.5 w-3.5 shrink-0 text-ink-muted sm:h-4 sm:w-4' aria-hidden />
+          <span className='tabular-nums' aria-label={`${visitorLabel} visitors`}>
+            {visitorLabel}
+          </span>
+        </div>
       ) : null}
-      <div className='relative z-10 mx-auto flex min-h-screen w-full max-w-6xl flex-col items-center justify-center gap-10 px-6 pb-28 pt-[max(3.5rem,calc(env(safe-area-inset-top)+2rem))] text-center sm:px-8 md:flex-row md:items-center md:justify-center md:gap-12 md:px-10 lg:gap-16'>
+      <div className='relative z-10 mx-auto flex min-h-screen w-full max-w-6xl flex-col items-center justify-center gap-10 px-6 pb-16 pt-[max(5.5rem,calc(env(safe-area-inset-top)+4.5rem))] text-center sm:px-8 md:flex-row md:items-center md:justify-center md:gap-12 md:px-10 lg:gap-16'>
         <div className='relative z-10 flex w-full min-w-0 max-w-xl flex-col items-start justify-center text-left'>
           <motion.p
             initial={{ opacity: 0, y: 12 }}
@@ -288,7 +233,7 @@ const LandingSection = ({ locale = 'en' }) => {
               {copy.greeting} {copy.firstName} {copy.lastName}
             </span>
             <div
-              className='h-[clamp(2.75rem,10vw,4.5rem)] w-full sm:h-16 md:h-20'
+              className='h-[clamp(2.15rem,5.5vw,2.75rem)] w-full sm:h-12 md:h-14'
               aria-hidden='true'
             >
               <MeshText
@@ -301,7 +246,8 @@ const LandingSection = ({ locale = 'en' }) => {
                 }}
                 colorSplit
                 customColors={['#D7FF00', '#2DD4BF']}
-                force={18}
+                force={0}
+                interactive={false}
                 textAlign='left'
               />
             </div>
@@ -312,7 +258,7 @@ const LandingSection = ({ locale = 'en' }) => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.28, duration: 0.6 }}
-            className='mt-8 max-w-xl font-sans1 text-[clamp(0.92rem,2vw,1.15rem)] font-bold uppercase leading-[1.3] tracking-tight text-ink sm:mt-10'
+            className='mt-5 max-w-xl font-sans1 text-[clamp(0.92rem,2vw,1.15rem)] font-bold uppercase leading-[1.3] tracking-tight text-ink sm:mt-6'
           >
             {isPashto ? (
               <>
@@ -354,27 +300,14 @@ const LandingSection = ({ locale = 'en' }) => {
             transition={{ delay: 0.5, duration: 0.55 }}
             className='mt-8 flex w-full max-w-md flex-col items-stretch justify-start gap-3 sm:mt-10 sm:max-w-none sm:flex-row sm:flex-wrap sm:items-center sm:justify-start'
           >
-            <div className='flex w-full flex-row items-center gap-3 sm:w-auto'>
-              {bookingUrl ? (
-                <Button
-                  href={bookingUrl}
-                  target='_blank'
-                  rel='noopener noreferrer'
-                  icon={<Calendar />}
-                  className='min-w-0 flex-1 sm:flex-none'
-                >
-                  {copy.ctaBook}
-                </Button>
-              ) : null}
-              <Button
-                variant='secondary'
-                onClick={() => scrollToSection('projects')}
-                icon={<ArrowRight />}
-                className='min-w-0 flex-1 sm:flex-none'
-              >
-                {copy.ctaSeeWork}
-              </Button>
-            </div>
+            <Button
+              variant='secondary'
+              onClick={() => scrollToSection('projects')}
+              icon={<ArrowRight />}
+              className='w-full sm:w-auto'
+            >
+              {copy.ctaSeeWork}
+            </Button>
             <Button
               variant='outline'
               onClick={() => scrollToSection('contactme')}
@@ -408,7 +341,7 @@ const LandingSection = ({ locale = 'en' }) => {
                 particleSize={4}
                 particleShape='square'
                 particleColor='original'
-                assembled={heroHovered}
+                assembled={portraitFormed}
                 hoverEnabled
                 hoverConfig={{
                   hoverType: 'roam',

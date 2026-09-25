@@ -1,47 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { LayoutGroup, motion } from 'framer-motion';
-import {
-  BookOpen,
-  Calendar,
-  Eye,
-  FolderKanban,
-  Mail,
-  Moon,
-  Sun,
-} from 'lucide-react';
+import { Calendar, Menu, Moon, Sun, X } from 'lucide-react';
+import Button from './Button';
 import { useTheme } from '../context/themeContext';
 
 const DEFAULT_CAL_BOOKING_URL = 'https://cal.com/hussain-hamim-fp9qc6/30min';
-const MotionLink = motion(Link);
-const PILL_SPRING = { type: 'spring', stiffness: 360, damping: 32, mass: 0.35 };
-
-const DockTab = ({ active, isDark, icon: Icon, label, className, ...props }) => {
-  const Comp = props.to ? MotionLink : motion.button;
-  const pillClass = isDark
-    ? 'absolute inset-0 z-0 rounded-full border border-white/16 bg-white/12 shadow-[inset_0_1px_0_rgba(255,255,255,0.16),0_8px_24px_rgba(0,0,0,0.22)]'
-    : 'absolute inset-0 z-0 rounded-full border border-white/60 bg-white/70 shadow-[inset_0_1px_0_rgba(255,255,255,0.9),0_8px_24px_rgba(0,0,0,0.08)]';
-
-  return (
-    <Comp whileTap={{ scale: 0.97 }} className={`group/btn ${className}`} {...props}>
-      {active ? (
-        <motion.span
-          layoutId='dock-active-pill'
-          className={pillClass}
-          transition={PILL_SPRING}
-        />
-      ) : null}
-      <motion.span
-        className='relative z-10 flex items-center justify-center gap-1.5 sm:gap-2'
-        animate={{ y: active ? -1 : 0, opacity: active ? 1 : 0.78 }}
-        transition={{ duration: 0.18, ease: 'easeOut' }}
-      >
-        <Icon className='h-3.5 w-3.5 shrink-0 transition-transform duration-500 ease-out group-hover/btn:rotate-[360deg] sm:h-4 sm:w-4' />
-        {label}
-      </motion.span>
-    </Comp>
-  );
-};
 
 const Header = ({ locale = 'en' }) => {
   const isPashto = locale === 'ps';
@@ -51,19 +14,40 @@ const Header = ({ locale = 'en' }) => {
   const bookingUrl = (
     process.env.REACT_APP_BOOKING_URL || DEFAULT_CAL_BOOKING_URL
   ).trim();
-  const [activeSection, setActiveSection] = useState('projects');
-  const [isDockHidden, setIsDockHidden] = useState(false);
-  const hideTimeoutRef = useRef(null);
-  const tickingRef = useRef(false);
+  const headerRef = useRef(null);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState('');
 
   useEffect(() => {
-    if (!onHome) return;
+    let prevScrollPos = window.scrollY;
+    const handleScroll = () => {
+      const currentScrollPos = window.scrollY;
+      const headerElement = headerRef.current;
+      if (!headerElement) return;
+
+      setScrolled(currentScrollPos > 50);
+
+      if (prevScrollPos > currentScrollPos || currentScrollPos < 80) {
+        headerElement.style.transform = 'translateY(0)';
+      } else if (currentScrollPos > 100 && !isMenuOpen) {
+        headerElement.style.transform = 'translateY(-100%)';
+      }
+      prevScrollPos = currentScrollPos;
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [isMenuOpen]);
+
+  useEffect(() => {
+    if (!onHome) return undefined;
 
     const ids = ['experience', 'projects', 'contactme'];
     const nodes = ids
       .map((id) => document.getElementById(`${id}-section`))
       .filter(Boolean);
-    if (nodes.length === 0) return;
+    if (nodes.length === 0) return undefined;
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -85,50 +69,21 @@ const Header = ({ locale = 'en' }) => {
     return () => observer.disconnect();
   }, [onHome]);
 
-  useEffect(() => {
-    const updateDockVisibility = () => {
-      const currentScrollY = window.scrollY;
-
-      if (hideTimeoutRef.current) {
-        window.clearTimeout(hideTimeoutRef.current);
-      }
-
-      if (currentScrollY < 24) {
-        setIsDockHidden(false);
-      } else {
-        setIsDockHidden(true);
-        hideTimeoutRef.current = window.setTimeout(() => {
-          setIsDockHidden(false);
-        }, 560);
-      }
-
-      tickingRef.current = false;
-    };
-
-    const handleScroll = () => {
-      if (tickingRef.current) return;
-      tickingRef.current = true;
-      window.requestAnimationFrame(updateDockVisibility);
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      if (hideTimeoutRef.current) {
-        window.clearTimeout(hideTimeoutRef.current);
-      }
-    };
-  }, []);
-
   const homePath = isPashto ? '/ps' : '/';
 
+  const handleLogoClick = (e) => {
+    if (!onHome) return;
+    e.preventDefault();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setIsMenuOpen(false);
+  };
+
   const handleScrollClick = (anchor) => (e) => {
+    setIsMenuOpen(false);
     if (!onHome) return;
     e.preventDefault();
     const element = document.getElementById(`${anchor}-section`);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+    element?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
   const navItems = [
@@ -136,148 +91,262 @@ const Header = ({ locale = 'en' }) => {
       id: 'projects',
       label: isPashto ? 'کار' : 'Work',
       type: 'scroll',
-      icon: Eye,
     },
     {
       id: 'all-projects',
       label: isPashto ? 'پروژې' : 'Projects',
       type: 'link',
       href: '/projects',
-      icon: FolderKanban,
     },
     {
       id: 'blogs',
       label: isPashto ? 'بلاګ' : 'Blogs',
       type: 'link',
       href: '/blogs',
-      icon: BookOpen,
     },
     {
       id: 'contactme',
       label: isPashto ? 'اړیکه' : 'Contact',
       type: 'scroll',
-      icon: Mail,
     },
   ];
 
   const isActive = (item) => {
-    if (item.type === 'link') {
-      return location.pathname.startsWith(item.href);
-    }
+    if (item.type === 'link') return location.pathname.startsWith(item.href);
     if (!onHome) return false;
     return activeSection === item.id;
   };
 
-  const iconBtnClass = isDark
-    ? 'group/btn flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-white/68 transition-colors duration-150 hover:text-white sm:h-11 sm:w-11'
-    : 'group/btn flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-ink/55 transition-colors duration-150 hover:text-ink sm:h-11 sm:w-11';
-  const dockIconClass =
-    'h-4 w-4 transition-transform duration-500 ease-out group-hover/btn:rotate-[360deg] sm:h-5 sm:w-5';
+  const headerBarSolid = scrolled || isMenuOpen;
+  const useLightNav = !isDark;
+
+  const themeToggleBtn = (
+    <button
+      type='button'
+      data-theme-toggle
+      onClick={toggleTheme}
+      disabled={isThemeAnimating}
+      aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+      title={isDark ? 'Light mode' : 'Dark mode'}
+      className={`group/theme inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border transition-colors duration-300 disabled:cursor-wait ${
+        useLightNav
+          ? 'border-black/15 text-[#0a0a0a] hover:border-black/30 hover:bg-black/[0.04]'
+          : headerBarSolid
+            ? 'border-white/15 text-gray-300 hover:border-white/30 hover:bg-white/5 hover:text-white'
+            : 'border-white/25 text-white hover:border-white/45 hover:bg-white/10'
+      }`}
+    >
+      {isDark ? (
+        <Sun className='h-4 w-4 transition-transform duration-500 ease-out group-hover/theme:rotate-[360deg]' />
+      ) : (
+        <Moon className='h-4 w-4 transition-transform duration-500 ease-out group-hover/theme:rotate-[360deg]' />
+      )}
+    </button>
+  );
+
+  const navClass = (active) =>
+    `relative px-3 py-1.5 text-sm font-medium uppercase tracking-wider transition-all duration-300 group ${
+      useLightNav
+        ? active
+          ? 'text-[#0a0a0a]'
+          : 'text-gray-600 hover:text-[#0a0a0a]'
+        : headerBarSolid
+          ? active
+            ? 'text-white'
+            : 'text-gray-400 hover:text-white'
+          : active
+            ? 'text-white drop-shadow-[0_1px_6px_rgba(0,0,0,0.5)]'
+            : 'text-white/80 hover:text-white drop-shadow-[0_1px_6px_rgba(0,0,0,0.45)]'
+    }`;
+
+  const renderNavItem = (item, { mobile = false } = {}) => {
+    const active = isActive(item);
+    if (mobile) {
+      const cls = `relative flex w-full items-center ${
+        isPashto ? 'justify-end' : 'justify-start'
+      } rounded-lg px-2 py-3 text-lg font-medium transition-all duration-300 ${
+        useLightNav
+          ? active
+            ? 'bg-black/[0.05] text-[#0a0a0a]'
+            : 'text-gray-600 hover:bg-black/[0.03] hover:text-[#0a0a0a]'
+          : active
+            ? 'bg-[#D7FF00]/5 text-[#D7FF00]'
+            : 'text-gray-300 hover:bg-white/[0.03] hover:text-[#D7FF00]'
+      }`;
+      const content = <span className='relative z-10'>{item.label}</span>;
+      if (item.type === 'link') {
+        return (
+          <Link
+            key={item.id}
+            to={item.href}
+            onClick={() => setIsMenuOpen(false)}
+            className={cls}
+          >
+            {content}
+          </Link>
+        );
+      }
+      return (
+        <Link
+          key={item.id}
+          to={`${homePath}#${item.id}-section`}
+          onClick={handleScrollClick(item.id)}
+          className={cls}
+        >
+          {content}
+        </Link>
+      );
+    }
+
+    const cls = navClass(active);
+    const inner = (
+      <>
+        <span className='relative z-10'>{item.label}</span>
+        <span
+          className={`absolute inset-0 rounded-md opacity-0 transition-opacity duration-300 group-hover:opacity-100 ${
+            useLightNav
+              ? 'bg-black/[0.04]'
+              : headerBarSolid
+                ? 'bg-white/5'
+                : 'bg-white/10'
+          }`}
+        />
+        <span
+          className={`absolute bottom-0 left-1/2 h-[2px] -translate-x-1/2 transition-all duration-300 ${
+            useLightNav
+              ? 'bg-[#0a0a0a]'
+              : headerBarSolid
+                ? 'bg-[#D7FF00]'
+                : 'bg-white'
+          } ${active ? 'w-3/4' : 'w-0 group-hover:w-3/4'}`}
+        />
+      </>
+    );
+
+    if (item.type === 'link') {
+      return (
+        <Link key={item.id} to={item.href} className={cls}>
+          {inner}
+        </Link>
+      );
+    }
+
+    return (
+      <Link
+        key={item.id}
+        to={`${homePath}#${item.id}-section`}
+        onClick={handleScrollClick(item.id)}
+        className={cls}
+      >
+        {inner}
+      </Link>
+    );
+  };
 
   return (
     <header
-      className={`pointer-events-none fixed inset-x-0 bottom-[calc(0.75rem+env(safe-area-inset-bottom))] z-50 flex w-full justify-center px-2 transition-transform duration-300 ease-out sm:bottom-6 sm:px-3 ${
-        isDockHidden ? 'translate-y-[calc(100%+2rem)]' : 'translate-y-0'
-      }`}
+      ref={headerRef}
       data-site-nav
+      className={`fixed left-0 right-0 top-0 z-50 transition-all duration-500 ease-in-out ${
+        isMenuOpen
+          ? useLightNav
+            ? 'border-b border-black/10 bg-white/95 backdrop-blur-2xl backdrop-saturate-150 supports-[backdrop-filter]:bg-white/90'
+            : 'border-b border-white/15 bg-black/45 backdrop-blur-2xl backdrop-saturate-150 supports-[backdrop-filter]:bg-black/35'
+          : scrolled
+            ? useLightNav
+              ? 'border-b border-black/10 bg-white/50 shadow-[0_8px_32px_rgba(0,0,0,0.08)] backdrop-blur-2xl backdrop-saturate-150 supports-[backdrop-filter]:bg-white/35'
+              : 'border-b border-white/10 bg-black/40 shadow-[0_8px_32px_rgba(0,0,0,0.18)] backdrop-blur-2xl backdrop-saturate-150 supports-[backdrop-filter]:bg-black/25'
+            : 'border-b border-transparent bg-transparent'
+      }`}
     >
-      <div
-        className={`pointer-events-auto relative max-w-[calc(100vw-1rem)] overflow-hidden rounded-full p-1 shadow-[0_18px_60px_rgba(0,0,0,0.34),inset_0_1px_0_rgba(255,255,255,0.22),inset_0_-1px_0_rgba(255,255,255,0.06)] backdrop-blur-2xl sm:max-w-full sm:p-1.5 ${
-          isDark ? 'bg-[rgba(10,12,17,0.42)]' : 'bg-[rgba(245,245,245,0.62)]'
-        }`}
-      >
-        <span
-          aria-hidden
-          className={`pointer-events-none absolute inset-0 z-0 rounded-full ${
-            isDark
-              ? 'bg-[linear-gradient(180deg,rgba(255,255,255,0.18),rgba(255,255,255,0.045)_42%,rgba(0,0,0,0.12))]'
-              : 'bg-[linear-gradient(180deg,rgba(255,255,255,0.55),rgba(255,255,255,0.12)_42%,rgba(0,0,0,0.06))]'
-          }`}
-        />
-
-        <nav
-          aria-label='Primary'
-          className='relative z-10 flex max-w-full items-center justify-start gap-1 overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] sm:justify-center sm:gap-1.5 sm:overflow-visible [&::-webkit-scrollbar]:hidden'
-        >
-          <LayoutGroup id='site-dock'>
-            <div className='relative z-10 flex shrink-0 items-center justify-center gap-0.5 sm:gap-1'>
-              {navItems.map((item) => {
-                const active = isActive(item);
-                const className = `relative isolate min-w-[4.35rem] shrink-0 rounded-full px-2 py-2 text-center font-sans3 text-[10px] font-bold uppercase tracking-[0.06em] outline-none focus-visible:ring-1 sm:min-w-[6.5rem] sm:px-5 sm:py-3 sm:text-[13px] sm:tracking-[0.1em] ${
-                  isDark
-                    ? active
-                      ? 'text-white focus-visible:ring-white/30'
-                      : 'text-white/70 focus-visible:ring-white/30'
-                    : active
-                      ? 'text-ink focus-visible:ring-black/20'
-                      : 'text-ink/60 focus-visible:ring-black/20'
-                }`;
-
-                if (item.type === 'link') {
-                  return (
-                    <DockTab
-                      key={item.id}
-                      to={item.href}
-                      active={active}
-                      isDark={isDark}
-                      icon={item.icon}
-                      label={item.label}
-                      className={className}
-                    />
-                  );
-                }
-
-                return (
-                  <DockTab
-                    key={item.id}
-                    to={`${homePath}#${item.id}-section`}
-                    active={active}
-                    isDark={isDark}
-                    icon={item.icon}
-                    label={item.label}
-                    className={className}
-                    onClick={handleScrollClick(item.id)}
-                  />
-                );
-              })}
-            </div>
-          </LayoutGroup>
-
-          <span
-            aria-hidden
-            className={`h-7 w-px shrink-0 ${
-              isDark ? 'bg-white/10' : 'bg-black/10'
+      <div className='mx-auto max-w-7xl py-3.5 pl-[max(1.25rem,env(safe-area-inset-left))] pr-[max(1.25rem,env(safe-area-inset-right))] sm:py-3 sm:pl-6 sm:pr-6 md:px-8'>
+        <div className='flex min-h-[44px] items-center justify-between gap-3'>
+          <Link
+            to={homePath}
+            onClick={handleLogoClick}
+            className={`group relative min-w-0 shrink font-sans1 text-lg font-bold tracking-tight transition-all duration-300 sm:text-xl ${
+              useLightNav
+                ? 'text-[#0a0a0a] hover:text-[#0a0a0a]/70'
+                : headerBarSolid
+                  ? 'text-[#D7FF00] hover:text-white'
+                  : 'text-white drop-shadow-[0_1px_8px_rgba(0,0,0,0.65)] hover:text-white/85'
             }`}
-          />
+          >
+            <span className='relative z-10'>HSN.</span>
+            <span
+              className={`absolute -bottom-1 left-0 h-0.5 w-0 transition-all duration-300 group-hover:w-full ${
+                useLightNav
+                  ? 'bg-[#0a0a0a]'
+                  : headerBarSolid
+                    ? 'bg-[#D7FF00]'
+                    : 'bg-white'
+              }`}
+            />
+          </Link>
 
-          <div className='flex shrink-0 items-center gap-0.5 pr-0.5 sm:gap-1 sm:pr-1'>
-            <button
-              type='button'
-              data-theme-toggle
-              onClick={toggleTheme}
-              disabled={isThemeAnimating}
-              aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-              title={isDark ? 'Light mode' : 'Dark mode'}
-              className={`${iconBtnClass} disabled:cursor-wait`}
-            >
-              {isDark ? (
-                <Sun className={dockIconClass} />
-              ) : (
-                <Moon className={dockIconClass} />
-              )}
-            </button>
-            <a
+          <nav className='hidden items-center gap-1 md:flex'>
+            {navItems.map((item) => renderNavItem(item))}
+            <Button
               href={bookingUrl}
               target='_blank'
               rel='noopener noreferrer'
-              aria-label={isPashto ? 'د لیدنې وخت وټاکئ' : 'Book a call'}
-              title={isPashto ? 'د لیدنې وخت وټاکئ' : 'Book a call'}
-              className={iconBtnClass}
+              size='sm'
+              className='ml-4'
+              icon={<Calendar />}
             >
-              <Calendar className={dockIconClass} />
-            </a>
+              {isPashto ? 'د لیدنې وخت وټاکئ' : 'Book a call'}
+            </Button>
+            <div className='ml-2'>{themeToggleBtn}</div>
+          </nav>
+
+          <div className='flex items-center gap-1.5 md:hidden'>
+            {themeToggleBtn}
+            <button
+              type='button'
+              onClick={() => setIsMenuOpen((open) => !open)}
+              className={`-mr-1 relative z-50 flex h-11 w-11 shrink-0 items-center justify-center rounded-lg transition-colors ${
+                useLightNav
+                  ? 'text-[#0a0a0a] hover:text-[#0a0a0a]/70'
+                  : headerBarSolid
+                    ? 'text-gray-400 hover:text-white'
+                    : 'text-white drop-shadow-[0_1px_6px_rgba(0,0,0,0.6)] hover:text-white/85'
+              }`}
+              aria-label='Toggle menu'
+            >
+              {isMenuOpen ? <X className='h-5 w-5' /> : <Menu className='h-5 w-5' />}
+            </button>
           </div>
-        </nav>
+        </div>
+      </div>
+
+      <div
+        className={`absolute left-0 right-0 top-full overflow-hidden border-b transition-all duration-500 ease-in-out md:hidden ${
+          useLightNav
+            ? 'border-black/10 bg-white/95 backdrop-blur-2xl supports-[backdrop-filter]:bg-white/90'
+            : 'border-white/10 bg-black/95 backdrop-blur-2xl supports-[backdrop-filter]:bg-black/90'
+        } ${isMenuOpen ? 'max-h-[640px] opacity-100' : 'max-h-0 opacity-0'}`}
+      >
+        <div className='px-6 py-6'>
+          <nav className='space-y-1'>
+            {navItems.map((item) => renderNavItem(item, { mobile: true }))}
+          </nav>
+          <div
+            className={`mt-4 border-t pt-6 ${
+              useLightNav ? 'border-black/10' : 'border-white/10'
+            }`}
+          >
+            <Button
+              href={bookingUrl}
+              target='_blank'
+              rel='noopener noreferrer'
+              onClick={() => setIsMenuOpen(false)}
+              fullWidth
+              icon={<Calendar />}
+            >
+              {isPashto ? 'د لیدنې وخت وټاکئ' : 'Book a call'}
+            </Button>
+          </div>
+        </div>
       </div>
     </header>
   );

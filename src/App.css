@@ -27,8 +27,6 @@
   --accent-color: rgb(160, 40, 132);
   --card-bg: rgba(26, 26, 26, 0.8);
   --gradient: linear-gradient(135deg, #2c9bd2, #00ffff);
-  --cursor-fill: #f9f9f8;
-  --cursor-stroke: #0a0a0a;
   --tooltip-surface: #ffffff;
   --card: #ffffff;
   --card-inset: #f2f2f0;
@@ -45,8 +43,6 @@ html.dark {
   --ink-muted: rgba(243, 241, 230, 0.55);
   --line: #f3f1e6;
   --media-bg: #0f1619;
-  --cursor-fill: #0b1215;
-  --cursor-stroke: #f3f1e6;
   --tooltip-surface: #161615;
   --card: #161615;
   --card-inset: #0c1117;
@@ -231,55 +227,6 @@ html {
   ::view-transition-old(root),
   ::view-transition-new(root) {
     animation: none !important;
-  }
-}
-
-.has-smooth-cursor,
-.has-smooth-cursor * {
-  cursor: none !important;
-}
-
-.smooth-cursor {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 9999;
-  pointer-events: none;
-  opacity: 0;
-  transform-origin: 12.5px 2.5px;
-  transition: opacity 0.25s ease;
-  will-change: transform;
-}
-
-.smooth-cursor svg {
-  position: absolute;
-  top: 0;
-  left: 0;
-  display: block;
-  transform-origin: 12.5px 2.5px;
-  transition:
-    opacity 160ms ease,
-    transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.cursor-hand {
-  opacity: 0;
-  transform: scale(0.72) rotate(-12deg);
-}
-
-.smooth-cursor.is-hand .cursor-arrow {
-  opacity: 0;
-  transform: scale(0.72) rotate(12deg);
-}
-
-.smooth-cursor.is-hand .cursor-hand {
-  opacity: 1;
-  transform: scale(1);
-}
-
-@media (pointer: coarse) {
-  .smooth-cursor {
-    display: none;
   }
 }
 

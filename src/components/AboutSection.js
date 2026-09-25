@@ -1,11 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FaLinkedinIn, FaWhatsapp } from 'react-icons/fa';
-import { FaXTwitter } from 'react-icons/fa6';
 import BlobReveal from './BlobReveal';
 import aboutPortrait from '../asset/hsn3-hero.jpg';
-
-const WHATSAPP_URL = 'https://wa.me/93780338261';
 
 export default function AboutSection({ locale = 'en', embedded = false }) {
   const isPashto = locale === 'ps';
@@ -16,24 +12,6 @@ export default function AboutSection({ locale = 'en', embedded = false }) {
       ? 'زه د AI پر بنسټ وېب او موبايل پروډکټونه جوړوم چې سټارټ اپونه له MVP څخه تر لانچ پورې یې ورسوي.'
       : 'I build AI-powered web and mobile products that help startups go from MVP to launch: full-stack, mobile, and agent systems that ship fast.',
   };
-
-  const cardSocials = [
-    {
-      href: 'https://x.com/erencode',
-      icon: FaXTwitter,
-      label: 'X',
-    },
-    {
-      href: 'https://www.linkedin.com/in/hussain-hamim/',
-      icon: FaLinkedinIn,
-      label: 'LinkedIn',
-    },
-    {
-      href: WHATSAPP_URL,
-      icon: FaWhatsapp,
-      label: 'WhatsApp',
-    },
-  ];
 
   const portrait = (
     <motion.div
@@ -49,29 +27,6 @@ export default function AboutSection({ locale = 'en', embedded = false }) {
     >
       <div className='relative overflow-hidden rounded-[1.75rem] border-4 border-white bg-black shadow-[0_24px_60px_rgba(0,0,0,0.45)]'>
         <div
-          className={`absolute z-10 flex items-center rounded-full bg-accent ${
-            embedded
-              ? 'right-1.5 top-1.5 gap-0.5 px-1 py-0.5'
-              : 'right-3 top-3 gap-1.5 px-2 py-1.5 sm:right-4 sm:top-4'
-          }`}
-        >
-          {cardSocials.map(({ href, icon: Icon, label }) => (
-            <a
-              key={href}
-              href={href}
-              target='_blank'
-              rel='noopener noreferrer'
-              aria-label={label}
-              className={`flex items-center justify-center rounded-full bg-black text-white transition-transform duration-500 ease-out hover:rotate-[360deg] ${
-                embedded ? 'h-4 w-4' : 'h-7 w-7'
-              }`}
-            >
-              <Icon className={embedded ? 'h-2 w-2' : 'h-3.5 w-3.5'} />
-            </a>
-          ))}
-        </div>
-
-        <div
           className={`aspect-[5/5] w-full ${
             embedded ? '' : 'max-h-[20rem] sm:max-h-[22rem]'
           }`}
@@ -86,31 +41,6 @@ export default function AboutSection({ locale = 'en', embedded = false }) {
             transition={{ duration: 2.1, ease: 'easeOut' }}
             className='h-full w-full'
           />
-        </div>
-
-        <div
-          className={`pointer-events-none absolute inset-x-0 bottom-0 z-10 flex justify-center gap-1.5 ${
-            embedded ? 'bottom-1.5 px-1' : 'bottom-3 gap-2 px-3 sm:bottom-4'
-          }`}
-        >
-          <span
-            className={`rounded-full border border-white/80 bg-black font-sans3 font-medium uppercase tracking-wide text-white ${
-              embedded
-                ? 'px-1.5 py-0.5 text-[7px] sm:text-[8px]'
-                : 'px-3 py-1 text-[10px] sm:px-3.5 sm:text-xs'
-            }`}
-          >
-            Hussain
-          </span>
-          <span
-            className={`rounded-full border border-white/80 bg-black font-sans3 font-medium uppercase tracking-wide text-white ${
-              embedded
-                ? 'px-1.5 py-0.5 text-[7px] sm:text-[8px]'
-                : 'px-3 py-1 text-[10px] sm:px-3.5 sm:text-xs'
-            }`}
-          >
-            {isPashto ? 'انجينر' : 'Engineer'}
-          </span>
         </div>
       </div>
     </motion.div>
