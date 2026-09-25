@@ -117,7 +117,7 @@ const Header = ({ locale = 'en' }) => {
     return activeSection === item.id;
   };
 
-  const headerBarSolid = scrolled || isMenuOpen;
+  const headerBarSolid = scrolled || isMenuOpen || !onHome;
   const useLightNav = !isDark;
 
   const themeToggleBtn = (
