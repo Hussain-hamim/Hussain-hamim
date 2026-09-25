@@ -30,7 +30,7 @@ const ContactMeSection = ({ locale = "en" }) => {
     {
       img: require("../images/socials/email.png"),
       url: "mailto:mohammadhussainafghan83@gmail.com",
-      label: isPashto ? "ايمېل راولېږئ" : "Email Me",
+      label: isPashto ? "ايمېل راولېږئ" : "Email me",
     },
     {
       img: require("../images/socials/github.png"),
@@ -59,7 +59,7 @@ const ContactMeSection = ({ locale = "en" }) => {
     },
   ];
 
-  const bookLabel = isPashto ? "د لیدنې وخت وټاکئ" : "Book a call";
+  const bookLabel = isPashto ? "د لیدنې وخت وټاکئ" : "Let's find a time";
 
   const formik = useFormik({
     initialValues: {
@@ -108,13 +108,13 @@ const ContactMeSection = ({ locale = "en" }) => {
             viewport={{ once: true }}
           >
             <h2 className="text-2xl md:text-4xl font-bold font-sans1 text-white mb-8 tracking-tight">
-              {isPashto ? "ښکلی ایدیا لرئ؟" : "Have a Cool Idea?"} <br />
-              {isPashto ? "راځئ یې جوړ کړو." : "Let's Build It."}
+              {isPashto ? "ښکلی ایدیا لرئ؟" : "Got something in mind?"} <br />
+              {isPashto ? "راځئ یې جوړ کړو." : "I'd love to hear it."}
             </h2>
             <p className="text-gray-400 text-lg leading-relaxed mb-12 font-sans3 max-w-md">
               {isPashto
                 ? "که کومه پروژه لرئ، يا يوازې خبرې کول غواړئ، له ما سره اړيکه ونيسئ. زه تل د نوو پروژو، نوښتګرو مفکورو او ګټورو همکاريو ته چمتو يم."
-                : "Have a project in mind or just want to chat? Feel free to reach out. I'm always open to discussing new projects, creative ideas or opportunities to be part of your visions."}
+                : "A project, a half-formed idea, or just a hello — all of those are welcome. Tell me what you're thinking, and I'll write back."}
             </p>
 
             <div className="grid grid-cols-2 gap-x-6 gap-y-8">
@@ -262,7 +262,7 @@ const ContactMeSection = ({ locale = "en" }) => {
                     htmlFor="type"
                     className="block text-sm font-mono text-gray-400 mb-2 uppercase tracking-wider"
                   >
-                    {isPashto ? "د پوښتنې ډول" : "Type of Inquiry"}
+                    {isPashto ? "د پوښتنې ډول" : "What's this about?"}
                   </label>
                   <div className="relative">
                     <select
@@ -272,19 +272,19 @@ const ContactMeSection = ({ locale = "en" }) => {
                       className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#D7FF00] transition-colors appearance-none cursor-pointer"
                     >
                       <option value="hireMe" className="bg-[#1a1a1a]">
-                        {isPashto ? "د فريلانس پروژې وړانديز" : "Freelance project proposal"}
+                        {isPashto ? "د فريلانس پروژې وړانديز" : "A project you'd like built"}
                       </option>
                       <option value="collaboration" className="bg-[#1a1a1a]">
-                        {isPashto ? "پر پروژه ګډه همکاري" : "Collaboration on a project"}
+                        {isPashto ? "پر پروژه ګډه همکاري" : "Working on something together"}
                       </option>
                       <option value="openSource" className="bg-[#1a1a1a]">
-                        {isPashto ? "د Open Source مشوره" : "Open source consultancy"}
+                        {isPashto ? "د Open Source مشوره" : "Help with open source"}
                       </option>
                       <option value="jobOffer" className="bg-[#1a1a1a]">
-                        {isPashto ? "د کار فرصت" : "Job opportunity"}
+                        {isPashto ? "د کار فرصت" : "A role you have in mind"}
                       </option>
                       <option value="other" className="bg-[#1a1a1a]">
-                        {isPashto ? "بل څه" : "Other"}
+                        {isPashto ? "بل څه" : "Something else"}
                       </option>
                     </select>
                     <div className="absolute right-4 top-1/2 transform -translate-y-1/2 pointer-events-none">
@@ -316,7 +316,7 @@ const ContactMeSection = ({ locale = "en" }) => {
                     id="comment"
                     name="comment"
                     rows={3}
-                    placeholder={isPashto ? "د خپلې پروژې په اړه راته وليکئ..." : "Tell me about your project..."}
+                    placeholder={isPashto ? "د خپلې پروژې په اړه راته وليکئ..." : "What would you like to talk about?"}
                     {...formik.getFieldProps("comment")}
                     className={`w-full bg-white/5 border ${
                       formik.touched.comment && formik.errors.comment
@@ -342,10 +342,10 @@ const ContactMeSection = ({ locale = "en" }) => {
                 {isLoading
                   ? isPashto
                     ? "پيغام لېږل کېږي..."
-                    : "Sending..."
+                    : "Sending it..."
                   : isPashto
                   ? "پيغام ولېږه"
-                  : "Send Message"}
+                  : "Send it over"}
               </Button>
             </form>
           </motion.div>

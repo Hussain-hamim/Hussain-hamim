@@ -8,8 +8,8 @@ import {
 
 const SITE_URL = 'https://www.hussainhamim.xyz/';
 
-const PROMPT = `I want to chat with Hussain Hamim. Use this website as context: ${SITE_URL}
-Act as a member of his team (or someone familiar with his work). Keep responses concise and direct. Start with a short overview of who he is and what he builds, then ask what I'd like to explore.`;
+const PROMPT = `I'd like to learn about Hussain Hamim. Use this website as context: ${SITE_URL}
+Speak as someone who knows his work. Keep it warm, clear, and short. Start with who he is and what he builds, then ask what I'd like to know.`;
 
 const q = encodeURIComponent(PROMPT);
 
@@ -68,7 +68,7 @@ export default function AiChatBar({ className = '' }) {
   return (
     <div className={className}>
       <p className='mb-3 text-[10px] font-mono uppercase tracking-[0.2em] text-white/40'>
-        Or chat about us via AI
+        Or ask an AI about me
       </p>
       <div className='inline-flex max-w-full items-center gap-1.5 overflow-x-auto rounded-full bg-black p-1.5 shadow-[0_0_0_1px_rgba(255,255,255,0.08)]'>
         {LINKS.map(({ id, label, href, Icon }) => (
@@ -77,7 +77,7 @@ export default function AiChatBar({ className = '' }) {
             href={href}
             target='_blank'
             rel='noopener noreferrer'
-            aria-label={`Chat about this portfolio in ${label}`}
+            aria-label={`Ask ${label} about me`}
             title={label}
             className='group/ai inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-white text-black transition-transform duration-200 hover:scale-105 sm:h-9 sm:w-9'
           >

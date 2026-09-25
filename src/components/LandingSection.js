@@ -1,6 +1,6 @@
 import React, { useLayoutEffect, useRef, useState, useEffect, lazy, Suspense } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Eye, MessageSquare } from 'lucide-react';
+import { ArrowRight, ChevronDown, Eye, MessageSquare } from 'lucide-react';
 import Button from './Button';
 import MeshText from './MeshText';
 import TextMorph from './TextMorph';
@@ -194,15 +194,15 @@ const LandingSection = ({ locale = 'en' }) => {
     lastName: isPashto ? 'حمیم' : 'HAMIM',
     headline: isPashto
       ? 'زه د سټارټ اپونو لپاره د AI پر بنسټ وېب او موبايل پروډکټونه جوړوم، له MVP څخه تر لانچ پورې.'
-      : 'I build AI-powered products for startups that need to ship.',
+      : 'I build thoughtful products for people with an idea they care about.',
     subline: isPashto
       ? 'Full-Stack، موبايل پروګرامونه، او د AI اېجنټ سيستمونه چې په ژر وخت کې رښتينې پايلې راوړي.'
-      : 'Full-stack web, mobile apps, and AI agent systems that ship fast and drive real results.',
-    ctaSeeWork: isPashto ? 'زما کار وګورئ' : 'See my work',
-    ctaDropMessage: isPashto ? 'پیغام پریږدئ' : 'Drop a message',
+      : 'I work on web, mobile, and AI, and I like staying close until a product feels ready.',
+    ctaSeeWork: isPashto ? 'زما کار وګورئ' : 'See what I make',
+    ctaDropMessage: isPashto ? 'پیغام پریږدئ' : 'Say hello',
     morphWords: isPashto
       ? ['د AI پر بنسټ', 'Full-Stack', 'موبايل', 'Agent']
-      : ['AI-powered', 'full-stack', 'mobile-first', 'agent-driven'],
+      : ['thoughtful', 'practical', 'hands-on', 'personal'],
   };
 
   return (
@@ -278,9 +278,8 @@ const LandingSection = ({ locale = 'en' }) => {
                   color='#0a0a0a'
                   transition={{ duration: 0.85, delay: 1.4, ease: 'easeInOut' }}
                 />{' '}
-                products for{' '}
-                <span className='text-ink-muted'>startups that need to</span>{' '}
-                ship.
+                products for people with an idea they{' '}
+                <span className='text-ink-muted'>care about</span>.
               </>
             )}
           </motion.p>
@@ -364,6 +363,14 @@ const LandingSection = ({ locale = 'en' }) => {
           )}
         </motion.div>
       </div>
+      <button
+        type='button'
+        onClick={() => scrollToSection('projects')}
+        aria-label={isPashto ? 'ښکته' : 'Scroll down'}
+        className='absolute bottom-[max(1.25rem,env(safe-area-inset-bottom))] left-1/2 z-20 -translate-x-1/2 text-ink'
+      >
+        <ChevronDown className='h-6 w-6 animate-bounce' aria-hidden />
+      </button>
     </section>
   );
 };

@@ -18,7 +18,7 @@ export const featuredProjects = [
   {
     slug: 'ideahunt',
     title: 'IdeaHunt',
-    cardHeadline: 'Stop guessing. Validate startup ideas from real demand.',
+    cardHeadline: 'Ideas drawn from problems people are already talking about.',
     tagline:
       'Stop building what nobody wants. IdeaHunt scans real conversations across the internet to surface validated startup ideas with real demand.',
     live: 'https://www.ideahunt.pro/',
@@ -66,7 +66,7 @@ export const featuredProjects = [
   {
     slug: 'aegnis-ai',
     title: 'Aegnis AI',
-    cardHeadline: 'An AI chief of staff that helps you execute, not just plan.',
+    cardHeadline: 'Help getting through the day, not just another list of plans.',
     tagline:
       'An AI Chief of Staff that doesn’t just plan your day — it actively helps execute it.',
     live: 'https://aegnis.life',
@@ -113,7 +113,7 @@ export const featuredProjects = [
     slug: 'proveit-ai',
     title: 'ProveIt AI',
     openLinkLabel: 'ProveIt AI',
-    cardHeadline: 'Finally get things done — with photo proof and AI pressure.',
+    cardHeadline: 'A photo, a deadline, and a nudge until the thing is actually done.',
     tagline:
       'ProveIt AI forces accountability with live picture proof, deadlines, and alarms until you prove it — or give up.',
     live: 'https://www.proveitai.app/',
@@ -142,7 +142,7 @@ export const featuredProjects = [
     slug: 'timecircle',
     title: 'TimeCircle',
     openLinkLabel: 'TimeCircle',
-    cardHeadline: 'Make more time for real life — people, places, and plans.',
+    cardHeadline: 'A gentler way to turn “we should do something” into a real plan.',
     tagline:
       'Good people. New places. Plans worth showing up for. TimeCircle turns “we should do something” into a real plan.',
     live: 'https://timecircle.vercel.app/',

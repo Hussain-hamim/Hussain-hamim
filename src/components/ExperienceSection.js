@@ -96,7 +96,7 @@ const ExperienceSection = ({ locale = 'en' }) => {
       isCurrent: true,
       description: isPashto
         ? 'د محصول ایډیو په دوامداره او فکر شوي سافټوېیر بدلول — له مفهوم څخه تر سپارلو پورې پاک تطبیق او عملي قضاوت.'
-        : 'Turning product ideas into durable, thoughtful software, clean implementation and practical judgment from concept to shipped product.',
+        : 'I turn product ideas into software that holds up, from the first sketch to something people can use.',
     },
     {
       id: 2,
@@ -106,7 +106,7 @@ const ExperienceSection = ({ locale = 'en' }) => {
       isCurrent: false,
       description: isPashto
         ? 'د Next.js او Supabase په مرسته د Full-Stack وېب پروګرامونو پراختيا.'
-        : 'Full-stack web applications and Mobile applications using Next.js, Swift & Supabase.',
+        : 'I built web and mobile apps with Next.js, Swift, and Supabase.',
     },
     {
       id: 3,
@@ -116,7 +116,7 @@ const ExperienceSection = ({ locale = 'en' }) => {
       isCurrent: false,
       description: isPashto
         ? 'د React Native او Node.js بیکېنډ په کارولو د موبايل پروګرامونو جوړول او پراختيا.'
-        : 'Developing mobile apps with React Native & Node.js backend.',
+        : 'I built mobile apps in React Native, with a Node.js backend behind them.',
     },
     {
       id: 4,
@@ -126,7 +126,7 @@ const ExperienceSection = ({ locale = 'en' }) => {
       isCurrent: false,
       description: isPashto
         ? 'د کراس پلېټفارم موبايل پروګرامونو پراختيا، په لوړ کارکردګۍ تمرکز سره.'
-        : 'Cross-platform mobile development focused on performance.',
+        : 'I worked on cross-platform mobile apps, paying close attention to how they felt to use.',
     },
   ];
 

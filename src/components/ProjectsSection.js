@@ -442,7 +442,7 @@ export const ProjectCard = ({
                   : 'View'
                 : isPashto
                   ? 'سایټ'
-                  : 'View site'}
+                  : 'Visit site'}
             </PreviewCta>
           ) : null}
         </div>
@@ -474,17 +474,17 @@ export const ProjectCard = ({
           <div className='mt-3 flex flex-wrap items-center gap-2'>
             {featured && repoUrl ? (
               <PreviewCta href={repoUrl} icon={<FaGithub className='h-[14px] w-[14px]' />}>
-                {isPashto ? 'ریپو' : 'View repo'}
+                {isPashto ? 'ریپو' : 'See the code'}
               </PreviewCta>
             ) : null}
             {featured && caseStudyHref ? (
               <PreviewCta to={caseStudyHref}>
-                {isPashto ? 'کیس سټډي' : 'Case study'}
+                {isPashto ? 'کیس سټډي' : 'Read the story'}
               </PreviewCta>
             ) : null}
             {!featured && !isCertificate && repoUrl ? (
               <PreviewCta href={repoUrl} icon={<FaGithub className='h-[14px] w-[14px]' />}>
-                {isPashto ? 'کوډ' : 'View repo'}
+                {isPashto ? 'کوډ' : 'See the code'}
               </PreviewCta>
             ) : null}
           </div>
@@ -612,7 +612,7 @@ const ProjectsSection = ({ locale = 'en' }) => {
         <div className='relative z-10 px-4 py-16 md:px-8 md:py-20'>
           <div className='mx-auto w-full max-w-4xl'>
             <SectionHeader
-              title={isPashto ? 'غوره کارونه' : 'Featured work'}
+              title={isPashto ? 'غوره کارونه' : 'Things I\u2019ve made'}
               light
             />
             <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5'>
@@ -642,7 +642,7 @@ const ProjectsSection = ({ locale = 'en' }) => {
                 size='xs'
                 icon={<FaExternalLinkAlt />}
               >
-                {isPashto ? 'ټولې پروژې وګورئ' : 'See all projects'}
+                {isPashto ? 'ټولې پروژې وګورئ' : 'See all of them'}
               </Button>
             </motion.div>
           </div>
@@ -660,7 +660,7 @@ const ProjectsSection = ({ locale = 'en' }) => {
           className='section-sep mx-auto w-full max-w-4xl pb-16'
         >
             <SectionHeader
-              title={isPashto ? 'په اړه او فعاليت' : 'About & activity'}
+              title={isPashto ? 'په اړه او فعاليت' : 'About me'}
               light
             />
             <div className='grid min-w-0 grid-cols-1 items-stretch gap-6 md:grid-cols-2'>
@@ -684,7 +684,7 @@ const ProjectsSection = ({ locale = 'en' }) => {
                 <div className='relative flex flex-col rounded-lg bg-card p-4 shadow-[0_0_0_0.5px_rgba(10,10,10,0.08)] transition-[box-shadow,background-color] duration-300 group-hover:shadow-[0_0_0_0.5px_rgba(10,10,10,0.18)] dark:shadow-none dark:group-hover:shadow-[0_0_0_0.5px_rgba(0,0,0,0.22)] md:h-full sm:p-5'>
                   <div className='mb-4'>
                     <h3 className='text-[17px] font-medium tracking-tight text-ink'>
-                      {isPashto ? 'د ونډو فعاليت' : 'Contribution activity'}
+                      {isPashto ? 'د ونډو فعاليت' : 'What I\u2019ve been building'}
                     </h3>
                   </div>
                   <div className='min-w-0 overflow-x-auto rounded-lg border border-white/10 bg-[#0C1117] px-2 py-3 md:min-h-0 md:flex-1 sm:px-3 sm:py-4'>
@@ -751,7 +751,7 @@ const ProjectsSection = ({ locale = 'en' }) => {
             className='section-sep mx-auto mt-16 w-full max-w-4xl scroll-mt-24 overflow-visible pb-16'
           >
             <SectionHeader
-              title={isPashto ? 'بلاګونه او عکسونه' : 'Blogs & Photos'}
+              title={isPashto ? 'بلاګونه او عکسونه' : 'Writing & photos'}
               light
             />
             <div className='grid grid-cols-1 gap-4 overflow-visible md:grid-cols-2'>
@@ -818,7 +818,7 @@ const PhotosCard = ({ isPashto }) => (
     <p className='mt-3 text-center font-mono text-[11px] tracking-wide text-gray-600 dark:text-white/50'>
       {isPashto
         ? 'پورته کارت راښکئ ترڅو نور عکسونه وګورئ'
-        : 'Drag the top card to browse photos'}
+        : 'Drag the top photo to see the rest'}
     </p>
   </motion.div>
 );
@@ -835,14 +835,14 @@ const BlogsCard = ({ isPashto }) => (
       <div className='mb-4 flex items-start justify-between gap-3'>
         <div>
           <h3 className='text-[17px] font-medium tracking-tight text-ink'>
-            {isPashto ? 'بلاګونه' : 'Blogs'}
+            {isPashto ? 'بلاګونه' : 'Writing'}
           </h3>
           <p className='text-xs text-ink-muted'>
-            {isPashto ? 'تخنيکي ليکنې' : 'Technical writing'}
+            {isPashto ? 'تخنيکي ليکنې' : 'Notes from the work'}
           </p>
         </div>
         <Button as={Link} to='/blogs' size='xs' variant='primary'>
-          {isPashto ? 'ټول وګورئ' : 'View all'}
+          {isPashto ? 'ټول وګورئ' : 'See all'}
         </Button>
       </div>
 
@@ -872,7 +872,7 @@ const BlogsCard = ({ isPashto }) => (
               className='mt-4 shrink-0'
               icon={<FaExternalLinkAlt />}
             >
-              {isPashto ? 'ولولئ' : 'Read'}
+              {isPashto ? 'ولولئ' : 'Read this'}
             </Button>
           </div>
         ))}

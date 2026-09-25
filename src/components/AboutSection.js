@@ -6,11 +6,11 @@ import aboutPortrait from '../asset/hsn3-hero.jpg';
 export default function AboutSection({ locale = 'en', embedded = false }) {
   const isPashto = locale === 'ps';
   const copy = {
-    headingLead: isPashto ? 'موږ' : 'Who we',
-    headingAccent: isPashto ? 'څوک یو' : 'are',
+    headingLead: isPashto ? 'موږ' : 'Who I',
+    headingAccent: isPashto ? 'څوک یو' : 'am',
     paragraph1: isPashto
       ? 'زه د AI پر بنسټ وېب او موبايل پروډکټونه جوړوم چې سټارټ اپونه له MVP څخه تر لانچ پورې یې ورسوي.'
-      : 'I build AI-powered web and mobile products that help startups go from MVP to launch: full-stack, mobile, and agent systems that ship fast.',
+      : 'I take ideas people care about and turn them into web and mobile products they can actually use.',
   };
 
   const portrait = (
