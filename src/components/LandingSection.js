@@ -388,7 +388,7 @@ const LandingSection = ({ locale = 'en' }) => {
               aria-label={label}
               onMouseEnter={() => setHoveredSocial(label)}
               onMouseLeave={() => setHoveredSocial(null)}
-              className='group relative inline-flex h-5 w-5 items-center justify-center opacity-90 transition-[filter,opacity] duration-300 hover:opacity-100 [filter:grayscale(1)_brightness(1.15)] hover:[filter:grayscale(1)_brightness(1.35)]'
+              className='group relative inline-flex h-5 w-5 items-center justify-center [filter:grayscale(0.55)]'
             >
               <span className='pointer-events-none absolute -top-7 left-1/2 z-10 -translate-x-1/2 whitespace-nowrap rounded bg-ink px-1.5 py-0.5 font-sans3 text-[10px] font-medium text-surface opacity-0 transition-opacity duration-150 group-hover:opacity-100'>
                 {label}
