@@ -4,10 +4,12 @@ import { ArrowRight, ChevronDown, Eye, MessageSquare } from 'lucide-react';
 import Button from './Button';
 import MeshText from './MeshText';
 import TextMorph from './TextMorph';
+import { PEEL_VARIATIONS } from './peelDirections';
 import { useTheme } from '../context/themeContext';
 import heroPortrait from '../asset/hsn3-hero.jpg';
 
 const ParticleLetter = lazy(() => import('./ParticleLetter'));
+const StickerPeeling = lazy(() => import('./StickerPeeling'));
 
 const scrollToSection = (anchor) => {
   const el = document.getElementById(`${anchor}-section`);
@@ -141,6 +143,7 @@ const LandingSection = ({ locale = 'en' }) => {
   const [showParticles, setShowParticles] = useState(false);
   const [portraitFormed, setPortraitFormed] = useState(false);
   const [visitors, setVisitors] = useState(null);
+  const [hoveredSocial, setHoveredSocial] = useState(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -176,7 +179,7 @@ const LandingSection = ({ locale = 'en' }) => {
 
   useEffect(() => {
     if (!showParticles || portraitFormed) return undefined;
-    const id = window.setTimeout(() => setPortraitFormed(true), 2000);
+    const id = window.setTimeout(() => setPortraitFormed(true), 1000);
     return () => window.clearTimeout(id);
   }, [showParticles, portraitFormed]);
 
@@ -318,11 +321,12 @@ const LandingSection = ({ locale = 'en' }) => {
           </motion.div>
         </div>
 
+        <div className='flex w-full max-w-[14rem] shrink-0 flex-col items-center md:max-w-[20rem] lg:max-w-[22rem]'>
         <motion.div
           initial={{ opacity: 0, scale: 0.92 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.25, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-          className='relative flex h-[min(38vw,14rem)] w-full max-w-[14rem] shrink-0 items-center justify-center md:h-[min(42vh,20rem)] md:max-w-[20rem] lg:h-[min(46vh,22rem)] lg:max-w-[22rem]'
+          className='relative flex h-[min(38vw,14rem)] w-full items-center justify-center md:h-[min(42vh,20rem)] lg:h-[min(46vh,22rem)]'
         >
           {showParticles ? (
             <Suspense
@@ -344,7 +348,7 @@ const LandingSection = ({ locale = 'en' }) => {
                 hoverEnabled
                 hoverConfig={{
                   hoverType: 'roam',
-                  transition: { duration: 0.8, ease: 'easeInOut' },
+                  transition: { duration: 4, ease: 'easeOut' },
                   roamOpacity: 0.55,
                   roamShape: 'rectangle',
                 }}
@@ -362,6 +366,65 @@ const LandingSection = ({ locale = 'en' }) => {
             <div className='h-full w-full rounded-lg bg-panel/60' aria-hidden />
           )}
         </motion.div>
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.45, duration: 0.5 }}
+          className='mt-4 flex items-center justify-center gap-2.5'
+        >
+          {[
+            { label: 'Email', href: 'mailto:mohammadhussainafghan83@gmail.com', img: require('../images/socials/email.png') },
+            { label: 'GitHub', href: 'https://github.com/Hussain-hamim', img: require('../images/socials/github.png') },
+            { label: 'LinkedIn', href: 'https://www.linkedin.com/in/hussain-hamim/', img: require('../images/socials/linkedin.png') },
+            { label: 'Twitter', href: 'https://x.com/erencode', img: require('../images/socials/twitter.png') },
+            { label: 'WhatsApp', href: 'https://wa.me/93780338261', img: require('../images/socials/whatsapp.png') },
+            { label: 'Instagram', href: 'https://www.instagram.com/hussainhamim_/', img: require('../images/socials/instagram.png') },
+          ].map(({ label, href, img }, index) => (
+            <a
+              key={label}
+              href={href}
+              target='_blank'
+              rel='noopener noreferrer'
+              aria-label={label}
+              onMouseEnter={() => setHoveredSocial(label)}
+              onMouseLeave={() => setHoveredSocial(null)}
+              className='group relative inline-flex h-5 w-5 items-center justify-center opacity-90 transition-[filter,opacity] duration-300 hover:opacity-100 [filter:grayscale(1)_brightness(1.15)] hover:[filter:grayscale(1)_brightness(1.35)]'
+            >
+              <span className='pointer-events-none absolute -top-7 left-1/2 z-10 -translate-x-1/2 whitespace-nowrap rounded bg-ink px-1.5 py-0.5 font-sans3 text-[10px] font-medium text-surface opacity-0 transition-opacity duration-150 group-hover:opacity-100'>
+                {label}
+              </span>
+              <Suspense
+                fallback={
+                  <img src={img} alt='' className='h-[18px] w-[18px] rounded-md object-contain' />
+                }
+              >
+                <StickerPeeling
+                  image={img}
+                  imageWidth={20}
+                  imageHeight={20}
+                  hoverPeel={48}
+                  pressPeel={70}
+                  hovered={hoveredSocial === label}
+                  curlRotation={PEEL_VARIATIONS[index % PEEL_VARIATIONS.length]}
+                  backColor='#0a0a0a'
+                  shadowEnabled
+                  shadow={{
+                    opacity: 28,
+                    color: '#000000',
+                    x: -220,
+                    y: 120,
+                  }}
+                  transition={{
+                    type: 'tween',
+                    duration: 0.28,
+                    ease: 'easeOut',
+                  }}
+                />
+              </Suspense>
+            </a>
+          ))}
+        </motion.div>
+        </div>
       </div>
       <button
         type='button'

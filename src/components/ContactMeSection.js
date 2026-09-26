@@ -3,7 +3,6 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { motion } from "framer-motion";
 import { Calendar } from "lucide-react";
-import { FaWhatsapp } from "react-icons/fa";
 import { useAlertContext } from "../context/alertContext";
 import useSubmit from "../hooks/useSubmit";
 import { FaPaperPlane } from "react-icons/fa";
@@ -48,7 +47,7 @@ const ContactMeSection = ({ locale = "en" }) => {
       label: "Twitter",
     },
     {
-      Icon: FaWhatsapp,
+      img: require("../images/socials/whatsapp.png"),
       url: WHATSAPP_URL,
       label: "WhatsApp",
     },
@@ -129,47 +128,40 @@ const ContactMeSection = ({ locale = "en" }) => {
                   className="flex items-center gap-3 text-gray-300 hover:text-[#D7FF00] transition-colors duration-300 group"
                 >
                   <span className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-lg opacity-90 transition-[filter,opacity,color] duration-300 group-hover:opacity-100 [filter:grayscale(1)_brightness(1.15)] group-hover:[filter:grayscale(1)_brightness(1.35)]">
-                    {social.Icon ? (
-                      <social.Icon
-                        className="h-[22px] w-[22px] text-current sm:h-6 sm:w-6"
-                        aria-hidden
-                      />
-                    ) : (
-                      <Suspense
-                        fallback={
-                          <img
-                            src={social.img}
-                            alt=""
-                            className="h-6 w-6 rounded-lg object-contain sm:h-7 sm:w-7"
-                          />
-                        }
-                      >
-                        <StickerPeeling
-                          image={social.img}
-                          imageWidth={28}
-                          imageHeight={28}
-                          hoverPeel={48}
-                          pressPeel={70}
-                          hovered={hoveredSocial === social.label}
-                          curlRotation={
-                            PEEL_VARIATIONS[index % PEEL_VARIATIONS.length]
-                          }
-                          backColor="#0a0a0a"
-                          shadowEnabled
-                          shadow={{
-                            opacity: 28,
-                            color: "#000000",
-                            x: -220,
-                            y: 120,
-                          }}
-                          transition={{
-                            type: "tween",
-                            duration: 0.28,
-                            ease: "easeOut",
-                          }}
+                    <Suspense
+                      fallback={
+                        <img
+                          src={social.img}
+                          alt=""
+                          className="h-6 w-6 rounded-lg object-contain sm:h-7 sm:w-7"
                         />
-                      </Suspense>
-                    )}
+                      }
+                    >
+                      <StickerPeeling
+                        image={social.img}
+                        imageWidth={28}
+                        imageHeight={28}
+                        hoverPeel={48}
+                        pressPeel={70}
+                        hovered={hoveredSocial === social.label}
+                        curlRotation={
+                          PEEL_VARIATIONS[index % PEEL_VARIATIONS.length]
+                        }
+                        backColor="#0a0a0a"
+                        shadowEnabled
+                        shadow={{
+                          opacity: 28,
+                          color: "#000000",
+                          x: -220,
+                          y: 120,
+                        }}
+                        transition={{
+                          type: "tween",
+                          duration: 0.28,
+                          ease: "easeOut",
+                        }}
+                      />
+                    </Suspense>
                   </span>
                   <span className="font-mono text-sm tracking-wider">
                     {social.label}
