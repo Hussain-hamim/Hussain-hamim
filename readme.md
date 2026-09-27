@@ -8,7 +8,7 @@
 </p>
 
 <p align="center">
-  <img src="https://streak-stats.demolab.com?user=Hussain-hamim&theme=tokyonight&hide_border=true&border_radius=4&mode=weekly" alt="GitHub Streak">
+  <img src="https://streak-stats.demolab.com?user=Hussain-hamim&hide_border=true&border_radius=4&mode=weekly&background=0A0A0A&stroke=1F1F1A&ring=D7FF00&fire=FF3B30&currStreakNum=D7FF00&sideNums=2DD4BF&currStreakLabel=F3F1E6&sideLabels=F3F1E6&dates=2DD4BF" alt="GitHub Streak">
 </p>
 
 <p align="center">
