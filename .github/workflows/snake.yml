@@ -1,0 +1,24 @@
+name: Generate Snake
+
+on:
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: Platane/snk@v3
+        with:
+          github_user_name: Hussain-hamim
+          outputs: |
+            output/snake.svg
+            output/snake-dark.svg?palette=github-dark
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: Update contribution snake
+          file_pattern: output/snake*.svg
