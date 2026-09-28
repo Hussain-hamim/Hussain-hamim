@@ -4,7 +4,7 @@ High impact (fix these first)
 Use a real professional profile photo
 You currently use eren.jpg (Eren from Attack on Titan). For a portfolio that targets serious clients and companies, a clean headshot of you builds trust instantly.
 
-Fix naming and consistency
+Fix naming and consistency.
 
 Header logo says HSN. but the rest of the site uses HUSSAIN HAMIM. Pick one brand and use it everywhere.
 Email address mohammadhussainafghan83@gmail.com is not consistent with your brand. Consider something like hussain@hussainhamim.xyz (since you already own the domain).

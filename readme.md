@@ -14,3 +14,4 @@
 <p align="center">
   <img src="https://readme-typing-svg.demolab.com?font=Courier+New&color=D7FF00&size=16&center=true&vCenter=true&width=600&height=40&lines=Shipping+products;IdeaHunt+%C2%B7+Aegnis+%C2%B7+TimeCircle;Open+for+what%27s+next" alt="Typing">
 </p>
+ 
