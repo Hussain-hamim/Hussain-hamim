@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import MeadowCanvas from './MeadowCanvas';
 import './TouchSomeGrass.css';
 
@@ -46,6 +47,9 @@ export default function TouchSomeGrassPage() {
 
   return (
     <main className='meadow' data-paused={paused} data-ready={ready}>
+      <Link className='meadow__back' to='/'>
+        ← Go lockin
+      </Link>
       <img
         className='meadow__landscape'
         src={`${ASSETS}/landscape.webp`}

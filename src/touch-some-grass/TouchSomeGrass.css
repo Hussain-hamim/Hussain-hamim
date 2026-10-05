@@ -41,6 +41,20 @@
 }
 .meadow__pause:focus-visible { outline: 2px solid #fff5d7; outline-offset: -6px; }
 
+.meadow__back {
+  position: absolute;
+  top: max(1.15rem, env(safe-area-inset-top));
+  left: max(1.25rem, env(safe-area-inset-left));
+  z-index: 3;
+  color: #fffaf0;
+  font-size: 0.9rem;
+  letter-spacing: 0.03em;
+  text-decoration: none;
+  text-shadow: 0 1px 10px rgba(20, 16, 10, 0.65);
+}
+.meadow__back:hover { color: #fff; }
+.meadow__back:focus-visible { outline: 2px solid #fff5d7; outline-offset: 4px; }
+
 .meadow__flight, .meadow__drift {
   position: absolute;
   top: 0;
