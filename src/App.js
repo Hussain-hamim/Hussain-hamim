@@ -28,6 +28,9 @@ const VortxPortfolioPage = lazy(() =>
 const StudioPortfolioPage = lazy(() =>
   import('./studio-portfolio/StudioPortfolioPage')
 );
+const TouchSomeGrassPage = lazy(() =>
+  import('./touch-some-grass/TouchSomeGrassPage')
+);
 
 const RouteFallback = () => (
   <div className='min-h-screen bg-surface' aria-hidden />
@@ -132,6 +135,7 @@ function App() {
         <AlertProvider>
           <Suspense fallback={<RouteFallback />}>
             <Routes>
+              <Route path='/touch-some-grass' element={<TouchSomeGrassPage />} />
               <Route path='/projects' element={<AllProjectsPage />} />
               <Route path='/blogs' element={<AllBlogsPage />} />
               <Route path='/projects-legacy' element={<ProjectsList />} />

@@ -68,8 +68,8 @@ module.exports = {
   },
   // Suppress warnings overlay in browser
   devServer: {
-    host: '0.0.0.0', // Allow external connections
-    port: 3000,
+    host: process.env.HOST || '0.0.0.0', // Allow local preview overrides
+    port: Number(process.env.PORT) || 3000,
     allowedHosts: 'all', // Allow all hosts
     client: {
       overlay: {
@@ -86,4 +86,3 @@ module.exports = {
     },
   },
 };
-
