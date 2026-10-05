@@ -55,6 +55,36 @@
 .meadow__back:hover { color: #fff; }
 .meadow__back:focus-visible { outline: 2px solid #fff5d7; outline-offset: 4px; }
 
+.meadow__sound {
+  position: absolute;
+  top: max(0.8rem, env(safe-area-inset-top));
+  right: max(1.25rem, env(safe-area-inset-right));
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  min-height: 44px;
+  min-width: 119px;
+  padding: 0.6rem 0.95rem;
+  border: 1px solid rgba(255, 255, 245, 0.48);
+  border-radius: 999px;
+  background: rgba(250, 248, 235, 0.64);
+  color: #344235;
+  box-shadow: 0 2px 12px rgba(41, 53, 35, 0.04);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.015em;
+  cursor: pointer;
+  transition: background 200ms ease, box-shadow 200ms ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.meadow__sound:hover { background: rgba(255, 253, 244, 0.86); }
+.meadow__sound[data-playing='true'] { background: rgba(240, 246, 222, 0.76); }
+.meadow__sound:focus-visible { outline: 2px solid #344235; outline-offset: 4px; }
+
 .meadow__flight, .meadow__drift {
   position: absolute;
   top: 0;

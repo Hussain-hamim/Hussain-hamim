@@ -21,6 +21,8 @@ beforeEach(() => {
   };
   window.matchMedia = jest.fn(() => media);
   jest.spyOn(HTMLCanvasElement.prototype, 'getContext').mockReturnValue(null);
+  jest.spyOn(HTMLMediaElement.prototype, 'pause').mockImplementation(() => {});
+  jest.spyOn(HTMLMediaElement.prototype, 'load').mockImplementation(() => {});
 });
 
 afterEach(() => jest.restoreAllMocks());
@@ -41,10 +43,10 @@ test('reduced motion removes all animated scenery, including when preference cha
   expect(container.querySelector('canvas')).toBeNull();
   expect(container.querySelector('.meadow__wildlife')).toBeNull();
   expect(screen.getByRole('img')).toBeInTheDocument();
-  expect(screen.getByRole('button')).toBeDisabled();
+  expect(screen.getByRole('button', { name: 'Resume meadow animation' })).toBeDisabled();
   act(() => motionListener({ matches: false }));
   expect(container.querySelector('canvas')).toBeInTheDocument();
-  expect(screen.getByRole('button')).toBeEnabled();
+  expect(screen.getByRole('button', { name: 'Pause meadow animation' })).toBeEnabled();
 });
 
 test('restores the document title and removes preference listeners on navigation away', () => {

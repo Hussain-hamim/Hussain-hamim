@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import MeadowCanvas from './MeadowCanvas';
+import MeadowSound from './MeadowSound';
 import './TouchSomeGrass.css';
 
 const ASSETS = `${process.env.PUBLIC_URL}/touch-some-grass`;
@@ -50,6 +51,7 @@ export default function TouchSomeGrassPage() {
       <Link className='meadow__back' to='/'>
         ← Go lockin
       </Link>
+      <MeadowSound />
       <img
         className='meadow__landscape'
         src={`${ASSETS}/landscape.webp`}
