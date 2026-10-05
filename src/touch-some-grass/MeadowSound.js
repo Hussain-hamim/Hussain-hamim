@@ -1,11 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
 import { Volume2, VolumeX } from 'lucide-react';
 
-const AMBIENCE = `${process.env.PUBLIC_URL}/touch-some-grass/meadow-ambience.mp3`;
-const VOLUME = 0.3;
+const ASSETS = `${process.env.PUBLIC_URL}/touch-some-grass`;
+const TRACKS = [
+  { file: 'meadow-ambience.mp3', volume: 0.3 },
+  { file: 'meadow-wind.mp3', volume: 0.18 },
+];
 
 export default function MeadowSound() {
-  const audioRef = useRef(null);
+  const audioRefs = useRef([]);
   const fadeRef = useRef(0);
   const requestedRef = useRef(false);
   const requestRef = useRef(0);
@@ -13,67 +16,81 @@ export default function MeadowSound() {
   const active = status === 'playing' || status === 'loading';
 
   useEffect(() => {
-    const audio = audioRef.current;
+    const recordings = audioRefs.current.slice();
     return () => {
       requestedRef.current = false;
       requestRef.current += 1;
       cancelAnimationFrame(fadeRef.current);
-      audio.pause();
-      audio.removeAttribute('src');
-      audio.load();
+      recordings.forEach(audio => {
+        audio.pause();
+        audio.removeAttribute('src');
+        audio.load();
+      });
     };
   }, []);
 
-  const fadeTo = (target, duration, onComplete) => {
+  const stopRecordings = () => {
+    audioRefs.current.forEach(audio => {
+      audio.pause();
+      audio.currentTime = 0;
+    });
+  };
+
+  const fadeTo = (level, duration, onComplete) => {
     cancelAnimationFrame(fadeRef.current);
-    const audio = audioRef.current;
-    const initial = audio.volume;
+    const initial = audioRefs.current.map(audio => audio.volume);
     const started = performance.now();
     const step = now => {
       const progress = Math.min((now - started) / duration, 1);
       const eased = progress * progress * (3 - 2 * progress);
-      audio.volume = initial + (target - initial) * eased;
+      audioRefs.current.forEach((audio, index) => {
+        audio.volume = initial[index] + (TRACKS[index].volume * level - initial[index]) * eased;
+      });
       if (progress < 1) fadeRef.current = requestAnimationFrame(step);
       else onComplete?.();
     };
     fadeRef.current = requestAnimationFrame(step);
   };
 
+  const playbackFailed = () => {
+    requestedRef.current = false;
+    requestRef.current += 1;
+    cancelAnimationFrame(fadeRef.current);
+    stopRecordings();
+    setStatus('error');
+  };
+
   const toggleSound = async () => {
-    const audio = audioRef.current;
+    const recordings = audioRefs.current;
     const request = ++requestRef.current;
     requestedRef.current = !requestedRef.current;
     if (!requestedRef.current) {
       setStatus('off');
-      // Cancel a pending download/play immediately; fade out established playback.
-      if (audio.paused || status === 'loading') {
+      if (recordings.every(audio => audio.paused) || status === 'loading') {
         cancelAnimationFrame(fadeRef.current);
-        audio.pause();
-        audio.currentTime = 0;
+        stopRecordings();
       } else {
-        fadeTo(0, 500, () => {
-          audio.pause();
-          audio.currentTime = 0;
-        });
+        fadeTo(0, 500, stopRecordings);
       }
       return;
     }
 
     cancelAnimationFrame(fadeRef.current);
     setStatus('loading');
-    if (!audio.getAttribute('src')) audio.src = AMBIENCE;
-    if (audio.error) audio.load();
-    if (audio.paused) audio.volume = 0;
     try {
-      // Invoked directly by a click/keyboard gesture to work with autoplay policies.
-      await audio.play();
+      // Start both tracks in the same user gesture; no autoplay or third-party requests.
+      const starts = recordings.map((audio, index) => {
+        if (!audio.getAttribute('src')) audio.src = `${ASSETS}/${TRACKS[index].file}`;
+        if (audio.error) audio.load();
+        if (audio.paused) audio.volume = 0;
+        return audio.play();
+      });
+      await Promise.all(starts);
       if (request !== requestRef.current || !requestedRef.current) return;
       setStatus('playing');
-      fadeTo(VOLUME, 1800);
+      fadeTo(1, 1800);
     } catch {
-      if (request !== requestRef.current) return;
-      requestedRef.current = false;
-      setStatus('error');
+      if (request === requestRef.current) playbackFailed();
     }
   };
 
@@ -83,25 +100,25 @@ export default function MeadowSound() {
 
   return (
     <>
-      <audio
-        ref={audioRef}
-        loop
-        preload='none'
-        aria-hidden='true'
-        onPause={() => {
-          if (!requestedRef.current) return;
-          requestedRef.current = false;
-          requestRef.current += 1;
-          cancelAnimationFrame(fadeRef.current);
-          setStatus('off');
-        }}
-        onError={() => {
-          requestedRef.current = false;
-          requestRef.current += 1;
-          cancelAnimationFrame(fadeRef.current);
-          setStatus('error');
-        }}
-      />
+      {TRACKS.map((track, index) => (
+        <audio
+          key={track.file}
+          ref={element => { audioRefs.current[index] = element; }}
+          loop
+          preload='none'
+          aria-hidden='true'
+          onPause={event => {
+            // Ignore a queued pause event from an earlier load or stop operation.
+            if (!requestedRef.current || !event.currentTarget.paused) return;
+            requestedRef.current = false;
+            requestRef.current += 1;
+            cancelAnimationFrame(fadeRef.current);
+            stopRecordings();
+            setStatus('off');
+          }}
+          onError={playbackFailed}
+        />
+      ))}
       <button
         type='button'
         className='meadow__sound'

@@ -12,15 +12,19 @@ afterEach(() => jest.restoreAllMocks());
 test('waits for a user gesture, starts the local looping recording and stops on demand', async () => {
   const { container } = render(<MeadowSound />);
   const audio = container.querySelector('audio');
+  const wind = container.querySelectorAll('audio')[1];
   expect(audio).not.toHaveAttribute('src');
   expect(audio).toHaveAttribute('preload', 'none');
   expect(audio).toHaveAttribute('loop');
   expect(audio.play).not.toHaveBeenCalled();
   await act(async () => fireEvent.click(screen.getByRole('button', { name: 'Play nature sounds' })));
   expect(audio.getAttribute('src')).toContain('meadow-ambience.mp3');
+  expect(wind.getAttribute('src')).toContain('meadow-wind.mp3');
+  expect(audio.play).toHaveBeenCalledTimes(2);
   expect(screen.getByRole('button', { name: 'Stop nature sounds' })).toHaveAttribute('aria-pressed', 'true');
   fireEvent.click(screen.getByRole('button', { name: 'Stop nature sounds' }));
   expect(audio.pause).toHaveBeenCalled();
+  expect(wind.currentTime).toBe(0);
   expect(screen.getByRole('button', { name: 'Play nature sounds' })).toHaveAttribute('aria-pressed', 'false');
 });
 
@@ -51,4 +55,13 @@ test('leaving the route releases the recording and cancels pending playback', as
   expect(audio.pause).toHaveBeenCalled();
   expect(audio).not.toHaveAttribute('src');
   expect(audio.load).toHaveBeenCalled();
+});
+
+test('a failure in the wind layer stops both tracks and allows retry', async () => {
+  HTMLMediaElement.prototype.play.mockResolvedValueOnce().mockRejectedValueOnce(new Error('Wind failed'));
+  const { container } = render(<MeadowSound />);
+  await act(async () => fireEvent.click(screen.getByRole('button', { name: 'Play nature sounds' })));
+  expect(screen.getByRole('button', { name: 'Retry nature sounds' })).toBeInTheDocument();
+  expect(HTMLMediaElement.prototype.pause).toHaveBeenCalledTimes(2);
+  [...container.querySelectorAll('audio')].forEach(audio => expect(audio.currentTime).toBe(0));
 });
