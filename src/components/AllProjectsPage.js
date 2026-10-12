@@ -25,6 +25,7 @@ const AllProjectsPage = () => {
 
   const [showAllWeb, setShowAllWeb] = useState(false);
   const [showAllMobile, setShowAllMobile] = useState(false);
+  const [isHeaderVisible, setIsHeaderVisible] = useState(true);
 
   const goToContact = (e) => {
     e.preventDefault();
@@ -71,8 +72,18 @@ const AllProjectsPage = () => {
       dir={isPashto ? 'rtl' : 'ltr'}
       className='min-h-screen bg-surface-alt pt-[max(4.75rem,calc(env(safe-area-inset-top)+4.25rem))] text-ink transition-colors duration-300'
     >
-      <Header locale={isPashto ? 'ps' : 'en'} />
-      <div className='sticky top-[max(4.75rem,calc(env(safe-area-inset-top)+4.25rem))] z-30 border-b border-line/40 bg-surface-alt/85 backdrop-blur-md'>
+      <Header
+        locale={isPashto ? 'ps' : 'en'}
+        onVisibilityChange={setIsHeaderVisible}
+      />
+      <div
+        className='sticky z-30 border-b border-line/40 bg-surface-alt/85 backdrop-blur-md transition-[top] duration-500 ease-in-out motion-reduce:transition-none'
+        style={{
+          top: isHeaderVisible
+            ? 'max(4.75rem, calc(env(safe-area-inset-top) + 4.25rem))'
+            : 0,
+        }}
+      >
         <div className='mx-auto flex max-w-4xl items-center justify-between px-4 py-4 md:px-8'>
           <Link
             to={isPashto ? '/ps' : '/'}

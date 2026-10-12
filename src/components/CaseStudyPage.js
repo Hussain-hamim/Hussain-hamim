@@ -131,7 +131,10 @@ const CaseStudyPage = () => {
     );
   }
 
-  const heroImage = findHeroImage(project.title);
+  const heroPreviewUrl = [...webProjects, ...mobileProjects].find(
+    (p) => p.title === project.title
+  )?.embedUrl;
+  const heroImage = heroPreviewUrl ? null : findHeroImage(project.title);
   const metrics = (project.metrics || []).filter(
     (m) => m?.value && !isPlaceholder(m.value)
   );
@@ -218,18 +221,32 @@ const CaseStudyPage = () => {
           </div>
         </motion.section>
 
-        {heroImage ? (
+        {heroPreviewUrl || heroImage ? (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.08 }}
             className='mt-10 overflow-hidden rounded-2xl border border-line/40 bg-panel sm:rounded-3xl'
           >
-            <img
-              src={heroImage}
-              alt={project.title}
-              className='w-full object-cover'
-            />
+            {heroPreviewUrl ? (
+              <div className='relative aspect-[40/21] w-full overflow-hidden'>
+                <iframe
+                  key={heroPreviewUrl}
+                  src={heroPreviewUrl}
+                  title={`${project.title} preview`}
+                  className='pointer-events-none absolute inset-0 h-[285.714286%] w-[285.714286%] origin-top-left scale-[0.35] border-0 md:h-[133.333333%] md:w-[133.333333%] md:scale-[0.75]'
+                  loading='lazy'
+                  sandbox='allow-scripts allow-same-origin'
+                  tabIndex={-1}
+                />
+              </div>
+            ) : (
+              <img
+                src={heroImage}
+                alt={project.title}
+                className='w-full object-cover'
+              />
+            )}
           </motion.div>
         ) : null}
 

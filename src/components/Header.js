@@ -6,7 +6,7 @@ import { useTheme } from '../context/themeContext';
 
 const DEFAULT_CAL_BOOKING_URL = 'https://cal.com/hussain-hamim-fp9qc6/30min';
 
-const Header = ({ locale = 'en' }) => {
+const Header = ({ locale = 'en', onVisibilityChange }) => {
   const isPashto = locale === 'ps';
   const location = useLocation();
   const onHome = location.pathname === '/' || location.pathname === '/ps';
@@ -30,15 +30,17 @@ const Header = ({ locale = 'en' }) => {
 
       if (prevScrollPos > currentScrollPos || currentScrollPos < 80) {
         headerElement.style.transform = 'translateY(0)';
+        onVisibilityChange?.(true);
       } else if (currentScrollPos > 100 && !isMenuOpen) {
         headerElement.style.transform = 'translateY(-100%)';
+        onVisibilityChange?.(false);
       }
       prevScrollPos = currentScrollPos;
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [isMenuOpen]);
+  }, [isMenuOpen, onVisibilityChange]);
 
   useEffect(() => {
     if (!onHome) return undefined;
