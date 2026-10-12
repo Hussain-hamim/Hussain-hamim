@@ -3,6 +3,9 @@
   "name": "hussain-portfolio",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "24.x"
+  },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
     "@fortawesome/fontawesome-svg-core": "^6.5.2",

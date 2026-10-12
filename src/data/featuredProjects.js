@@ -1,5 +1,5 @@
-// Featured ("Selected Work") projects shown on the homepage and on
-// dedicated /case-study/:slug pages.
+// Project stories for /case-study/:slug, including previously featured work.
+// The featured subset below is shown on the homepage.
 //
 // Anything wrapped in <REPLACE: ...> is a placeholder. The UI renders these
 // with a faded style so they are obvious in preview but do not break layout.
@@ -14,7 +14,7 @@ export const isPlaceholder = (value) =>
  * /case-study/:slug. Keep titles in sync with ProjectsSection so the card
  * can reuse the existing image via the matching entry in projects/mobileProjects.
  */
-export const featuredProjects = [
+const caseStudies = [
   {
     slug: 'ideahunt',
     title: 'IdeaHunt',
@@ -62,6 +62,24 @@ export const featuredProjects = [
         role: 'Software Developer',
       },
     ],
+  },
+  {
+    slug: 'talentfound',
+    title: 'TalentFound',
+    openLinkLabel: 'TalentFound',
+    cardHeadline: 'Show your work. Find your next team, collaborator, or co-founder.',
+    tagline:
+      'A home for developers to share what they build and connect with people for their next opportunity.',
+    live: 'https://talent-found-os.vercel.app/',
+    code: 'https://github.com/Hussain-hamim',
+    problem:
+      'Finding the right people to build with starts with understanding their work, skills, and interests. A job title alone only tells part of that story.',
+    built:
+      'A developer discovery platform with public profiles, project showcases, reviews, and shortlists, bringing work and professional connections into one place.',
+    result:
+      'Developers can put their projects in front of potential teams and collaborators, while founders and employers can explore the people behind the work.',
+    metrics: [],
+    testimonials: [],
   },
   {
     slug: 'aegnis-ai',
@@ -169,5 +187,8 @@ export const featuredProjects = [
   },
 ];
 
+// Keep the Aegnis AI story accessible at its existing URL after rotating it out.
+export const featuredProjects = caseStudies.filter((p) => p.slug !== 'aegnis-ai');
+
 export const getFeaturedBySlug = (slug) =>
-  featuredProjects.find((p) => p.slug === slug);
+  caseStudies.find((p) => p.slug === slug);

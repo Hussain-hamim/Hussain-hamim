@@ -58,6 +58,17 @@ export const projects = [
     theme: { primary: '#286A64', secondary: '#2DD4BF' },
   },
   {
+    title: 'TalentFound',
+    description:
+      'A platform where developers showcase their work and connect with teams, collaborators, and co-founders. Explore developer profiles, discover projects, and find people to build with.',
+    getImageSrc: () => require('../images/talentfound.jpg'),
+    link: 'https://github.com/Hussain-hamim',
+    live: 'https://talent-found-os.vercel.app/',
+    embedUrl: 'https://talent-found-os.vercel.app/',
+    tags: ['Full-stack', 'Developer profiles', 'Networking'],
+    theme: { primary: '#12384B', secondary: '#EF5138' },
+  },
+  {
     title: 'Aegnis AI',
     description:
       "Aegnis is your AI Chief of Staff, an AI-powered productivity platform that doesn't just show you your life, it manages it for you. From a to-do list to a done list.",
@@ -497,6 +508,8 @@ export const ProjectCard = ({
 export const webDescriptionsPs = {
     IdeaHunt:
       'خپله راتلونکې لويه مفکوره ومومئ او اعتبار يې تاييد کړئ. موږ د وېب له بېلابېلو سرچينو ميليونونه خبرې، ارزونې او شکايتونه څېړو، څو هغه رښتينې ستونزې پيدا کړو چې خلک ورسره مخ دي، بيا يې د بازار غوښتنې لرونکو سوداګريزو مفکورو ته اړوو.',
+    TalentFound:
+      'د پراختياکوونکو لپاره يو پليټفارم چې خپل کارونه پکې نندارې ته وړاندې کړي او له ټيمونو، همکارانو او ګډو بنسټګرو سره ونښلي. پروفايلونه او پروژې وپلټئ او د ګډ کار لپاره مناسب کسان ومومئ.',
     'Aegnis AI':
       'Aegnis ستاسو AI Chief of Staff دی. دا يوازې د کارونو لېست نه ښيي، بلکې ستاسو ورځنی نظم هم سمبالوي؛ يعنې کارونه له to-do نه done-list ته رسوي.',
     LiquidGlass:
@@ -583,13 +596,13 @@ const ProjectsSection = ({ locale = 'en' }) => {
 
   const currentSideProjectTitles = [
     'IdeaHunt',
-    'Aegnis AI',
+    'TalentFound',
     'ProveIt AI',
     'TimeCircle',
   ];
   const currentSideProjects = [
     ...webProjects.filter(
-      (p) => p.title === 'IdeaHunt' || p.title === 'Aegnis AI'
+      (p) => p.title === 'IdeaHunt' || p.title === 'TalentFound'
     ),
     ...mobileProjectsLocalized.filter(
       (p) => p.title === 'ProveIt AI' || p.title === 'TimeCircle'
