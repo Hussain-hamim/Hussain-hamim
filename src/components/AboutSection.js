@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { lazy } from 'react';
 import { motion } from 'framer-motion';
-import BlobReveal from './BlobReveal';
+import LazyWhenVisible from './LazyWhenVisible';
 import aboutPortrait from '../asset/hsn3-hero.jpg';
+
+const BlobReveal = lazy(() => import('./BlobReveal'));
 
 export default function AboutSection({ locale = 'en', embedded = false }) {
   const isPashto = locale === 'ps';
@@ -31,16 +33,20 @@ export default function AboutSection({ locale = 'en', embedded = false }) {
             embedded ? '' : 'max-h-[20rem] sm:max-h-[22rem]'
           }`}
         >
-          <BlobReveal
-            image={aboutPortrait}
-            fit='cover'
-            blobCount={18}
-            startAlign='center'
-            replay={false}
-            alt='Hussain Hamim'
-            transition={{ duration: 2.1, ease: 'easeOut' }}
-            className='h-full w-full'
-          />
+          <LazyWhenVisible className='h-full w-full' fallback={
+            <img src={aboutPortrait} alt='Hussain Hamim' className='h-full w-full object-cover' loading='lazy' decoding='async' />
+          }>
+            <BlobReveal
+              image={aboutPortrait}
+              fit='cover'
+              blobCount={18}
+              startAlign='center'
+              replay={false}
+              alt='Hussain Hamim'
+              transition={{ duration: 2.1, ease: 'easeOut' }}
+              className='h-full w-full'
+            />
+          </LazyWhenVisible>
         </div>
       </div>
     </motion.div>

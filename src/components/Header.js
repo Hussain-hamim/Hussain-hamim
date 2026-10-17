@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { Calendar, Menu, Moon, Sun, X } from 'lucide-react';
 import Button from './Button';
 import { useTheme } from '../context/themeContext';
+import { scrollToSection } from '../utils/sectionNavigation';
 
 const DEFAULT_CAL_BOOKING_URL = 'https://cal.com/hussain-hamim-fp9qc6/30min';
 
@@ -49,7 +50,6 @@ const Header = ({ locale = 'en', onVisibilityChange }) => {
     const nodes = ids
       .map((id) => document.getElementById(`${id}-section`))
       .filter(Boolean);
-    if (nodes.length === 0) return undefined;
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -67,8 +67,17 @@ const Header = ({ locale = 'en', onVisibilityChange }) => {
       }
     );
 
+    const observed = new Set(nodes);
     nodes.forEach((n) => observer.observe(n));
-    return () => observer.disconnect();
+    const additions = new MutationObserver(() => {
+      ids.forEach(id => {
+        const node = document.getElementById(`${id}-section`);
+        if (node && !observed.has(node)) { observed.add(node); observer.observe(node); }
+      });
+      if (observed.size === ids.length) additions.disconnect();
+    });
+    if (observed.size < ids.length) additions.observe(document.body, { childList: true, subtree: true });
+    return () => { observer.disconnect(); additions.disconnect(); };
   }, [onHome]);
 
   const homePath = isPashto ? '/ps' : '/';
@@ -84,8 +93,7 @@ const Header = ({ locale = 'en', onVisibilityChange }) => {
     setIsMenuOpen(false);
     if (!onHome) return;
     e.preventDefault();
-    const element = document.getElementById(`${anchor}-section`);
-    element?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    scrollToSection(anchor);
   };
 
   const navItems = [

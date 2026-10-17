@@ -87,14 +87,7 @@ const CaseStudyPage = () => {
 
   const goToContact = (e) => {
     e.preventDefault();
-    navigate('/');
-    requestAnimationFrame(() => {
-      setTimeout(() => {
-        document
-          .getElementById('contactme-section')
-          ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }, 50);
-    });
+    navigate('/#contactme-section');
   };
 
   if (!project) {

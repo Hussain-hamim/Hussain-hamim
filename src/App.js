@@ -6,6 +6,8 @@ import LandingSection from './components/LandingSection';
 import { AlertProvider } from './context/alertContext';
 import { ThemeProvider } from './context/themeContext';
 import { ProjectPreviewProvider } from './context/previewContext';
+import LazyWhenVisible from './components/LazyWhenVisible';
+import { scrollToSection } from './utils/sectionNavigation';
 const ProjectsSection = lazy(() => import('./components/ProjectsSection'));
 const ContactFooterWrap = lazy(() => import('./components/ContactFooterWrap'));
 const ContactMeSection = lazy(() => import('./components/ContactMeSection'));
@@ -46,33 +48,16 @@ const SectionFallback = ({ minHeight = '40vh' }) => (
 );
 
 function useScrollToHash() {
-  const { hash } = useLocation();
+  const { hash, pathname } = useLocation();
 
   useEffect(() => {
     const id = hash.replace(/^#/, '');
     if (!id) return undefined;
 
-    let cancelled = false;
-    let attempts = 0;
-
-    const tryScroll = () => {
-      if (cancelled) return;
-      const el = document.getElementById(id);
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        return;
-      }
-      attempts += 1;
-      if (attempts < 80) {
-        window.setTimeout(tryScroll, 50);
-      }
-    };
-
-    tryScroll();
-    return () => {
-      cancelled = true;
-    };
-  }, [hash]);
+    const controller = new AbortController();
+    scrollToSection(id, { signal: controller.signal });
+    return () => controller.abort();
+  }, [hash, pathname]);
 }
 
 function PortfolioPage({ locale }) {
@@ -84,47 +69,24 @@ function PortfolioPage({ locale }) {
     document.documentElement.dir = isPashto ? 'rtl' : 'ltr';
   }, [isPashto]);
 
-  // Warm the below-the-fold chunks after first paint so scroll feels instant
-  useEffect(() => {
-    const warm = () => {
-      import('./components/ProjectsSection');
-      import('./components/ContactFooterWrap');
-      import('./components/ContactMeSection');
-      import('./components/Footer');
-    };
-    let idleId;
-    let timeoutId;
-    if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
-      idleId = window.requestIdleCallback(warm, { timeout: 2500 });
-    } else {
-      timeoutId = window.setTimeout(warm, 1200);
-    }
-    return () => {
-      if (idleId != null && window.cancelIdleCallback) {
-        window.cancelIdleCallback(idleId);
-      }
-      if (timeoutId != null) window.clearTimeout(timeoutId);
-    };
-  }, []);
-
   return (
     <main dir={isPashto ? 'rtl' : 'ltr'}>
       <Header locale={locale} />
       <LandingSection locale={locale} />
-      <Suspense fallback={<SectionFallback minHeight='80vh' />}>
+      <LazyWhenVisible eager fallback={<SectionFallback minHeight='80vh' />}>
         <ProjectsSection locale={locale} />
-      </Suspense>
+      </LazyWhenVisible>
       {isPashto ? (
-        <Suspense fallback={<SectionFallback minHeight='40vh' />}>
+        <LazyWhenVisible eager fallback={<SectionFallback minHeight='40vh' />}>
           <PsEducationSection />
-        </Suspense>
+        </LazyWhenVisible>
       ) : null}
-      <Suspense fallback={<SectionFallback minHeight='60vh' />}>
+      <LazyWhenVisible eager fallback={<SectionFallback minHeight='60vh' />}>
         <ContactFooterWrap>
           <ContactMeSection locale={locale} />
           <Footer />
         </ContactFooterWrap>
-      </Suspense>
+      </LazyWhenVisible>
     </main>
   );
 }

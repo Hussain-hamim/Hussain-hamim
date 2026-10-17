@@ -1,4 +1,5 @@
-import React, { useState, lazy, Suspense } from 'react';
+import React, { lazy } from 'react';
+import OnDemandSticker from './OnDemandSticker';
 import { motion } from 'framer-motion';
 import {
   FaGithub,
@@ -17,7 +18,6 @@ import { PEEL_VARIATIONS } from './peelDirections';
 
 const GitHubContributions = lazy(() => import('./GitHubContributions'));
 const CardStack = lazy(() => import('./CardStack'));
-const StickerPeeling = lazy(() => import('./StickerPeeling'));
 
 const githubSocialImg = require('../images/socials/github.png');
 
@@ -571,7 +571,6 @@ export const certificateDescriptionsPs = {
 
 const ProjectsSection = ({ locale = 'en' }) => {
   const isPashto = locale === 'ps';
-  const [hoveredGithub, setHoveredGithub] = useState(false);
 
   const webProjects = isPashto
     ? projects.map((project) => ({
@@ -705,10 +704,8 @@ const ProjectsSection = ({ locale = 'en' }) => {
                   </div>
                   <div className='min-w-0 overflow-x-auto rounded-lg border border-white/10 bg-[#0C1117] px-2 py-3 md:min-h-0 md:flex-1 sm:px-3 sm:py-4'>
                     <div className='flex w-full min-w-0 justify-center'>
-                      <LazyWhenVisible className='w-full' minHeight={112}>
-                        <Suspense fallback={<div className='h-28' aria-hidden />}>
-                          <GitHubContributions username='Hussain-hamim' dark />
-                        </Suspense>
+                      <LazyWhenVisible className='w-full' minHeight={112} fallback={<div className='h-28' aria-hidden />}>
+                        <GitHubContributions username='Hussain-hamim' dark />
                       </LazyWhenVisible>
                     </div>
                   </div>
@@ -716,43 +713,30 @@ const ProjectsSection = ({ locale = 'en' }) => {
                     href='https://github.com/Hussain-hamim'
                     target='_blank'
                     rel='noopener noreferrer'
-                    onMouseEnter={() => setHoveredGithub(true)}
-                    onMouseLeave={() => setHoveredGithub(false)}
                     className='group mt-5 flex items-center justify-center gap-3 self-center text-ink transition-colors duration-300 hover:text-[#D7FF00]'
                   >
                     <span className='inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-lg opacity-90 transition-[filter,opacity,color] duration-300 group-hover:opacity-100 [filter:grayscale(1)_brightness(1.15)] group-hover:[filter:grayscale(1)_brightness(1.35)]'>
-                      <Suspense
-                        fallback={
-                          <img
-                            src={githubSocialImg}
-                            alt=''
-                            className='h-6 w-6 rounded-lg object-contain sm:h-7 sm:w-7'
-                          />
-                        }
-                      >
-                        <StickerPeeling
-                          image={githubSocialImg}
-                          imageWidth={28}
-                          imageHeight={28}
-                          hoverPeel={48}
-                          pressPeel={70}
-                          hovered={hoveredGithub}
-                          curlRotation={PEEL_VARIATIONS[1]}
-                          backColor='#1e1f22'
-                          shadowEnabled
-                          shadow={{
-                            opacity: 28,
-                            color: '#000000',
-                            x: -220,
-                            y: 120,
-                          }}
-                          transition={{
-                            type: 'tween',
-                            duration: 0.28,
-                            ease: 'easeOut',
-                          }}
-                        />
-                      </Suspense>
+                      <OnDemandSticker
+                        image={githubSocialImg}
+                        imageWidth={28}
+                        imageHeight={28}
+                        hoverPeel={48}
+                        pressPeel={70}
+                        curlRotation={PEEL_VARIATIONS[1]}
+                        backColor='#1e1f22'
+                        shadowEnabled
+                        shadow={{
+                          opacity: 28,
+                          color: '#000000',
+                          x: -220,
+                          y: 120,
+                        }}
+                        transition={{
+                          type: 'tween',
+                          duration: 0.28,
+                          ease: 'easeOut',
+                        }}
+                      />
                     </span>
                     <span className='font-mono text-sm tracking-wider'>
                       GitHub
@@ -804,14 +788,14 @@ const ProjectsSection = ({ locale = 'en' }) => {
 };
 
 const PHOTO_IMAGES = [
-  { src: require('../images/photos-stack-8.jpg'), alt: 'Laptop at a late-night setup' },
-  { src: require('../images/photos-stack-1.png'), alt: 'Photo 1' },
-  { src: require('../images/photos-stack-2.png'), alt: 'Photo 2' },
-  { src: require('../images/photos-stack-3.png'), alt: 'Photo 3' },
-  { src: require('../images/photos-stack-4.png'), alt: 'Photo 4' },
-  { src: require('../images/photos-stack-5.png'), alt: 'Photo 5' },
-  { src: require('../images/photos-stack-6.png'), alt: 'Photo 6' },
-  { src: require('../images/photos-stack-7.png'), alt: 'Photo 7' },
+  { src: require('../images/photos-stack-8.webp'), alt: 'Laptop at a late-night setup' },
+  { src: require('../images/photos-stack-1.webp'), alt: 'Photo 1' },
+  { src: require('../images/photos-stack-2.webp'), alt: 'Photo 2' },
+  { src: require('../images/photos-stack-3.webp'), alt: 'Photo 3' },
+  { src: require('../images/photos-stack-4.webp'), alt: 'Photo 4' },
+  { src: require('../images/photos-stack-5.webp'), alt: 'Photo 5' },
+  { src: require('../images/photos-stack-6.webp'), alt: 'Photo 6' },
+  { src: require('../images/photos-stack-7.webp'), alt: 'Photo 7' },
 ];
 
 const PhotosCard = ({ isPashto }) => (
@@ -823,7 +807,7 @@ const PhotosCard = ({ isPashto }) => (
     className='relative flex w-full flex-col'
   >
     <div className='relative h-[21rem] w-full overflow-visible sm:h-[23rem]'>
-      <Suspense
+      <LazyWhenVisible className='h-full w-full' rootMargin='400px 0px'
         fallback={<div className='h-full w-full rounded-2xl bg-panel' aria-hidden />}
       >
         <CardStack
@@ -834,7 +818,7 @@ const PhotosCard = ({ isPashto }) => (
           xOffset={100}
           tiltAngle={-40}
         />
-      </Suspense>
+      </LazyWhenVisible>
     </div>
     <p className='mt-3 text-center font-mono text-[11px] tracking-wide text-gray-600 dark:text-white/50'>
       {isPashto

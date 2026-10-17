@@ -30,14 +30,7 @@ const AllProjectsPage = () => {
 
   const goToContact = (e) => {
     e.preventDefault();
-    navigate(isPashto ? '/ps' : '/');
-    requestAnimationFrame(() => {
-      setTimeout(() => {
-        document
-          .getElementById('contactme-section')
-          ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }, 50);
-    });
+    navigate(isPashto ? '/ps#contactme-section' : '/#contactme-section');
   };
 
   useEffect(() => {

@@ -1,4 +1,5 @@
 import React, { useLayoutEffect, useRef, useState, useEffect, lazy, Suspense } from 'react';
+import OnDemandSticker from './OnDemandSticker';
 import { motion } from 'framer-motion';
 import { ArrowRight, ChevronDown, Eye, MessageSquare } from 'lucide-react';
 import Button from './Button';
@@ -7,15 +8,10 @@ import MeshText from './MeshText';
 import TextMorph from './TextMorph';
 import { PEEL_VARIATIONS } from './peelDirections';
 import { useTheme } from '../context/themeContext';
+import { scrollToSection } from '../utils/sectionNavigation';
 import heroPortrait from '../asset/hsn3-hero.jpg';
 
 const ParticleLetter = lazy(() => import('./ParticleLetter'));
-const StickerPeeling = lazy(() => import('./StickerPeeling'));
-
-const scrollToSection = (anchor) => {
-  const el = document.getElementById(`${anchor}-section`);
-  el?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-};
 
 /** Irregular ink/paint accent behind text (same mark as HAMIM). */
 function PaintStroke({ className = '' }) {
@@ -144,7 +140,6 @@ const LandingSection = ({ locale = 'en' }) => {
   const [showParticles, setShowParticles] = useState(false);
   const [portraitFormed, setPortraitFormed] = useState(false);
   const [visitors, setVisitors] = useState(null);
-  const [hoveredSocial, setHoveredSocial] = useState(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -388,41 +383,32 @@ const LandingSection = ({ locale = 'en' }) => {
               target='_blank'
               rel='noopener noreferrer'
               aria-label={label}
-              onMouseEnter={() => setHoveredSocial(label)}
-              onMouseLeave={() => setHoveredSocial(null)}
               className='group relative inline-flex h-5 w-5 items-center justify-center [filter:grayscale(0.55)]'
             >
               <span className='pointer-events-none absolute -top-7 left-1/2 z-10 -translate-x-1/2 whitespace-nowrap rounded bg-ink px-1.5 py-0.5 font-sans3 text-[10px] font-medium text-surface opacity-0 transition-opacity duration-150 group-hover:opacity-100'>
                 {label}
               </span>
-              <Suspense
-                fallback={
-                  <img src={img} alt='' className='h-[18px] w-[18px] rounded-md object-contain' />
-                }
-              >
-                <StickerPeeling
-                  image={img}
-                  imageWidth={20}
-                  imageHeight={20}
-                  hoverPeel={48}
-                  pressPeel={70}
-                  hovered={hoveredSocial === label}
-                  curlRotation={PEEL_VARIATIONS[index % PEEL_VARIATIONS.length]}
-                  backColor='#0a0a0a'
-                  shadowEnabled
-                  shadow={{
-                    opacity: 28,
-                    color: '#000000',
-                    x: -220,
-                    y: 120,
-                  }}
-                  transition={{
-                    type: 'tween',
-                    duration: 0.28,
-                    ease: 'easeOut',
-                  }}
-                />
-              </Suspense>
+              <OnDemandSticker
+                image={img}
+                imageWidth={20}
+                imageHeight={20}
+                hoverPeel={48}
+                pressPeel={70}
+                curlRotation={PEEL_VARIATIONS[index % PEEL_VARIATIONS.length]}
+                backColor='#0a0a0a'
+                shadowEnabled
+                shadow={{
+                  opacity: 28,
+                  color: '#000000',
+                  x: -220,
+                  y: 120,
+                }}
+                transition={{
+                  type: 'tween',
+                  duration: 0.28,
+                  ease: 'easeOut',
+                }}
+              />
             </a>
           ))}
         </motion.div>

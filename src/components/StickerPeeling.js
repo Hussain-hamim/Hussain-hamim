@@ -168,6 +168,7 @@ export default function StickerPeeling(__props) {
     shadowEnabled = true,
     shadow,
     hovered,
+    pressed,
     style,
     boneGridX = 16,
     boneGridY = 16,
@@ -212,6 +213,17 @@ export default function StickerPeeling(__props) {
   const isAnimatingRef = useRef(false);
   const renderLoopIdRef = useRef(null);
   const updateBonesRef = useRef(() => {});
+  const scheduledFramesRef = useRef(new Set());
+  const pendingImageRef = useRef(null);
+  const imageVersionRef = useRef(0);
+
+  const scheduleFrame = useCallback((callback) => {
+    const id = requestAnimationFrame(() => {
+      scheduledFramesRef.current.delete(id);
+      callback();
+    });
+    scheduledFramesRef.current.add(id);
+  }, []);
 
   const resolvedImageUrl = resolveImageSource(image) || DEFAULT_IMAGE;
   const hasContent = !!resolvedImageUrl;
@@ -308,14 +320,14 @@ export default function StickerPeeling(__props) {
     renderLoopIdRef.current = requestAnimationFrame(loop);
   }, [renderFrame]);
 
-  const stopRenderLoop = useCallback(() => {
+  const stopRenderLoop = useCallback((paint = true) => {
     isAnimatingRef.current = false;
     if (renderLoopIdRef.current !== null) {
       cancelAnimationFrame(renderLoopIdRef.current);
       renderLoopIdRef.current = null;
     }
-    requestAnimationFrame(() => renderFrame());
-  }, [renderFrame]);
+    if (paint) scheduleFrame(renderFrame);
+  }, [renderFrame, scheduleFrame]);
 
   const createBackTexture = useCallback((img, backColorValue) => {
     const backCanvas = document.createElement('canvas');
@@ -503,11 +515,11 @@ export default function StickerPeeling(__props) {
   const scheduleBoneUpdate = useCallback(() => {
     if (pendingUpdateRef.current) return;
     pendingUpdateRef.current = true;
-    requestAnimationFrame(() => {
+    scheduleFrame(() => {
       pendingUpdateRef.current = false;
       updateBonesRef.current();
     });
-  }, []);
+  }, [scheduleFrame]);
 
   useMotionValueEvent(curlAmountMotion, 'change', (latest) => {
     animatedCurlRef.current.amount = latest;
@@ -633,6 +645,7 @@ export default function StickerPeeling(__props) {
       renderer.shadowMap.type = PCFSoftShadowMap;
       rendererRef.current = renderer;
     } catch (_) {
+      renderer?.dispose();
       setContextLost(true);
       return null;
     }
@@ -758,20 +771,23 @@ export default function StickerPeeling(__props) {
     imageLoadAbortRef.current = false;
 
     const img = new Image();
+    const version = ++imageVersionRef.current;
+    if (pendingImageRef.current) {
+      pendingImageRef.current.onload = null;
+      pendingImageRef.current.onerror = null;
+    }
+    pendingImageRef.current = img;
     img.crossOrigin = 'anonymous';
 
     img.onload = () => {
-      if (imageLoadAbortRef.current || !meshRef.current) return;
+      if (version !== imageVersionRef.current || imageLoadAbortRef.current || !meshRef.current) return;
       loadedImageRef.current = img;
       if (!meshRef.current?.material) return;
 
       applyTexturesToMesh(meshRef.current, img);
-      setTextureLoaded(true);
-      setSceneReady(true);
-
       if (!imageLoadAbortRef.current && meshRef.current) {
-        requestAnimationFrame(() => {
-          if (imageLoadAbortRef.current || !meshRef.current) return;
+        scheduleFrame(() => {
+          if (version !== imageVersionRef.current || imageLoadAbortRef.current || !meshRef.current) return;
           meshRef.current.material.forEach((mat) => {
             if (mat) {
               mat.needsUpdate = true;
@@ -782,18 +798,21 @@ export default function StickerPeeling(__props) {
           meshRef.current.skeleton?.update();
           updateBonesRef.current();
           renderFrame();
+          setTextureLoaded(true);
+          setSceneReady(true);
         });
       }
     };
 
     img.onerror = () => {
+      if (version !== imageVersionRef.current || imageLoadAbortRef.current) return;
       if (!imageLoadAbortRef.current) console.error('Texture loading error');
       setTextureLoaded(false);
       if (!imageLoadAbortRef.current && meshRef.current) renderFrame();
     };
 
     img.src = resolvedImageUrl;
-  }, [resolvedImageUrl, applyTexturesToMesh, renderFrame]);
+  }, [resolvedImageUrl, applyTexturesToMesh, renderFrame, scheduleFrame]);
 
   const buildTransitionConfig = useCallback((transitionValue) => {
     const config = {
@@ -875,23 +894,37 @@ export default function StickerPeeling(__props) {
     }
   }, [hoverPeel, animateCurlTo]);
 
-  // Parent-driven hover (e.g. label text) — same peel as pointer on the sticker
+  // Controlled interaction also works when the renderer mounts after the event.
   useEffect(() => {
-    if (typeof hovered !== 'boolean') return;
-    if (hovered) {
-      if (isHoveringRef.current) return;
-      isHoveringRef.current = true;
-      if (!isPressedRef.current) animateCurlTo(hoverPeel / 100);
-    } else {
-      isHoveringRef.current = false;
-      isPressedRef.current = false;
-      animateCurlTo(0);
-    }
-  }, [hovered, hoverPeel, animateCurlTo]);
+    if (typeof hovered !== 'boolean' && typeof pressed !== 'boolean') return;
+    isHoveringRef.current = !!hovered;
+    isPressedRef.current = !!pressed;
+    animateCurlTo(pressed ? pressPeel / 100 : hovered ? hoverPeel / 100 : 0);
+  }, [hovered, pressed, hoverPeel, pressPeel, animateCurlTo]);
 
   const cleanupScene = useCallback(() => {
-    stopRenderLoop();
+    animationControlsRef.current.curlAmount?.stop();
+    stopRenderLoop(false);
+    scheduledFramesRef.current.forEach(cancelAnimationFrame);
+    scheduledFramesRef.current.clear();
+    pendingUpdateRef.current = false;
+    imageLoadAbortRef.current = true;
+    imageVersionRef.current += 1;
+    if (pendingImageRef.current) {
+      pendingImageRef.current.onload = null;
+      pendingImageRef.current.onerror = null;
+      pendingImageRef.current.removeAttribute('src');
+      pendingImageRef.current = null;
+    }
     setSceneReady(false);
+    const textures = new Set();
+    const disposeMaterial = (material) => {
+      if (!material) return;
+      [material.map, material.emissiveMap].forEach(texture => {
+        if (texture && !textures.has(texture)) { textures.add(texture); texture.dispose(); }
+      });
+      material.dispose();
+    };
     if (meshRef.current) {
       const oldMesh = meshRef.current;
       groupRef.current?.remove(oldMesh);
@@ -899,22 +932,30 @@ export default function StickerPeeling(__props) {
       oldMesh.geometry?.dispose();
       if (Array.isArray(oldMesh.material)) {
         oldMesh.material.forEach((mat) => {
-          mat.map?.dispose();
-          mat.dispose();
+          disposeMaterial(mat);
         });
       } else if (oldMesh.material) {
-        oldMesh.material.map?.dispose();
-        oldMesh.material.dispose();
+        disposeMaterial(oldMesh.material);
       }
       oldMesh.skeleton?.bones.forEach((bone) => bone.parent?.remove(bone));
+      oldMesh.skeleton?.dispose();
       meshRef.current = null;
     }
     bonesRef.current = [];
     bonesInitialPositionsRef.current = [];
     groupRef.current = null;
+    backgroundPlaneRef.current?.geometry?.dispose();
+    disposeMaterial(backgroundPlaneRef.current?.material);
+    lightRef.current?.shadow?.dispose();
     if (rendererRef.current) {
       try {
-        rendererRef.current.dispose();
+        const renderer = rendererRef.current;
+        const canvas = renderer.domElement;
+        renderer.dispose();
+        // StrictMode may reuse a connected canvas; only release a removed one.
+        Promise.resolve().then(() => {
+          if (!canvas.isConnected) renderer.forceContextLoss();
+        });
       } catch (_) {
         /* ignore */
       }
@@ -985,16 +1026,8 @@ export default function StickerPeeling(__props) {
     const sceneSetup = setupScene();
 
     if (!sceneSetup) {
-      const t = setTimeout(() => {
-        const retry = setupScene();
-        if (retry && meshRef.current) {
-          meshRef.current.skeleton?.update();
-          updateBonesRef.current();
-          renderFrame();
-          loadTexture();
-        }
-      }, 100);
-      return () => clearTimeout(t);
+      cleanupScene();
+      return cleanupScene;
     }
 
     if (meshRef.current) {
@@ -1055,15 +1088,16 @@ export default function StickerPeeling(__props) {
   }
 
   const offsetPercent = ((CANVAS_SCALE - 1) / 2) * 100;
+  const controlled = typeof hovered === 'boolean' || typeof pressed === 'boolean';
 
   return (
     <div
       ref={containerRef}
       className={className}
-      onPointerEnter={handlePointerEnter}
-      onPointerLeave={handlePointerLeave}
-      onPointerDown={handlePointerDown}
-      onPointerUp={handlePointerUp}
+      onPointerEnter={controlled ? undefined : handlePointerEnter}
+      onPointerLeave={controlled ? undefined : handlePointerLeave}
+      onPointerDown={controlled ? undefined : handlePointerDown}
+      onPointerUp={controlled ? undefined : handlePointerUp}
       style={{
         ...style,
         position: 'relative',
@@ -1103,7 +1137,7 @@ export default function StickerPeeling(__props) {
           display: 'block',
           pointerEvents: 'none',
           cursor: 'auto',
-          opacity: sceneReady ? 1 : 0,
+          opacity: sceneReady && textureLoaded ? 1 : 0,
           zIndex: 1,
         }}
       />
