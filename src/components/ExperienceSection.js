@@ -140,7 +140,7 @@ const ExperienceSection = ({ locale = 'en' }) => {
   return (
     <section
       id='experience-section'
-      className='section-sep relative isolate z-10 flex min-h-screen items-center overflow-hidden px-4 py-32 transition-colors duration-300 md:px-8'
+      className='relative isolate z-10 flex min-h-screen items-center overflow-hidden px-4 py-32 transition-colors duration-300 md:px-8'
     >
       <BranchBackground />
       <div className='relative z-10 mx-auto w-full max-w-4xl'>

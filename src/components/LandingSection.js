@@ -211,19 +211,19 @@ const LandingSection = ({ locale = 'en' }) => {
 
   return (
     <section
-      className='section-sep relative isolate w-full min-h-screen overflow-hidden transition-colors duration-300'
+      className='relative isolate w-full min-h-screen overflow-hidden px-4 transition-colors duration-300 md:px-8'
     >
       <BranchBackground />
-      {visitorLabel ? (
-        <div className='pointer-events-none absolute right-4 top-[max(5.25rem,calc(env(safe-area-inset-top)+4.75rem))] z-20 flex items-center gap-1.5 font-sans3 text-xs text-ink sm:right-6 sm:text-sm md:right-8 lg:right-10'>
-          <Eye className='h-3.5 w-3.5 shrink-0 text-ink-muted sm:h-4 sm:w-4' aria-hidden />
-          <span className='tabular-nums' aria-label={`${visitorLabel} visitors`}>
-            {visitorLabel}
-          </span>
-        </div>
-      ) : null}
-      <div className='relative z-10 mx-auto flex min-h-screen w-full max-w-6xl flex-col items-center justify-center gap-10 px-6 pb-16 pt-[max(5.5rem,calc(env(safe-area-inset-top)+4.5rem))] text-center sm:px-8 md:flex-row md:items-center md:justify-center md:gap-12 md:px-10 lg:gap-16'>
-        <div className='relative z-10 flex w-full min-w-0 max-w-xl flex-col items-start justify-center text-left'>
+      <div className='relative z-10 mx-auto flex min-h-screen w-full max-w-4xl flex-col items-center justify-center gap-10 pb-16 pt-[max(5.5rem,calc(env(safe-area-inset-top)+4.5rem))] text-center md:flex-row md:items-center md:justify-center md:gap-12 lg:gap-16'>
+        {visitorLabel ? (
+          <div className='pointer-events-none absolute right-0 top-[max(5.25rem,calc(env(safe-area-inset-top)+4.75rem))] z-20 flex items-center gap-1.5 font-sans3 text-xs text-ink sm:text-sm'>
+            <Eye className='h-3.5 w-3.5 shrink-0 text-ink-muted sm:h-4 sm:w-4' aria-hidden />
+            <span className='tabular-nums' aria-label={`${visitorLabel} visitors`}>
+              {visitorLabel}
+            </span>
+          </div>
+        ) : null}
+        <div className='relative z-10 flex w-full min-w-0 flex-col items-start justify-center text-left'>
           <motion.p
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}

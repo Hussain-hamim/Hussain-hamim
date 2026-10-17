@@ -620,9 +620,9 @@ const ProjectsSection = ({ locale = 'en' }) => {
   }, {});
 
   return (
-    <section id='projects-section' className='section-sep relative overflow-hidden transition-colors duration-300'>
+    <section id='projects-section' className='relative overflow-hidden transition-colors duration-300'>
       {/* Featured Work */}
-      <div className='section-sep relative isolate'>
+      <div className='relative isolate'>
         <BranchBackground />
         <div className='relative z-10 px-4 py-16 md:px-8 md:py-20'>
           <div className='mx-auto w-full max-w-4xl'>
@@ -673,7 +673,7 @@ const ProjectsSection = ({ locale = 'en' }) => {
         {/* About + Activity */}
         <div
           id='activity-section'
-          className='section-sep mx-auto w-full max-w-4xl pb-16'
+          className='mx-auto w-full max-w-4xl pb-16'
         >
             <SectionHeader
               title={isPashto ? 'په اړه او فعاليت' : 'About me'}
@@ -767,7 +767,7 @@ const ProjectsSection = ({ locale = 'en' }) => {
         {/* Blogs & Photos */}
         <div
           id='blogs-section'
-          className='section-sep mx-auto w-full max-w-4xl scroll-mt-24 overflow-visible pb-16'
+          className='mx-auto w-full max-w-4xl scroll-mt-24 overflow-visible pb-16'
         >
           <SectionHeader
             title={isPashto ? 'بلاګونه او عکسونه' : 'Writing & photos'}

@@ -53,16 +53,6 @@ html {
   color: var(--ink);
 }
 
-/* Hairline between major portfolio sections */
-.section-sep {
-  border-bottom: 0.5px solid color-mix(in srgb, var(--line) 14%, transparent);
-}
-
-.section-sep-dark {
-  border-top: 0.5px solid rgba(255, 255, 255, 0.12);
-  border-bottom: 0.5px solid rgba(255, 255, 255, 0.12);
-}
-
 .seeMore {
   /* color: #00ffff; */
   /* color: gray; */

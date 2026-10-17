@@ -92,7 +92,7 @@ export default function AboutSection({ locale = 'en', embedded = false }) {
   return (
     <section
       id='about-section'
-      className='section-sep-dark bg-black py-20 sm:py-24 md:py-28'
+      className='bg-black py-20 sm:py-24 md:py-28'
     >
       <div className='mx-auto max-w-4xl px-6 text-center sm:px-8'>
         <motion.h2

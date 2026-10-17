@@ -18,7 +18,7 @@ const educationEntries = [
 
 const PsEducationSection = () => {
   return (
-    <section className="section-sep relative isolate py-32 overflow-hidden">
+    <section className="relative isolate py-32 overflow-hidden">
       <BranchBackground />
       <div className="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
         <motion.div

@@ -261,8 +261,8 @@ const Header = ({ locale = 'en', onVisibilityChange }) => {
             : 'border-b border-transparent bg-transparent'
       }`}
     >
-      <div className='mx-auto max-w-7xl py-3.5 pl-[max(1.25rem,env(safe-area-inset-left))] pr-[max(1.25rem,env(safe-area-inset-right))] sm:py-3 sm:pl-6 sm:pr-6 md:px-8'>
-        <div className='flex min-h-[44px] items-center justify-between gap-3'>
+      <div className='px-4 py-3.5 sm:py-3 md:px-8'>
+        <div className='mx-auto flex min-h-[44px] w-full max-w-4xl items-center justify-between gap-3'>
           <Link
             to={homePath}
             onClick={handleLogoClick}
@@ -306,7 +306,7 @@ const Header = ({ locale = 'en', onVisibilityChange }) => {
             <button
               type='button'
               onClick={() => setIsMenuOpen((open) => !open)}
-              className={`-mr-1 relative z-50 flex h-11 w-11 shrink-0 items-center justify-center rounded-lg transition-colors ${
+              className={`relative z-50 flex h-11 w-11 shrink-0 items-center justify-center rounded-lg transition-colors ${
                 useLightNav
                   ? 'text-[#0a0a0a] hover:text-[#0a0a0a]/70'
                   : headerBarSolid
@@ -328,7 +328,7 @@ const Header = ({ locale = 'en', onVisibilityChange }) => {
             : 'border-white/10 bg-black/95 backdrop-blur-2xl supports-[backdrop-filter]:bg-black/90'
         } ${isMenuOpen ? 'max-h-[640px] opacity-100' : 'max-h-0 opacity-0'}`}
       >
-        <div className='px-6 py-6'>
+        <div className='px-4 py-6 md:px-8'>
           <nav className='space-y-1'>
             {navItems.map((item) => renderNavItem(item, { mobile: true }))}
           </nav>
