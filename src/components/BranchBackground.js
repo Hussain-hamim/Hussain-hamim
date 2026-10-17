@@ -179,7 +179,7 @@ export default function BranchBackground({ className = '-z-10' }) {
       className={`pointer-events-none absolute inset-0 overflow-hidden print:hidden ${className}`}
       style={{ maskImage: MASK, WebkitMaskImage: MASK }}
     >
-      <canvas ref={canvasRef} className='block h-full w-full' />
+      <canvas ref={canvasRef} className='block h-full w-full brightness-0 dark:filter-none' />
     </div>
   );
 }

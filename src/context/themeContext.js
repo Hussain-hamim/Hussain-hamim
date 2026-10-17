@@ -14,22 +14,22 @@ const WIPE_MS = 2000;
 const WIPE_EASE = 'cubic-bezier(0.45, 0, 0.55, 1)';
 
 const ThemeContext = createContext({
-  theme: 'light',
-  isDark: false,
+  theme: 'dark',
+  isDark: true,
   setTheme: () => {},
   toggleTheme: () => {},
   isThemeAnimating: false,
 });
 
 function readStoredTheme() {
-  if (typeof window === 'undefined') return 'light';
+  if (typeof window === 'undefined') return 'dark';
   try {
     const stored = window.localStorage.getItem(STORAGE_KEY);
     if (stored === 'dark' || stored === 'light') return stored;
   } catch {
     /* ignore */
   }
-  return 'light';
+  return 'dark';
 }
 
 function applyThemeClass(theme) {

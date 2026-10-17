@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
   <head>
     <meta charset="utf-8" />
 
@@ -21,7 +21,7 @@
     <meta name="robots" content="index, follow" />
     <meta name="language" content="English" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#CACBCD" />
+    <meta name="theme-color" content="#0B1215" />
 
     <link
       rel="preload"
@@ -33,13 +33,16 @@
 
     <script>
       (function () {
+        var t = 'dark';
         try {
-          var t = localStorage.getItem('hsn-theme');
-          if (t === 'dark') {
-            document.documentElement.classList.add('dark');
-            document.documentElement.style.colorScheme = 'dark';
-          }
+          var stored = localStorage.getItem('hsn-theme');
+          if (stored === 'dark' || stored === 'light') t = stored;
         } catch (e) {}
+        document.documentElement.classList.toggle('dark', t === 'dark');
+        document.documentElement.style.colorScheme = t;
+        document.querySelector('meta[name="theme-color"]').setAttribute(
+          'content', t === 'dark' ? '#0B1215' : '#CACBCD'
+        );
       })();
     </script>
 
