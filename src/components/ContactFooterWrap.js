@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import LazyWhenVisible from './LazyWhenVisible';
+import BranchBackground from './BranchBackground';
 
 function StarsLottie() {
   const [Lottie, setLottie] = useState(null);
@@ -47,6 +48,7 @@ const ContactFooterWrap = ({ children }) => {
       >
         <StarsLottie />
       </LazyWhenVisible>
+      <BranchBackground className='absolute z-0' />
 
       <div className='relative z-10'>{children}</div>
     </div>

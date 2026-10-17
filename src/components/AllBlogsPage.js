@@ -22,7 +22,7 @@ const AllBlogsPage = () => {
   return (
     <main
       dir={isPashto ? 'rtl' : 'ltr'}
-      className='min-h-screen bg-surface-alt pt-[max(4.75rem,calc(env(safe-area-inset-top)+4.25rem))] text-ink transition-colors duration-300'
+      className='min-h-screen pt-[max(4.75rem,calc(env(safe-area-inset-top)+4.25rem))] text-ink transition-colors duration-300'
     >
       <Header locale={isPashto ? 'ps' : 'en'} />
       <div className='sticky top-[max(4.75rem,calc(env(safe-area-inset-top)+4.25rem))] z-30 border-b border-line/40 bg-surface-alt/85 backdrop-blur-md'>

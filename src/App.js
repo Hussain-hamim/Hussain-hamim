@@ -3,6 +3,7 @@ import { useEffect, lazy, Suspense } from 'react';
 import Alert from './components/Alert';
 import Header from './components/Header';
 import LandingSection from './components/LandingSection';
+import BranchBackground from './components/BranchBackground';
 import { AlertProvider } from './context/alertContext';
 import { ThemeProvider } from './context/themeContext';
 const ProjectsSection = lazy(() => import('./components/ProjectsSection'));
@@ -33,12 +34,12 @@ const TouchSomeGrassPage = lazy(() =>
 );
 
 const RouteFallback = () => (
-  <div className='min-h-screen bg-surface' aria-hidden />
+  <div className='min-h-screen' aria-hidden />
 );
 
 const SectionFallback = ({ minHeight = '40vh' }) => (
   <div
-    className='w-full bg-surface-alt'
+    className='w-full'
     style={{ minHeight }}
     aria-hidden
   />
@@ -133,27 +134,30 @@ function App() {
     <Router>
       <ThemeProvider>
         <AlertProvider>
-          <Suspense fallback={<RouteFallback />}>
-            <Routes>
-              <Route path='/touch-some-grass' element={<TouchSomeGrassPage />} />
-              <Route path='/projects' element={<AllProjectsPage />} />
-              <Route path='/blogs' element={<AllBlogsPage />} />
-              <Route path='/projects-legacy' element={<ProjectsList />} />
-              <Route path='/projects/:slug' element={<ProjectDetails />} />
-              <Route
-                path='/proposal/muse-ai-deck-agent'
-                element={<ProposalDeckAgentPage />}
-              />
-              <Route path='/case-study/:slug' element={<CaseStudyPage />} />
-              <Route path='/ps' element={<PortfolioPage locale='ps' />} />
-              <Route path='/new' element={<NewPortfolioPage />} />
-              <Route path='/new2' element={<SpacePortfolioPage />} />
-              <Route path='/new3' element={<VortxPortfolioPage />} />
-              <Route path='/new4' element={<StudioPortfolioPage />} />
-              <Route path='/*' element={<PortfolioPage locale='en' />} />
-            </Routes>
-          </Suspense>
-          <Alert />
+          <div className='relative isolate min-h-screen bg-surface-alt transition-colors duration-300'>
+            <BranchBackground />
+            <Suspense fallback={<RouteFallback />}>
+              <Routes>
+                <Route path='/touch-some-grass' element={<TouchSomeGrassPage />} />
+                <Route path='/projects' element={<AllProjectsPage />} />
+                <Route path='/blogs' element={<AllBlogsPage />} />
+                <Route path='/projects-legacy' element={<ProjectsList />} />
+                <Route path='/projects/:slug' element={<ProjectDetails />} />
+                <Route
+                  path='/proposal/muse-ai-deck-agent'
+                  element={<ProposalDeckAgentPage />}
+                />
+                <Route path='/case-study/:slug' element={<CaseStudyPage />} />
+                <Route path='/ps' element={<PortfolioPage locale='ps' />} />
+                <Route path='/new' element={<NewPortfolioPage />} />
+                <Route path='/new2' element={<SpacePortfolioPage />} />
+                <Route path='/new3' element={<VortxPortfolioPage />} />
+                <Route path='/new4' element={<StudioPortfolioPage />} />
+                <Route path='/*' element={<PortfolioPage locale='en' />} />
+              </Routes>
+            </Suspense>
+            <Alert />
+          </div>
         </AlertProvider>
       </ThemeProvider>
     </Router>

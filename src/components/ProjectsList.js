@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { projects, mobileProjects } from "./ProjectsSection";
 import { Puzzle, Globe, Smartphone } from "lucide-react";
+import BranchBackground from './BranchBackground';
 
 const slugify = (text) =>
   text
@@ -15,7 +16,7 @@ const slugify = (text) =>
 const ProjectsList = () => {
   return (
     <main
-      className="min-h-screen text-slate-800"
+      className="relative isolate min-h-screen text-slate-800"
       style={{
         backgroundColor: "#f9fafb",
         backgroundImage:
@@ -26,6 +27,7 @@ const ProjectsList = () => {
         fontFamily: "'Space Grotesk', 'Space Mono', sans-serif",
       }}
     >
+      <BranchBackground />
       <style>{`
         .project-card {
           transition:

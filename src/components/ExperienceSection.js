@@ -139,7 +139,7 @@ const ExperienceSection = ({ locale = 'en' }) => {
   return (
     <section
       id='experience-section'
-      className='section-sep relative z-10 flex min-h-screen items-center overflow-hidden bg-surface-alt px-4 py-32 transition-colors duration-300 md:px-8'
+      className='section-sep relative z-10 flex min-h-screen items-center overflow-hidden px-4 py-32 transition-colors duration-300 md:px-8'
     >
       <div className='relative z-10 mx-auto w-full max-w-4xl'>
         <motion.div

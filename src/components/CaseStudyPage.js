@@ -97,7 +97,7 @@ const CaseStudyPage = () => {
 
   if (!project) {
     return (
-      <main className='min-h-screen bg-surface-alt text-ink transition-colors duration-300'>
+      <main className='min-h-screen text-ink transition-colors duration-300'>
         <div className='mx-auto flex min-h-screen max-w-2xl flex-col items-center justify-center px-6 text-center'>
           <h1 className='font-sans1 text-3xl font-bold'>Case study not found</h1>
           <p className='mt-3 text-ink/60'>
@@ -144,7 +144,7 @@ const CaseStudyPage = () => {
   const otherStudies = featuredProjects.filter((p) => p.slug !== project.slug);
 
   return (
-    <main className='min-h-screen bg-surface-alt text-ink transition-colors duration-300'>
+    <main className='min-h-screen text-ink transition-colors duration-300'>
       <div className='sticky top-0 z-30 border-b border-line/40 bg-surface-alt/85 backdrop-blur-md'>
         <div className='mx-auto flex max-w-5xl items-center justify-between px-5 py-4 sm:px-8'>
           <Link

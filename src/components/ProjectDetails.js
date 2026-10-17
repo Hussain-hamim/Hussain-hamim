@@ -1,6 +1,7 @@
 import React from "react";
 import { useParams, Link } from "react-router-dom";
 import { projects, mobileProjects } from "./ProjectsSection";
+import BranchBackground from './BranchBackground';
 
 const slugify = (text) =>
   text
@@ -21,7 +22,7 @@ const ProjectDetails = () => {
   if (!project) {
     return (
       <main
-        className="min-h-screen flex items-center justify-center px-4 text-slate-800"
+        className="relative isolate min-h-screen flex items-center justify-center px-4 text-slate-800"
         style={{
           backgroundColor: "#f9fafb",
           backgroundImage:
@@ -31,6 +32,7 @@ const ProjectDetails = () => {
           backgroundRepeat: "repeat",
         }}
       >
+        <BranchBackground />
         <div className="text-center space-y-6 max-w-md">
           <div className="text-6xl mb-4">🔍</div>
           <h1 className="text-2xl font-bold text-slate-900">
@@ -67,7 +69,7 @@ const ProjectDetails = () => {
 
   return (
     <main
-      className="min-h-screen text-slate-800"
+      className="relative isolate min-h-screen text-slate-800"
       style={{
         backgroundColor: "#f9fafb",
         backgroundImage:
@@ -78,6 +80,7 @@ const ProjectDetails = () => {
         fontFamily: "'Space Grotesk', 'Space Mono', sans-serif",
       }}
     >
+      <BranchBackground />
       <style>{`
         .card-hover {
           transition:

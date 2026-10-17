@@ -619,9 +619,9 @@ const ProjectsSection = ({ locale = 'en' }) => {
   }, {});
 
   return (
-    <section id='projects-section' className='section-sep relative overflow-hidden bg-surface-alt transition-colors duration-300'>
+    <section id='projects-section' className='section-sep relative overflow-hidden transition-colors duration-300'>
       {/* Featured Work */}
-      <div className='section-sep relative bg-surface-alt'>
+      <div className='section-sep relative'>
         <div className='relative z-10 px-4 py-16 md:px-8 md:py-20'>
           <div className='mx-auto w-full max-w-4xl'>
             <SectionHeader
@@ -666,7 +666,7 @@ const ProjectsSection = ({ locale = 'en' }) => {
       <ExperienceSection locale={locale} />
 
       {/* Activity · About · Blogs & Photos · Certificates */}
-      <div className='relative overflow-visible bg-surface-alt px-4 py-16 md:px-8 md:py-20'>
+      <div className='relative overflow-visible px-4 py-16 md:px-8 md:py-20'>
         {/* About + Activity */}
         <div
           id='activity-section'
