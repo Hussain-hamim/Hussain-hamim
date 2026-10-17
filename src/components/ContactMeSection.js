@@ -95,9 +95,9 @@ const ContactMeSection = ({ locale = "en" }) => {
   return (
     <section
       id="contactme-section"
-      className="relative pt-20 md:pt-24 pb-36 md:pb-44 overflow-hidden"
+      className="relative px-4 pt-20 md:px-8 md:pt-24 pb-36 md:pb-44 overflow-hidden"
     >
-      <div className="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
+      <div className="w-full max-w-4xl mx-auto relative z-10">
         <div className="grid md:grid-cols-2 gap-16 items-start">
           {/* Left Column - Text & Info */}
           <motion.div

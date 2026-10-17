@@ -1,92 +1,129 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
-import Button from './Button';
+import React, { useLayoutEffect, useRef, useState } from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
 import BranchBackground from './BranchBackground';
+import './ExperienceSection.css';
 
-const ExperienceCard = ({ exp, index, isPashto, isRtl, isLast }) => (
-  <motion.article
-    initial={{ opacity: 0, x: isRtl ? 20 : -20 }}
-    whileInView={{ opacity: 1, x: 0 }}
-    transition={{ duration: 0.5, delay: index * 0.1 }}
-    viewport={{ once: true, margin: '-50px' }}
-    className={`relative flex gap-5 md:gap-7 group ${
-      isRtl ? 'flex-row-reverse' : ''
-    }`}
-  >
-    {/* Timeline rail + node */}
-    <div className='relative z-10 flex w-4 flex-shrink-0 flex-col items-center self-stretch md:w-5'>
-      {/* Segment below this node (skip on last) */}
-      {!isLast ? (
-        <span
-          aria-hidden
-          className='absolute top-[1.125rem] bottom-[-1.25rem] w-px bg-gradient-to-b from-accent via-accent/70 to-accent/35'
-        />
-      ) : null}
+function trunkPath(points) {
+  return points.reduce((path, point, index) => {
+    if (!index) return `M ${point.x} ${point.y}`;
+    const previous = points[index - 1];
+    const bend = (previous.y - point.y) / 2;
+    return `${path} C ${previous.x} ${previous.y - bend}, ${point.x} ${point.y + bend}, ${point.x} ${point.y}`;
+  }, '');
+}
 
-      <span
-        className={`relative mt-4 flex h-3 w-3 items-center justify-center rounded-full border md:mt-[1.125rem] md:h-3.5 md:w-3.5 ${
-          exp.isCurrent
-            ? 'border-ink bg-accent shadow-[0_0_0_2px_rgba(215,255,0,0.22)] dark:border-white'
-            : 'border-ink/35 bg-surface-alt dark:border-white/35'
-        }`}
-      >
-        {exp.isCurrent ? (
-          <span className='absolute left-1/2 top-1/2 h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 animate-ping rounded-full bg-accent/40 opacity-40' />
-        ) : (
-          <span className='h-1 w-1 rounded-full bg-ink/40 dark:bg-white/45' />
-        )}
-        {exp.isCurrent ? (
-          <span className='relative h-1 w-1 rounded-full bg-ink dark:bg-black' />
-        ) : null}
-      </span>
-    </div>
+// Measure the cards so every branch stays attached as text wraps or fonts load.
+function useTreeGeometry(isRtl) {
+  const treeRef = useRef(null);
+  const cardRefs = useRef([]);
+  const [geometry, setGeometry] = useState(null);
 
-    <div className='min-w-0 flex-1 pb-1'>
-      <div className='relative rounded-xl bg-card p-4 shadow-[0_0_0_0.5px_rgba(10,10,10,0.08)] transition-[box-shadow] duration-300 group-hover:shadow-[0_0_0_0.5px_rgba(10,10,10,0.18)] dark:shadow-none dark:group-hover:shadow-[0_0_0_0.5px_rgba(0,0,0,0.22)] md:p-5'>
-        {/* Tick from card toward the timeline node */}
-        <span
-          aria-hidden
-          className={`absolute top-[1.375rem] h-px w-3 bg-accent/50 md:top-[1.5rem] ${
-            isRtl ? 'left-full' : 'right-full'
-          }`}
-        />
+  useLayoutEffect(() => {
+    const tree = treeRef.current;
+    if (!tree) return undefined;
+    let frameId;
 
-        <div className={`mb-1.5 ${isRtl ? 'text-right' : ''}`}>
-          <span className='font-mono text-[10px] uppercase tracking-wider text-ink-muted'>
-            {exp.duration}
-          </span>
-        </div>
-        <h3
-          className={`mb-0.5 font-sans1 text-lg font-bold tracking-tight text-ink md:text-xl ${
-            isRtl ? 'text-right' : ''
-          }`}
+    const measure = () => {
+      const bounds = tree.getBoundingClientRect();
+      if (!bounds.width || !bounds.height) return;
+      const desktop = window.matchMedia('(min-width: 768px)').matches;
+      const axis = desktop ? bounds.width / 2 : isRtl ? bounds.width - 12 : 12;
+      const nodes = cardRefs.current.filter(Boolean).map((card, index) => {
+        const rect = card.getBoundingClientRect();
+        const toRight = rect.left + rect.width / 2 > bounds.left + axis;
+        const endX = (toRight ? rect.left : rect.right) - bounds.left;
+        const endY = rect.top - bounds.top + 48;
+        const x = axis + (index % 2 ? 1 : -1) * (desktop ? 6 : 2);
+        const y = endY + (desktop ? 44 : 20);
+        const reach = Math.abs(endX - x) * 0.55;
+        const direction = toRight ? 1 : -1;
+
+        return {
+          x, y, endX, endY,
+          path: `M ${x} ${y} C ${x} ${endY + 12}, ${endX - direction * reach} ${endY}, ${endX} ${endY}`,
+        };
+      });
+
+      const root = { x: axis, y: bounds.height - 18 };
+      const tip = { x: axis, y: 22 };
+      setGeometry({
+        width: bounds.width,
+        height: bounds.height,
+        axis,
+        root,
+        nodes,
+        trunk: trunkPath([root, ...nodes.slice().reverse(), tip]),
+      });
+    };
+
+    const scheduleMeasure = () => {
+      cancelAnimationFrame(frameId);
+      frameId = requestAnimationFrame(measure);
+    };
+
+    const observer = new ResizeObserver(scheduleMeasure);
+    observer.observe(tree);
+    cardRefs.current.forEach((card) => card && observer.observe(card));
+    measure();
+
+    return () => {
+      cancelAnimationFrame(frameId);
+      observer.disconnect();
+    };
+  }, [isRtl]);
+
+  return { treeRef, cardRefs, geometry };
+}
+
+function ExperienceBranches({ geometry, activeIndex, reducedMotion }) {
+  if (!geometry) return null;
+  const { width, height, axis, root, nodes, trunk } = geometry;
+  const draw = { hidden: { pathLength: 0 }, visible: { pathLength: 1 } };
+
+  return (
+    <motion.svg
+      className='experience-tree__drawing'
+      viewBox={`0 0 ${width} ${height}`}
+      aria-hidden='true'
+      focusable='false'
+      initial={reducedMotion ? false : 'hidden'}
+      whileInView='visible'
+      viewport={{ once: true, amount: 0.15 }}
+    >
+      <motion.path
+        d={trunk}
+        className='experience-tree__trunk'
+        variants={draw}
+        transition={{ duration: reducedMotion ? 0 : 1.4, ease: 'easeOut' }}
+      />
+      {nodes.map((node, index) => (
+        <g
+          key={index}
+          className={`experience-tree__branch ${activeIndex === index ? 'is-active' : ''}`}
         >
-          {exp.role}
-        </h3>
-        <p
-          className={`mb-2 text-sm font-medium text-ink-muted ${
-            isRtl ? 'text-right' : ''
-          }`}
-        >
-          {exp.company}
-        </p>
-        <p
-          className={`font-sans3 text-sm leading-relaxed text-ink/70 ${
-            isRtl ? 'text-right' : ''
-          }`}
-        >
-          {exp.description}
-        </p>
-      </div>
-    </div>
-  </motion.article>
-);
+          <motion.path
+            d={node.path}
+            variants={draw}
+            transition={{ duration: reducedMotion ? 0 : 0.8, delay: reducedMotion ? 0 : 0.2 + index * 0.12 }}
+          />
+          <circle cx={node.x} cy={node.y} r={index === 0 ? 4.5 : 3} />
+          <circle cx={node.endX} cy={node.endY} r='3' />
+        </g>
+      ))}
+      <path
+        className='experience-tree__sprout'
+        d={`M ${axis} 24 C ${axis - 14} 24 ${axis - 22} 13 ${axis - 22} 6 C ${axis - 9} 6 ${axis - 1} 13 ${axis} 24 Z M ${axis} 24 C ${axis + 1} 12 ${axis + 11} 3 ${axis + 22} 3 C ${axis + 22} 14 ${axis + 13} 23 ${axis} 24 Z`}
+      />
+      <circle className='experience-tree__root' cx={root.x} cy={root.y} r='5' />
+    </motion.svg>
+  );
+}
 
 const ExperienceSection = ({ locale = 'en' }) => {
   const isPashto = locale === 'ps';
-  const isRtl = isPashto;
-  const [showThird, setShowThird] = useState(false);
+  const reducedMotion = useReducedMotion();
+  const [hoveredIndex, setHoveredIndex] = useState(null);
+  const { treeRef, cardRefs, geometry } = useTreeGeometry(isPashto);
 
   const experiences = [
     {
@@ -95,6 +132,7 @@ const ExperienceSection = ({ locale = 'en' }) => {
       company: 'Chamoy Labs',
       duration: 'Jul 2026',
       isCurrent: true,
+      tags: [isPashto ? 'د محصول پراختيا' : 'Product engineering'],
       description: isPashto
         ? 'د محصول ایډیو په دوامداره او فکر شوي سافټوېیر بدلول — له مفهوم څخه تر سپارلو پورې پاک تطبیق او عملي قضاوت.'
         : 'I turn product ideas into software that holds up, from the first sketch to something people can use.',
@@ -105,6 +143,7 @@ const ExperienceSection = ({ locale = 'en' }) => {
       company: 'Zapp studios',
       duration: 'Sept 2025',
       isCurrent: false,
+      tags: ['Next.js', 'Swift', 'Supabase'],
       description: isPashto
         ? 'د Next.js او Supabase په مرسته د Full-Stack وېب پروګرامونو پراختيا.'
         : 'I built web and mobile apps with Next.js, Swift, and Supabase.',
@@ -115,6 +154,7 @@ const ExperienceSection = ({ locale = 'en' }) => {
       company: 'EvolvFit',
       duration: 'Aug 2025 - Oct 2025',
       isCurrent: false,
+      tags: ['React Native', 'Node.js'],
       description: isPashto
         ? 'د React Native او Node.js بیکېنډ په کارولو د موبايل پروګرامونو جوړول او پراختيا.'
         : 'I built mobile apps in React Native, with a Node.js backend behind them.',
@@ -125,101 +165,75 @@ const ExperienceSection = ({ locale = 'en' }) => {
       company: 'Himalbyte',
       duration: 'May 2025 - Jul 2025',
       isCurrent: false,
+      tags: [isPashto ? 'موبايل پروګرامونه' : 'Mobile development'],
       description: isPashto
         ? 'د کراس پلېټفارم موبايل پروګرامونو پراختيا، په لوړ کارکردګۍ تمرکز سره.'
         : 'I worked on cross-platform mobile apps, paying close attention to how they felt to use.',
     },
   ];
 
-  const visible = experiences.slice(0, 2);
-  const hidden = experiences.slice(2);
-  const lastVisibleIndex = showThird
-    ? experiences.length - 1
-    : visible.length - 1;
-
   return (
     <section
       id='experience-section'
-      className='relative isolate z-10 flex min-h-screen items-center overflow-hidden px-4 py-32 transition-colors duration-300 md:px-8'
+      aria-labelledby='experience-heading'
+      dir={isPashto ? 'rtl' : 'ltr'}
+      className='experience-section relative isolate z-10 overflow-hidden px-4 py-20 md:px-8 md:py-28'
     >
-      <BranchBackground />
+      <BranchBackground className='-z-10 opacity-50' />
       <div className='relative z-10 mx-auto w-full max-w-4xl'>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-          className='mb-8 flex flex-col items-center'
-        >
-          <h2 className='text-center text-2xl font-medium tracking-tight text-ink'>
-            {isPashto ? 'تجربه' : 'Experience'}
-          </h2>
-        </motion.div>
-
-        <div className='relative'>
-          <div className='space-y-5'>
-            {visible.map((exp, index) => (
-              <ExperienceCard
-                key={exp.id}
-                exp={exp}
-                index={index}
-                isPashto={isPashto}
-                isRtl={isRtl}
-                isLast={!showThird && index === lastVisibleIndex}
-              />
-            ))}
-
-            <div
-              className={`flex gap-5 md:gap-7 ${isRtl ? 'flex-row-reverse' : ''}`}
-            >
-              <div className='relative flex w-4 flex-shrink-0 justify-center md:w-5'>
-                <span
-                  aria-hidden
-                  className='absolute inset-y-0 w-px bg-gradient-to-b from-accent/70 via-accent/45 to-accent/25'
-                />
-              </div>
-              <div className='flex flex-1 justify-center py-2'>
-                <Button
-                  type='button'
-                  size='sm'
-                  variant='primary'
-                  icon={showThird ? <FaChevronUp /> : <FaChevronDown />}
-                  onClick={() => setShowThird((v) => !v)}
-                >
-                  {showThird
-                    ? isPashto
-                      ? 'لږ وښيه'
-                      : 'Show less'
-                    : isPashto
-                      ? 'نور تجربه وښيه'
-                      : 'Show more experience'}
-                </Button>
-              </div>
-            </div>
-
-            <AnimatePresence>
-              {showThird && (
-                <motion.div
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: 'auto', opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.3 }}
-                  className='space-y-5 overflow-hidden'
-                >
-                  {hidden.map((exp, index) => (
-                    <ExperienceCard
-                      key={exp.id}
-                      exp={exp}
-                      index={index}
-                      isPashto={isPashto}
-                      isRtl={isRtl}
-                      isLast={index === hidden.length - 1}
-                    />
-                  ))}
-                </motion.div>
-              )}
-            </AnimatePresence>
+        <div className='experience-heading'>
+          <div>
+            <h2 id='experience-heading' className='font-sans1 text-3xl font-medium tracking-tight text-ink sm:text-4xl'>
+              {isPashto ? 'تجربه' : 'Experience'}
+            </h2>
+            <p className='experience-heading__description'>
+              {isPashto
+                ? 'هغه ټیمونه چې ورسره مې وېب او موبايل پروګرامونه جوړ کړي دي.'
+                : 'The teams I’ve built with, from mobile apps to full-stack products.'}
+            </p>
           </div>
+          <span className='experience-heading__years'>
+            {isPashto ? '۲۰۲۵ — اوس' : '2025 — now'}
+          </span>
+        </div>
+
+        <div className='experience-tree' ref={treeRef}>
+          <ExperienceBranches
+            geometry={geometry}
+            activeIndex={hoveredIndex ?? 0}
+            reducedMotion={reducedMotion}
+          />
+          <ol className='experience-tree__roles'>
+            {experiences.map((exp, index) => (
+              <motion.li
+                key={exp.id}
+                ref={(element) => { cardRefs.current[index] = element; }}
+                className={`experience-role ${exp.isCurrent ? 'experience-role--current' : ''}`}
+                onPointerEnter={() => setHoveredIndex(index)}
+                onPointerLeave={() => setHoveredIndex(null)}
+                initial={reducedMotion ? false : { opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                transition={{ duration: reducedMotion ? 0 : 0.5 }}
+                viewport={{ once: true, amount: 0.2 }}
+              >
+                <div className='experience-role__meta'>
+                  <span dir='ltr'>{exp.duration}</span>
+                  {exp.isCurrent && (
+                    <span className='experience-role__current'>
+                      <span aria-hidden='true' />
+                      {isPashto ? 'اوس' : 'Current'}
+                    </span>
+                  )}
+                </div>
+                <h3 className='experience-role__company'>{exp.company}</h3>
+                <p className='experience-role__title'>{exp.role}</p>
+                <p className='experience-role__description'>{exp.description}</p>
+                <ul className='experience-role__tags' aria-label={isPashto ? 'د کار برخې' : 'Focus areas'}>
+                  {exp.tags.map((tag) => <li key={tag}>{tag}</li>)}
+                </ul>
+              </motion.li>
+            ))}
+          </ol>
         </div>
       </div>
     </section>
