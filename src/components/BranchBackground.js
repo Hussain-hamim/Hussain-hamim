@@ -87,7 +87,7 @@ export default function BranchBackground({ className = 'fixed -z-10' }) {
       canvas.height = Math.round(height * dpi);
       ctx.setTransform(dpi, 0, 0, dpi, 0, 0);
       ctx.lineWidth = 1;
-      ctx.strokeStyle = '#88888825';
+      ctx.strokeStyle = 'rgba(136, 136, 136, 0.22)';
       const middle = () => random() * 0.6 + 0.2;
       steps = [
         () => branch(middle() * width, -5, Math.PI / 2),
