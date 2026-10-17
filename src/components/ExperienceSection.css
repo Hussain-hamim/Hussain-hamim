@@ -25,13 +25,6 @@
   line-height: 1.7;
 }
 
-.experience-heading__years {
-  color: var(--ink-muted);
-  font-family: 'Space Mono', monospace;
-  font-size: 0.6875rem;
-  white-space: nowrap;
-}
-
 .experience-tree {
   position: relative;
 }

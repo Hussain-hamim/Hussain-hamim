@@ -192,9 +192,6 @@ const ExperienceSection = ({ locale = 'en' }) => {
                 : 'The teams I’ve built with, from mobile apps to full-stack products.'}
             </p>
           </div>
-          <span className='experience-heading__years'>
-            {isPashto ? '۲۰۲۵ — اوس' : '2025 — now'}
-          </span>
         </div>
 
         <div className='experience-tree' ref={treeRef}>
