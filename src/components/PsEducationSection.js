@@ -1,6 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { FaGraduationCap } from "react-icons/fa";
+import BranchBackground from './BranchBackground';
 
 const educationEntries = [
   {
@@ -17,7 +18,8 @@ const educationEntries = [
 
 const PsEducationSection = () => {
   return (
-    <section className="section-sep relative py-32 overflow-hidden">
+    <section className="section-sep relative isolate py-32 overflow-hidden">
+      <BranchBackground />
       <div className="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

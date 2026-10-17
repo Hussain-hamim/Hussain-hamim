@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import Button from './Button';
+import BranchBackground from './BranchBackground';
 
 const ExperienceCard = ({ exp, index, isPashto, isRtl, isLast }) => (
   <motion.article
@@ -139,8 +140,9 @@ const ExperienceSection = ({ locale = 'en' }) => {
   return (
     <section
       id='experience-section'
-      className='section-sep relative z-10 flex min-h-screen items-center overflow-hidden px-4 py-32 transition-colors duration-300 md:px-8'
+      className='section-sep relative isolate z-10 flex min-h-screen items-center overflow-hidden px-4 py-32 transition-colors duration-300 md:px-8'
     >
+      <BranchBackground />
       <div className='relative z-10 mx-auto w-full max-w-4xl'>
         <motion.div
           initial={{ opacity: 0, y: 20 }}

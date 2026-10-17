@@ -12,6 +12,7 @@ import {
 } from './ProjectsSection';
 import Button from './Button';
 import Header from './Header';
+import BranchBackground from './BranchBackground';
 
 const DEFAULT_CAL_BOOKING_URL = 'https://cal.com/hussain-hamim-fp9qc6/30min';
 
@@ -70,8 +71,9 @@ const AllProjectsPage = () => {
   return (
     <main
       dir={isPashto ? 'rtl' : 'ltr'}
-      className='min-h-screen pt-[max(4.75rem,calc(env(safe-area-inset-top)+4.25rem))] text-ink transition-colors duration-300'
+      className='relative isolate min-h-screen pt-[max(4.75rem,calc(env(safe-area-inset-top)+4.25rem))] text-ink transition-colors duration-300'
     >
+      <BranchBackground />
       <Header
         locale={isPashto ? 'ps' : 'en'}
         onVisibilityChange={setIsHeaderVisible}

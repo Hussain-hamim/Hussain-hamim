@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { ArrowLeft, ArrowUpRight } from 'lucide-react';
 import { BLOG_POSTS } from '../data/blogs';
 import Header from './Header';
+import BranchBackground from './BranchBackground';
 
 const AllBlogsPage = () => {
   const isPashto =
@@ -22,8 +23,9 @@ const AllBlogsPage = () => {
   return (
     <main
       dir={isPashto ? 'rtl' : 'ltr'}
-      className='min-h-screen pt-[max(4.75rem,calc(env(safe-area-inset-top)+4.25rem))] text-ink transition-colors duration-300'
+      className='relative isolate min-h-screen pt-[max(4.75rem,calc(env(safe-area-inset-top)+4.25rem))] text-ink transition-colors duration-300'
     >
+      <BranchBackground />
       <Header locale={isPashto ? 'ps' : 'en'} />
       <div className='sticky top-[max(4.75rem,calc(env(safe-area-inset-top)+4.25rem))] z-30 border-b border-line/40 bg-surface-alt/85 backdrop-blur-md'>
         <div className='mx-auto flex max-w-5xl items-center justify-between px-6 py-4 md:px-8'>

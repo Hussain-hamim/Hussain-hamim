@@ -5,8 +5,10 @@ import React, { useEffect, useRef } from 'react';
 // MIT license: public/licenses/antfu-ArtPlum-LICENSE.txt
 const FRAME_INTERVAL = 1000 / 40;
 const MASK = 'radial-gradient(circle, transparent, black)';
+const MAX_CANVAS_PIXELS = 4_000_000;
+const MAX_CANVAS_SIDE = 8192;
 
-export default function BranchBackground({ className = 'fixed -z-10' }) {
+export default function BranchBackground({ className = '-z-10' }) {
   const containerRef = useRef(null);
   const canvasRef = useRef(null);
 
@@ -25,7 +27,18 @@ export default function BranchBackground({ className = 'fixed -z-10' }) {
     let frameId = null;
     let resizeTimer;
     let lastTime = 0;
-    let inView = true;
+    let inView = false;
+    let needsRedraw = true;
+
+    function pixelRatio() {
+      // Bound memory for long project pages while keeping smaller sections sharp.
+      return Math.min(
+        window.devicePixelRatio || 1,
+        2,
+        Math.sqrt(MAX_CANVAS_PIXELS / Math.max(1, width * height)),
+        MAX_CANVAS_SIDE / Math.max(1, width, height)
+      );
+    }
 
     function branch(x, y, angle, counter = { value: 0 }) {
       const length = random() * 6;
@@ -79,15 +92,16 @@ export default function BranchBackground({ className = 'fixed -z-10' }) {
       pause();
       width = container.clientWidth;
       height = container.clientHeight;
-      dpi = Math.min(window.devicePixelRatio || 1, 2);
       steps = [];
       if (!width || !height) return;
+      dpi = pixelRatio();
+      needsRedraw = false;
 
       canvas.width = Math.round(width * dpi);
       canvas.height = Math.round(height * dpi);
       ctx.setTransform(dpi, 0, 0, dpi, 0, 0);
       ctx.lineWidth = 1;
-      ctx.strokeStyle = 'rgba(136, 136, 136, 0.22)';
+      ctx.strokeStyle = 'rgba(215, 255, 0, 0.14)';
       const middle = () => random() * 0.6 + 0.2;
       steps = [
         () => branch(middle() * width, -5, Math.PI / 2),
@@ -107,14 +121,23 @@ export default function BranchBackground({ className = 'fixed -z-10' }) {
       }
     }
 
+    function syncSize() {
+      if (!inView) return;
+      if (
+        needsRedraw || width !== container.clientWidth ||
+        height !== container.clientHeight || dpi !== pixelRatio()
+      ) start();
+      else resume();
+    }
+
     function resize() {
       clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(() => {
-        if (
-          width !== container.clientWidth || height !== container.clientHeight ||
-          dpi !== Math.min(window.devicePixelRatio || 1, 2)
-        ) start();
-      }, 200);
+      resizeTimer = setTimeout(syncSize, 200);
+    }
+
+    function motionChange() {
+      needsRedraw = true;
+      syncSize();
     }
 
     function visibilityChange() {
@@ -125,16 +148,15 @@ export default function BranchBackground({ className = 'fixed -z-10' }) {
     const resizeObserver = new ResizeObserver(resize);
     const intersectionObserver = new IntersectionObserver(([entry]) => {
       inView = entry.isIntersecting;
-      if (inView) resume();
+      if (inView) syncSize();
       else pause();
     });
 
-    start();
     resizeObserver.observe(container);
     intersectionObserver.observe(container);
     window.addEventListener('resize', resize, { passive: true });
     document.addEventListener('visibilitychange', visibilityChange);
-    motion.addEventListener('change', start);
+    motion.addEventListener('change', motionChange);
 
     return () => {
       pause();
@@ -143,7 +165,7 @@ export default function BranchBackground({ className = 'fixed -z-10' }) {
       intersectionObserver.disconnect();
       window.removeEventListener('resize', resize);
       document.removeEventListener('visibilitychange', visibilityChange);
-      motion.removeEventListener('change', start);
+      motion.removeEventListener('change', motionChange);
     };
   }, []);
 
@@ -151,7 +173,7 @@ export default function BranchBackground({ className = 'fixed -z-10' }) {
     <div
       ref={containerRef}
       aria-hidden='true'
-      className={`pointer-events-none inset-0 overflow-hidden print:hidden ${className}`}
+      className={`pointer-events-none absolute inset-0 overflow-hidden print:hidden ${className}`}
       style={{ maskImage: MASK, WebkitMaskImage: MASK }}
     >
       <canvas ref={canvasRef} className='block h-full w-full' />

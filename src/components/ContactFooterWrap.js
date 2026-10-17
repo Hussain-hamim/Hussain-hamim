@@ -48,7 +48,7 @@ const ContactFooterWrap = ({ children }) => {
       >
         <StarsLottie />
       </LazyWhenVisible>
-      <BranchBackground className='absolute z-0' />
+      <BranchBackground className='z-0' />
 
       <div className='relative z-10'>{children}</div>
     </div>

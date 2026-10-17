@@ -2,6 +2,7 @@ import React, { useLayoutEffect, useRef, useState, useEffect, lazy, Suspense } f
 import { motion } from 'framer-motion';
 import { ArrowRight, ChevronDown, Eye, MessageSquare } from 'lucide-react';
 import Button from './Button';
+import BranchBackground from './BranchBackground';
 import MeshText from './MeshText';
 import TextMorph from './TextMorph';
 import { PEEL_VARIATIONS } from './peelDirections';
@@ -210,8 +211,9 @@ const LandingSection = ({ locale = 'en' }) => {
 
   return (
     <section
-      className='section-sep relative w-full min-h-screen overflow-hidden transition-colors duration-300'
+      className='section-sep relative isolate w-full min-h-screen overflow-hidden transition-colors duration-300'
     >
+      <BranchBackground />
       {visitorLabel ? (
         <div className='pointer-events-none absolute right-4 top-[max(5.25rem,calc(env(safe-area-inset-top)+4.75rem))] z-20 flex items-center gap-1.5 font-sans3 text-xs text-ink sm:right-6 sm:text-sm md:right-8 lg:right-10'>
           <Eye className='h-3.5 w-3.5 shrink-0 text-ink-muted sm:h-4 sm:w-4' aria-hidden />

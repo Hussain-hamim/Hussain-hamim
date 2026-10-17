@@ -16,6 +16,7 @@ import {
 } from '../data/featuredProjects';
 import { projects as webProjects, mobileProjects } from './ProjectsSection';
 import Button from './Button';
+import BranchBackground from './BranchBackground';
 import { useTheme } from '../context/themeContext';
 
 const DEFAULT_CAL_BOOKING_URL = 'https://cal.com/hussain-hamim-fp9qc6/30min';
@@ -97,7 +98,8 @@ const CaseStudyPage = () => {
 
   if (!project) {
     return (
-      <main className='min-h-screen text-ink transition-colors duration-300'>
+      <main className='relative isolate min-h-screen text-ink transition-colors duration-300'>
+        <BranchBackground />
         <div className='mx-auto flex min-h-screen max-w-2xl flex-col items-center justify-center px-6 text-center'>
           <h1 className='font-sans1 text-3xl font-bold'>Case study not found</h1>
           <p className='mt-3 text-ink/60'>
@@ -144,7 +146,8 @@ const CaseStudyPage = () => {
   const otherStudies = featuredProjects.filter((p) => p.slug !== project.slug);
 
   return (
-    <main className='min-h-screen text-ink transition-colors duration-300'>
+    <main className='relative isolate min-h-screen text-ink transition-colors duration-300'>
+      <BranchBackground key={slug} />
       <div className='sticky top-0 z-30 border-b border-line/40 bg-surface-alt/85 backdrop-blur-md'>
         <div className='mx-auto flex max-w-5xl items-center justify-between px-5 py-4 sm:px-8'>
           <Link

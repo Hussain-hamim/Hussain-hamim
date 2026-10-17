@@ -6,6 +6,7 @@ import {
 } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import ExperienceSection from './ExperienceSection';
+import BranchBackground from './BranchBackground';
 import { featuredProjects, isPlaceholder } from '../data/featuredProjects';
 import { BLOG_POSTS } from '../data/blogs';
 import Button from './Button';
@@ -621,7 +622,8 @@ const ProjectsSection = ({ locale = 'en' }) => {
   return (
     <section id='projects-section' className='section-sep relative overflow-hidden transition-colors duration-300'>
       {/* Featured Work */}
-      <div className='section-sep relative'>
+      <div className='section-sep relative isolate'>
+        <BranchBackground />
         <div className='relative z-10 px-4 py-16 md:px-8 md:py-20'>
           <div className='mx-auto w-full max-w-4xl'>
             <SectionHeader
@@ -666,7 +668,8 @@ const ProjectsSection = ({ locale = 'en' }) => {
       <ExperienceSection locale={locale} />
 
       {/* Activity · About · Blogs & Photos · Certificates */}
-      <div className='relative overflow-visible px-4 py-16 md:px-8 md:py-20'>
+      <div className='relative isolate overflow-visible px-4 pt-16 md:px-8 md:pt-20'>
+        <BranchBackground />
         {/* About + Activity */}
         <div
           id='activity-section'
@@ -757,21 +760,24 @@ const ProjectsSection = ({ locale = 'en' }) => {
               </motion.div>
             </div>
           </div>
+      </div>
 
-          {/* Blogs & Photos */}
-          <div
-            id='blogs-section'
-            className='section-sep mx-auto mt-16 w-full max-w-4xl scroll-mt-24 overflow-visible pb-16'
-          >
-            <SectionHeader
-              title={isPashto ? 'بلاګونه او عکسونه' : 'Writing & photos'}
-              light
-            />
-            <div className='grid grid-cols-1 gap-4 overflow-visible md:grid-cols-2'>
-              <BlogsCard isPashto={isPashto} />
-              <PhotosCard isPashto={isPashto} />
-            </div>
+      <div className='relative isolate overflow-visible px-4 py-16 md:px-8 md:pb-20'>
+        <BranchBackground />
+        {/* Blogs & Photos */}
+        <div
+          id='blogs-section'
+          className='section-sep mx-auto w-full max-w-4xl scroll-mt-24 overflow-visible pb-16'
+        >
+          <SectionHeader
+            title={isPashto ? 'بلاګونه او عکسونه' : 'Writing & photos'}
+            light
+          />
+          <div className='grid grid-cols-1 gap-4 overflow-visible md:grid-cols-2'>
+            <BlogsCard isPashto={isPashto} />
+            <PhotosCard isPashto={isPashto} />
           </div>
+        </div>
 
           {/* Certificates — after Blogs & Photos
           <div className='mx-auto mt-16 w-full max-w-4xl px-4 md:px-8'>

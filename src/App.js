@@ -3,7 +3,6 @@ import { useEffect, lazy, Suspense } from 'react';
 import Alert from './components/Alert';
 import Header from './components/Header';
 import LandingSection from './components/LandingSection';
-import BranchBackground from './components/BranchBackground';
 import { AlertProvider } from './context/alertContext';
 import { ThemeProvider } from './context/themeContext';
 const ProjectsSection = lazy(() => import('./components/ProjectsSection'));
@@ -135,7 +134,6 @@ function App() {
       <ThemeProvider>
         <AlertProvider>
           <div className='relative isolate min-h-screen bg-surface-alt transition-colors duration-300'>
-            <BranchBackground />
             <Suspense fallback={<RouteFallback />}>
               <Routes>
                 <Route path='/touch-some-grass' element={<TouchSomeGrassPage />} />
