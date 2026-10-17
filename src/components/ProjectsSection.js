@@ -7,6 +7,8 @@ import {
 import { Link } from 'react-router-dom';
 import ExperienceSection from './ExperienceSection';
 import BranchBackground from './BranchBackground';
+import ProjectPreview from './ProjectPreview';
+import LazyWhenVisible from './LazyWhenVisible';
 import { featuredProjects, isPlaceholder } from '../data/featuredProjects';
 import { BLOG_POSTS } from '../data/blogs';
 import Button from './Button';
@@ -62,7 +64,7 @@ export const projects = [
     title: 'TalentFound',
     description:
       'A platform where developers showcase their work and connect with teams, collaborators, and co-founders. Explore developer profiles, discover projects, and find people to build with.',
-    getImageSrc: () => require('../images/talentfound.jpg'),
+    getImageSrc: () => require('../images/talentfound-hero.webp'),
     link: 'https://github.com/Hussain-hamim',
     live: 'https://talent-found-os.vercel.app/',
     embedUrl: 'https://talent-found-os.vercel.app/',
@@ -177,7 +179,7 @@ export const mobileProjects = [
     title: 'ProveIt AI',
     description:
       'Finally get things done. ProveIt AI forces accountability with live picture proof, AI scanning, deadlines, and alarms until you prove it — or give up. Includes Coach Aura for relentless pressure coaching.',
-    getImageSrc: () => require('../images/proveit-ai.png'),
+    getImageSrc: () => require('../images/proveit-ai-hero.webp'),
     link: 'https://github.com/Hussain-hamim',
     live: 'https://www.proveitai.app/',
     embedUrl: 'https://www.proveitai.app/',
@@ -188,7 +190,7 @@ export const mobileProjects = [
     title: 'TimeCircle',
     description:
       'Make more time for real life. TimeCircle turns “we should do something” into a real plan — find people, places, and small adventures nearby or on your next trip. Coming to iPhone.',
-    getImageSrc: () => require('../images/timecircle-cover.jpg'),
+    getImageSrc: () => require('../images/timecircle-hero.webp'),
     link: 'https://github.com/Hussain-hamim',
     live: 'https://timecircle.vercel.app/',
     embedUrl: 'https://timecircle.vercel.app/',
@@ -408,20 +410,18 @@ export const ProjectCard = ({
       }`}
     >
       {project.embedUrl ? (
-        <iframe
-          src={project.embedUrl}
-          title={`${project.title} preview`}
-          className='absolute inset-0 h-full w-full origin-top-left scale-[0.35] border-0 pointer-events-none'
-          style={{ width: '286%', height: '286%' }}
-          loading='lazy'
-          sandbox='allow-scripts allow-same-origin'
+        <ProjectPreview
+          url={project.embedUrl}
+          title={project.title}
+          poster={project.getImageSrc()}
         />
       ) : (
         <img
           src={project.getImageSrc()}
           alt={project.title}
           className='h-full w-full object-cover object-top'
-          loading={featured ? 'eager' : 'lazy'}
+          loading='lazy'
+          decoding='async'
         />
       )}
     </div>
@@ -705,9 +705,11 @@ const ProjectsSection = ({ locale = 'en' }) => {
                   </div>
                   <div className='min-w-0 overflow-x-auto rounded-lg border border-white/10 bg-[#0C1117] px-2 py-3 md:min-h-0 md:flex-1 sm:px-3 sm:py-4'>
                     <div className='flex w-full min-w-0 justify-center'>
-                      <Suspense fallback={<div className='h-28' aria-hidden />}>
-                        <GitHubContributions username='Hussain-hamim' dark />
-                      </Suspense>
+                      <LazyWhenVisible className='w-full' minHeight={112}>
+                        <Suspense fallback={<div className='h-28' aria-hidden />}>
+                          <GitHubContributions username='Hussain-hamim' dark />
+                        </Suspense>
+                      </LazyWhenVisible>
                     </div>
                   </div>
                   <a

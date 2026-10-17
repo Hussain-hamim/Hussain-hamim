@@ -5,6 +5,7 @@ import Header from './components/Header';
 import LandingSection from './components/LandingSection';
 import { AlertProvider } from './context/alertContext';
 import { ThemeProvider } from './context/themeContext';
+import { ProjectPreviewProvider } from './context/previewContext';
 const ProjectsSection = lazy(() => import('./components/ProjectsSection'));
 const ContactFooterWrap = lazy(() => import('./components/ContactFooterWrap'));
 const ContactMeSection = lazy(() => import('./components/ContactMeSection'));
@@ -133,29 +134,31 @@ function App() {
     <Router>
       <ThemeProvider>
         <AlertProvider>
-          <div className='relative isolate min-h-screen bg-surface-alt transition-colors duration-300'>
-            <Suspense fallback={<RouteFallback />}>
-              <Routes>
-                <Route path='/touch-some-grass' element={<TouchSomeGrassPage />} />
-                <Route path='/projects' element={<AllProjectsPage />} />
-                <Route path='/blogs' element={<AllBlogsPage />} />
-                <Route path='/projects-legacy' element={<ProjectsList />} />
-                <Route path='/projects/:slug' element={<ProjectDetails />} />
-                <Route
-                  path='/proposal/muse-ai-deck-agent'
-                  element={<ProposalDeckAgentPage />}
-                />
-                <Route path='/case-study/:slug' element={<CaseStudyPage />} />
-                <Route path='/ps' element={<PortfolioPage locale='ps' />} />
-                <Route path='/new' element={<NewPortfolioPage />} />
-                <Route path='/new2' element={<SpacePortfolioPage />} />
-                <Route path='/new3' element={<VortxPortfolioPage />} />
-                <Route path='/new4' element={<StudioPortfolioPage />} />
-                <Route path='/*' element={<PortfolioPage locale='en' />} />
-              </Routes>
-            </Suspense>
-            <Alert />
-          </div>
+          <ProjectPreviewProvider>
+            <div className='relative isolate min-h-screen bg-surface-alt transition-colors duration-300'>
+              <Suspense fallback={<RouteFallback />}>
+                <Routes>
+                  <Route path='/touch-some-grass' element={<TouchSomeGrassPage />} />
+                  <Route path='/projects' element={<AllProjectsPage />} />
+                  <Route path='/blogs' element={<AllBlogsPage />} />
+                  <Route path='/projects-legacy' element={<ProjectsList />} />
+                  <Route path='/projects/:slug' element={<ProjectDetails />} />
+                  <Route
+                    path='/proposal/muse-ai-deck-agent'
+                    element={<ProposalDeckAgentPage />}
+                  />
+                  <Route path='/case-study/:slug' element={<CaseStudyPage />} />
+                  <Route path='/ps' element={<PortfolioPage locale='ps' />} />
+                  <Route path='/new' element={<NewPortfolioPage />} />
+                  <Route path='/new2' element={<SpacePortfolioPage />} />
+                  <Route path='/new3' element={<VortxPortfolioPage />} />
+                  <Route path='/new4' element={<StudioPortfolioPage />} />
+                  <Route path='/*' element={<PortfolioPage locale='en' />} />
+                </Routes>
+              </Suspense>
+              <Alert />
+            </div>
+          </ProjectPreviewProvider>
         </AlertProvider>
       </ThemeProvider>
     </Router>

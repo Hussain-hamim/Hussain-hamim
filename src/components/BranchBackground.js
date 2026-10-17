@@ -7,6 +7,7 @@ const FRAME_INTERVAL = 1000 / 40;
 const MASK = 'radial-gradient(circle, transparent, black)';
 const MAX_CANVAS_PIXELS = 4_000_000;
 const MAX_CANVAS_SIDE = 8192;
+const MAX_SEGMENTS_PER_ROOT = 1800;
 
 export default function BranchBackground({ className = '-z-10' }) {
   const containerRef = useRef(null);
@@ -41,6 +42,8 @@ export default function BranchBackground({ className = '-z-10' }) {
     }
 
     function branch(x, y, angle, counter = { value: 0 }) {
+      // Preserve full branches without letting them grow into a dense web.
+      if (counter.value >= MAX_SEGMENTS_PER_ROOT) return;
       const length = random() * 6;
       counter.value += 1;
       const nx = x + length * Math.cos(angle);
@@ -101,7 +104,7 @@ export default function BranchBackground({ className = '-z-10' }) {
       canvas.height = Math.round(height * dpi);
       ctx.setTransform(dpi, 0, 0, dpi, 0, 0);
       ctx.lineWidth = 1;
-      ctx.strokeStyle = 'rgba(215, 255, 0, 0.14)';
+      ctx.strokeStyle = 'rgba(215, 255, 0, 0.12)';
       const middle = () => random() * 0.6 + 0.2;
       steps = [
         () => branch(middle() * width, -5, Math.PI / 2),

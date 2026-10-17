@@ -17,6 +17,7 @@ import {
 import { projects as webProjects, mobileProjects } from './ProjectsSection';
 import Button from './Button';
 import BranchBackground from './BranchBackground';
+import ProjectPreview from './ProjectPreview';
 import { useTheme } from '../context/themeContext';
 
 const DEFAULT_CAL_BOOKING_URL = 'https://cal.com/hussain-hamim-fp9qc6/30min';
@@ -136,7 +137,7 @@ const CaseStudyPage = () => {
   const heroPreviewUrl = [...webProjects, ...mobileProjects].find(
     (p) => p.title === project.title
   )?.embedUrl;
-  const heroImage = heroPreviewUrl ? null : findHeroImage(project.title);
+  const heroImage = findHeroImage(project.title);
   const metrics = (project.metrics || []).filter(
     (m) => m?.value && !isPlaceholder(m.value)
   );
@@ -233,14 +234,13 @@ const CaseStudyPage = () => {
           >
             {heroPreviewUrl ? (
               <div className='relative aspect-[40/21] w-full overflow-hidden'>
-                <iframe
+                <ProjectPreview
                   key={heroPreviewUrl}
-                  src={heroPreviewUrl}
-                  title={`${project.title} preview`}
-                  className='pointer-events-none absolute inset-0 h-[285.714286%] w-[285.714286%] origin-top-left scale-[0.35] border-0 md:h-[133.333333%] md:w-[133.333333%] md:scale-[0.75]'
-                  loading='lazy'
-                  sandbox='allow-scripts allow-same-origin'
-                  tabIndex={-1}
+                  url={heroPreviewUrl}
+                  title={project.title}
+                  poster={heroImage}
+                  posterLoading='eager'
+                  large
                 />
               </div>
             ) : (

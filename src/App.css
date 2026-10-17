@@ -197,7 +197,7 @@ html {
   opacity: 0.5;
 }
 
-/* Theme flip uses a circular clip-path reveal from the toggle.
+/* Theme flip reveals dark from the bottom left and light from the toggle.
    Kill the default cross-fade so the new theme wipes in over the old one. */
 ::view-transition-old(root),
 ::view-transition-new(root) {

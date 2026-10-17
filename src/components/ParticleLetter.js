@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import observeVisibility from '../utils/observeVisibility';
 
 function containRect(iW, iH, cW, cH) {
   const a = iW / iH;
@@ -474,7 +475,7 @@ export default function ParticleLetter(props) {
     // Higher count = denser grid. Photo-in-letter needs a tighter gap.
     const density = imageSrc ? 220 : 150;
     const gap = Math.max(2, Math.round(density / Math.max(1, count)));
-    const dpr = window.devicePixelRatio || 1;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
     canvas.width = Math.round(W * dpr);
     canvas.height = Math.round(H * dpr);
     mouseRef.current = { x: -99999, y: -99999, active: false };
@@ -673,6 +674,7 @@ export default function ParticleLetter(props) {
     const canvas = canvasRef.current;
     if (!canvas) return undefined;
     const ctx = canvas.getContext('2d');
+    if (!ctx) return undefined;
     let idata = null;
     let bW = 0;
     let bH = 0;
@@ -682,7 +684,7 @@ export default function ParticleLetter(props) {
       const PW = canvas.width;
       const PH = canvas.height;
       if (!PW || !PH) return;
-      const dpr = window.devicePixelRatio || 1;
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
       const { particles } = sceneRef.current;
       if (!particles.length) return;
       if (!idata || PW !== bW || PH !== bH) {
@@ -909,9 +911,21 @@ export default function ParticleLetter(props) {
       ctx.putImageData(idata, 0, 0);
     };
 
-    draw();
+    const pause = () => {
+      if (animRef.current !== null) cancelAnimationFrame(animRef.current);
+      animRef.current = null;
+      mouseRef.current = { x: -99999, y: -99999, active: false };
+    };
+    const disconnect = observeVisibility(containerRef.current, (visible) => {
+      if (visible) {
+        if (animRef.current === null) animRef.current = requestAnimationFrame(draw);
+      } else {
+        pause();
+      }
+    });
     return () => {
-      if (animRef.current) cancelAnimationFrame(animRef.current);
+      disconnect();
+      pause();
     };
   }, []);
 

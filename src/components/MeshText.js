@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import observeVisibility from '../utils/observeVisibility';
 
 const GRID_W = 96;
 const GRID_H = 40;
@@ -191,6 +192,7 @@ export default function MeshText(props) {
     textAlign = 'left',
     interactive = true,
   } = merged;
+  const staticText = !interactive || force === 0;
 
   const [webglOk, setWebglOk] = useState(true);
   const [ready, setReady] = useState(false);
@@ -356,6 +358,13 @@ export default function MeshText(props) {
     let cancelled = false;
     let texReady = false;
     let painted = false;
+    let visible = false;
+    let rafId = null;
+    const requestRender = () => {
+      if (!cancelled && visible && rafId === null) {
+        rafId = requestAnimationFrame(() => tick());
+      }
+    };
 
     const rebuildTex = async () => {
       const w = Math.max(2, canvas.width);
@@ -394,6 +403,7 @@ export default function MeshText(props) {
       // Don't flip ready yet — wait until the first WebGL frame paints
       // so the canvas never flashes as an opaque white slab.
       texReady = true;
+      requestRender();
     };
 
     const resize = () => {
@@ -445,15 +455,18 @@ export default function MeshText(props) {
       cursor.vx = 0;
       cursor.vy = 0;
     };
-    wrapper.addEventListener('pointermove', onMove);
-    wrapper.addEventListener('pointerleave', onLeave);
+    if (!staticText) {
+      wrapper.addEventListener('pointermove', onMove);
+      wrapper.addEventListener('pointerleave', onLeave);
+    }
 
     // Clear immediately so the buffer never shows the browser's default opaque fill
     gl.clearColor(0, 0, 0, 0);
     gl.clear(gl.COLOR_BUFFER_BIT);
 
-    let rafId = 0;
     const tick = () => {
+      rafId = null;
+      if (cancelled || !visible) return;
       cursor.vx = cursor.x - cursor.px;
       cursor.vy = cursor.y - cursor.py;
       const vmag = Math.hypot(cursor.vx, cursor.vy);
@@ -541,14 +554,25 @@ export default function MeshText(props) {
         setReady(true);
       }
 
-      rafId = requestAnimationFrame(tick);
+      // Non-interactive headings only need a new frame after a texture/size change.
+      if (!staticText) requestRender();
     };
-    rafId = requestAnimationFrame(tick);
+    const disconnect = observeVisibility(wrapper, (isVisible) => {
+      visible = isVisible;
+      if (visible) {
+        requestRender();
+      } else {
+        if (rafId !== null) cancelAnimationFrame(rafId);
+        rafId = null;
+        onLeave();
+      }
+    });
 
     return () => {
       cancelled = true;
       setReady(false);
-      cancelAnimationFrame(rafId);
+      disconnect();
+      if (rafId !== null) cancelAnimationFrame(rafId);
       ro.disconnect();
       wrapper.removeEventListener('pointermove', onMove);
       wrapper.removeEventListener('pointerleave', onLeave);
@@ -570,6 +594,7 @@ export default function MeshText(props) {
     fontStyle,
     fontSize,
     textAlign,
+    staticText,
   ]);
 
   // Same formula as WebGL: glyph ≈ 78% of the line box height.

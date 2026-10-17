@@ -1,10 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import LazyWhenVisible from './LazyWhenVisible';
 import BranchBackground from './BranchBackground';
+import observeVisibility from '../utils/observeVisibility';
 
 function StarsLottie() {
   const [Lottie, setLottie] = useState(null);
   const [animationData, setAnimationData] = useState(null);
+  const containerRef = useRef(null);
+  const lottieRef = useRef(null);
+  const visibleRef = useRef(false);
+  const syncPlayback = useCallback(() => {
+    if (visibleRef.current) lottieRef.current?.play();
+    else lottieRef.current?.pause();
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -21,15 +29,26 @@ function StarsLottie() {
     };
   }, []);
 
+  useEffect(() => {
+    if (!Lottie || !animationData) return undefined;
+    return observeVisibility(containerRef.current, (visible) => {
+      visibleRef.current = visible;
+      syncPlayback();
+    });
+  }, [Lottie, animationData, syncPlayback]);
+
   if (!Lottie || !animationData) {
     return <div className='absolute inset-0 bg-[#0a0a0a]' aria-hidden />;
   }
 
   return (
-    <div className='absolute inset-0 z-0 h-full w-full'>
+    <div ref={containerRef} className='absolute inset-0 z-0 h-full w-full'>
       <Lottie
+        lottieRef={lottieRef}
         animationData={animationData}
         loop
+        autoplay={false}
+        onDOMLoaded={syncPlayback}
         rendererSettings={{ preserveAspectRatio: 'xMidYMid slice' }}
         style={{ width: '100%', height: '100%', minHeight: '100%' }}
       />

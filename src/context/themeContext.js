@@ -10,8 +10,8 @@ import {
 import { flushSync } from 'react-dom';
 
 const STORAGE_KEY = 'hsn-theme';
-const WIPE_MS = 520;
-const WIPE_EASE = 'cubic-bezier(0.22, 1, 0.36, 1)';
+const WIPE_MS = 2000;
+const WIPE_EASE = 'cubic-bezier(0.45, 0, 0.55, 1)';
 
 const ThemeContext = createContext({
   theme: 'light',
@@ -105,8 +105,9 @@ export function ThemeProvider({ children }) {
         return;
       }
 
-      const x = origin?.x ?? window.innerWidth / 2;
-      const y = origin?.y ?? window.innerHeight / 2;
+      // Dark grows from the bottom left; light keeps the reveal from the toggle.
+      const x = next === 'dark' ? 0 : origin?.x ?? window.innerWidth;
+      const y = next === 'dark' ? window.innerHeight : origin?.y ?? 0;
       const endRadius = Math.hypot(
         Math.max(x, window.innerWidth - x),
         Math.max(y, window.innerHeight - y)
