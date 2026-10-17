@@ -1,10 +1,12 @@
-import { act, render, screen } from '@testing-library/react';
+/* eslint-disable testing-library/no-node-access, testing-library/no-container -- These tests drive decorative canvas renderers with no accessible role. */
+import { act, fireEvent, render, screen } from '@testing-library/react';
 import MeshText from './MeshText';
 
 const originalIntersectionObserver = global.IntersectionObserver;
 const originalResizeObserver = global.ResizeObserver;
 let frames;
 let gl;
+let context2d;
 let setVisible;
 let resizeObservers;
 let width;
@@ -21,7 +23,7 @@ beforeEach(() => {
     return id;
   });
   jest.spyOn(window, 'cancelAnimationFrame').mockImplementation((id) => frames.delete(id));
-  jest.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(() => ({ width, height: 56 }));
+  jest.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(() => ({ width, height: 56, left: 0, top: 0 }));
   // Rendering is mocked; these tests exercise actual scheduling and cleanup.
   gl = new Proxy({}, {
     get(target, key) {
@@ -30,7 +32,7 @@ beforeEach(() => {
       return target[key];
     },
   });
-  const context2d = { clearRect: jest.fn(), fillText: jest.fn() };
+  context2d = { clearRect: jest.fn(), fillText: jest.fn(), drawImage: jest.fn() };
   jest.spyOn(HTMLCanvasElement.prototype, 'getContext').mockImplementation((type) => type === 'webgl2' ? gl : context2d);
   global.IntersectionObserver = jest.fn((callback) => {
     setVisible = (isIntersecting) => act(() => callback([{ isIntersecting }]));
@@ -61,14 +63,15 @@ test('static hero text paints on demand and repaints after resizing without an i
   expect(frames.size).toBe(0);
   setVisible(true);
   paintFrame();
-  expect(gl.drawElements).toHaveBeenCalledTimes(1);
+  expect(context2d.drawImage).toHaveBeenCalledTimes(1);
+  expect(HTMLCanvasElement.prototype.getContext).not.toHaveBeenCalledWith('webgl2', expect.anything());
   expect(screen.getByText('HUSSAIN')).toHaveStyle({ opacity: '0' });
   expect(frames.size).toBe(0);
   width = 600;
   act(() => resizeObservers.forEach((callback) => callback()));
   expect(frames.size).toBe(1);
   paintFrame();
-  expect(gl.drawElements).toHaveBeenCalledTimes(2);
+  expect(context2d.drawImage).toHaveBeenCalledTimes(2);
   expect(frames.size).toBe(0);
 });
 
@@ -76,7 +79,7 @@ test('interactive text pauses outside the viewport, resumes once, and releases f
   const { unmount } = render(<MeshText text='HUSSAIN' />);
   setVisible(true);
   paintFrame();
-  expect(frames.size).toBe(1);
+  expect(frames.size).toBe(0);
   setVisible(false);
   expect(frames.size).toBe(0);
   setVisible(true);
@@ -87,4 +90,36 @@ test('interactive text pauses outside the viewport, resumes once, and releases f
   unmount();
   expect(frames.size).toBe(0);
   expect(gl.deleteProgram).toHaveBeenCalledTimes(1);
+});
+
+test('interactive text wakes on pointer movement and stops when the spring settles', () => {
+  const { container } = render(<MeshText text='HUSSAIN' />);
+  setVisible(true);
+  paintFrame();
+  const move = (x) => fireEvent(container.firstChild, new MouseEvent('pointermove', { clientX: x, clientY: 20 }));
+  move(40);
+  paintFrame();
+  move(60);
+  paintFrame();
+  expect(frames.size).toBe(1);
+  fireEvent.pointerLeave(container.firstChild);
+  for (let i = 0; i < 500 && frames.size; i += 1) paintFrame();
+  expect(frames.size).toBe(0);
+});
+
+test('does not paint a static heading after unmounting while its font is loading', async () => {
+  const originalFonts = document.fonts;
+  let resolveFont;
+  Object.defineProperty(document, 'fonts', { configurable: true, value: { load: () => new Promise(resolve => { resolveFont = resolve; }) } });
+  try {
+    const { unmount } = render(<MeshText text='HUSSAIN' interactive={false} />);
+    setVisible(true);
+    paintFrame();
+    unmount();
+    await act(async () => resolveFont());
+    expect(context2d.drawImage).not.toHaveBeenCalled();
+    expect(frames.size).toBe(0);
+  } finally {
+    Object.defineProperty(document, 'fonts', { configurable: true, value: originalFonts });
+  }
 });

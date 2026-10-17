@@ -32,8 +32,11 @@ export default function ProjectPreview({
   url,
   title,
   poster,
+  posterSrcSet,
+  posterSizes,
   large = false,
   posterLoading = 'lazy',
+  posterPriority,
 }) {
   const id = useId();
   const containerRef = useRef(null);
@@ -56,9 +59,12 @@ export default function ProjectPreview({
     <div ref={containerRef} className='absolute inset-0 overflow-hidden bg-panel'>
       <img
         src={poster}
+        srcSet={posterSrcSet}
+        sizes={posterSizes}
         alt={title}
         className='absolute inset-0 h-full w-full object-cover object-top'
         loading={posterLoading}
+        fetchpriority={posterPriority}
         decoding='async'
       />
       {active ? (

@@ -23,32 +23,32 @@ const ContactMeSection = ({ locale = "en" }) => {
 
   const socials = [
     {
-      img: require("../images/socials/email.png"),
+      img: require("../images/socials/email.webp"),
       url: "mailto:mohammadhussainafghan83@gmail.com",
       label: isPashto ? "ايمېل راولېږئ" : "Email me",
     },
     {
-      img: require("../images/socials/github.png"),
+      img: require("../images/socials/github.webp"),
       url: "https://github.com/Hussain-hamim",
       label: "GitHub",
     },
     {
-      img: require("../images/socials/linkedin.png"),
+      img: require("../images/socials/linkedin.webp"),
       url: "https://www.linkedin.com/in/hussain-hamim/",
       label: "LinkedIn",
     },
     {
-      img: require("../images/socials/twitter.png"),
+      img: require("../images/socials/twitter.webp"),
       url: "https://x.com/erencode",
       label: "Twitter",
     },
     {
-      img: require("../images/socials/whatsapp.png"),
+      img: require("../images/socials/whatsapp.webp"),
       url: WHATSAPP_URL,
       label: "WhatsApp",
     },
     {
-      img: require("../images/socials/instagram.png"),
+      img: require("../images/socials/instagram.webp"),
       url: "https://www.instagram.com/hussainhamim_/",
       label: "Instagram",
     },

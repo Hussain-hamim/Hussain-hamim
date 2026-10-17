@@ -9,7 +9,7 @@ import TextMorph from './TextMorph';
 import { PEEL_VARIATIONS } from './peelDirections';
 import { useTheme } from '../context/themeContext';
 import { scrollToSection } from '../utils/sectionNavigation';
-import heroPortrait from '../asset/hsn3-hero.jpg';
+import heroPortrait from '../asset/hsn3-hero.webp';
 
 const ParticleLetter = lazy(() => import('./ParticleLetter'));
 
@@ -70,7 +70,6 @@ function HighlightedMeshText({ text, color = '#0a0a0a' }) {
       const fontStr = `normal 700 ${fontSize}px Daisyogre, sans-serif`;
       try {
         if (document.fonts?.load) await document.fonts.load(fontStr);
-        if (document.fonts?.ready) await document.fonts.ready;
       } catch {
         /* ignore */
       }
@@ -370,12 +369,12 @@ const LandingSection = ({ locale = 'en' }) => {
           className='mt-4 flex items-center justify-center gap-2.5'
         >
           {[
-            { label: 'Email', href: 'mailto:mohammadhussainafghan83@gmail.com', img: require('../images/socials/email.png') },
-            { label: 'GitHub', href: 'https://github.com/Hussain-hamim', img: require('../images/socials/github.png') },
-            { label: 'LinkedIn', href: 'https://www.linkedin.com/in/hussain-hamim/', img: require('../images/socials/linkedin.png') },
-            { label: 'Twitter', href: 'https://x.com/erencode', img: require('../images/socials/twitter.png') },
-            { label: 'WhatsApp', href: 'https://wa.me/93780338261', img: require('../images/socials/whatsapp.png') },
-            { label: 'Instagram', href: 'https://www.instagram.com/hussainhamim_/', img: require('../images/socials/instagram.png') },
+            { label: 'Email', href: 'mailto:mohammadhussainafghan83@gmail.com', img: require('../images/socials/email.webp') },
+            { label: 'GitHub', href: 'https://github.com/Hussain-hamim', img: require('../images/socials/github.webp') },
+            { label: 'LinkedIn', href: 'https://www.linkedin.com/in/hussain-hamim/', img: require('../images/socials/linkedin.webp') },
+            { label: 'Twitter', href: 'https://x.com/erencode', img: require('../images/socials/twitter.webp') },
+            { label: 'WhatsApp', href: 'https://wa.me/93780338261', img: require('../images/socials/whatsapp.webp') },
+            { label: 'Instagram', href: 'https://www.instagram.com/hussainhamim_/', img: require('../images/socials/instagram.webp') },
           ].map(({ label, href, img }, index) => (
             <a
               key={label}

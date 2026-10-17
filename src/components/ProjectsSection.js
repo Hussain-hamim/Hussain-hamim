@@ -12,6 +12,7 @@ import ProjectPreview from './ProjectPreview';
 import LazyWhenVisible from './LazyWhenVisible';
 import { featuredProjects, isPlaceholder } from '../data/featuredProjects';
 import { BLOG_POSTS } from '../data/blogs';
+import { projectImages } from '../data/projectImages';
 import Button from './Button';
 import AboutSection from './AboutSection';
 import { PEEL_VARIATIONS } from './peelDirections';
@@ -19,7 +20,7 @@ import { PEEL_VARIATIONS } from './peelDirections';
 const GitHubContributions = lazy(() => import('./GitHubContributions'));
 const CardStack = lazy(() => import('./CardStack'));
 
-const githubSocialImg = require('../images/socials/github.png');
+const githubSocialImg = require('../images/socials/github.webp');
 
 function PaintStroke({ className = '' }) {
   return (
@@ -53,7 +54,8 @@ export const projects = [
     title: 'IdeaHunt',
     description:
       'Discover & validate your next big idea. We scan millions of conversations, reviews, and complaints across the web to find real problems people are struggling with. then help you turn them into validated business ideas that actually have demand.',
-    getImageSrc: () => require('../images/ideahunt-cover.jpg'),
+    getImageSrc: () => projectImages['ideahunt-cover'].src,
+    image: projectImages['ideahunt-cover'],
     link: 'https://github.com/Hussain-hamim',
     live: 'https://www.ideahunt.pro/',
     embedUrl: 'https://www.ideahunt.pro/',
@@ -64,7 +66,8 @@ export const projects = [
     title: 'TalentFound',
     description:
       'A platform where developers showcase their work and connect with teams, collaborators, and co-founders. Explore developer profiles, discover projects, and find people to build with.',
-    getImageSrc: () => require('../images/talentfound-hero.webp'),
+    getImageSrc: () => projectImages['talentfound-hero'].src,
+    image: projectImages['talentfound-hero'],
     link: 'https://github.com/Hussain-hamim',
     live: 'https://talent-found-os.vercel.app/',
     embedUrl: 'https://talent-found-os.vercel.app/',
@@ -75,7 +78,8 @@ export const projects = [
     title: 'Aegnis AI',
     description:
       "Aegnis is your AI Chief of Staff, an AI-powered productivity platform that doesn't just show you your life, it manages it for you. From a to-do list to a done list.",
-    getImageSrc: () => require('../images/aegnisai.png'),
+    getImageSrc: () => projectImages['aegnisai'].src,
+    image: projectImages['aegnisai'],
     link: 'https://github.com/Hussain-hamim',
     live: 'https://aegnis.life',
     embedUrl: 'https://aegnis.life',
@@ -86,7 +90,8 @@ export const projects = [
     title: 'LiquidGlass',
     description:
       'A WebGL-powered library for React that lets developers browse, preview, and copy beautiful glass effects into their projects — 54 effects ready to use.',
-    getImageSrc: () => require('../images/liquidglass.png'),
+    getImageSrc: () => projectImages['liquidglass'].src,
+    image: projectImages['liquidglass'],
     link: 'https://github.com/Hussain-hamim',
     live: 'https://liquidglass-sigma.vercel.app/',
     tags: ['React', 'WebGL', 'Library'],
@@ -96,7 +101,8 @@ export const projects = [
     title: 'DevSync',
     description:
       'DevSync is a collaborative platform designed for developers to connect and collaborate on projects. Features user profiles, project listings, and a real-time chat system.',
-    getImageSrc: () => require('../images/devsync.png'),
+    getImageSrc: () => projectImages['devsync'].src,
+    image: projectImages['devsync'],
     link: 'https://github.com/Hussain-hamim/DevSync',
     live: 'https://devsync.codes/',
     tags: ['Next.js', 'Tailwind', 'Supabase'],
@@ -106,7 +112,8 @@ export const projects = [
     title: 'Premium Shop',
     description:
       'A full-stack (MERN stack) e-commerce platform built with React.js, MongoDB, Node.js and Stripe. Features user authentication, product listings, and a shopping cart.',
-    getImageSrc: () => require('../images/premium-shop.png'),
+    getImageSrc: () => projectImages['premium-shop'].src,
+    image: projectImages['premium-shop'],
     link: 'https://github.com/Hussain-hamim/PremiumShop',
     live: 'https://premium-shop-teal.vercel.app',
     tags: ['MERN', 'E-commerce', 'Stripe'],
@@ -116,7 +123,8 @@ export const projects = [
     title: 'Ocean Of Games',
     description:
       'A game platform which is a clone of popular RAWG website and also powered by rawg api. browse, select, and search from a tons of games.',
-    getImageSrc: () => require('../images/oceanofgames.png'),
+    getImageSrc: () => projectImages['oceanofgames'].src,
+    image: projectImages['oceanofgames'],
     link: 'https://github.com/Hussain-hamim/ocean-of-games',
     live: 'https://ocean-of-games.vercel.app/',
     tags: ['React', 'API', 'Clone'],
@@ -126,7 +134,8 @@ export const projects = [
     title: 'Book Ocean',
     description:
       'In this book platform after login you can discover, add up book to reading list, add book to finished list, give note, give stars to the book.',
-    getImageSrc: () => require('../images/bookocean.png'),
+    getImageSrc: () => projectImages['bookocean'].src,
+    image: projectImages['bookocean'],
     link: 'https://github.com/Hussain-hamim/book-ocean',
     live: 'https://book-ocean.vercel.app/discover',
     tags: ['React', 'Firebase', 'Books'],
@@ -136,7 +145,8 @@ export const projects = [
     title: 'Nature Quest',
     description:
       'A dynamic tour booking platform that allows users to explore amazing travel destinations. Custom-built backend with real-time tour data.',
-    getImageSrc: () => require('../images/naturequest.png'),
+    getImageSrc: () => projectImages['naturequest'].src,
+    image: projectImages['naturequest'],
     link: 'https://github.com/Hussain-hamim/NatureQuest',
     live: 'https://nature-quest-gamma.vercel.app/',
     tags: ['Travel', 'Backend', 'UI/UX'],
@@ -146,7 +156,8 @@ export const projects = [
     title: 'Issue Tracker',
     description:
       'Issue Tracker is a full-stack project built with Next.js. It allows users to create, assign, and manage issues efficiently.',
-    getImageSrc: () => require('../images/issuetracker.png'),
+    getImageSrc: () => projectImages['issuetracker'].src,
+    image: projectImages['issuetracker'],
     link: 'https://github.com/Hussain-hamim/issue-tracker',
     live: 'https://issue-tracker-tan-eta.vercel.app/',
     tags: ['Next.js', 'Management', 'Full-stack'],
@@ -156,7 +167,8 @@ export const projects = [
     title: 'TaskList',
     description:
       'This is a web application for managing your tasks. The application allows users to add, remove, and mark tasks as completed.',
-    getImageSrc: () => require('../images/tasklist.png'),
+    getImageSrc: () => projectImages['tasklist'].src,
+    image: projectImages['tasklist'],
     link: 'https://github.com/Hussain-hamim/my-tasklist',
     live: 'https://my-tasklist-gamma.vercel.app/',
     tags: ['React', 'Productivity', 'CRUD'],
@@ -166,7 +178,8 @@ export const projects = [
     title: 'Hamimfy',
     description:
       'Hamimfy is a responsive website design to showcase various features and techniques in modern web development. Focuses on cloud hosting.',
-    getImageSrc: () => require('../images/hamimfy.png'),
+    getImageSrc: () => projectImages['hamimfy'].src,
+    image: projectImages['hamimfy'],
     link: 'https://github.com/Hussain-hamim/hamimfy',
     live: 'https://hamimfy.vercel.app/',
     tags: ['Design', 'Responsive', 'Cloud'],
@@ -179,7 +192,8 @@ export const mobileProjects = [
     title: 'ProveIt AI',
     description:
       'Finally get things done. ProveIt AI forces accountability with live picture proof, AI scanning, deadlines, and alarms until you prove it — or give up. Includes Coach Aura for relentless pressure coaching.',
-    getImageSrc: () => require('../images/proveit-ai-hero.webp'),
+    getImageSrc: () => projectImages['proveit-ai-hero'].src,
+    image: projectImages['proveit-ai-hero'],
     link: 'https://github.com/Hussain-hamim',
     live: 'https://www.proveitai.app/',
     embedUrl: 'https://www.proveitai.app/',
@@ -190,7 +204,8 @@ export const mobileProjects = [
     title: 'TimeCircle',
     description:
       'Make more time for real life. TimeCircle turns “we should do something” into a real plan — find people, places, and small adventures nearby or on your next trip. Coming to iPhone.',
-    getImageSrc: () => require('../images/timecircle-hero.webp'),
+    getImageSrc: () => projectImages['timecircle-hero'].src,
+    image: projectImages['timecircle-hero'],
     link: 'https://github.com/Hussain-hamim',
     live: 'https://timecircle.vercel.app/',
     embedUrl: 'https://timecircle.vercel.app/',
@@ -201,7 +216,8 @@ export const mobileProjects = [
     title: 'Shan-AI',
     description:
       'Ask ShanAI anything: A cross platform AI-powered mobile assistant that combines conversational AI, image generation and analysis using OpenAI, Gemini, and Stability APIs.',
-    getImageSrc: () => require('../images/shanai2.png'),
+    getImageSrc: () => projectImages['shanai2'].src,
+    image: projectImages['shanai2'],
     link: 'https://github.com/Hussain-hamim',
     live: 'https://github.com/Hussain-hamim/ShanAI/releases/download/my-tag/ShanAI_1.0.0.apk',
     tags: ['React Native', 'AI', 'Expo'],
@@ -211,7 +227,8 @@ export const mobileProjects = [
     title: 'EaseShop',
     description:
       'A feature-rich mobile e-commerce app built with React Native + Expo, powered by AI voice agents (Vapi) for hands-free shopping.',
-    getImageSrc: () => require('../images/easeshop.png'),
+    getImageSrc: () => projectImages['easeshop'].src,
+    image: projectImages['easeshop'],
     link: 'https://github.com/Hussain-hamim/easeshop-mobile',
     live: 'https://drive.google.com/file/d/1xZ0jOSVEwuIGFCz0AHVnBIzJmRLtmusc/view?usp=drive_link',
     tags: ['E-commerce', 'AI Voice', 'Mobile'],
@@ -221,7 +238,8 @@ export const mobileProjects = [
     title: 'Threads',
     description:
       'Threads Clone: A cross-platform mobile app that recreates the Threads experience. Built with Convex for real-time updates and Clerk for auth.',
-    getImageSrc: () => require('../images/threads2.png'),
+    getImageSrc: () => projectImages['threads2'].src,
+    image: projectImages['threads2'],
     link: 'https://github.com/Hussain-hamim/threads',
     tags: ['Clone', 'Real-time', 'Social'],
     theme: { primary: '#525252', secondary: '#737373' },
@@ -230,7 +248,8 @@ export const mobileProjects = [
     title: 'Himal Beauty',
     description:
       'Barber Booking App: A full-stack mobile app with separate admin and client panels. Built with Supabase and Expo.',
-    getImageSrc: () => require('../images/himal-beauty.png'),
+    getImageSrc: () => projectImages['himal-beauty'].src,
+    image: projectImages['himal-beauty'],
     link: 'https://github.com/Hussain-hamim/barber-app',
     live: 'https://drive.google.com/file/d/1uk3aGfYUKCDck4uJFPJ0PtQJTrXe6YKS/view?usp=drive_link',
     tags: ['Booking', 'Supabase', 'Mobile'],
@@ -240,7 +259,8 @@ export const mobileProjects = [
     title: 'Brick Blitz',
     description:
       'Brick Breaker Game: A cross-platform mobile game built with React Native and Reanimated for smooth animations.',
-    getImageSrc: () => require('../images/blitz.png'),
+    getImageSrc: () => projectImages['blitz'].src,
+    image: projectImages['blitz'],
     link: 'https://github.com/Hussain-hamim',
     tags: ['Game', 'Animation', 'React Native'],
     theme: { primary: '#EF4444', secondary: '#F87171' },
@@ -249,7 +269,8 @@ export const mobileProjects = [
     title: 'Airbnb Clone',
     description:
       'Airbnb UI Clone: A cross-platform mobile app primarily focused on replicating Airbnb’s sleek user interface and navigation.',
-    getImageSrc: () => require('../images/airbnb-clone .jpg'),
+    getImageSrc: () => projectImages['airbnb-clone-'].src,
+    image: projectImages['airbnb-clone-'],
     link: 'https://github.com/Hussain-hamim/airbnb-clone',
     tags: ['UI/UX', 'Clone', 'Maps'],
     theme: { primary: '#FF5A5F', secondary: '#FF7E82' },
@@ -258,7 +279,8 @@ export const mobileProjects = [
     title: 'SnapDish',
     description:
       'Food Ordering App: A mobile app with separate admin and user panels. Features push notifications and Stripe integration.',
-    getImageSrc: () => require('../images/snapdish2.png'),
+    getImageSrc: () => projectImages['snapdish2'].src,
+    image: projectImages['snapdish2'],
     link: 'https://github.com/Hussain-hamim/SnapDish',
     tags: ['Food', 'Stripe', 'Admin'],
     theme: { primary: '#F59E0B', secondary: '#FBBF24' },
@@ -267,7 +289,8 @@ export const mobileProjects = [
     title: 'Done With It',
     description:
       'Sell what you do not need on this mobile app platform, working based on node api.',
-    getImageSrc: () => require('../images/donewithit2.png'),
+    getImageSrc: () => projectImages['donewithit2'].src,
+    image: projectImages['donewithit2'],
     link: 'https://github.com/Hussain-hamim/donewithit',
     tags: ['Marketplace', 'Node.js', 'Mobile'],
     theme: { primary: '#14B8A6', secondary: '#2DD4BF' },
@@ -275,7 +298,8 @@ export const mobileProjects = [
   {
     title: 'Coursia',
     description: 'A mobile app for learning courses and getting certificates.',
-    getImageSrc: () => require('../images/coursia2.png'),
+    getImageSrc: () => projectImages['coursia2'].src,
+    image: projectImages['coursia2'],
     link: 'https://github.com/Hussain-hamim/Coursia',
     tags: ['E-learning', 'Mobile'],
     theme: { primary: '#6366F1', secondary: '#818CF8' },
@@ -288,7 +312,8 @@ export const certificates = [
     description:
       'Earned after completing 9 rigorous courses over 7 months. This specialization covered essential front-end skills and culminated in a Meta-issued professional certificate.',
  
-    getImageSrc: () => require('../images/meta-cert.png'),
+    getImageSrc: () => projectImages['meta-cert'].src,
+    image: projectImages['meta-cert'],
     link: 'https://www.coursera.org/account/accomplishments/specialization/CMEZCDWLG4AG',
     live: 'https://www.coursera.org/account/accomplishments/specialization/CMEZCDWLG4AG',
     tags: ['Certificate', 'Meta', 'Frontend'],
@@ -298,7 +323,8 @@ export const certificates = [
     title: 'Principles of UX/UI Design',
     description:
       'Completed May 2024. Meta-authorized Coursera course covering UX/UI fundamentals, accessibility, user research, and Figma wireframing.',
-    getImageSrc: () => require('../images/principles-ux-ui-cert.png'),
+    getImageSrc: () => projectImages['principles-ux-ui-cert'].src,
+    image: projectImages['principles-ux-ui-cert'],
     link: 'https://coursera.org/share/c366587be140e302c8789a49b943cad3',
     live: 'https://coursera.org/share/c366587be140e302c8789a49b943cad3',
     tags: ['Certificate', 'Meta', 'UX/UI'],
@@ -308,7 +334,8 @@ export const certificates = [
     title: 'React Native',
     description:
       'Completed October 2024. Meta-authorized Coursera course on cross-platform mobile development with React Native.',
-    getImageSrc: () => require('../images/react-native-cert.png'),
+    getImageSrc: () => projectImages['react-native-cert'].src,
+    image: projectImages['react-native-cert'],
     link: 'https://coursera.org/share/20edf03a10679ae7e3bd4d269c7f5c90',
     live: 'https://coursera.org/share/20edf03a10679ae7e3bd4d269c7f5c90',
     tags: ['Certificate', 'Meta', 'React Native'],
@@ -391,6 +418,7 @@ export const ProjectCard = ({
   featured = false,
   featuredMeta = null,
   isCertificate = false,
+  priority = false,
 }) => {
   const tags = (project.tags || featuredMeta?.stack || []).slice(0, 3);
   const headline =
@@ -414,13 +442,22 @@ export const ProjectCard = ({
           url={project.embedUrl}
           title={project.title}
           poster={project.getImageSrc()}
+          posterSrcSet={project.image?.srcSet}
+          posterSizes='(min-width: 1024px) 440px, (min-width: 640px) calc((100vw - 80px) / 2), calc(100vw - 32px)'
+          posterLoading={priority ? 'eager' : 'lazy'}
+          posterPriority={priority ? 'high' : undefined}
         />
       ) : (
         <img
           src={project.getImageSrc()}
+          srcSet={project.image?.srcSet}
+          sizes='(min-width: 1024px) 440px, (min-width: 640px) calc((100vw - 80px) / 2), calc(100vw - 32px)'
+          width={project.image?.width}
+          height={project.image?.height}
           alt={project.title}
           className='h-full w-full object-cover object-top'
-          loading='lazy'
+          loading={priority ? 'eager' : 'lazy'}
+          fetchpriority={priority ? 'high' : undefined}
           decoding='async'
         />
       )}

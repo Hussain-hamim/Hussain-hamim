@@ -99,8 +99,14 @@ const AllBlogsPage = () => {
                     <div className='relative aspect-[16/10] w-full shrink-0 overflow-hidden rounded-xl bg-media-bg sm:aspect-[4/3] sm:w-36 md:w-44'>
                       <img
                         src={post.image}
+                        srcSet={post.imageProps?.srcSet}
+                        sizes='(min-width: 768px) 176px, (min-width: 640px) 144px, calc(100vw - 88px)'
+                        width={post.imageProps?.width}
+                        height={post.imageProps?.height}
                         alt=''
-                        loading='lazy'
+                        loading={index === 0 ? 'eager' : 'lazy'}
+                        fetchpriority={index === 0 ? 'high' : undefined}
+                        decoding='async'
                         className='h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]'
                         style={{
                           objectPosition: post.imageObjectPosition || 'center',

@@ -139,6 +139,7 @@ const AllProjectsPage = () => {
           <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
             {webProjectsToShow.map((project, index) => (
               <ProjectCard
+                priority={index === 0}
                 key={project.title}
                 project={project}
                 index={index}

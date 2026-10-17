@@ -245,6 +245,60 @@ export default function MeshText(props) {
     const wrapper = wrapperRef.current;
     if (!canvas || !wrapper) return;
 
+    // The hero disables distortion. Draw the exact same glyph texture directly,
+    // without allocating a WebGL context, compiling shaders, or building a mesh.
+    if (staticText) {
+      const ctx = canvas.getContext('2d');
+      if (!ctx) { setWebglOk(false); return; }
+      let cancelled = false;
+      let visible = false;
+      let revision = 0;
+      let frame = null;
+      const paint = async () => {
+        frame = null;
+        const version = ++revision;
+        const dpr = window.devicePixelRatio || 1;
+        const rect = wrapper.getBoundingClientRect();
+        const w = Math.max(2, Math.round(rect.width * dpr));
+        const h = Math.max(2, Math.round(rect.height * dpr));
+        const size = Math.max(12, Math.min(fontSize * dpr, h * 0.78));
+        try {
+          if (document.fonts?.load) {
+            await document.fonts.load(`${fontStyle} ${fontWeight} ${size}px ${fontFamily}`);
+          }
+        } catch { /* Keep the readable fallback when a font is unavailable. */ }
+        if (cancelled || !visible || version !== revision) return;
+        canvas.width = w;
+        canvas.height = h;
+        ctx.drawImage(renderTextToCanvas(
+          String(text ?? ''), color ?? '#ffffff', fontFamily,
+          fontWeight, fontStyle, size, w, h, textAlign
+        ), 0, 0);
+        setReady(true);
+      };
+      const requestPaint = () => {
+        revision += 1;
+        if (!cancelled && visible && frame === null) frame = requestAnimationFrame(paint);
+      };
+      const ro = new ResizeObserver(requestPaint);
+      ro.observe(wrapper);
+      const disconnect = observeVisibility(wrapper, (nextVisible) => {
+        visible = nextVisible;
+        if (visible) requestPaint();
+        else {
+          revision += 1;
+          if (frame !== null) cancelAnimationFrame(frame);
+          frame = null;
+        }
+      });
+      return () => {
+        cancelled = true;
+        disconnect();
+        ro.disconnect();
+        if (frame !== null) cancelAnimationFrame(frame);
+      };
+    }
+
     const gl = canvas.getContext('webgl2', {
       alpha: true,
       premultipliedAlpha: true,
@@ -294,11 +348,15 @@ export default function MeshText(props) {
     const vs = compile(gl, gl.VERTEX_SHADER, VERT_SRC);
     const fs = compile(gl, gl.FRAGMENT_SHADER, FRAG_SRC);
     if (!vs || !fs) {
+      if (vs) gl.deleteShader(vs);
+      if (fs) gl.deleteShader(fs);
       setWebglOk(false);
       return;
     }
     const program = linkProgram(gl, vs, fs);
     if (!program) {
+      gl.deleteShader(vs);
+      gl.deleteShader(fs);
       setWebglOk(false);
       return;
     }
@@ -378,9 +436,6 @@ export default function MeshText(props) {
           if (document.fonts?.load) {
             await document.fonts.load(fontStr);
           }
-          if (document.fonts?.ready) {
-            await document.fonts.ready;
-          }
         }
       } catch {
         /* ignore */
@@ -447,6 +502,7 @@ export default function MeshText(props) {
       }
       cursor.x = x;
       cursor.y = y;
+      requestRender();
     };
     const onLeave = () => {
       cursor.inside = false;
@@ -454,6 +510,7 @@ export default function MeshText(props) {
       cursor.y = 99;
       cursor.vx = 0;
       cursor.vy = 0;
+      requestRender();
     };
     if (!staticText) {
       wrapper.addEventListener('pointermove', onMove);
@@ -477,6 +534,7 @@ export default function MeshText(props) {
       cursor.px = cursor.x;
       cursor.py = cursor.y;
 
+      let moving = false;
       for (let i = 0; i < vertCount; i++) {
         const i2 = i * 2;
         const px = positions[i2];
@@ -513,6 +571,9 @@ export default function MeshText(props) {
         else if (ndy < -1) ndy = -1;
         disp[i2] = ndx;
         disp[i2 + 1] = ndy;
+        if (Math.abs(vx) + Math.abs(vy) + Math.abs(ndx) + Math.abs(ndy) > 0.0001) {
+          moving = true;
+        }
       }
 
       gl.bindBuffer(gl.ARRAY_BUFFER, dispBuf);
@@ -554,8 +615,8 @@ export default function MeshText(props) {
         setReady(true);
       }
 
-      // Non-interactive headings only need a new frame after a texture/size change.
-      if (!staticText) requestRender();
+      // Wake on pointer movement; stop redrawing once the spring has settled.
+      if (moving) requestRender();
     };
     const disconnect = observeVisibility(wrapper, (isVisible) => {
       visible = isVisible;
@@ -671,6 +732,7 @@ export default function MeshText(props) {
         {text}
       </span>
       <canvas
+        key={staticText ? 'static' : 'interactive'}
         ref={canvasRef}
         style={{
           display: 'block',

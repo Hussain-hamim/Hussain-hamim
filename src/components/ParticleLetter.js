@@ -138,7 +138,6 @@ async function renderLetterSource(
   const fontStr = `${fontStyle} ${fontWeight} ${mainSize}px ${fontFamily}, sans-serif`;
   try {
     if (document.fonts?.load) await document.fonts.load(fontStr);
-    if (document.fonts?.ready) await document.fonts.ready;
   } catch {
     /* ignore */
   }
@@ -355,6 +354,18 @@ export default function ParticleLetter(props) {
   const roamFadeToRef = useRef(1);
   const startAnimRef = useRef(null);
   const letterSourceRef = useRef(null);
+  const requestDrawRef = useRef(null);
+  const initVersionRef = useRef(0);
+  const mountedRef = useRef(true);
+
+  useEffect(() => {
+    mountedRef.current = true;
+    return () => {
+      mountedRef.current = false;
+      initVersionRef.current += 1;
+      clearTimeout(animTimerRef.current);
+    };
+  }, []);
 
   physicsRef.current = {
     hover,
@@ -438,6 +449,7 @@ export default function ParticleLetter(props) {
     if (newState === 'scattering' && ht === 'roam') {
       clearTimeout(animTimerRef.current);
       animStateRef.current = 'idle';
+      requestDrawRef.current?.();
       return;
     }
 
@@ -447,10 +459,13 @@ export default function ParticleLetter(props) {
     const next = newState === 'assembling' ? 'active' : 'idle';
     animTimerRef.current = setTimeout(() => {
       if (animStateRef.current === newState) animStateRef.current = next;
+      requestDrawRef.current?.();
     }, _dur);
+    requestDrawRef.current?.();
   };
 
   const initParticles = async () => {
+    const version = ++initVersionRef.current;
     const {
       letter: L,
       src: imageSrc,
@@ -488,13 +503,14 @@ export default function ParticleLetter(props) {
       (useLetterMask
         ? await renderLetterSource(L, LC || '#0a0a0a', 720, fontCfg)
         : await renderImageSource(imageSrc, 720, objPos || 'center top'));
-    if (!shapeCanvas) return;
+    if (!shapeCanvas || !mountedRef.current || version !== initVersionRef.current) return;
     letterSourceRef.current = shapeCanvas;
 
     const photoCanvas =
       imageSrc && fillWithImage
         ? await renderImageSource(imageSrc, 720, objPos || 'center top')
         : null;
+    if (!mountedRef.current || version !== initVersionRef.current) return;
 
     const rect = containRect(shapeCanvas.width, shapeCanvas.height, W, H);
     const scale = useLetterMask ? 1.05 : 1;
@@ -625,6 +641,7 @@ export default function ParticleLetter(props) {
       animStateRef.current = 'idle';
     }
     sceneRef.current = { particles };
+    requestDrawRef.current?.();
 
     // Re-apply external assemble after rebuild (e.g. resize / font load).
     if (assembledRef.current && hOn) {
@@ -678,9 +695,18 @@ export default function ParticleLetter(props) {
     let idata = null;
     let bW = 0;
     let bH = 0;
+    let visible = false;
+    let disposed = false;
+    const requestDraw = () => {
+      if (!disposed && visible && animRef.current === null) {
+        animRef.current = requestAnimationFrame(draw);
+      }
+    };
+    requestDrawRef.current = requestDraw;
 
     const draw = () => {
-      animRef.current = requestAnimationFrame(draw);
+      animRef.current = null;
+      if (disposed || !visible) return;
       const PW = canvas.width;
       const PH = canvas.height;
       if (!PW || !PH) return;
@@ -772,6 +798,7 @@ export default function ParticleLetter(props) {
       const repCutoff = Math.max(1, rR);
       const repCutoffSq = repCutoff * repCutoff;
       let pIdx = 0;
+      let unsettled = false;
 
       for (const p of particles) {
         const isCircle =
@@ -864,7 +891,10 @@ export default function ParticleLetter(props) {
         if (!p.inZone) {
           p.repX *= 0.97;
           p.repY *= 0.97;
+          if (Math.abs(p.repX) < 0.01) p.repX = 0;
+          if (Math.abs(p.repY) < 0.01) p.repY = 0;
         }
+        if (p.repX !== 0 || p.repY !== 0) unsettled = true;
         p.x = baseX + p.repX;
         p.y = baseY + p.repY;
 
@@ -909,6 +939,12 @@ export default function ParticleLetter(props) {
         drawParticle(p.x * dpr, p.y * dpr, dr, dg, db, da, isCircle);
       }
       ctx.putImageData(idata, 0, 0);
+      const transitioning = state === 'assembling' || state === 'scattering';
+      const roaming = hOn && ht === 'roam' && state === 'idle';
+      const fading = hOn && ht === 'roam' && Date.now() - roamFadeStartRef.current < durMs;
+      if (transitioning || roaming || fading || unsettled || (repOn && active)) {
+        requestDraw();
+      }
     };
 
     const pause = () => {
@@ -916,14 +952,17 @@ export default function ParticleLetter(props) {
       animRef.current = null;
       mouseRef.current = { x: -99999, y: -99999, active: false };
     };
-    const disconnect = observeVisibility(containerRef.current, (visible) => {
+    const disconnect = observeVisibility(containerRef.current, (isVisible) => {
+      visible = isVisible;
       if (visible) {
-        if (animRef.current === null) animRef.current = requestAnimationFrame(draw);
+        requestDraw();
       } else {
         pause();
       }
     });
     return () => {
+      disposed = true;
+      requestDrawRef.current = null;
       disconnect();
       pause();
     };
@@ -944,6 +983,11 @@ export default function ParticleLetter(props) {
     }
   }, [assembled, externallyControlled, hover]);
 
+  useEffect(() => {
+    requestDrawRef.current?.();
+  }, [particleSize, particleShape, particleColor, singleColor, multiColors,
+    repulsionEnabled, repulsionForce, repulsionRadius, repulsionMode]);
+
   const onMouseMove = (e) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -961,6 +1005,7 @@ export default function ParticleLetter(props) {
     }
     prevMouseRef.current = { x: mx, y: my };
     mouseRef.current = { x: mx, y: my, active: true };
+    requestDrawRef.current?.();
     if (externallyControlled) return;
     if (physicsRef.current.hover) {
       const s = animStateRef.current;
@@ -972,6 +1017,7 @@ export default function ParticleLetter(props) {
 
   const onMouseLeave = () => {
     mouseRef.current = { x: -99999, y: -99999, active: false };
+    requestDrawRef.current?.();
     if (externallyControlled) return;
     if (physicsRef.current.hover) {
       const s = animStateRef.current;

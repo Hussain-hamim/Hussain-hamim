@@ -131,6 +131,9 @@ const CaseStudyPage = () => {
     (p) => p.title === project.title
   )?.embedUrl;
   const heroImage = findHeroImage(project.title);
+  const heroImageProps = [...webProjects, ...mobileProjects].find(
+    (p) => p.title === project.title
+  )?.image;
   const metrics = (project.metrics || []).filter(
     (m) => m?.value && !isPlaceholder(m.value)
   );
@@ -232,13 +235,21 @@ const CaseStudyPage = () => {
                   url={heroPreviewUrl}
                   title={project.title}
                   poster={heroImage}
+                  posterSrcSet={heroImageProps?.srcSet}
+                  posterSizes='(min-width: 1024px) 960px, calc(100vw - 48px)'
                   posterLoading='eager'
+                  posterPriority='high'
                   large
                 />
               </div>
             ) : (
               <img
                 src={heroImage}
+                srcSet={heroImageProps?.srcSet}
+                sizes='(min-width: 1024px) 960px, calc(100vw - 48px)'
+                width={heroImageProps?.width}
+                height={heroImageProps?.height}
+                fetchpriority='high'
                 alt={project.title}
                 className='w-full object-cover'
               />

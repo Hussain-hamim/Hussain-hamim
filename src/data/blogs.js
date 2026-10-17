@@ -1,4 +1,4 @@
-const COVER = (path) => `https://chamoylabs.com${path}`;
+import { blogImages } from './blogImages';
 
 export const BLOG_POSTS = [
   {
@@ -11,7 +11,8 @@ export const BLOG_POSTS = [
     url: 'https://chamoylabs.com/article/designing-ai-loading-states-that-feel-instant/',
     source: 'Chamoy Labs',
     date: '2026-07-19',
-    image: COVER('/ai-loading-states.png'),
+    image: blogImages['ai-loading-states'].src,
+    imageProps: blogImages['ai-loading-states'],
   },
   {
     title: 'AI Workflows vs AI Agents',
@@ -23,7 +24,8 @@ export const BLOG_POSTS = [
     url: 'https://chamoylabs.com/article/ai-workflows-vs-ai-agents/',
     source: 'Chamoy Labs',
     date: '2026-07-08',
-    image: COVER('/stunning.jpeg'),
+    image: blogImages['stunning'].src,
+    imageProps: blogImages['stunning'],
     imageObjectPosition: 'center 70%',
   },
   {
@@ -36,7 +38,8 @@ export const BLOG_POSTS = [
     url: 'https://chamoylabs.com/article/building-collaborative-ai-instead-of-autonomous-ai',
     source: 'Chamoy Labs',
     date: '2026-07-26',
-    image: COVER('/collaborative-ai-cover.png'),
+    image: blogImages['collaborative-ai-cover'].src,
+    imageProps: blogImages['collaborative-ai-cover'],
   },
   {
     title: 'Confidence Without Percentages',
@@ -48,7 +51,8 @@ export const BLOG_POSTS = [
     url: 'https://chamoylabs.com/article/confidence-without-percentages',
     source: 'Chamoy Labs',
     date: '2026-08-02',
-    image: COVER('/confidence-without-percentages-cover-v2.png'),
+    image: blogImages['confidence-without-percentages-cover-v2'].src,
+    imageProps: blogImages['confidence-without-percentages-cover-v2'],
   },
   {
     title: 'The UX Cost of AI Mistakes',
@@ -60,6 +64,7 @@ export const BLOG_POSTS = [
     url: 'https://chamoylabs.com/article/the-ux-cost-of-ai-mistakes',
     source: 'Chamoy Labs',
     date: '2026-08-05',
-    image: COVER('/ux-cost-ai-mistakes-cover-v2.png'),
+    image: blogImages['ux-cost-ai-mistakes-cover-v2'].src,
+    imageProps: blogImages['ux-cost-ai-mistakes-cover-v2'],
   },
 ];

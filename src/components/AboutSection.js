@@ -1,11 +1,13 @@
 import React, { lazy } from 'react';
 import { motion } from 'framer-motion';
 import LazyWhenVisible from './LazyWhenVisible';
-import aboutPortrait from '../asset/hsn3-hero.jpg';
+import smallPortrait from '../asset/hsn3-about.webp';
+import largePortrait from '../asset/hsn3-hero.webp';
 
 const BlobReveal = lazy(() => import('./BlobReveal'));
 
 export default function AboutSection({ locale = 'en', embedded = false }) {
+  const aboutPortrait = embedded ? smallPortrait : largePortrait;
   const isPashto = locale === 'ps';
   const copy = {
     headingLead: isPashto ? 'موږ' : 'Who I',
