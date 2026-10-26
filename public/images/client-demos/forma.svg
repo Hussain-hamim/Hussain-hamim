@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="500" viewBox="0 0 720 500">
+<rect width="720" height="500" fill="#ded4c3"/>
+<rect x="32" y="32" width="656" height="436" rx="12" fill="none" stroke="#423b30" stroke-opacity=".2"/>
+<text x="64" y="87" fill="#423b30" font-family="Arial,sans-serif" font-size="28" font-weight="bold">forma</text>
+<text x="520" y="82" fill="#423b30" font-family="Arial,sans-serif" font-size="11" letter-spacing="2">ABOUT    WORK</text>
+<path d="M64 108h592" stroke="#423b30" stroke-opacity=".2"/>
+<rect x="400" y="145" width="230" height="280" rx="110" fill="#b3a48d"/><path d="M440 425V255a75 75 0 0 1 150 0v170" fill="#8d806a"/><path d="M470 425V280a45 45 0 0 1 90 0v145" fill="#ded4c3"/>
+<text x="64" y="226" fill="#423b30" font-family="Georgia,serif" font-size="36"><tspan x="64">Spaces</tspan><tspan x="64" dy="44">for living.</tspan></text>
+<rect x="64" y="310" width="136" height="38" rx="19" fill="#423b30"/>
+<text x="86" y="334" fill="#ded4c3" font-family="Arial,sans-serif" font-size="11">Explore the work ↗</text>
+<text x="64" y="424" fill="#423b30" font-family="Arial,sans-serif" font-size="10" letter-spacing="2">A DEMO DIGITAL EXPERIENCE</text>
+</svg>

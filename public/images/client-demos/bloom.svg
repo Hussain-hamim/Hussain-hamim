@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="500" viewBox="0 0 720 500">
+<rect width="720" height="500" fill="#d3debc"/>
+<rect x="32" y="32" width="656" height="436" rx="12" fill="none" stroke="#334c37" stroke-opacity=".2"/>
+<text x="64" y="87" fill="#334c37" font-family="Arial,sans-serif" font-size="28" font-weight="bold">bloom.</text>
+<text x="520" y="82" fill="#334c37" font-family="Arial,sans-serif" font-size="11" letter-spacing="2">ABOUT    WORK</text>
+<path d="M64 108h592" stroke="#334c37" stroke-opacity=".2"/>
+<rect x="395" y="145" width="240" height="270" rx="14" fill="#e9eedf"/><ellipse cx="515" cy="367" rx="75" ry="14" fill="#bdcbaa"/><path d="M470 265h90l-10 100h-70z" fill="#839a69"/><path d="M515 270v-76m0 40q-65-55-65 0 40 25 65 0m0-20q65-55 65 0-40 25-65 0" stroke="#4a6b40" stroke-width="5" fill="#839a69"/>
+<text x="64" y="226" fill="#334c37" font-family="Georgia,serif" font-size="36"><tspan x="64">Good things,</tspan><tspan x="64" dy="44">every day.</tspan></text>
+<rect x="64" y="310" width="136" height="38" rx="19" fill="#334c37"/>
+<text x="86" y="334" fill="#d3debc" font-family="Arial,sans-serif" font-size="11">Explore the work ↗</text>
+<text x="64" y="424" fill="#334c37" font-family="Arial,sans-serif" font-size="10" letter-spacing="2">A DEMO DIGITAL EXPERIENCE</text>
+</svg>

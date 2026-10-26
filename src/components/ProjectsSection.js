@@ -7,6 +7,7 @@ import {
 } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import ExperienceSection from './ExperienceSection';
+import ClientProjectsSection from './ClientProjectsSection';
 import BranchBackground from './BranchBackground';
 import ProjectPreview from './ProjectPreview';
 import LazyWhenVisible from './LazyWhenVisible';
@@ -699,6 +700,26 @@ const ProjectsSection = ({ locale = 'en' }) => {
           </div>
         </div>
       </div>
+
+      <ClientProjectsSection />
+
+      <section
+        id='client-reviews'
+        aria-label={isPashto ? 'د پېرودونکو نظرونه' : 'Client reviews'}
+        className='bg-surface-alt px-4 py-12 text-ink md:px-8 md:py-16'
+      >
+        <div className='mx-auto w-full max-w-4xl'>
+          <SectionHeader
+            title={isPashto ? 'د پېرودونکو نظرونه' : 'Client reviews'}
+            light
+          />
+          <div className='rounded-3xl border border-dashed border-line bg-panel px-6 py-14 text-center'>
+            <p className='text-sm text-ink-muted'>
+              {isPashto ? 'ډېر ژر' : 'Coming soon'}
+            </p>
+          </div>
+        </div>
+      </section>
 
       {/* Experience */}
       <ExperienceSection locale={locale} />

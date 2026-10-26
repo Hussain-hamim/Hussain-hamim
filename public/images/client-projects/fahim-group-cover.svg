@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="500" viewBox="0 0 720 500">
+<rect width="720" height="500" fill="#304e44"/>
+<rect x="32" y="32" width="656" height="436" rx="12" fill="none" stroke="#e9e8cd" stroke-opacity=".2"/>
+<text x="64" y="89" fill="#eeedd8" font-family="Georgia,serif" font-size="44" font-weight="bold">f<tspan fill="#ba784b">.</tspan></text>
+<text x="112" y="75" fill="#eeedd8" font-family="Arial,sans-serif" font-size="18" letter-spacing="3">FAHIM</text>
+<text x="113" y="94" fill="#d1d5be" font-family="Arial,sans-serif" font-size="9" letter-spacing="5">GROUP</text>
+<path d="M64 116h592" stroke="#eeedd8" stroke-opacity=".18"/>
+<text x="64" y="163" fill="#d1d5be" font-family="Arial,sans-serif" font-size="9" letter-spacing="1.7">YOUR NEIGHBOURHOOD. DELIVERED.</text>
+<g fill="#eeedd8" font-family="Georgia,serif" font-size="38">
+<text x="64" y="215">Everyday</text><text x="64" y="260">essentials.</text>
+<text x="64" y="305" font-style="italic" fill="#dddcb4">A little closer.</text></g>
+<rect x="64" y="337" width="146" height="39" rx="20" fill="#ba784b"/>
+<text x="86" y="362" fill="#fff9ee" font-family="Arial,sans-serif" font-size="11">Shop groceries ↗</text>
+<rect x="400" y="154" width="244" height="246" rx="22" fill="#eeedd8"/>
+<ellipse cx="522" cy="348" rx="75" ry="12" fill="#304e44" fill-opacity=".12"/>
+<path d="M474 240q-16-57 3-61q17-2 26 62" fill="#bd8955"/>
+<path d="m477 194 10 5m-7 10 10 5m-7 10 10 5" stroke="#eed0a0" stroke-width="3"/>
+<path d="M537 246q-41-22-28-43q17-15 29 12q-3-44 19-44q23 9-2 48q27-24 38-4q7 23-42 35" fill="#648052"/>
+<circle cx="514" cy="245" r="22" fill="#bb6947"/>
+<path d="m462 246 13 97h95l13-97z" fill="#b98555"/>
+<path d="M493 261v-20q0-30 29-30t29 30v20" fill="none" stroke="#f1d8af" stroke-width="6"/>
+<text x="508" y="316" fill="#f9f3df" font-family="Georgia,serif" font-size="42" font-weight="bold">f.</text>
+<text x="522" y="379" text-anchor="middle" fill="#304e44" font-family="Arial,sans-serif" font-size="9" letter-spacing="1.5">FOR YOUR HOME &amp; BUSINESS</text>
+<text x="64" y="431" fill="#d1d5be" font-family="Arial,sans-serif" font-size="10" letter-spacing="2">RETAIL &amp; WHOLESALE · SWITZERLAND</text>
+</svg>
