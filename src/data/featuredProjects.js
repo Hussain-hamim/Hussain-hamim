@@ -16,6 +16,21 @@ export const isPlaceholder = (value) =>
  */
 const caseStudies = [
   {
+    slug: 'devsync',
+    title: 'DevSync',
+    openLinkLabel: 'DevSync',
+    cardHeadline: 'Discover projects, find a team, and build something real together.',
+    tagline: 'A community for developers to discover projects, connect with teams, and put their skills to work.',
+    live: 'https://devsync.codes/',
+    code: 'https://github.com/Hussain-hamim/DevSync',
+    stack: ['Next.js', 'Tailwind', 'Supabase'],
+    problem: 'Developers need a way to find meaningful projects and people with complementary skills to build with.',
+    built: 'A collaboration platform with developer profiles, project discovery, team connections, and real-time chat.',
+    result: 'Developers can explore projects, find collaborators, and build experience through real contributions.',
+    metrics: [],
+    testimonials: [],
+  },
+  {
     slug: 'ideahunt',
     title: 'IdeaHunt',
     cardHeadline: 'Ideas drawn from problems people are already talking about.',
@@ -84,9 +99,9 @@ const caseStudies = [
   {
     slug: 'aegnis-ai',
     title: 'Aegnis AI',
-    cardHeadline: 'Help getting through the day, not just another list of plans.',
+    cardHeadline: 'Your inbox, calendar, and tasks, handled with a little help from AI.',
     tagline:
-      'An AI Chief of Staff that doesn’t just plan your day — it actively helps execute it.',
+      'Your AI chief of staff. It organizes your inbox, drafts replies in your voice, and keeps your day on track.',
     live: 'https://aegnis.life',
     code: 'https://github.com/Hussain-hamim',
     role: 'Solo founder & engineer',
@@ -187,8 +202,11 @@ const caseStudies = [
   },
 ];
 
-// Keep the Aegnis AI story accessible at its existing URL after rotating it out.
-export const featuredProjects = caseStudies.filter((p) => p.slug !== 'aegnis-ai');
+// Keep previously featured stories accessible at their existing URLs.
+const featuredSlugs = ['ideahunt', 'aegnis-ai', 'talentfound', 'timecircle'];
+export const featuredProjects = featuredSlugs.map((slug) =>
+  caseStudies.find((project) => project.slug === slug)
+);
 
 export const getFeaturedBySlug = (slug) =>
   caseStudies.find((p) => p.slug === slug);

@@ -13,7 +13,7 @@ export const projectImages = {
   "aegnisai": {
     src: require('../images/optimized/aegnisai-1280.webp'),
     srcSet: [require('../images/optimized/aegnisai-480.webp') + ' 480w', require('../images/optimized/aegnisai-960.webp') + ' 960w', require('../images/optimized/aegnisai-1280.webp') + ' 1280w'].join(', '),
-    width: 1280, height: 747,
+    width: 1280, height: 672,
   },
   "liquidglass": {
     src: require('../images/optimized/liquidglass-1024.webp'),

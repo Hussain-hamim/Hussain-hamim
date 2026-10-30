@@ -78,14 +78,14 @@ export const projects = [
   {
     title: 'Aegnis AI',
     description:
-      "Aegnis is your AI Chief of Staff, an AI-powered productivity platform that doesn't just show you your life, it manages it for you. From a to-do list to a done list.",
+      'An AI chief of staff that organizes your inbox, drafts replies in your voice, and brings email, calendar, and tasks into one workspace.',
     getImageSrc: () => projectImages['aegnisai'].src,
     image: projectImages['aegnisai'],
     link: 'https://github.com/Hussain-hamim',
     live: 'https://aegnis.life',
     embedUrl: 'https://aegnis.life',
     tags: ['AI', 'Productivity', 'Full-stack'],
-    theme: { primary: '#1F1205', secondary: '#D97706' },
+    theme: { primary: '#061B42', secondary: '#1673FF' },
   },
   {
     title: 'LiquidGlass',
@@ -634,16 +634,16 @@ const ProjectsSection = ({ locale = 'en' }) => {
 
   const currentSideProjectTitles = [
     'IdeaHunt',
+    'Aegnis AI',
     'TalentFound',
-    'ProveIt AI',
     'TimeCircle',
   ];
   const currentSideProjects = [
     ...webProjects.filter(
-      (p) => p.title === 'IdeaHunt' || p.title === 'TalentFound'
+      (p) => p.title === 'IdeaHunt' || p.title === 'Aegnis AI' || p.title === 'TalentFound'
     ),
     ...mobileProjectsLocalized.filter(
-      (p) => p.title === 'ProveIt AI' || p.title === 'TimeCircle'
+      (p) => p.title === 'TimeCircle'
     ),
   ].sort(
     (a, b) =>
