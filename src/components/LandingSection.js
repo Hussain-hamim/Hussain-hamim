@@ -3,6 +3,7 @@ import OnDemandSticker from './OnDemandSticker';
 import { motion } from 'framer-motion';
 import { ArrowRight, ChevronDown, Eye, MessageSquare } from 'lucide-react';
 import Button from './Button';
+import HeroProjectLink from './HeroProjectLink';
 import BranchBackground from './BranchBackground';
 import TextMorph from './TextMorph';
 import { PEEL_VARIATIONS } from './peelDirections';
@@ -208,14 +209,10 @@ const LandingSection = ({ locale = 'en' }) => {
                   return (
                     <React.Fragment key={slug}>
                       {index === 2 ? ', and ' : index === 1 ? ', ' : ''}
-                      <a
-                        href={project.live}
-                        target='_blank'
-                        rel='noopener noreferrer'
+                      <HeroProjectLink
+                        project={project}
                         className={`font-semibold underline decoration-current/40 underline-offset-4 transition-colors hover:decoration-current focus-visible:rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-current ${projectLinkColors[slug]}`}
-                      >
-                        {project.title}
-                      </a>
+                      />
                     </React.Fragment>
                   );
                 })}
