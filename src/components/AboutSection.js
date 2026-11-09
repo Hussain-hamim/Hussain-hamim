@@ -82,7 +82,7 @@ export default function AboutSection({ locale = 'en', embedded = false }) {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className='mb-6 whitespace-nowrap text-center font-sans1 text-[clamp(1.5rem,3.6vw,2.25rem)] font-bold uppercase leading-[1.05] tracking-tight text-white'
+            className='mb-6 whitespace-nowrap text-center font-sans3 text-[clamp(1.5rem,3.6vw,2.25rem)] font-bold uppercase leading-[1.05] tracking-tight text-white'
           >
             {copy.headingLead}{' '}
             <span className='text-accent'>{copy.headingAccent}</span>
@@ -108,7 +108,7 @@ export default function AboutSection({ locale = 'en', embedded = false }) {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className='font-sans1 text-[clamp(2rem,6vw,3.5rem)] font-bold uppercase leading-[1.05] tracking-tight text-white'
+          className='font-sans3 text-[clamp(2rem,6vw,3.5rem)] font-bold uppercase leading-[1.05] tracking-tight text-white'
         >
           {copy.headingLead}{' '}
           <span className='text-accent'>{copy.headingAccent}</span>

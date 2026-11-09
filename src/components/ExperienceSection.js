@@ -183,7 +183,7 @@ const ExperienceSection = ({ locale = 'en' }) => {
       <div className='relative z-10 mx-auto w-full max-w-4xl'>
         <div className='experience-heading'>
           <div>
-            <h2 id='experience-heading' className='font-sans1 text-3xl font-medium tracking-tight text-ink sm:text-4xl'>
+            <h2 id='experience-heading' className='font-sans3 text-3xl font-medium tracking-tight text-ink sm:text-4xl'>
               {isPashto ? 'تجربه' : 'Experience'}
             </h2>
             <p className='experience-heading__description'>

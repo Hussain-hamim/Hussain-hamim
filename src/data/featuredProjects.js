@@ -21,7 +21,7 @@ const caseStudies = [
     openLinkLabel: 'DevSync',
     cardHeadline: 'Discover projects, find a team, and build something real together.',
     tagline: 'A community for developers to discover projects, connect with teams, and put their skills to work.',
-    live: 'https://devsync.codes/',
+    live: 'https://devsyncdotdev.vercel.app/',
     code: 'https://github.com/Hussain-hamim/DevSync',
     stack: ['Next.js', 'Tailwind', 'Supabase'],
     problem: 'Developers need a way to find meaningful projects and people with complementary skills to build with.',

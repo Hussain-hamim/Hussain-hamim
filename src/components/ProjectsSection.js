@@ -105,7 +105,7 @@ export const projects = [
     getImageSrc: () => projectImages['devsync'].src,
     image: projectImages['devsync'],
     link: 'https://github.com/Hussain-hamim/DevSync',
-    live: 'https://devsync.codes/',
+    live: 'https://devsyncdotdev.vercel.app/',
     tags: ['Next.js', 'Tailwind', 'Supabase'],
     theme: { primary: '#3B82F6', secondary: '#60A5FA' },
   },

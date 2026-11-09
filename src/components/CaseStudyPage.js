@@ -95,7 +95,7 @@ const CaseStudyPage = () => {
       <main className='relative isolate min-h-screen text-ink transition-colors duration-300'>
         <BranchBackground />
         <div className='mx-auto flex min-h-screen max-w-2xl flex-col items-center justify-center px-6 text-center'>
-          <h1 className='font-sans1 text-3xl font-bold'>Case study not found</h1>
+          <h1 className='font-sans3 text-3xl font-bold'>Case study not found</h1>
           <p className='mt-3 text-ink/60'>
             The project you’re looking for isn’t listed as a featured case study.
           </p>
@@ -187,7 +187,7 @@ const CaseStudyPage = () => {
               {project.role}
             </p>
           ) : null}
-          <h1 className='mt-3 font-sans1 text-4xl font-bold tracking-tight text-ink sm:text-5xl md:text-6xl'>
+          <h1 className='mt-3 font-sans3 text-4xl font-bold tracking-tight text-ink sm:text-5xl md:text-6xl'>
             {project.title}
           </h1>
           <p className='mt-4 max-w-2xl font-sans3 text-base leading-relaxed text-ink/65 sm:text-lg'>
@@ -261,7 +261,7 @@ const CaseStudyPage = () => {
           <p className='text-[10px] font-mono uppercase tracking-[0.22em] text-ink/45'>
             The story
           </p>
-          <h2 className='mt-2 font-sans1 text-2xl font-bold tracking-tight text-ink sm:text-3xl'>
+          <h2 className='mt-2 font-sans3 text-2xl font-bold tracking-tight text-ink sm:text-3xl'>
             Problem → Built → Result
           </h2>
           <div className='mt-6 grid gap-4 md:grid-cols-3'>
@@ -276,7 +276,7 @@ const CaseStudyPage = () => {
             <p className='text-[10px] font-mono uppercase tracking-[0.22em] text-ink/45'>
               By the numbers
             </p>
-            <h2 className='mt-2 font-sans1 text-2xl font-bold tracking-tight text-ink sm:text-3xl'>
+            <h2 className='mt-2 font-sans3 text-2xl font-bold tracking-tight text-ink sm:text-3xl'>
               Metrics
             </h2>
             <div className='mt-6 grid gap-4 sm:grid-cols-3'>
@@ -285,7 +285,7 @@ const CaseStudyPage = () => {
                   key={i}
                   className='rounded-2xl bg-panel px-5 py-6 text-center transition-[box-shadow,background-color] duration-300 hover:bg-panel-hover hover:shadow-[0_0_0_0.5px_rgba(0,0,0,0.22)]'
                 >
-                  <p className='font-sans1 text-3xl font-bold tracking-tight text-ink'>
+                  <p className='font-sans3 text-3xl font-bold tracking-tight text-ink'>
                     {m.value}
                   </p>
                   <p className='mt-2 text-xs uppercase tracking-wider text-ink/50'>
@@ -302,7 +302,7 @@ const CaseStudyPage = () => {
             <p className='text-[10px] font-mono uppercase tracking-[0.22em] text-ink/45'>
               Voices
             </p>
-            <h2 className='mt-2 font-sans1 text-2xl font-bold tracking-tight text-ink sm:text-3xl'>
+            <h2 className='mt-2 font-sans3 text-2xl font-bold tracking-tight text-ink sm:text-3xl'>
               Testimonials
             </h2>
             <div className='mt-6 grid gap-4 md:grid-cols-2'>
@@ -337,7 +337,7 @@ const CaseStudyPage = () => {
               <p className='text-[10px] font-mono uppercase tracking-[0.22em] text-ink/45'>
                 Next step
               </p>
-              <h3 className='mt-2 font-sans1 text-2xl font-bold tracking-tight text-ink'>
+              <h3 className='mt-2 font-sans3 text-2xl font-bold tracking-tight text-ink'>
                 Let’s talk about your product.
               </h3>
             </div>

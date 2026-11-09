@@ -70,7 +70,7 @@ const ContactMeSection = ({ locale = "en" }) => {
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-2xl md:text-4xl font-bold font-sans1 text-white mb-8 tracking-tight">
+            <h2 className="text-2xl md:text-4xl font-bold font-sans3 text-white mb-8 tracking-tight">
               {isPashto ? "ښکلی ایدیا لرئ؟" : "Got something in mind?"} <br />
               {isPashto ? "راځئ یې جوړ کړو." : "I'd love to hear it."}
             </h2>

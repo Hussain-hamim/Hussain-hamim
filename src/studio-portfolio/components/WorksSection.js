@@ -33,7 +33,7 @@ const PROJECTS = [
     span: 'md:col-span-7',
     aspect: 'aspect-[16/10]',
     image: devsync,
-    live: 'https://devsync.codes/',
+    live: 'https://devsyncdotdev.vercel.app/',
   },
 ];
 

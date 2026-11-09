@@ -39,7 +39,7 @@ const PROJECTS = [
     description:
       'Developers connect, list projects, and chat in real time.',
     image: devsync,
-    live: 'https://devsync.codes/',
+    live: 'https://devsyncdotdev.vercel.app/',
   },
   {
     title: 'Couple Connect',

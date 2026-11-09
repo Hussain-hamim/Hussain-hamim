@@ -30,7 +30,7 @@ const PROJECTS = [
     title: 'DevSync',
     tag: 'Next.js · Collab',
     image: devsync,
-    live: 'https://devsync.codes/',
+    live: 'https://devsyncdotdev.vercel.app/',
   },
   {
     title: 'Couple Connect',

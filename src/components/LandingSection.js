@@ -1,17 +1,24 @@
-import React, { useLayoutEffect, useRef, useState, useEffect, lazy, Suspense } from 'react';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
 import OnDemandSticker from './OnDemandSticker';
 import { motion } from 'framer-motion';
 import { ArrowRight, ChevronDown, Eye, MessageSquare } from 'lucide-react';
 import Button from './Button';
 import BranchBackground from './BranchBackground';
-import MeshText from './MeshText';
 import TextMorph from './TextMorph';
 import { PEEL_VARIATIONS } from './peelDirections';
 import { useTheme } from '../context/themeContext';
 import { scrollToSection } from '../utils/sectionNavigation';
 import heroPortrait from '../asset/hsn3-hero.webp';
+import { getFeaturedBySlug } from '../data/featuredProjects';
 
 const ParticleLetter = lazy(() => import('./ParticleLetter'));
+
+// Brand-inspired shades with enough contrast in each site theme.
+const projectLinkColors = {
+  ideahunt: 'text-[#0f766e] dark:text-[#5eead4]',
+  'aegnis-ai': 'text-[#1d4ed8] dark:text-[#60a5fa]',
+  devsync: 'text-[#0e7490] dark:text-[#22d3ee]',
+};
 
 /** Irregular ink/paint accent behind text (same mark as HAMIM). */
 function PaintStroke({ className = '' }) {
@@ -55,87 +62,9 @@ function PaintedTextMorph({ words, color, transition }) {
   );
 }
 
-/** Painted accent stroke behind the name — inked highlight, not a solid box. */
-function HighlightedMeshText({ text, color = '#0a0a0a' }) {
-  const shellRef = useRef(null);
-  const [widthPx, setWidthPx] = useState(null);
-
-  useLayoutEffect(() => {
-    let cancelled = false;
-    const measure = async () => {
-      const shell = shellRef.current;
-      if (!shell) return;
-      const height = shell.clientHeight || 80;
-      const fontSize = Math.max(12, height * 0.78);
-      const fontStr = `normal 700 ${fontSize}px Daisyogre, sans-serif`;
-      try {
-        if (document.fonts?.load) await document.fonts.load(fontStr);
-      } catch {
-        /* ignore */
-      }
-      if (cancelled) return;
-      const canvas = document.createElement('canvas');
-      const ctx = canvas.getContext('2d');
-      if (!ctx) return;
-      ctx.font = fontStr;
-      const metrics = ctx.measureText(String(text ?? ''));
-      const pad = Math.max(10, fontSize * 0.12);
-      setWidthPx(Math.ceil(metrics.width + pad * 2));
-    };
-    measure();
-    const ro = new ResizeObserver(measure);
-    if (shellRef.current) ro.observe(shellRef.current);
-    return () => {
-      cancelled = true;
-      ro.disconnect();
-    };
-  }, [text]);
-
-  return (
-    <div
-      ref={shellRef}
-      className='relative flex h-[clamp(2.15rem,5.5vw,2.75rem)] w-full items-center justify-start sm:h-12 md:h-14'
-      aria-hidden='true'
-    >
-      <div
-        className='relative h-full'
-        style={{
-          width: widthPx ? `${widthPx}px` : 'min(100%, 16rem)',
-          maxWidth: '100%',
-        }}
-      >
-        <div
-          className='pointer-events-none absolute inset-0 z-0 overflow-hidden'
-          aria-hidden='true'
-        >
-          <PaintStroke />
-        </div>
-
-        <div className='relative z-10 h-full w-full'>
-          <MeshText
-            text={text}
-            color={color}
-            font={{
-              fontFamily: 'Daisyogre',
-              variant: 'Bold',
-              fontSize: 160,
-            }}
-            colorSplit
-            customColors={['#D7FF00', '#2DD4BF']}
-            force={0}
-            interactive={false}
-            textAlign='left'
-          />
-        </div>
-      </div>
-    </div>
-  );
-}
-
 const LandingSection = ({ locale = 'en' }) => {
   const isPashto = locale === 'ps';
   const { isDark } = useTheme();
-  const ink = isDark ? '#F3F1E6' : '#0a0a0a';
   const [showParticles, setShowParticles] = useState(false);
   const [portraitFormed, setPortraitFormed] = useState(false);
   const [visitors, setVisitors] = useState(null);
@@ -195,7 +124,7 @@ const LandingSection = ({ locale = 'en' }) => {
       : 'I build thoughtful products for people with an idea they care about.',
     subline: isPashto
       ? 'Full-Stack، موبايل پروګرامونه، او د AI اېجنټ سيستمونه چې په ژر وخت کې رښتينې پايلې راوړي.'
-      : 'I work on web, mobile, and AI, and I like staying close until a product feels ready.',
+      : 'I’m building IdeaHunt, Aegnis AI, and DevSync as side projects. I’ve also launched a few apps on the App Store and delivered many client projects across mobile and web.',
     ctaSeeWork: isPashto ? 'زما کار وګورئ' : 'See what I make',
     ctaDropMessage: isPashto ? 'پیغام پریږدئ' : 'Say hello',
     morphWords: isPashto
@@ -217,7 +146,7 @@ const LandingSection = ({ locale = 'en' }) => {
             </span>
           </div>
         ) : null}
-        <div className='relative z-10 flex w-full min-w-0 flex-col items-start justify-center text-left'>
+        <div className='relative z-10 flex w-full min-w-0 flex-col items-start justify-center text-left [container-type:inline-size]'>
           <motion.p
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
@@ -227,37 +156,19 @@ const LandingSection = ({ locale = 'en' }) => {
             {copy.greeting}
           </motion.p>
 
-          <h1 className='w-full'>
-            <span className='sr-only'>
-              {copy.greeting} {copy.firstName} {copy.lastName}
+          <h1 className='w-full whitespace-nowrap font-sans1 text-[clamp(0.875rem,6cqi,2.6rem)] font-bold leading-[1.15] tracking-tight text-ink'>
+            <span>{copy.firstName}</span>{' '}
+            <span className='relative inline-block'>
+              <PaintStroke />
+              <span className='relative z-10 text-[#0a0a0a]'>{copy.lastName}</span>
             </span>
-            <div
-              className='h-[clamp(2.15rem,5.5vw,2.75rem)] w-full sm:h-12 md:h-14'
-              aria-hidden='true'
-            >
-              <MeshText
-                text={copy.firstName}
-                color={ink}
-                font={{
-                  fontFamily: 'Daisyogre',
-                  variant: 'Bold',
-                  fontSize: 160,
-                }}
-                colorSplit
-                customColors={['#D7FF00', '#2DD4BF']}
-                force={0}
-                interactive={false}
-                textAlign='left'
-              />
-            </div>
-            <HighlightedMeshText text={copy.lastName} color='#0a0a0a' />
           </h1>
 
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.28, duration: 0.6 }}
-            className='mt-5 max-w-xl font-sans1 text-[clamp(0.92rem,2vw,1.15rem)] font-bold uppercase leading-[1.3] tracking-tight text-ink sm:mt-6'
+            className='mt-5 max-w-xl font-sans3 text-[clamp(1rem,2vw,1.25rem)] font-semibold leading-[1.5] tracking-tight text-ink sm:mt-6'
           >
             {isPashto ? (
               <>
@@ -289,7 +200,29 @@ const LandingSection = ({ locale = 'en' }) => {
             transition={{ delay: 0.4, duration: 0.6 }}
             className='mt-4 max-w-md font-sans3 text-sm leading-relaxed text-gray-600 dark:text-white/55 sm:mt-5 sm:text-base'
           >
-            {copy.subline}
+            {isPashto ? copy.subline : (
+              <>
+                I’m building{' '}
+                {['ideahunt', 'aegnis-ai', 'devsync'].map((slug, index) => {
+                  const project = getFeaturedBySlug(slug);
+                  return (
+                    <React.Fragment key={slug}>
+                      {index === 2 ? ', and ' : index === 1 ? ', ' : ''}
+                      <a
+                        href={project.live}
+                        target='_blank'
+                        rel='noopener noreferrer'
+                        className={`font-semibold underline decoration-current/40 underline-offset-4 transition-colors hover:decoration-current focus-visible:rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-current ${projectLinkColors[slug]}`}
+                      >
+                        {project.title}
+                      </a>
+                    </React.Fragment>
+                  );
+                })}
+                {' '}as side projects. I’ve also launched a few apps on the App Store
+                and delivered many client projects across mobile and web.
+              </>
+            )}
           </motion.p>
 
           <motion.div
