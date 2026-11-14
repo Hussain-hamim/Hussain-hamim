@@ -7,6 +7,7 @@ export const BLOG_POSTS = [
     description: 'What slow chat and multiplayer moves taught me about WebSockets and designing for perceived latency.',
     descriptionPs: 'What slow chat and multiplayer moves taught me about WebSockets and designing for perceived latency.',
     url: '/articles/making-the-wrong-part-faster.html',
+    image: '/articles/realtime-cover-preview.webp',
     source: 'Portfolio',
     date: '2026-11-14',
   },
