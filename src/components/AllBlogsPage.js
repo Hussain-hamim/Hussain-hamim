@@ -90,7 +90,7 @@ const AllBlogsPage = () => {
             >
               <a
                 href={post.url}
-                target='_blank'
+                target={post.url.startsWith('/') ? undefined : '_blank'}
                 rel='noopener noreferrer'
                 className='group flex flex-col gap-4 rounded-2xl bg-panel p-5 transition-[box-shadow,background-color] duration-300 hover:bg-panel-hover hover:shadow-[0_0_0_0.5px_rgba(0,0,0,0.22)] sm:flex-row sm:items-center sm:justify-between sm:gap-6 sm:p-6'
               >

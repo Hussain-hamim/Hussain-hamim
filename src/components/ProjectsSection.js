@@ -928,7 +928,7 @@ const BlogsCard = ({ isPashto }) => (
             </div>
             <Button
               href={post.url}
-              target='_blank'
+              target={post.url.startsWith('/') ? undefined : '_blank'}
               rel='noopener noreferrer'
               size='xs'
               fullWidth

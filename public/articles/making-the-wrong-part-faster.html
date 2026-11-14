@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Respond First, Reconcile Later: Building Faster Real-Time Apps | Hussain Hamim</title>
+<meta name="description" content="What slow chat and multiplayer moves taught me about WebSockets and designing for perceived latency.">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<style>
+.article-meta,.author-role { color:GrayText; font: .88rem/1.5 ui-monospace, monospace; }
+.author-row { display:flex; align-items:center; gap:.8rem; flex-wrap:wrap; margin:1.4rem 0 2rem; }
+.author-row img { border-radius:50%; object-fit:cover; object-position:center 25%; }
+.author-role { display:block; }
+.author-actions { display:flex; gap:.5rem; margin-inline-start:auto; }
+.author-actions a { border:0; border-radius:999px; background:#D7FF00; color:#191919; display:grid; place-items:center; width:36px; height:36px; cursor:pointer; text-decoration:none; }
+
+:root { color-scheme: light dark; }
+body { margin: 0; background: Canvas; color: CanvasText; font: 1.0625rem/1.7 system-ui, sans-serif; }
+main { max-width: 46rem; margin: auto; padding: 3rem 1.25rem 5rem; }
+h1 { font-size: clamp(2rem, 6vw, 3.25rem); line-height: 1.12; letter-spacing: -.035em; }
+h2, h3 { line-height: 1.25; margin-top: 2em; }
+a { color: LinkText; text-underline-offset: .2em; overflow-wrap: anywhere; }
+figure, blockquote { margin: 1.5rem 0; padding: 1rem; border: 1px solid GrayText; border-radius: .75rem; }
+figcaption { font-weight: bold; margin-bottom: .65rem; }
+li + li { margin-top: .35rem; }
+
+.cover { display:block; width:100%; height:auto; border-radius:1rem; }
+figure { background:#f1f1f1; border-color:#d7d7d7; color:#191919; }
+.lanes { display:grid; gap:1rem; }
+.lanes ol { list-style:none; padding:0; margin:.55rem 0 0; display:flex; align-items:center; gap:1.6rem; }
+.lanes li { position:relative; display:grid; place-items:center; flex:1; min-height:4rem; margin:0; padding:.45rem; text-align:center; font-size:.86rem; line-height:1.25; background:#fff; border:1px solid #aaa; border-radius:.5rem; }
+.lanes li:nth-child(2):not(:last-child) { background:#ddd; border-radius:999px; }
+.lanes li:last-child { background:#191919; color:#fff; border-color:#191919; }
+.lanes li + li::before { content:"⇢"; position:absolute; right:100%; width:1.6rem; color:#191919; font-size:1.25rem; }
+@media (max-width:560px) {
+  .lanes ol { flex-direction:column; align-items:stretch; }
+  .lanes li { min-height:2.5rem; }
+  .lanes li + li::before { right:auto; bottom:100%; transform:rotate(90deg); }
+}
+article h2 { scroll-margin-top:1.5rem; }
+.article-nav { position:fixed; right:.65rem; top:50%; transform:translateY(-50%); z-index:2; }
+.article-rail a { display:grid; justify-items:end; align-items:center; width:36px; height:20px; }
+.article-rail a::before { content:""; width:13px; height:3px; border-radius:4px; background:GrayText; }
+.article-rail a[aria-current]::before { width:23px; background:#D7FF00; box-shadow:0 0 0 1px #343434; }
+.article-card { display:none; position:absolute; right:100%; top:50%; transform:translateY(-50%); width:min(14rem, calc(100vw - 4rem)); max-height:60vh; overflow:auto; background:Canvas; border:0; border-radius:1rem; padding:.35rem; box-shadow:0 12px 32px #0003; }
+.article-nav:hover .article-card, .article-nav:focus-within .article-card { display:block; }
+.article-card strong,.article-card a { display:block; padding:.35rem .6rem; font-size:.78rem; }
+.article-card a { color:CanvasText; text-decoration:none; line-height:1.3; }
+.article-card a:hover,.article-card a[aria-current] { background:#D7FF00; color:#191919; border-radius:.6rem; }
+@media(max-width:850px) { main { padding-right:2.75rem; } }
+article h2 { color: color-mix(in srgb, CanvasText 76%, #D7FF00); }
+article mark {
+  color: inherit;
+  background: color-mix(in srgb, Canvas 72%, #D7FF00);
+  border-radius: .18em;
+  padding-inline: .12em;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+</style>
+</head>
+<body>
+<main>
+<nav aria-label="Writing"><a href="/blogs">← All articles</a></nav>
+<article>
+<h1>Respond First, Reconcile Later: Building Faster Real-Time Apps</h1>
+<p><em>What real-time chat, multiplayer games, and optimistic updates taught me about WebSockets, critical paths, and designing for perceived latency.</em></p>
+<p class="article-meta"><time datetime="2026-11-14">November 14, 2026</time> · 13 min read</p>
+<div class="author-row">
+  <img src="/hsn3.jpg" width="52" height="52" alt="">
+  <div><strong>Hussain Hamim</strong><span class="author-role">Software Engineer</span></div>
+  <div class="author-actions">
+    <a href="https://www.linkedin.com/in/hussain-hamim/" aria-label="Hussain Hamim on LinkedIn"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M3 8h4v13H3zm2-6a2.3 2.3 0 1 0 0 4.6A2.3 2.3 0 0 0 5 2zm5 6h4v2c.7-1.3 1.8-2.3 3.8-2.3C21 7.7 22 10 22 13v8h-4v-7c0-1.7-.5-2.8-2-2.8-1.4 0-2 1.1-2 2.8v7h-4z"/></svg></a>
+    <a href="https://x.com/erencode" aria-label="Hussain Hamim on X"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 2H22l-6.8 7.8L23.2 22h-6.3l-4.9-7.4L5.5 22H2.4l7.3-8.4L2 2h6.4l4.4 6.7zM17.8 20h1.7L7.4 3.9H5.6z"/></svg></a>
+  </div>
+</div>
+<img class="cover" src="realtime-cover-preview.webp" width="1672" height="941" alt="A tap produces a message preview, followed by confirmation from the database.">
+
+<p>For nearly five months, I kept running into the same problem while building the first version of one of my mobile apps. The app allowed two people to chat and play games together, but something about the experience never felt right.</p>
+<p>The features worked. Messages were delivered, game moves synchronized, and both users could interact with the same shared environment. Yet every interaction had a noticeable delay. One person would send a message or make a move, and the other person would have to wait before seeing it.</p>
+<p>I turned to AI coding agents to help investigate the problem. I described the delay, received suggested changes, implemented them, and tested the results. Some optimizations made individual operations faster, but the overall experience remained sluggish. It felt like two devices were constantly waiting for each other to catch up.</p>
+<p>When I started working on version two, I realized I had been asking the wrong question.</p>
+<p>Instead of asking how to make each operation faster, I needed to understand what actually had to happen before the user could see a response.</p>
+<p><strong><mark>What happens between the moment someone taps a button and the moment the other person sees the result?</mark></strong></p>
+<p>That question changed how I approached the entire architecture.</p>
+<h2>Understanding the Original Real-Time Architecture</h2>
+<p>The application already used a real-time connection, which initially made the latency difficult to understand. If the devices were communicating through WebSockets, why did interactions still feel delayed?</p>
+<p>The answer was in how the application handled incoming events.</p>
+<p>When a user sent a message or made a game move, the application followed a sequence of operations:</p>
+<ol>
+<li>The sender submitted the action to the backend.</li>
+<li>The backend validated and persisted the change.</li>
+<li>The backend notified the other device that something had changed.</li>
+<li>The receiving device requested the latest state from the server.</li>
+<li>The server returned the updated data.</li>
+<li>The receiving device finally rendered the message or game move.</li>
+</ol>
+<p>The architecture looked something like this:</p>
+<figure><figcaption>Original flow</figcaption><div class="lanes"><div><strong>Sequential path</strong><ol><li>Sender submits the action</li><li>Backend validates and saves</li><li>Partner gets a change notification</li><li>Partner fetches the updated state</li><li>Partner renders the action</li></ol></div></div></figure>
+
+<p>At first glance, this seems like a reasonable implementation. The backend remains the source of truth, changes are persisted before being broadcast, and receiving devices fetch the confirmed state.</p>
+<p>The problem is that the notification doesn't actually contain the information needed to update the interface.</p>
+<p>It simply tells the receiving device that something has changed.</p>
+<p>That means the receiving device must perform another network request before it can display anything.</p>
+<p>The application is effectively waiting for one operation to finish before starting another. Even if each individual request is relatively fast, the cumulative delay becomes noticeable.</p>
+<p>This is what makes the <strong>critical path</strong> so important.</p>
+<p>The critical path is the sequence of operations that must complete before a particular result can become visible. If an interaction requires a database write, a broadcast, another request, and a response before the interface can update, every one of those operations contributes to the perceived delay.</p>
+<p>I had been optimizing individual operations without questioning whether all of them needed to happen before the interface could respond.</p>
+<h2>The Clue Was Already Inside the Application</h2>
+<p>Interestingly, the application already had an interaction that felt considerably faster.</p>
+<p>Users could drag a character around a shared scene. When one person moved a character, the other device displayed the movement almost immediately.</p>
+<p>Why did this interaction feel different from sending a message or making a game move?</p>
+<p><mark>The answer was the event payload.</mark></p>
+<p>When a character moved, the application broadcast the actual coordinates of that movement. The receiving device didn't need to ask the backend for the updated position. It already had the information necessary to render the change.</p>
+<p>That distinction was important.</p>
+<p>Instead of sending a notification that something had changed, the application sent enough information for the receiving device to respond immediately.</p>
+<p>I realized I could apply the same principle to chat and multiplayer interactions.</p>
+<p>A chat event could carry the message itself. A board-game event could carry the proposed move, the player's identity, and the board revision on which the move was made.</p>
+<p>The receiving device could then display a provisional update without waiting for the database operation and subsequent fetch to finish.</p>
+<p>The revised architecture looked like this:</p>
+<figure><figcaption>Revised architecture</figcaption><div class="lanes"><div><strong>Local</strong><ol><li>Assign an ID and queue the action</li><li>Show it on the sender’s screen</li></ol></div><div><strong>Live preview</strong><ol><li>Broadcast the queued action</li><li>Partner renders the preview</li></ol></div><div><strong>Confirmation</strong><ol><li>Submit the queued action</li><li>Backend validates and saves</li><li>Deliver authoritative state</li><li>Both screens reconcile</li></ol></div></div></figure>
+
+<p>The technology stack remained relatively straightforward:</p>
+<ul>
+<li><strong>SwiftUI:</strong> Native mobile application interface.</li>
+<li><strong>SQLite:</strong> Local persistence and pending action queue.</li>
+<li><strong>Supabase Realtime:</strong> Private WebSocket broadcasts.</li>
+<li><strong>Postgres:</strong> Authoritative shared application state.</li>
+</ul>
+<p>Supabase Realtime supports different broadcasting approaches, including client-initiated broadcasts and database-triggered broadcasts. That distinction became important because a client-initiated broadcast allowed the application to distribute a provisional update without waiting for the database transaction to complete.</p>
+<p>This changed the interaction from a strictly sequential process into two coordinated paths: one focused on immediate feedback and another responsible for authoritative persistence.</p>
+<h2>Optimistic Updates and Provisional Previews</h2>
+<p>There are two related concepts worth distinguishing here: optimistic updates and provisional previews.</p>
+<p>An <strong>optimistic update</strong> happens on the sender's device. Instead of waiting for the backend to confirm an action, the application immediately updates its own interface and treats the action as pending.</p>
+<p>For example, when someone sends a message, the message bubble appears immediately. The application can display a pending indicator while the backend processes the request.</p>
+<p>A <strong>provisional preview</strong> happens on the receiving device. The application receives an event containing enough information to display the incoming change before the server has completed its durable write.</p>
+<p>These concepts address different parts of the latency problem.</p>
+<p>An optimistic update makes the sender's experience feel immediate. A provisional preview makes the receiving participant's experience feel immediate.</p>
+<p>Implementing only one doesn't necessarily solve the entire interaction.</p>
+<p>Consider the following flow:</p>
+<figure><figcaption>One chat message</figcaption><div class="lanes"><div><strong>Sender</strong><ol><li>Show the pending bubble</li></ol></div><div><strong>Partner</strong><ol><li>Receive the preview over WebSocket</li><li>Show the incoming bubble</li></ol></div><div><strong>Server</strong><ol><li>Validate and store the message</li><li>Confirm using the same message ID</li><li>Replace the pending or preview bubble</li></ol></div></div></figure>
+
+<p>The important architectural decision is that the interface no longer needs to wait for the database before displaying information that it can safely present provisionally.</p>
+<p>However, this introduces another engineering responsibility: handling situations where the provisional state and authoritative server state disagree.</p>
+<h2>What Happens When the Preview and the Server Disagree?</h2>
+<p>Displaying information before server confirmation improves responsiveness, but it also introduces consistency challenges.</p>
+<p>The application must account for duplicate requests, failed writes, disconnected devices, stale state, and rejected operations.</p>
+<p>The correct approach depends on the type of interaction.</p>
+<h3>Chat: Give Every Message a Stable Identity</h3>
+<p>Imagine a user sends the message:</p>
+<p>"Your turn."</p>
+<p>The sender's device creates a unique message ID, stores the message in its local SQLite queue, and immediately displays it with a pending status.</p>
+<p>That same ID is included in the WebSocket broadcast and the subsequent backend request.</p>
+<p>When the server successfully stores the message, the confirmed version arrives with the same identifier. The application can replace the provisional message in place rather than displaying a second copy.</p>
+<p>This also makes retries safer.</p>
+<p>If the original request times out, the sender might attempt to submit it again. Without a stable identifier and appropriate backend idempotency handling, the retry could create duplicate messages.</p>
+<p>By associating the operation with a unique ID, the backend can recognize that the retry represents an existing operation rather than an entirely new message.</p>
+<p>Matrix uses transaction identifiers for a similar purpose in its Client-Server API.</p>
+<p>Offline behavior requires similar consideration.</p>
+<p>If the receiving device disconnects before receiving the broadcast, it can retrieve the persisted message through normal synchronization when it reconnects. The live broadcast improves responsiveness, but it should never become the only mechanism for delivering durable application data.</p>
+<p>If the backend rejects a message, the sender should receive an explicit failure state and be given an opportunity to retry where appropriate.</p>
+<p>It is also important to distinguish three separate events:</p>
+<ul>
+<li>A message appearing on a screen.</li>
+<li>A message being successfully persisted by the server.</li>
+<li>A message actually being read by another person.</li>
+</ul>
+<p>These are different states and should be represented accordingly.</p>
+<h3>Multiplayer Games: Identity Is Not Enough</h3>
+<p>A multiplayer game introduces another layer of complexity.</p>
+<p>A game move must have an identity, but it also needs to be associated with the version of the game state on which the player made the move.</p>
+<p>Consider a simple game of tic-tac-toe.</p>
+<p>A player taps the middle square while viewing board revision 12. The application creates an event that effectively communicates:</p>
+<p>"Place my mark in the middle square, based on board revision 12."</p>
+<p>The receiving device can display a provisional move if it has the matching board state and the move appears valid.</p>
+<p>However, the backend remains responsible for determining whether the move is actually allowed.</p>
+<p>It must verify:</p>
+<ul>
+<li>Whether it is the player's turn.</li>
+<li>Whether the selected square is available.</li>
+<li>Whether the submitted board revision is still current.</li>
+<li>Whether the move satisfies the game's rules.</li>
+</ul>
+<p>If the move is accepted, the authoritative board state replaces the preview.</p>
+<p>If the move is rejected because another action changed the board first, the provisional move must be removed and the confirmed state restored.</p>
+<p>This is closely related to <strong>client-side prediction and server reconciliation</strong>, a common technique in multiplayer game networking.</p>
+<p>In more demanding multiplayer environments, a client predicts the immediate result of its own input rather than waiting for the server. The server later confirms the authoritative state, and the client reconciles any differences.</p>
+<p>A turn-based board game has a much simpler synchronization problem than a competitive real-time shooter, but the underlying principle is similar: responsiveness and authoritative state do not have to be the same thing.</p>
+<p>There is also a security consideration.</p>
+<p>Some games contain information that clients should never be allowed to determine themselves. A memory game, for example, might allow the receiving device to display that another player made a move, but the server must still control which hidden card is revealed.</p>
+<p>A private WebSocket channel controls who can receive an event. It does not make the event itself authoritative.</p>
+<p>That distinction is critical when building applications that depend on shared state.</p>
+<h2>The Architecture Matters More Than the Individual Optimization</h2>
+<p>Looking back, one of the biggest mistakes I made was treating the delay as a performance problem isolated to individual operations.</p>
+<p>I spent time looking for faster requests, more efficient queries, and opportunities to reduce processing time.</p>
+<p>Those optimizations can certainly matter. But they weren't addressing the primary issue.</p>
+<p>The application was waiting for information it didn't actually need before updating the interface.</p>
+<p>The better solution was to separate two responsibilities:</p>
+<p><strong>Immediate feedback:</strong> Give the user and other participants enough information to respond to an interaction as soon as it happens.</p>
+<p><strong>Authoritative confirmation:</strong> Allow the backend to validate, persist, and reconcile the change independently.</p>
+<p>This doesn't eliminate network latency or make the backend unnecessary. It changes when the application requires confirmation and what it can safely display before that confirmation arrives.</p>
+<p>That is a much more meaningful architectural improvement than simply trying to make every request faster.</p>
+<h2>Using AI Coding Agents to Investigate the Critical Path</h2>
+<p>There was another lesson throughout this process: the way I approached AI coding agents changed once I understood the actual problem.</p>
+<p>For months, my prompts were variations of:</p>
+<p>"The chat is slow. Can you fix it?"</p>
+<p>That sounds like a reasonable request, but it gives an AI coding agent very little architectural context.</p>
+<p>The agent might identify inefficient database queries, suggest caching, reduce unnecessary requests, or modify the existing event-handling logic.</p>
+<p>Some of those changes might help, but none necessarily address the actual bottleneck.</p>
+<p>The problem was that I hadn't defined what slow meant.</p>
+<p>Was it the time between tapping Send and seeing the message on the sender's screen? Was it the time until the other participant saw it? Or was it the time until the message was safely persisted?</p>
+<p>Those are three different measurements, and each points toward a different part of the application.</p>
+<p>A much better starting prompt would have been:</p>
+<blockquote>
+<p>Trace a single chat message from the moment the user taps Send to the first frame where the message appears on the receiving device.</p>
+<p>Identify every network request, event payload, database operation, and dependency in the sequence. Show which operations must wait for previous operations to complete.</p>
+<p>Repeat the same analysis for a multiplayer game move.</p>
+<p>Finally, identify <mark>what information each device can safely display before server confirmation</mark>, and explain how the application should handle rejected operations, duplicate requests, and stale state.</p>
+</blockquote>
+<p>This gives the coding agent a concrete engineering investigation rather than an ambiguous performance objective.</p>
+<p>An AI coding agent can trace event handlers, follow network requests, inspect database interactions, and identify unnecessary dependencies in an execution path.</p>
+<p>But deciding what the application is allowed to display before server confirmation is still an architectural decision.</p>
+<p>That requires understanding the product's consistency requirements, security boundaries, and failure behavior.</p>
+<p>AI can help investigate the system. It cannot automatically determine which trade-offs are acceptable for the application.</p>
+<h2>Measuring What Actually Matters</h2>
+<p>After restructuring the interaction, the new implementation felt almost instant during hands-on testing.</p>
+<p>However, there's an important distinction between perceived responsiveness and measured network performance.</p>
+<p>I didn't collect formal before-and-after latency measurements, so I wouldn't claim a specific percentage improvement or millisecond reduction.</p>
+<p>What changed was the point at which the application could produce its first visible response.</p>
+<p>The receiving device no longer needed to wait for both the database write and a subsequent state-fetch request before rendering a message or game move.</p>
+<p>If I were preparing this implementation for production, I would track three separate metrics:</p>
+<p><strong>1. Tap to Local Display</strong></p>
+<p>How long does it take for the sender's device to display its own action?</p>
+<p>This measures the responsiveness of the local interaction and optimistic update.</p>
+<p><strong>2. Tap to Partner Display</strong></p>
+<p>How long does it take for the receiving device to display the incoming event?</p>
+<p>This measures the responsiveness of the real-time communication path.</p>
+<p><strong>3. Tap to Durable Confirmation</strong></p>
+<p>How long does it take for the backend to validate and persist the operation?</p>
+<p>This measures the authoritative completion time.</p>
+<p>These metrics describe different parts of the experience. Combining them into a single latency measurement would make it much harder to understand where delays actually occur.</p>
+<p>I would also test failure scenarios, including:</p>
+<ul>
+<li>A broadcast being missed while a device is disconnected.</li>
+<li>A request timing out and being retried.</li>
+<li>The same event being delivered more than once.</li>
+<li>A game move being submitted against an outdated board revision.</li>
+<li>A backend validation failure after a provisional update has already appeared.</li>
+</ul>
+<p>A responsive demonstration under ideal network conditions is useful, but it doesn't prove that the architecture is reliable.</p>
+<p>The real test is whether the application remains consistent when the network behaves unpredictably.</p>
+<h2>The Question I Should Have Asked Five Months Earlier</h2>
+<p>The biggest lesson from this experience wasn't that WebSockets are faster, that optimistic updates improve responsiveness, or that every application should broadcast its state immediately.</p>
+<p>It was that <strong>the fastest way to improve an interaction is sometimes to stop making the interface wait for work that doesn't need to finish first.</strong></p>
+<p>A real-time connection is only one part of a real-time experience. What matters just as much is the information carried by each event, the dependencies between operations, and the moment the interface is allowed to respond.</p>
+<p>The backend still needs to validate and persist important changes. The receiving device still needs to handle missed events and reconcile its state. And the application still needs to protect against invalid or unauthorized operations.</p>
+<p>But those responsibilities don't always have to block the first visible response.</p>
+<p>The question I wish I had asked five months earlier was simple:</p>
+<p><strong><mark>What information does the next screen need to respond, and what can I safely confirm afterward?</mark></strong></p>
+<p>Once I started designing around that question, the architecture became much easier to reason about.</p>
+<p>And more importantly, the application started feeling like the real-time experience I had originally intended to build.</p>
+<hr />
+<h2>References</h2>
+<ul>
+<li><a href="https://supabase.com/docs/guides/realtime/broadcast">Supabase Realtime Broadcast Documentation</a></li>
+<li><a href="https://supabase.com/docs/guides/realtime/authorization">Supabase Realtime Authorization</a></li>
+<li><a href="https://spec.matrix.org/latest/client-server-api/#transaction-identifiers">Matrix Client-Server API: Transaction Identifiers</a></li>
+<li><a href="https://gabrielgambetta.com/client-side-prediction-server-reconciliation.html">Client-Side Prediction and Server Reconciliation – Gabriel Gambetta</a></li>
+</ul>
+</article>
+</main>
+<nav class="article-nav" aria-label="On this article" hidden>
+  <div class="article-rail"></div>
+  <div class="article-card"><strong>On this article</strong></div>
+</nav>
+<script>
+  const articleNav = document.querySelector('.article-nav');
+  const headings = [...document.querySelectorAll('article h2')];
+  const links = headings.map(heading => {
+    heading.id = heading.id || heading.textContent.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-$/, '');
+    return ['.article-rail', '.article-card'].map(selector => {
+      const link = document.createElement('a');
+      link.href = '#' + heading.id;
+      if (selector === '.article-rail') link.setAttribute('aria-label', heading.textContent);
+      else link.textContent = heading.textContent;
+      articleNav.querySelector(selector).append(link);
+      return link;
+    });
+  });
+  articleNav.hidden = !headings.length;
+  let current = -1;
+  function highlightSection() {
+    let next = 0;
+    headings.forEach((heading, index) => {
+      if (heading.getBoundingClientRect().top <= innerHeight * .33) next = index;
+    });
+    if (next === current) return;
+    links[current]?.forEach(link => link.removeAttribute('aria-current'));
+    links[next]?.forEach(link => link.setAttribute('aria-current', 'location'));
+    current = next;
+  }
+  addEventListener('scroll', highlightSection, { passive: true });
+  addEventListener('resize', highlightSection);
+  highlightSection();
+</script>
+</body>
+</html>

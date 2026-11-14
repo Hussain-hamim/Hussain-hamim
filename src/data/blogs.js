@@ -2,6 +2,15 @@ import { blogImages } from './blogImages';
 
 export const BLOG_POSTS = [
   {
+    title: 'Respond First, Reconcile Later: Building Faster Real-Time Apps',
+    titlePs: 'Respond First, Reconcile Later: Building Faster Real-Time Apps',
+    description: 'What slow chat and multiplayer moves taught me about WebSockets and designing for perceived latency.',
+    descriptionPs: 'What slow chat and multiplayer moves taught me about WebSockets and designing for perceived latency.',
+    url: '/articles/making-the-wrong-part-faster.html',
+    source: 'Portfolio',
+    date: '2026-11-14',
+  },
+  {
     title: 'Designing AI Loading States That Feel Instant',
     titlePs: 'د AI لوډینګ حالتونه چې فوري ښکاري',
     description:
