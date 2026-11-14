@@ -59,6 +59,17 @@ article mark {
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;
 }
+article a[href^="https://"]:not(.author-actions a) {
+  color: #536300;
+  text-decoration-color: #adcb00;
+  text-decoration-thickness: .1em;
+}
+@media (prefers-color-scheme: dark) {
+  article a[href^="https://"]:not(.author-actions a) {
+    color: #D7FF00;
+    text-decoration-color: currentColor;
+  }
+}
 </style>
 </head>
 <body>
@@ -129,7 +140,7 @@ article mark {
 <li><strong>Supabase Realtime:</strong> Private WebSocket broadcasts.</li>
 <li><strong>Postgres:</strong> Authoritative shared application state.</li>
 </ul>
-<p>Supabase Realtime supports different broadcasting approaches, including client-initiated broadcasts and database-triggered broadcasts. That distinction became important because a client-initiated broadcast allowed the application to distribute a provisional update without waiting for the database transaction to complete.</p>
+<p><a href="https://supabase.com/docs/guides/realtime/broadcast">Supabase Realtime</a> supports different broadcasting approaches, including client-initiated broadcasts and database-triggered broadcasts. That distinction became important because a client-initiated broadcast allowed the application to distribute a provisional update without waiting for the database transaction to complete.</p>
 <p>This changed the interaction from a strictly sequential process into two coordinated paths: one focused on immediate feedback and another responsible for authoritative persistence.</p>
 <h2>Optimistic Updates and Provisional Previews</h2>
 <p>There are two related concepts worth distinguishing here: optimistic updates and provisional previews.</p>
@@ -157,7 +168,7 @@ article mark {
 <p>This also makes retries safer.</p>
 <p>If the original request times out, the sender might attempt to submit it again. Without a stable identifier and appropriate backend idempotency handling, the retry could create duplicate messages.</p>
 <p>By associating the operation with a unique ID, the backend can recognize that the retry represents an existing operation rather than an entirely new message.</p>
-<p>Matrix uses transaction identifiers for a similar purpose in its Client-Server API.</p>
+<p><a href="https://spec.matrix.org/latest/client-server-api/#transaction-identifiers">Matrix uses transaction identifiers</a> for a similar purpose in its Client-Server API.</p>
 <p>Offline behavior requires similar consideration.</p>
 <p>If the receiving device disconnects before receiving the broadcast, it can retrieve the persisted message through normal synchronization when it reconnects. The live broadcast improves responsiveness, but it should never become the only mechanism for delivering durable application data.</p>
 <p>If the backend rejects a message, the sender should receive an explicit failure state and be given an opportunity to retry where appropriate.</p>
@@ -185,12 +196,12 @@ article mark {
 </ul>
 <p>If the move is accepted, the authoritative board state replaces the preview.</p>
 <p>If the move is rejected because another action changed the board first, the provisional move must be removed and the confirmed state restored.</p>
-<p>This is closely related to <strong>client-side prediction and server reconciliation</strong>, a common technique in multiplayer game networking.</p>
+<p>This is closely related to <strong><a href="https://gabrielgambetta.com/client-side-prediction-server-reconciliation.html">client-side prediction and server reconciliation</a></strong>, a common technique in multiplayer game networking.</p>
 <p>In more demanding multiplayer environments, a client predicts the immediate result of its own input rather than waiting for the server. The server later confirms the authoritative state, and the client reconciles any differences.</p>
 <p>A turn-based board game has a much simpler synchronization problem than a competitive real-time shooter, but the underlying principle is similar: responsiveness and authoritative state do not have to be the same thing.</p>
 <p>There is also a security consideration.</p>
 <p>Some games contain information that clients should never be allowed to determine themselves. A memory game, for example, might allow the receiving device to display that another player made a move, but the server must still control which hidden card is revealed.</p>
-<p>A private WebSocket channel controls who can receive an event. It does not make the event itself authoritative.</p>
+<p><a href="https://supabase.com/docs/guides/realtime/authorization">A private WebSocket channel</a> controls who can receive an event. It does not make the event itself authoritative.</p>
 <p>That distinction is critical when building applications that depend on shared state.</p>
 <h2>The Architecture Matters More Than the Individual Optimization</h2>
 <p>Looking back, one of the biggest mistakes I made was treating the delay as a performance problem isolated to individual operations.</p>
