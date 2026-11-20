@@ -6,7 +6,6 @@ import { ArrowRight, X } from 'lucide-react';
 import ideahunt from '../../images/ideahunt3.png';
 import aegnis from '../../images/aegnisai.png';
 import liquidglass from '../../images/liquidglass.png';
-import goaltracking from '../../images/goaltracking.png';
 import shanai from '../../images/shanai2.png';
 import premium from '../../images/premium-shop.png';
 
@@ -16,7 +15,6 @@ const ITEMS = [
   { src: ideahunt, rotate: -6 },
   { src: aegnis, rotate: 4 },
   { src: liquidglass, rotate: -3 },
-  { src: goaltracking, rotate: 5 },
   { src: shanai, rotate: -5 },
   { src: premium, rotate: 3 },
 ];

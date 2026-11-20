@@ -11,7 +11,6 @@ import natureQuest from '../../images/naturequest.png';
 import issueTracker from '../../images/issuetracker.png';
 import tasklist from '../../images/tasklist.png';
 import hamimfy from '../../images/hamimfy.png';
-import goaltracking from '../../images/goaltracking.png';
 import shanai from '../../images/shanai2.png';
 import easeshop from '../../images/easeshop.png';
 import threads from '../../images/threads2.png';
@@ -34,7 +33,6 @@ const MARQUEE_IMAGES = [
   issueTracker,
   tasklist,
   hamimfy,
-  goaltracking,
   shanai,
   easeshop,
   threads,

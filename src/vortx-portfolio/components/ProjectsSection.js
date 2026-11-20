@@ -4,7 +4,6 @@ import ideahunt from '../../images/ideahunt3.png';
 import aegnis from '../../images/aegnisai.png';
 import liquidglass from '../../images/liquidglass.png';
 import devsync from '../../images/devsync.png';
-import goaltracking from '../../images/goaltracking.png';
 import shanai from '../../images/shanai2.png';
 
 const PROJECTS = [
@@ -31,12 +30,6 @@ const PROJECTS = [
     tag: 'Next.js · Collab',
     image: devsync,
     live: 'https://devsyncdotdev.vercel.app/',
-  },
-  {
-    title: 'Couple Connect',
-    tag: 'iOS · Swift',
-    image: goaltracking,
-    live: 'https://www.coupleconnect.love/',
   },
   {
     title: 'Shan-AI',

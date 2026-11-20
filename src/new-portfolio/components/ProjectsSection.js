@@ -10,7 +10,7 @@ import photo1 from '../../images/photos-stack-1.png';
 import photo2 from '../../images/photos-stack-2.png';
 import photo3 from '../../images/photos-stack-3.png';
 import photo4 from '../../images/photos-stack-4.png';
-import goaltracking from '../../images/goaltracking.png';
+import devsync from '../../images/devsync.png';
 import shanai from '../../images/shanai2.png';
 
 const PROJECTS = [
@@ -28,7 +28,7 @@ const PROJECTS = [
     category: 'Personal',
     name: 'Aegnis AI',
     live: 'https://aegnis.life',
-    col1Top: goaltracking,
+    col1Top: devsync,
     col1Bottom: shanai,
     col2: aegnis,
   },

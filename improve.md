@@ -37,7 +37,7 @@ Your projects are good, but they’re mostly title + short blurb. Consider:
 1 line about result or tech
 Live demo and case study link
 Dedicated case studies for top 2–3 projects
-You already have IdeaHunt, Aegnis AI, and Goal Tracking App featured. A real short case study page for each (what problem, what you built, screenshots, tech, result) will stand out more than any flashy effect.
+You already have IdeaHunt and Aegnis AI featured. A real short case study page for each (what problem, what you built, screenshots, tech, result) will stand out more than any flashy effect.
 
 Add a Services / Offer section
 Something like:
